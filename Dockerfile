@@ -3,8 +3,15 @@ FROM php:8.5-cli-alpine AS composer-builder
 WORKDIR /app
 COPY composer.json composer.lock ./
 COPY packages ./packages
+RUN apk add --no-cache \
+    icu-dev \
+    libzip-dev \
+    git \
+    unzip \
+    && docker-php-ext-install intl zip
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-gd --ignore-platform-req=ext-pdo_mysql --ignore-platform-req=ext-mysqli
 
 # Stage 2: Build Frontend assets with Node/Vite
 FROM node:22-alpine AS vite-builder
