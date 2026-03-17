@@ -1,0 +1,24 @@
+{
+    "name": "gripsraum/my-sitepackage",
+    "type": "typo3-cms-extension",
+    "description": "",
+    "homepage": "https://maidem.de",
+    "license": ["GPL-2.0-or-later"],
+    "keywords": ["TYPO3 CMS"],
+    "require": {
+        "php": ">=8.5.0",
+        "typo3/cms-core": "^14.1",
+        "typo3/cms-rte-ckeditor": "^14.1",
+        "typo3/cms-fluid-styled-content": "^14.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gripsraum\\MySitepackage\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "my_sitepackage"
+        }
+    }
+}

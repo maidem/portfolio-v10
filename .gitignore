@@ -1,0 +1,15 @@
+.DS_Store
+.idea
+nbproject
+/var/*
+!/var/labels
+/vendor
+/public/*
+!/public/.htaccess
+!/public/index.php
+!/public/typo3/
+!/public/_assets/
+/public/_assets/vite/*
+node_modules/
+dist/
+.env

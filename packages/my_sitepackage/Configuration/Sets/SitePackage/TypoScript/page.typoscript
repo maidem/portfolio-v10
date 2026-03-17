@@ -1,0 +1,57 @@
+##############
+#### PAGE ####
+##############
+page = PAGE
+page {
+    typeNum = 0
+    shortcutIcon = EXT:my_sitepackage/Resources/Public/Icons/favicon.ico
+
+    10 = PAGEVIEW
+    10 {
+        paths {
+            0 = EXT:my_sitepackage/Resources/Private/PageView/
+            1 = {$page.pageview.paths}
+        }
+        dataProcessing {
+            10 = files
+            10 {
+                references.fieldName = media
+            }
+            20 = menu
+            20 {
+                levels = 2
+                includeSpacer = 1
+                as = mainnavigation
+            }
+            30 = page-content
+        }
+    }
+
+    meta {
+        viewport = {$page.meta.viewport}
+        robots = {$page.meta.robots}
+        apple-mobile-web-app-capable = {$page.meta.apple-mobile-web-app-capable}
+
+        X-UA-Compatible = {$page.meta.compatible}
+        X-UA-Compatible {
+            attribute = http-equiv
+        }
+    }
+
+    includeCSSLibs {
+
+    }
+
+    includeCSS {
+        # my_sitepackage_layout = EXT:my_sitepackage/Resources/Public/Css/layout.css
+    }
+
+    includeJS {
+
+    }
+
+    includeJSFooter {
+        # my_sitepackage_scripts = EXT:my_sitepackage/Resources/Public/JavaScript/main.js
+    }
+}
+
