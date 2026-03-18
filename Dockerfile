@@ -16,8 +16,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-pl
 # Stage 2: Build Frontend assets with Node/Vite
 FROM node:22-alpine AS vite-builder
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json composer.json composer.lock ./
 COPY packages ./packages
+COPY --from=composer-builder /app/vendor ./vendor
 COPY vite.config.js ./
 RUN npm ci
 RUN npm run build
