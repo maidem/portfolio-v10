@@ -1,5 +1,5 @@
 # Stage 1: Build PHP dependencies
-FROM php:8.4-cli-bookworm AS composer-builder
+FROM php:8.5-cli-bookworm AS composer-builder
 WORKDIR /app
 COPY composer.json composer.lock ./
 COPY packages ./packages
@@ -26,7 +26,7 @@ RUN npm ci
 RUN npm run build
 
 # Stage 3: Project Image
-FROM php:8.4-apache-bookworm
+FROM php:8.5-apache-bookworm
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 # Install system dependencies (ImageMagick, GraphicsMagick, Ghostscript for PDF processing)
