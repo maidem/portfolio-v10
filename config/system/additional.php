@@ -42,4 +42,13 @@ if (!getenv('IS_DDEV')) {
 if (getenv('TYPO3_CONTEXT') === 'Production') {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['displayErrors'] = 0;
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = '';
+    
+    // Reverse Proxy Configuration for Coolify/Traefik
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxy_ips'] = '*'; // Trust the proxy
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxy_ssl'] = '*'; // Trust SSL from proxy
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '.*'; // Allow all subdomains/gripsraum.de
+    
+    // Ensure the backend uses the correct protocol (HTTPS) behind proxy
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] = 2; // Always secure
+    $GLOBALS['TYPO3_CONF_VARS']['BE']['lockSSL'] = true;
 }
