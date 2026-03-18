@@ -8,7 +8,7 @@ public/fileadmin/*
 public/uploads/*
 public/_assets/vite/*
 var/*
-config/system/additional.php
+# config/system/additional.php
 docker-compose.yaml
 Dockerfile
 .env
