@@ -29,40 +29,18 @@ RUN npm run build
 FROM php:8.5-apache-bookworm
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Install system dependencies (ImageMagick, GraphicsMagick, Ghostscript for PDF processing)
+# Install system utilities and PHP extension installer
 RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
-    libwebp-dev \
-    libzip-dev \
-    libicu-dev \
-    libxml2-dev \
-    libmagickwand-dev \
-    imagemagick \
-    graphicsmagick \
-    ghostscript \
-    zip \
-    unzip \
     curl \
     git \
+    zip \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Configure and install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install -j$(nproc) \
-    gd \
-    intl \
-    zip \
-    opcache \
-    pdo_mysql \
-    mysqli \
-    soap \
-    bcmath \
-    exif
-
-# Install ImageMagick extension (PECL)
-RUN pecl install imagick && docker-php-ext-enable imagick
+# Use the official PHP extension installer for robust builds
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions gd intl zip opcache pdo_mysql mysqli soap bcmath exif imagick
 
 # Enable Apache modules
 RUN a2enmod rewrite headers expires
@@ -86,14 +64,12 @@ RUN { \
 
 WORKDIR /var/www/html
 
-# Copy project files with correct ownership from the start
+# Copy project files with correct ownership
 COPY --chown=www-data:www-data . .
-
-# Copy dependencies from builders with correct ownership
 COPY --from=composer-builder --chown=www-data:www-data /app/vendor ./vendor
 COPY --from=vite-builder --chown=www-data:www-data /app/public/_assets/vite ./public/_assets/vite
 
-# Ensure specific TYPO3 directories are writable
+# Ensure specific TYPO3 directories exist and are writable
 RUN mkdir -p var public/fileadmin public/uploads config/system \
     && chown -R www-data:www-data var public/fileadmin public/uploads config/system \
     && chmod -R 775 var public/fileadmin public/uploads config/system
