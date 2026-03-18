@@ -1,66 +1,79 @@
-# TYPO3 CMS Base Distribution
+# TYPO3 v14 & Coolify Deployment Blueprint 🚀
 
-Get going quickly with TYPO3 CMS.
+Dieses Repository dient als hoch-optimierte Schablone für das Deployment von **TYPO3 v14** auf modernen Cloud-Infrastrukturen via **Coolify**. Es löst die typischen Probleme bei der Containerisierung von TYPO3 und sorgt für einen blitzschnellen, sicheren Workflow.
 
-## Prerequisites
+---
 
-* PHP 8.2
-* [Composer](https://getcomposer.org/download/)
+## ✨ Features der Schablone
 
-## Quickstart
+- **PHP 8.5 Ready**: Volle Unterstützung für die neueste PHP-Generation auf Debian Bookworm Basis.
+- **Auto-Config MariaDB**: Die `additional.php` erkennt automatisch Coolify-Datenbank-Strings (DSN-URLs) und Hostnamen.
+- **Smart Reverse Proxy**: Integrierte Logik für Traefik/Coolify. Verhindert Redirect-Loops und fixiert den "Missing Referrer"-Fehler beim Login.
+- **Blitzschneller Build**: 
+  - Multi-Stage Docker-Build (Composer -> Vite -> Apache).
+  - Nutzung des offiziellen `php-extension-installer` für maximale Stabilität.
+  - Optimierte `.dockerignore` und Dateiberechtigungen (`--chown` während `COPY`).
+- **Production Hardening**: SSL-Zwang fürs Backend und sichere Cookie-Einstellungen vorkonfiguriert.
 
-* `composer create-project typo3/cms-base-distribution project-name ^13`
-* `cd project-name`
+---
 
-Note that this distribution installs most, but not all of the TYPO3 CMS core extensions.
-Depending on your need you might also want to install other TYPO3 extensions from
-[packagist.org](https://packagist.org/?type=typo3-cms-framework).
+## 🛠 Technische Highlights
 
-### Setup
+### 1. PHP Extension Installer
+Statt mühsam Abhängigkeiten manuell zu installieren, nutzt dieses Projekt das Skript von `mlocati`. Das garantiert, dass alle TYPO3-Abhängigkeiten (GD, Intl, Zip, Imagick, etc.) sauber kompiliert werden, ohne den Build-Prozess durch Race-Conditions abzubrechen.
 
-To start an interactive installation, you can do so by executing the following
-command and then follow the wizard:
+### 2. Intelligente `additional.php`
+Die Datei in `config/system/additional.php` ist das Herzstück. Sie unterscheidet zwischen lokaler Entwicklung (**DDEV**) und Produktion (**Coolify**). Sie parst komplexe Datenbank-URLs und setzt Proxy-Header so um, dass TYPO3 intern weiß, dass es über HTTPS erreichbar ist.
 
+---
+
+## 🚀 Anleitung: In 5 Minuten live
+
+### 1. Repository vorbereiten
+1. Markiere dieses Repository auf GitHub als **Template**.
+2. Erstelle ein neues Projekt aus diesem Template.
+
+### 2. Coolify Setup
+1. Lege in Coolify ein neues Projekt an.
+2. Füge eine **MariaDB Datenbank** hinzu.
+3. Füge eine **Public Repository App** (dein neues GitHub-Repo) hinzu.
+4. Setze den **Service Port** der App auf `80`.
+
+### 3. Umgebungsvariablen (App-Einstellungen)
+Trage folgende Variablen in Coolify unter "Environment Variables" ein:
+- `MYSQL_HOST`: (Wird meist automatisch von Coolify verlinkt)
+- `MYSQL_DATABASE`: `default` (oder dein DB-Name)
+- `MYSQL_USER`: `maidem` (dein DB-User)
+- `MYSQL_PASSWORD`: `****` (dein DB-Passwort)
+- `TYPO3_CONTEXT`: `Production`
+
+### 4. Datenbank-Import (DDEV -> Live)
+Um deine lokalen Daten auf den Server zu bekommen:
 ```bash
-composer exec typo3 setup
+# Lokal (DDEV)
+ddev export-db --file=db_dump.sql.gz
+
+# Datei hochladen und importieren
+scp db_dump.sql.gz user@server:~/
+ssh user@server "zcat ~/db_dump.sql.gz | docker exec -i <mariadb-container-id> mariadb -u root -p<root-pass> default"
 ```
 
-### Setup unattended (optional)
-
-If you're a more advanced user, you might want to leverage the unattended installation.
-To do this, you need to execute the following command and substitute the arguments
-with your own environment configuration.
-
+### 5. Backend Admin anlegen
+Nutze den modernen TYPO3 v14 Weg direkt über das Coolify-Terminal:
 ```bash
-export TYPO3_SETUP_ADMIN_PASSWORD=$(tr -dc "_A-Za-z0-9#=$()/" < /dev/urandom | head -c24)
-composer exec -- typo3 setup \
-    --no-interaction \
-    --server-type=other \
-    --driver=sqlite \
-    --admin-username=admin \
-    --admin-email="info@example.com" \
-    --project-name="My TYPO3 Project" \
-    --create-site="http://localhost:8000/"
-echo "Admin password: ${TYPO3_SETUP_ADMIN_PASSWORD}"
+./vendor/bin/typo3 backend:user:create --username admin --admin
 ```
 
-### Development server
+---
 
-While it's advised to use a more sophisticated web server such as
-Apache 2 or Nginx, you can instantly run the project by using PHPs` built-in
-[web server](https://secure.php.net/manual/en/features.commandline.webserver.php).
+## 📝 Portfolio-Artikel / Blog
+Dieses Setup demonstriert modernes **DevOps für PHP/TYPO3**. Es kombiniert Containerisierung mit intelligenten Laufzeit-Konfigurationen, um eine "Zero-Config" Deployment-Erfahrung zu schaffen.
 
-* `TYPO3_CONTEXT=Development php -S localhost:8000 -t public`
-* open your browser at "http://localhost:8000"
+**Verwendete Tech-Stack:**
+- TYPO3 v14
+- PHP 8.5 (Apache/Debian)
+- Docker (Multi-Stage)
+- Coolify (Open-Source Heroku/Vercel Alternative)
 
-Please be aware that the built-in web server is single threaded and only meant
-to be used for development.
-
-##  Next steps
-
-* [Getting Started with TYPO3](https://docs.typo3.org/permalink/t3start:start)
-* [Create a Site Package](https://docs.typo3.org/permalink/t3sitepackage:start)
-
-## License
-
-GPL-2.0 or later
+---
+*Erstellt mit ❤️ für effiziente TYPO3-Workflows.*
