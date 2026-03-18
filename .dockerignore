@@ -1,0 +1,15 @@
+.git
+.ddev
+.idea
+.vscode
+node_modules
+vendor
+public/fileadmin/*
+public/uploads/*
+public/_assets/vite/*
+var/*
+config/system/additional.php
+docker-compose.yaml
+Dockerfile
+.env
+.env.*

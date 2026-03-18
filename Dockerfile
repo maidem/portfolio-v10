@@ -86,15 +86,16 @@ RUN { \
 
 WORKDIR /var/www/html
 
-# Copy all project files
-COPY . .
+# Copy project files with correct ownership from the start
+COPY --chown=www-data:www-data . .
 
-# Overwrite vendor and built assets from builders
-COPY --from=composer-builder /app/vendor ./vendor
-COPY --from=vite-builder /app/public/_assets/vite ./public/_assets/vite
+# Copy dependencies from builders with correct ownership
+COPY --from=composer-builder --chown=www-data:www-data /app/vendor ./vendor
+COPY --from=vite-builder --chown=www-data:www-data /app/public/_assets/vite ./public/_assets/vite
 
-# Set permissions
-RUN chown -R www-data:www-data .
-RUN chmod -R 775 .
+# Ensure specific TYPO3 directories are writable
+RUN mkdir -p var public/fileadmin public/uploads config/system \
+    && chown -R www-data:www-data var public/fileadmin public/uploads config/system \
+    && chmod -R 775 var public/fileadmin public/uploads config/system
 
 EXPOSE 80
