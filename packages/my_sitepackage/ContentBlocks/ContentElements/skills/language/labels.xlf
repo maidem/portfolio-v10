@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="plaintext" original="labels.xlf" source-language="en" date="2026-03-18T12:00:00+00:00" product-name="gripsraum/skills">
+    <header/>
+    <body>
+      <trans-unit id="title">
+        <source>Skills</source>
+      </trans-unit>
+      <trans-unit id="description">
+        <source>A block to display categorized skills with pill-shaped buttons.</source>
+      </trans-unit>
+      <trans-unit id="skill_collections.label">
+        <source>Skill Categories</source>
+      </trans-unit>
+      <trans-unit id="skill_collections.description">
+        <source>Add multiple categories to group your skills.</source>
+      </trans-unit>
+      <trans-unit id="section_title.label">
+        <source>Category Title</source>
+      </trans-unit>
+      <trans-unit id="skills_list.label">
+        <source>Skills (Comma-separated)</source>
+      </trans-unit>
+      <trans-unit id="skills_list.description">
+        <source>Enter the skills separated by commas, e.g. "HTML, CSS, JavaScript".</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

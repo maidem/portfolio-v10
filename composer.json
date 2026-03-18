@@ -15,6 +15,7 @@
     },
     "require": {
         "php": ">=8.5.0",
+        "friendsoftypo3/content-blocks": "^2.1",
         "gripsraum/my-sitepackage": "@dev",
         "praetorius/vite-asset-collector": "^1.15",
         "typo3/cms-backend": "^14.0",

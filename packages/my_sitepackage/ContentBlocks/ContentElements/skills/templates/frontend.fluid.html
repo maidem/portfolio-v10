@@ -1,0 +1,35 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<div class="cb-skills-wrapper" id="c{data.uid}">
+    <f:if condition="{data.header}">
+        <h2 class="skills-main-header">{data.header}</h2>
+    </f:if>
+
+    <f:if condition="{data.skill_collections}">
+        <div class="skills-collections">
+            <f:for each="{data.skill_collections}" as="collection">
+                <section class="skill-section">
+                    <f:if condition="{collection.section_title}">
+                        <h3 class="skill-section-title">{collection.section_title}</h3>
+                    </f:if>
+                    
+                    <f:if condition="{collection.skills_list}">
+                        <div class="skill-pills-container" data-skills="{collection.skills_list}">
+                            <noscript>
+                                <div class="skill-pill-fallback">
+                                    {collection.skills_list}
+                                </div>
+                            </noscript>
+                        </div>
+                    </f:if>
+                </section>
+            </f:for>
+        </div>
+    </f:if>
+</div>
+
+</html>

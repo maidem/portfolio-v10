@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="plaintext" original="labels.xlf" source-language="en" target-language="de" date="2026-03-18T12:00:00+00:00" product-name="gripsraum/skills">
+    <header/>
+    <body>
+      <trans-unit id="title">
+        <source>Skills</source>
+        <target>Skills</target>
+      </trans-unit>
+      <trans-unit id="description">
+        <source>A block to display categorized skills with pill-shaped buttons.</source>
+        <target>Ein Block zur Darstellung kategorisierter Skills als abgerundete Buttons ("Pills").</target>
+      </trans-unit>
+      <trans-unit id="skill_collections.label">
+        <source>Skill Categories</source>
+        <target>Skill-Bereiche</target>
+      </trans-unit>
+      <trans-unit id="skill_collections.description">
+        <source>Add multiple categories to group your skills.</source>
+        <target>Füge mehrere Bereiche hinzu, um deine Skills zu gruppieren.</target>
+      </trans-unit>
+      <trans-unit id="section_title.label">
+        <source>Category Title</source>
+        <target>Bereich-Überschrift</target>
+      </trans-unit>
+      <trans-unit id="skills_list.label">
+        <source>Skills (Comma-separated)</source>
+        <target>Skills (kommagetrennt)</target>
+      </trans-unit>
+      <trans-unit id="skills_list.description">
+        <source>Enter the skills separated by commas, e.g. "HTML, CSS, JavaScript".</source>
+        <target>Trage die Skills als kommagetrennte Liste ein, z.B. "HTML, CSS, JavaScript".</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

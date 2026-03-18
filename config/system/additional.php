@@ -7,9 +7,12 @@
  * It ensures the project runs seamlessly in local (DDEV) and production (Coolify/Docker) environments.
  */
 
+// 0. GLOBAL TRUSTED HOSTS (Permit DDEV and custom domains)
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '.*';
+
 // 1. DATABASE CONFIGURATION (Production only)
 // We skip this in DDEV to let DDEV handle its internal connection.
-if (!getenv('IS_DDEV')) {
+if (!getenv('IS_DDEV_PROJECT')) {
     $mysqlHost = getenv('MYSQL_HOST');
     
     // Default fallback values (Edit as needed for your base stack)

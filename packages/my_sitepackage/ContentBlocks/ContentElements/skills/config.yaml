@@ -1,0 +1,24 @@
+name: gripsraum/skills
+typeName: gripsraum_skills
+group: default
+prefixFields: true
+prefixType: full
+fields:
+  -
+    identifier: header
+    useExistingField: true
+  -
+    identifier: skill_collections
+    type: Collection
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.label
+    description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.description
+    fields:
+      -
+        identifier: section_title
+        type: Text
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:section_title.label
+      -
+        identifier: skills_list
+        type: Textarea
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skills_list.label
+        description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skills_list.description
