@@ -1,10 +1,12 @@
 # Stage 1: Build PHP dependencies
-FROM php:8.5-cli-alpine AS composer-builder
+FROM php:8.4-cli-bookworm AS composer-builder
 WORKDIR /app
 COPY composer.json composer.lock ./
 COPY packages ./packages
-RUN apk add --no-cache \
-    icu-dev \
+
+# Install system dependencies for intl/zip
+RUN apt-get update && apt-get install -y \
+    libicu-dev \
     libzip-dev \
     git \
     unzip \
@@ -14,7 +16,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-gd --ignore-platform-req=ext-pdo_mysql --ignore-platform-req=ext-mysqli
 
 # Stage 2: Build Frontend assets with Node/Vite
-FROM node:22-alpine AS vite-builder
+FROM node:22-bookworm-slim AS vite-builder
 WORKDIR /app
 COPY package.json package-lock.json composer.json composer.lock ./
 COPY packages ./packages
@@ -24,7 +26,7 @@ RUN npm ci
 RUN npm run build
 
 # Stage 3: Project Image
-FROM php:8.5-apache-bookworm
+FROM php:8.4-apache-bookworm
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 # Install system dependencies (ImageMagick, GraphicsMagick, Ghostscript for PDF processing)
@@ -78,7 +80,7 @@ RUN { \
     echo 'opcache.fast_shutdown=1'; \
     echo 'upload_max_filesize=64M'; \
     echo 'post_max_size=64M'; \
-    echo 'memory_limit=256M'; \
+    echo 'memory_limit=512M'; \
     echo 'max_execution_time=240'; \
     } > /usr/local/etc/php/conf.d/typo3-recommendations.ini
 
