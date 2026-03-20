@@ -27,27 +27,34 @@ Die Datei in `config/system/additional.php` ist das Herzstück. Sie unterscheide
 
 ---
 
-## 🚀 Anleitung: In 5 Minuten live
+## 🚀 Anleitung: Auto-Deploy in 5 Minuten (Vite + Tailscale)
 
 ### 1. Repository vorbereiten
-1. Markiere dieses Repository auf GitHub als **Template**.
-2. Erstelle ein neues Projekt aus diesem Template.
+1. Markiere dieses Repository auf GitHub unter **Settings** als **Template repository**.
+2. Erstelle per "Use this template" Button ein neues Kundenprojekt.
+3. Ändere lokal in `.ddev/config.yaml` den Projektnamen (z.B. von `name: portfolio-v1` zu `name: neues-projekt`).
 
-### 2. Coolify Setup
-1. Lege in Coolify ein neues Projekt an.
-2. Füge eine **MariaDB Datenbank** hinzu.
-3. Füge eine **Public Repository App** (dein neues GitHub-Repo) hinzu.
-4. Setze den **Service Port** der App auf `80`.
+### 2. Coolify & Firewall Setup
+Dein Coolify-Server ist per **Tailscale** unsichtbar aus dem öffentlichen Netz.
+1. Lege in Coolify das neue GitHub-Projekt an (SSH Key oder Git App).
+2. Gehe in Coolify auf **Settings -> Advanced**:
+   - Haken setzen bei **API Access**.
+   - Trage unter "Allowed IPs for API Access" genau `100.64.0.0/10` ein (Das erlaubt API-Zugriffe nur aus deinem sicheren Tailscale-VPN).
+3. Gehe in Coolify auf **Keys & Tokens**:
+   - Erstelle einen neuen Token mit dem Haken bei **deploy** und kopiere ihn.
+4. Gehe in Coolify auf deinen Projekt-Reiter **Webhooks**:
+   - Kopiere die angezeigte URL unter **Deploy Webhook (auth required)** (z.B. `http://100.x.x.x:8000/api/v1/deploy?...`).
 
-### 3. Umgebungsvariablen (App-Einstellungen)
-Trage folgende Variablen in Coolify unter "Environment Variables" ein:
-- `MYSQL_HOST`: (Wird meist automatisch von Coolify verlinkt)
-- `MYSQL_DATABASE`: `default` (oder dein DB-Name)
-- `MYSQL_USER`: `maidem` (dein DB-User)
-- `MYSQL_PASSWORD`: `****` (dein DB-Passwort)
-- `TYPO3_CONTEXT`: `Production`
+### 3. GitHub Actions konfigurieren (Secrets)
+Da GitHub für dich die Frontend-Assets (`npm run build` via Vite) baut, musst du dem GitHub Runner Zugang zu Coolify gewähren:
+Gehe auf GitHub zu `Settings -> Secrets and variables -> Actions` und erstelle:
+- `COOLIFY_WEBHOOK_URL`: Die kopierte URL aus Schritt 2.4.
+- `COOLIFY_TOKEN`: Der kopierte Token aus Schritt 2.3.
+- `TAILSCALE_AUTHKEY`: Ein frischer Auth-Key aus deinem Tailscale Admin Panel (Reusable + Ephemeral).
 
-### 4. Datenbank-Import (DDEV -> Live)
+**Fertig!** Sobald du nun Änderungen auf `main` pushst, loggt sich GitHub kurz per Tailscale in dein VPN ein, baut deine Vite-Assets, pingt Coolify über die interne IP an und loggt sich rückstandslos wieder aus. Vollautomatisch.
+
+### 4. Datenbank & Backend User
 Um deine lokalen Daten auf den Server zu bekommen:
 ```bash
 # Lokal (DDEV)
@@ -56,24 +63,22 @@ ddev export-db --file=db_dump.sql.gz
 # Datei hochladen und importieren
 scp db_dump.sql.gz user@server:~/
 ssh user@server "zcat ~/db_dump.sql.gz | docker exec -i <mariadb-container-id> mariadb -u root -p<root-pass> default"
-```
 
-### 5. Backend Admin anlegen
-Nutze den modernen TYPO3 v14 Weg direkt über das Coolify-Terminal:
-```bash
+# Admin anlegen (im Coolify Terminal)
 ./vendor/bin/typo3 backend:user:create --username admin --admin
 ```
 
 ---
 
 ## 📝 Portfolio-Artikel / Blog
-Dieses Setup demonstriert modernes **DevOps für PHP/TYPO3**. Es kombiniert Containerisierung mit intelligenten Laufzeit-Konfigurationen, um eine "Zero-Config" Deployment-Erfahrung zu schaffen.
+Dieses Setup demonstriert modernes **DevOps für PHP/TYPO3**. Es kombiniert intelligente Laufzeit-Konfigurationen mit einem Zero-Downtime, hochsicheren Deployment-Workflow über Tailscale VPN.
 
-**Verwendete Tech-Stack:**
-- TYPO3 v14
-- PHP 8.5 (Apache/Debian)
-- Docker (Multi-Stage)
-- Coolify (Open-Source Heroku/Vercel Alternative)
+**Verwendeter Tech-Stack:**
+- TYPO3 v14 + PHP 8.5
+- Vite (Frontend Asset Compilation + HMR)
+- Coolify (Self-hosted Vercel/Heroku Alternative)
+- GitHub Actions (CI/CD Pipeline)
+- Tailscale (Carrier-Grade NAT VPN zur Absicherung des Deploy-Ports)
 
 ---
 *Erstellt mit ❤️ für effiziente TYPO3-Workflows.*

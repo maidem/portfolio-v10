@@ -12,6 +12,8 @@ fields:
     type: Collection
     label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.label
     description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.description
+    appearance:
+      collapseAll: true
     fields:
       -
         identifier: section_title

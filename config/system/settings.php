@@ -35,6 +35,24 @@ return [
             'loginLogo' => '',
             'loginLogoAlt' => '',
         ],
+        'news' => [
+            'advancedMediaPreview' => '1',
+            'archiveDate' => 'date',
+            'categoryBeGroupTceFormsRestriction' => '0',
+            'categoryRestriction' => '',
+            'contentElementRelation' => '1',
+            'dateTimeNotRequired' => '0',
+            'hidePageTreeForAdministrationModule' => '0',
+            'manualSorting' => '0',
+            'pageTreePluginPreview' => '1',
+            'prependAtCopy' => '1',
+            'resourceFolderImporter' => '/news_import',
+            'rteForTeaser' => '0',
+            'showAdministrationModule' => '1',
+            'slugBehaviour' => 'unique',
+            'storageUidImporter' => '1',
+            'tagPid' => '1',
+        ],
         'vite_asset_collector' => [
             'defaultManifest' => '_assets/vite/.vite/manifest.json',
             'devServerUri' => 'auto',
@@ -53,11 +71,11 @@ return [
         ],
     ],
     'GFX' => [
+        'imagefile_ext' => 'gif,jpg,jpeg,tif,tiff,php,tga,pcx,png,pdf,ai,svg,webp',
         'processor' => 'GraphicsMagick',
         'processor_effects' => true,
         'processor_enabled' => true,
         'processor_path' => '/usr/bin/',
-        'imagefile_ext' => 'gif,jpg,jpeg,tif,tiff,php,tga,pcx,png,pdf,ai,svg,webp',
     ],
     'LOG' => [
         'TYPO3' => [
