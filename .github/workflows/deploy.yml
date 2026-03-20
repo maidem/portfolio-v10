@@ -41,6 +41,16 @@ jobs:
 
       - name: Deploy to Coolify
         run: |
-          curl --request GET \
+          echo "🚀 Triggering Coolify deploy..."
+          RESPONSE=$(curl --silent --show-error --fail --request GET \
             --url "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
-            --header "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+            --header "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
+            --write-out "\nHTTP Status: %{http_code}" \
+            2>&1)
+          echo "$RESPONSE"
+          if echo "$RESPONSE" | grep -q "HTTP Status: 2"; then
+            echo "✅ Deploy successfully triggered!"
+          else
+            echo "❌ Deploy failed! Check the response above."
+            exit 1
+          fi
