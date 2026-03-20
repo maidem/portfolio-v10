@@ -45,7 +45,7 @@ jobs:
           curl --silent --show-error --fail-with-body \
             --request GET \
             --url "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
-            --header "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
+            --header "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
             --output /tmp/coolify_response.txt \
             --write-out "HTTP Status: %{http_code}\n"
           echo "Response: $(cat /tmp/coolify_response.txt)"
