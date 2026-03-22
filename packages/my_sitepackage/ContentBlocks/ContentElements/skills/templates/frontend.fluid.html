@@ -1,35 +1,35 @@
-<html
-    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-    xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
-    data-namespace-typo3-fluid="true"
->
-
-<div class="cb-skills-wrapper" id="c{data.uid}">
+<div class="container my-5 cb-skills-wrapper" id="c{data.uid}">
     <f:if condition="{data.header}">
-        <h2 class="skills-main-header">{data.header}</h2>
+        <div class="row">
+            <div class="col-12 mb-4">
+                <h2 class="h4 text-uppercase fw-bold border-bottom pb-2">{data.header}</h2>
+            </div>
+        </div>
     </f:if>
 
     <f:if condition="{data.skill_collections}">
         <div class="skills-collections">
             <f:for each="{data.skill_collections}" as="collection">
-                <section class="skill-section">
+                <div class="row mb-5 skill-section">
                     <f:if condition="{collection.section_title}">
-                        <h3 class="skill-section-title">{collection.section_title}</h3>
-                    </f:if>
-                    
-                    <f:if condition="{collection.skills_list}">
-                        <div class="skill-pills-container" data-skills="{collection.skills_list}">
-                            <noscript>
-                                <div class="skill-pill-fallback">
-                                    {collection.skills_list}
-                                </div>
-                            </noscript>
+                        <div class="col-md-3">
+                            <h3 class="h6 fw-normal mb-3 mb-md-0">{collection.section_title}</h3>
                         </div>
                     </f:if>
-                </section>
+                    
+                    <div class="col-md-9">
+                        <f:if condition="{collection.skills_list}">
+                            <div class="d-flex flex-wrap gap-2 skill-pills-container" data-skills="{collection.skills_list}">
+                                <noscript>
+                                    <div class="text-muted small italic">
+                                        {collection.skills_list}
+                                    </div>
+                                </noscript>
+                            </div>
+                        </f:if>
+                    </div>
+                </div>
             </f:for>
         </div>
     </f:if>
 </div>
-
-</html>

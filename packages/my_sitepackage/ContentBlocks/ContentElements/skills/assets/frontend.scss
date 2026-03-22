@@ -1,0 +1,9 @@
+/* Minimal specific styling for the skills element besides Bootstrap */
+.cb-skills-item {
+  transition: transform 0.2s ease-in-out;
+}
+
+.cb-skills-item:hover {
+  transform: translateY(-2px);
+  cursor: default;
+}

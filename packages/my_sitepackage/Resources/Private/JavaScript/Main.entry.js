@@ -5,7 +5,8 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 
-import '../Styles/Main.entry.css';
+import '../Styles/Main.entry.scss';
 
-// Content Blocks JS
-import '../../../ContentBlocks/ContentElements/skills/assets/frontend.js';
+// Vite Collector "Glob-Module" (Best Practice nach Simon Praetorius)
+// Alle frontend.{js,scss,css} Dateien aus den Content-Blöcken automatisch laden
+import.meta.glob('../../../ContentBlocks/ContentElements/*/assets/frontend.{js,scss,css}', { eager: true });

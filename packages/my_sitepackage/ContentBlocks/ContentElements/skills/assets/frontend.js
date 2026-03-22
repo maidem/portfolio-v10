@@ -1,8 +1,8 @@
 /**
  * Simple script to convert comma-separated string into pill-shaped span elements.
- * Follows best practices and is mobile-friendly.
+ * Following Bootstrap 5 Badge/Pill best practices.
  */
-document.addEventListener('DOMContentLoaded', () => {
+const initSkills = () => {
     const containers = document.querySelectorAll('.skill-pills-container');
 
     containers.forEach(container => {
@@ -17,9 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         skills.forEach(skill => {
             const pill = document.createElement('span');
-            pill.className = 'skill-pill';
+            // Bootstrap: badge (base), rounded-pill (pill shape), text-bg-light (theme)
+            pill.className = 'badge rounded-pill text-bg-light border cb-skills-item px-3 py-2 text-dark font-monospace fw-normal';
             pill.textContent = skill;
             container.appendChild(pill);
         });
     });
-});
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSkills);
+} else {
+    initSkills();
+}
