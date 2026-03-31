@@ -1,0 +1,9 @@
+name: gripsraum/projects
+typeName: gripsraum_projects
+group: default
+prefixFields: true
+prefixType: full
+fields:
+  -
+    identifier: header
+    useExistingField: true

@@ -1,0 +1,9 @@
+name: gripsraum/footer
+typeName: gripsraum_footer
+group: default
+prefixFields: true
+prefixType: full
+fields:
+  -
+    identifier: header
+    useExistingField: true
