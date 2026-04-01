@@ -43,7 +43,7 @@ page {
     }
 
     includeCSS {
-        # my_sitepackage_layout = EXT:my_sitepackage/Resources/Public/Css/layout.css
+        critical-nav = EXT:my_sitepackage/Resources/Public/Css/critical-nav.css
     }
 
     includeJS {

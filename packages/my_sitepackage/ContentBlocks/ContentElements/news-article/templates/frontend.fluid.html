@@ -1,0 +1,45 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+    <div class="container cb-news-article" id="c{data.uid}">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <f:if condition="{data.header}">
+                    <h2 class="cb-section-heading">{data.header}</h2>
+                </f:if>
+                <f:if condition="{data.gripsraum_newsarticle_project_date}">
+                    <span
+                        class="cb-news-article-date text-muted text-uppercase font-monospace mt-2 d-inline-block"
+                    >
+                        <f:format.date
+                            format="d. M Y"
+                            date="{data.gripsraum_newsarticle_project_date}"
+                        />
+                    </span>
+                </f:if>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <a
+                    href="#"
+                    onclick="
+                        history.back();
+                        return false;
+                    "
+                    class="cb-news-article-back text-uppercase font-monospace text-muted"
+                >
+                    ← Zurück
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div class="cb-news-article-body">
+                    <f:format.html>{data.bodytext}</f:format.html>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

@@ -1,0 +1,34 @@
+# packages/my_sitepackage/Configuration/Sets/SitePackage/TypoScript/content-blocks.typoscript
+
+tt_content.gripsraum_newslist {
+    dataProcessing {
+        10 = database-query
+        10 {
+            table = tt_content
+            
+            # Fetch only our new 'News Article' content elements
+            where = CType='gripsraum_newsarticle' AND hidden=0 AND deleted=0
+            
+            # Where to look for them (the sys_folder or parent page)
+            pidInList.field = gripsraum_newslist_storage_folder
+            pidInList.ifEmpty.data = page:uid
+            
+            # Make sure it finds elements even if they are deeply nested
+            recursive = 2
+            
+            # Sort newest first
+            orderBy = gripsraum_newsarticle_project_date DESC
+            max.field = gripsraum_newslist_max_items
+            
+            as = news
+            dataProcessing {
+                10 = record-transformation
+                20 = files
+                20 {
+                    references.fieldName = gripsraum_newsarticle_teaser_image
+                    as = images
+                }
+            }
+        }
+    }
+}

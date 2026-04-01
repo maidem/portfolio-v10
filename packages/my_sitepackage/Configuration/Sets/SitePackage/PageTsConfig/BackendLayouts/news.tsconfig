@@ -1,0 +1,24 @@
+mod.web_layout.BackendLayouts {
+    news {
+        title = News Artikel (Fokus-Ansicht)
+        config {
+            backend_layout {
+                colCount = 1
+                rowCount = 1
+                rows {
+                    1 {
+                        columns {
+                            1 {
+                                name = News Inhalt (Nur "News Article" erlaubt)
+                                colPos = 0
+                                identifier = main
+                                allowed = gripsraum_newsarticle
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        icon = EXT:my_sitepackage/Resources/Public/Icons/BackendLayouts/default.svg
+    }
+}

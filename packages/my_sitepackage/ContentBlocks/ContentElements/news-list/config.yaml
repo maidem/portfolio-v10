@@ -1,0 +1,14 @@
+name: gripsraum/news-list
+group: default
+fields:
+  - identifier: header
+    useExistingField: true
+  - identifier: storage_folder
+    type: Relation
+    label: Ordner mit News-Einträgen
+    foreign_table: pages
+    allowed: pages
+  - identifier: max_items
+    type: Number
+    label: Maximum number of items to show
+    default: 10

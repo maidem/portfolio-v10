@@ -6,12 +6,49 @@ RTE {
     }
 }
 
+# Neue Unterseiten unter dem Artikel-Ordner bekommen automatisch das News-Layout vorbelegt
+[traverse(page, 'backend_layout_next_level') == 'pagets__news']
+    TCAdefaults.pages.backend_layout = pagets__news
+[global]
+
+# Inhaltselemente einschränken wenn News-Layout direkt an der Seite gesetzt ist
+[page["backend_layout"] == 'pagets__news']
+    TCEFORM.tt_content.CType.keepItems = gripsraum_newsarticle
+[global]
+
 TCEFORM {
     pages {
 
     }
-    tt_content {
+}
 
+TCEFORM {
+    tt_content {
+        # ========= FOCUS MODE FOR NEWS ARTICLE =========
+        # Hiding irrelevant fields/tabs for gripsraum_newsarticle
+
+        # Language tab
+        sys_language_uid.types {
+            gripsraum_newsarticle.disabled = 1
+        }
+        
+        # Access tab
+        hidden.types { gripsraum_newsarticle.disabled = 1 }
+        starttime.types { gripsraum_newsarticle.disabled = 1 }
+        endtime.types { gripsraum_newsarticle.disabled = 1 }
+        fe_group.types { gripsraum_newsarticle.disabled = 1 }
+        editlock.types { gripsraum_newsarticle.disabled = 1 }
+        
+        # Appearance tab
+        layout.types { gripsraum_newsarticle.disabled = 1 }
+        space_before_class.types { gripsraum_newsarticle.disabled = 1 }
+        space_after_class.types { gripsraum_newsarticle.disabled = 1 }
+        frame_class.types { gripsraum_newsarticle.disabled = 1 }
+        
+        # Categories / Notes
+        categories.types { gripsraum_newsarticle.disabled = 1 }
+        rowDescription.types { gripsraum_newsarticle.disabled = 1 }
+        # ===============================================
     }
 }
 

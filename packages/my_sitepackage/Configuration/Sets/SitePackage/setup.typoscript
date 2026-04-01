@@ -1,1 +1,2 @@
 @import './TypoScript/'
+@import './TypoScript/content-blocks.typoscript'

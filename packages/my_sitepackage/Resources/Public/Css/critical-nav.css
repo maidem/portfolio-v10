@@ -1,0 +1,15 @@
+/* Critical CSS: loaded in <head> to prevent FOUC on navigation */
+.cb-nav{position:sticky;top:0;z-index:1030;background-color:rgba(248,249,250,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,.06)}
+.cb-nav__bar{display:flex;align-items:center;justify-content:space-between;height:3.5rem}
+.cb-nav__logo{font-size:.875rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;color:#212529!important;text-decoration:none!important}
+.cb-nav__list{list-style:none;margin:0;padding:0;display:flex;gap:2rem}
+.cb-nav__link{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;text-decoration:none;color:rgba(0,0,0,.5)}
+.cb-nav__overlay{opacity:0;visibility:hidden;position:fixed;inset:0}
+.cb-nav .container{width:100%;padding-right:.75rem;padding-left:.75rem;margin-right:auto;margin-left:auto}
+.cb-nav__toggle{display:flex;flex-direction:column;justify-content:center;gap:.375rem;width:2.5rem;height:2.5rem;padding:.5rem;background:none;border:none;cursor:pointer}
+.cb-nav__toggle-line{display:block;width:100%;height:1.5px;background-color:#212529}
+@media(min-width:768px){.cb-nav .container{max-width:720px}.cb-nav__desktop{display:block!important}.cb-nav__toggle{display:none!important}}
+@media(max-width:767.98px){.cb-nav__desktop{display:none!important}}
+@media(min-width:992px){.cb-nav .container{max-width:960px}}
+@media(min-width:1200px){.cb-nav .container{max-width:1140px}}
+@media(min-width:1400px){.cb-nav .container{max-width:1320px}}

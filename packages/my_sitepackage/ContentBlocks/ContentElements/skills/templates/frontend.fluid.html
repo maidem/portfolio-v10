@@ -1,25 +1,26 @@
-<div class="container my-5 cb-skills-wrapper" id="c{data.uid}">
+<div class="container cb-skills-wrapper" id="c{data.uid}">
     <f:if condition="{data.header}">
-        <div class="row">
-            <div class="col-12 mb-4">
-                <h2 class="h4 text-uppercase fw-bold border-bottom pb-2">{data.header}</h2>
-            </div>
-        </div>
+        <h2 class="cb-section-heading">{data.header}</h2>
     </f:if>
 
     <f:if condition="{data.skill_collections}">
         <div class="skills-collections">
             <f:for each="{data.skill_collections}" as="collection">
-                <div class="row mb-5 skill-section">
+                <div class="row mb-4 skill-section">
                     <f:if condition="{collection.section_title}">
                         <div class="col-md-3">
-                            <h3 class="h6 fw-normal mb-3 mb-md-0">{collection.section_title}</h3>
+                            <h3 class="h6 fw-normal mb-2 mb-md-0">
+                                {collection.section_title}
+                            </h3>
                         </div>
                     </f:if>
-                    
+
                     <div class="col-md-9">
                         <f:if condition="{collection.skills_list}">
-                            <div class="d-flex flex-wrap gap-2 skill-pills-container" data-skills="{collection.skills_list}">
+                            <div
+                                class="d-flex flex-wrap gap-2 skill-pills-container"
+                                data-skills="{collection.skills_list}"
+                            >
                                 <noscript>
                                     <div class="text-muted small italic">
                                         {collection.skills_list}
