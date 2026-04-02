@@ -5,72 +5,82 @@
     data-namespace-typo3-fluid="true"
 >
     <div class="container cb-news-list" id="c{data.uid}">
-        <f:if condition="{data.header}">
-            <h2 class="cb-section-heading">{data.header}</h2>
-        </f:if>
+        <div class="cb-card">
+            <f:if condition="{data.header}">
+                <div class="cb-card__left">
+                    <h2 class="cb-card__title">{data.header}</h2>
+                </div>
+            </f:if>
 
-        <f:for each="{news}" as="item">
-            <div class="cb-news-item">
-                <div class="row align-items-center">
-                    <f:if condition="{item.images}">
-                        <div class="col-md-2 mb-3 mb-md-0">
-                            <f:for each="{item.images}" as="image">
-                                <f:image
-                                    image="{image}"
-                                    class="cb-news-img rounded"
-                                    width="200"
-                                    alt="{image.alternative}"
-                                />
-                            </f:for>
-                        </div>
-                    </f:if>
-                    <div
-                        class="{f:if(condition: '{item.images}', then: 'col-md-10', else: 'col-12')}"
-                    >
-                        <div class="row align-items-start">
-                            <div class="col-md-3">
-                                <f:if
-                                    condition="{item.data.gripsraum_newsarticle_project_date}"
-                                >
-                                    <span
-                                        class="cb-news-date text-muted text-uppercase font-monospace"
-                                    >
-                                        <f:format.date
-                                            format="d. M Y"
-                                            date="{item.data.gripsraum_newsarticle_project_date}"
+            <div class="cb-card__right">
+                <f:for each="{news}" as="item">
+                    <div class="cb-news-item">
+                        <div class="row align-items-center">
+                            <f:if condition="{item.images}">
+                                <div class="col-md-2 mb-3 mb-md-0">
+                                    <f:for each="{item.images}" as="image">
+                                        <f:image
+                                            image="{image}"
+                                            class="cb-news-img rounded"
+                                            width="200"
+                                            alt="{image.alternative}"
                                         />
-                                    </span>
-                                </f:if>
-                            </div>
-                            <div class="col-md-9">
-                                <h3 class="cb-news-title fw-normal mb-1">
-                                    {item.data.header}
-                                </h3>
-                                <f:if
-                                    condition="{item.data.gripsraum_newsarticle_teaser_text}"
-                                >
-                                    <p class="cb-news-teaser text-muted mb-2">
-                                        {item.data.gripsraum_newsarticle_teaser_text}
-                                    </p>
-                                </f:if>
-                                <f:link.page
-                                    pageUid="{item.data.pid}"
-                                    section="c{item.data.uid}"
-                                    class="cb-news-link text-uppercase font-monospace text-dark stretched-link"
-                                >
-                                    Weiterlesen →
-                                </f:link.page>
+                                    </f:for>
+                                </div>
+                            </f:if>
+                            <div
+                                class="{f:if(condition: '{item.images}', then: 'col-md-10', else: 'col-12')}"
+                            >
+                                <div class="row align-items-start">
+                                    <div class="col-md-3">
+                                        <f:if
+                                            condition="{item.data.gripsraum_newsarticle_project_date}"
+                                        >
+                                            <span
+                                                class="cb-news-date text-muted text-uppercase font-monospace"
+                                            >
+                                                <f:format.date
+                                                    format="d. M Y"
+                                                    date="{item.data.gripsraum_newsarticle_project_date}"
+                                                />
+                                            </span>
+                                        </f:if>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h3
+                                            class="cb-news-title fw-normal mb-1"
+                                        >
+                                            {item.data.header}
+                                        </h3>
+                                        <f:if
+                                            condition="{item.data.gripsraum_newsarticle_teaser_text}"
+                                        >
+                                            <p
+                                                class="cb-news-teaser text-muted mb-2"
+                                            >
+                                                {item.data.gripsraum_newsarticle_teaser_text}
+                                            </p>
+                                        </f:if>
+                                        <f:link.page
+                                            pageUid="{item.data.pid}"
+                                            section="c{item.data.uid}"
+                                            class="cb-news-link text-uppercase font-monospace text-dark stretched-link"
+                                        >
+                                            Weiterlesen →
+                                        </f:link.page>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </f:for>
+                </f:for>
 
-        <f:if condition="!{news}">
-            <p class="text-muted font-monospace small">
-                Keine Artikel vorhanden.
-            </p>
-        </f:if>
+                <f:if condition="!{news}">
+                    <p class="text-muted font-monospace small">
+                        Keine Artikel vorhanden.
+                    </p>
+                </f:if>
+            </div>
+        </div>
     </div>
 </html>

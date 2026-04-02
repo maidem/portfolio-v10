@@ -13,13 +13,54 @@ body {
 
 // Consistent vertical rhythm for content sections
 main > .container {
-  padding-top: $grid-unit * 6; // 48px
-  padding-bottom: $grid-unit * 6; // 48px
+  padding-top: $grid-unit * 4; // 32px
+  padding-bottom: $grid-unit * 8; // 64px
 }
 
 // Scroll lock when overlay is open
 body.cb-nav--open {
   overflow: hidden;
+}
+
+// =============================
+// Shared Card Layout (title left, content right)
+// =============================
+.cb-card {
+  background: #fff;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.03),
+    0 4px 16px rgba(0, 0, 0, 0.02);
+  padding: 2rem; // 32px
+  margin-bottom: $grid-unit * 2; // 16px
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: $grid-unit * 4; // 32px
+    padding: $grid-unit * 4; // 32px
+  }
+
+  &__left {
+    margin-bottom: 1.5rem;
+
+    @media (min-width: 768px) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  &__right {
+    min-width: 0; // Prevent grid blowout
+  }
 }
 
 // Section headings (reusable)
@@ -42,10 +83,22 @@ body.cb-nav--open {
     height: 1px;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9); // Engraved effect bleibt erhalten
-    
+
     // Weiches Auslaufen links und rechts (10% Transparent -> Sichtbar -> Transparent 10%)
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
   }
 }
 
@@ -213,4 +266,3 @@ body.cb-nav--open {
     }
   }
 }
-

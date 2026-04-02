@@ -1,22 +1,16 @@
 .cb-news-list {
   .cb-news-item {
-    position: relative; // Notwendig für den stretched-link
-    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9); // Engraved effect consistency
-    padding: 1.5rem 1rem; // Horizontal padding for the hover box
-    margin: 0 -1rem; // Outdents offset to keep the text aligned with the container grid
-    border-radius: 1rem; // Aesthetic rounding
-    transition: all 0.25s ease;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 1.25rem 0;
+    transition: background-color 0.25s ease;
 
     &:last-child {
       border-bottom: none;
-      box-shadow: none;
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.03); // Box becomes slightly more visible on hover to accentuate the rounding
-      border-bottom-color: transparent; // Clean look during hover by hiding the separator line
-      box-shadow: none; // Hide engraved line on hover
+      background-color: rgba(0, 0, 0, 0.012);
     }
   }
 
