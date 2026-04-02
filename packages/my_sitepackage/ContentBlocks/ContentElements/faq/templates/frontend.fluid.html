@@ -12,10 +12,13 @@
 
         <div class="cb-faq__list" role="list">
             <f:if condition="{data.faq_items}">
-                <f:for each="{data.faq_items}" as="item">
+                <f:for each="{data.faq_items}" as="item" iteration="iter">
                     <div class="cb-faq__item" role="listitem">
                         <button class="cb-faq__trigger" aria-expanded="false" type="button">
-                            <span class="cb-faq__question">{item.question}</span>
+                            <span class="cb-faq__meta">
+                                <span class="cb-faq__index">{f:if(condition: iter.cycle < 10, then: '0')}{iter.cycle}</span>
+                                <span class="cb-faq__question">{item.question}</span>
+                            </span>
                             <span class="cb-faq__icon">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -24,7 +27,9 @@
                         </button>
                         <div class="cb-faq__content" role="region">
                             <div class="cb-faq__content-inner">
-                                <f:format.html>{item.answer}</f:format.html>
+                                <div class="cb-faq__answer">
+                                    <f:format.html>{item.answer}</f:format.html>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,68 +1,74 @@
 @use "sass:color";
 
 .cb-faq {
-    --cb-faq-border: rgba(0, 0, 0, 0.08); 
+    --cb-faq-border: rgba(0, 0, 0, 0.06); 
     --cb-faq-accent: #111;
     --cb-faq-text-muted: #666;
+    --cb-faq-index-color: rgba(0, 0, 0, 0.3);
+    --cb-faq-hover-bg: rgba(0, 0, 0, 0.015);
     
-    // Horizontal centering via margin auto (Bootstrap container fallback)
     margin-top: 4rem;
     margin-bottom: 4rem;
 
     &__header {
-        margin-bottom: 3rem;
+        margin-bottom: 4rem;
         text-align: center;
     }
 
     &__list {
-        max-width: 800px;
+        max-width: 850px;
         margin: 0 auto;
         position: relative;
-
-        &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: var(--cb-faq-border);
-            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
-            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
-            mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
-        }
     }
 
     &__item {
         position: relative;
-        transition: background-color 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border-bottom: 1px solid var(--cb-faq-border);
 
+        &:first-child {
+            border-top: 1px solid var(--cb-faq-border);
+        }
+
+        // Fading line effect for the bottom border
         &::after {
             content: "";
             position: absolute;
-            bottom: 0;
+            bottom: -1px;
             left: 0;
             right: 0;
             height: 1px;
             background-color: var(--cb-faq-border);
-            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
             -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
             mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
         }
 
         &:hover {
-            background-color: rgba(0, 0, 0, 0.01);
+            background-color: var(--cb-faq-hover-bg);
+            .cb-faq__index { color: var(--cb-faq-accent); }
         }
 
         &.is-open {
+            background-color: rgba(0, 0, 0, 0.005);
+            
             .cb-faq__content {
                 grid-template-rows: 1fr;
                 opacity: 1;
             }
 
+            .cb-faq__index {
+                color: var(--cb-faq-accent);
+                transform: translateY(2px);
+            }
+
             .cb-faq__icon {
                 transform: rotate(45deg);
                 color: var(--cb-faq-accent);
+            }
+
+            .cb-faq__answer {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
     }
@@ -72,14 +78,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1.5rem 1rem; // 24px oben/unten (8er Raster)
+        padding: 2rem 1rem; // Enhanced padding for premium feel
         background: none;
         border: none;
         text-align: left;
         cursor: pointer;
         color: var(--cb-faq-accent);
-        font-weight: 500;
-        font-size: 1.125rem;
         transition: all 0.3s ease;
 
         &:focus {
@@ -87,12 +91,34 @@
         }
     }
 
+    &__meta {
+        display: flex;
+        align-items: flex-start;
+        gap: 2.5rem; // Wide gap for premium spacing
+    }
+
+    &__index {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.75rem;
+        color: var(--cb-faq-index-color);
+        margin-top: 0.35rem;
+        transition: all 0.3s ease;
+        letter-spacing: 0.05em;
+    }
+
+    &__question {
+        font-weight: 500;
+        font-size: 1.15rem;
+        line-height: 1.4;
+        max-width: 90%;
+    }
+
     &__icon {
         flex-shrink: 0;
-        width: 24px;
-        height: 24px;
-        color: var(--cb-faq-text-muted);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 20px;
+        height: 20px;
+        color: var(--cb-faq-index-color);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         
         svg {
             display: block;
@@ -105,20 +131,26 @@
         display: grid;
         grid-template-rows: 0fr;
         opacity: 0;
-        transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+        transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
                     opacity 0.4s ease;
         overflow: hidden;
 
         &-inner {
             min-height: 0;
-            padding: 0 1rem 1.5rem 1rem; // 24px unten (8er Raster) für Symmetrie
-            color: var(--cb-faq-text-muted);
-            line-height: 1.6;
-            font-size: 1rem;
+            padding: 0 1rem 2.5rem 4.5rem; // Indented answer for topological betrayal
+        }
+    }
 
-            p:last-child {
-                margin-bottom: 0;
-            }
+    &__answer {
+        color: var(--cb-faq-text-muted);
+        line-height: 1.7;
+        font-size: 1rem;
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+
+        p:last-child {
+            margin-bottom: 0;
         }
     }
 }
