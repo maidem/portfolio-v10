@@ -15,12 +15,38 @@
     &__list {
         max-width: 800px;
         margin: 0 auto;
-        border-top: 1px solid var(--cb-faq-border);
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--cb-faq-border);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+        }
     }
 
     &__item {
-        border-bottom: 1px solid var(--cb-faq-border);
+        position: relative;
         transition: background-color 0.3s ease;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--cb-faq-border);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+        }
 
         &:hover {
             background-color: rgba(0, 0, 0, 0.01);
@@ -30,7 +56,7 @@
             .cb-faq__content {
                 grid-template-rows: 1fr;
                 opacity: 1;
-                padding-bottom: 1.5rem;
+                padding-bottom: 2rem;
             }
 
             .cb-faq__icon {
