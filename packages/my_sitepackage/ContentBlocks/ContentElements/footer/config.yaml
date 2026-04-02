@@ -4,6 +4,32 @@ group: default
 prefixFields: true
 prefixType: full
 fields:
-  -
-    identifier: header
+  - identifier: header
     useExistingField: true
+    label: Copyright-Text (z.B. "© 2026 Dein Name")
+
+  - identifier: github_link
+    type: Link
+    label: GitHub Profil-Link
+    allowedTypes:
+      - url
+      - page
+
+  - identifier: footer_links
+    type: Collection
+    label: Footer-Links (Impressum, Datenschutz, etc.)
+    labelField: link_label
+    minitems: 0
+    maxitems: 6
+    appearance:
+      collapseAll: false
+      levelLinksPosition: bottom
+    fields:
+      - identifier: link_label
+        type: Text
+        label: Link-Bezeichnung
+        required: true
+      - identifier: link_url
+        type: Link
+        label: Link-Ziel
+        required: true

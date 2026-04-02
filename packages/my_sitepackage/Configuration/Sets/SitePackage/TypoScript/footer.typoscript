@@ -1,0 +1,11 @@
+# Footer Content aus dem Sysfolder laden und rendern
+# Nutzt das klassische CONTENT-Objekt (bewährt und stabil)
+lib.footer = CONTENT
+lib.footer {
+    table = tt_content
+    select {
+        pidInList = {$footer.storagePid}
+        where = CType='gripsraum_footer'
+        max = 1
+    }
+}

@@ -1,0 +1,62 @@
+.cb-footer {
+  margin-top: 6rem; // 48px × 2 Luft zur letzten Sektion
+
+  // Die elegante Trennlinie (gleicher Stil wie die Section Headings)
+  &__separator {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9); // Engraved effect
+    margin-bottom: 0;
+
+    // Weiches Auslaufen links und rechts
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  &__copyright {
+    font-size: 0.75rem; // 12px
+    font-family: "Inter", monospace;
+    letter-spacing: 0.05em;
+    color: rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem; // 32px
+    flex-wrap: wrap;
+
+    @media (min-width: 768px) {
+      justify-content: flex-end;
+    }
+  }
+
+  &__link {
+    font-size: 0.75rem; // 12px
+    font-family: "Inter", monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.45);
+    transition: color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.9);
+    }
+  }
+
+  &__icon {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  &__github:hover &__icon {
+    transform: scale(1.15);
+  }
+}

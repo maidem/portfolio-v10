@@ -1,28 +1,35 @@
 <?xml version="1.0"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file datatype="plaintext" original="labels.xlf" source-language="en" date="2026-04-02T14:00:00+00:00" product-name="gripsraum/footer">
+  <file datatype="plaintext" original="labels.xlf" source-language="en" target-language="de" date="2026-04-02T14:00:00+00:00" product-name="gripsraum/footer">
     <header/>
     <body>
       <trans-unit id="title">
         <source>Footer</source>
+        <target>Footer</target>
       </trans-unit>
       <trans-unit id="description">
         <source>Site footer with copyright, navigation links and GitHub link</source>
+        <target>Seitenfußzeile mit Copyright, Navigationslinks und GitHub-Link</target>
       </trans-unit>
       <trans-unit id="header.label">
         <source>Copyright Text</source>
+        <target>Copyright-Text</target>
       </trans-unit>
       <trans-unit id="github_link.label">
         <source>GitHub Profile Link</source>
+        <target>GitHub Profil-Link</target>
       </trans-unit>
       <trans-unit id="footer_links.label">
         <source>Footer Links</source>
+        <target>Footer-Links</target>
       </trans-unit>
       <trans-unit id="link_label.label">
         <source>Link Label</source>
+        <target>Link-Bezeichnung</target>
       </trans-unit>
       <trans-unit id="link_url.label">
         <source>Link Target</source>
+        <target>Link-Ziel</target>
       </trans-unit>
     </body>
   </file>

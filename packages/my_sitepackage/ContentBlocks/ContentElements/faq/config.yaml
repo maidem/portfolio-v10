@@ -1,0 +1,9 @@
+name: gripsraum/faq
+typeName: gripsraum_faq
+group: default
+prefixFields: true
+prefixType: full
+fields:
+  -
+    identifier: header
+    useExistingField: true

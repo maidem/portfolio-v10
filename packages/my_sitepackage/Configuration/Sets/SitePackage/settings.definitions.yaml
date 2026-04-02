@@ -1,0 +1,7 @@
+settings:
+  footer.storagePid:
+    label: 'Footer Storage PID'
+    description: 'Die UID des Sysfolder-Ordners, in dem das Footer-Element liegt.'
+    type: int
+    default: 0
+    category: footer

@@ -16,6 +16,11 @@ RTE {
     TCEFORM.tt_content.CType.keepItems = gripsraum_newsarticle
 [global]
 
+# Inhaltselemente im Footer-Ordner einschränken (Sysfolder mit doktype 254)
+[traverse(page, "doktype") == 254 && traverse(page, "title") == "Footer"]
+    TCEFORM.tt_content.CType.keepItems = gripsraum_footer
+[global]
+
 TCEFORM {
     pages {
 

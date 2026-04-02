@@ -7,17 +7,20 @@
 <f:layout name="Preview"/>
 
 <f:section name="Header">
-    <cb:link.editRecord uid="{data.uid}" table="{data.mainType}">{data.header}</cb:link.editRecord>
+    <cb:link.editRecord uid="{data.uid}" table="{data.mainType}">
+        <strong>Footer:</strong> {data.header}
+    </cb:link.editRecord>
 </f:section>
 
 <f:section name="Content">
-    Preview for Content Block: gripsraum/footer
+    <div style="padding: 8px 0;">
+        <f:if condition="{data.gripsraum_footer_github_link}">
+            <small style="color: #6c757d;">GitHub: ✔</small>
+        </f:if>
+        <f:if condition="{data.gripsraum_footer_footer_links}">
+            <small style="color: #6c757d;"> | Links: {data.gripsraum_footer_footer_links -> f:count()} Stück</small>
+        </f:if>
+    </div>
 </f:section>
 
-<f:comment>
-<!-- Uncomment to override preview footer -->
-<f:section name="Footer">
-    My custom Footer
-</f:section>
-</f:comment>
 </html>
