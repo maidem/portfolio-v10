@@ -74,35 +74,9 @@ const initNav = () => {
 };
 
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-        initNav();
-        initFaq();
-    });
+    document.addEventListener("DOMContentLoaded", initNav);
 } else {
     initNav();
-    initFaq();
 }
 
-/**
- * FAQ (Accordion) Toggle Logic
- */
-function initFaq() {
-    document.addEventListener('click', (event) => {
-        const trigger = event.target.closest('.cb-faq__trigger');
-        if (!trigger) return;
-
-        const item = trigger.closest('.cb-faq__item');
-        if (!item) return;
-
-        const isOpen = item.classList.contains('is-open');
-        
-        if (isOpen) {
-            item.classList.remove('is-open');
-            trigger.setAttribute('aria-expanded', 'false');
-        } else {
-            item.classList.add('is-open');
-            trigger.setAttribute('aria-expanded', 'true');
-        }
-    });
-}
 
