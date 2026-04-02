@@ -73,7 +73,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1.5rem 0;
+        padding: 1.5rem 1rem; // 24px und 16px (8er Raster)
         background: none;
         border: none;
         text-align: left;
@@ -81,7 +81,7 @@
         color: var(--cb-faq-accent);
         font-weight: 500;
         font-size: 1.125rem;
-        transition: color 0.3s ease;
+        transition: all 0.3s ease;
 
         &:focus {
             outline: none;
@@ -113,7 +113,7 @@
 
         &-inner {
             min-height: 0;
-            padding-right: 3rem; 
+            padding: 0 1rem 2rem 1rem; // 16px beidseitig (8er Raster)
             color: var(--cb-faq-text-muted);
             line-height: 1.6;
             font-size: 1rem;
