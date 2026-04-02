@@ -3,9 +3,7 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <f:asset.css identifier="cb-faq-{data.uid}" href="{cb:assetPath()}/frontend.scss" />
-    <f:asset.script identifier="cb-faq-{data.uid}" src="{cb:assetPath()}/frontend.js" />
-    <div class="container cb-faq" id="c{data.uid}">
+<div class="container cb-faq" id="c{data.uid}">
         <f:if condition="{data.header}">
             <div class="cb-faq__header">
                 <h2 class="cb-section-heading">{data.header}</h2>
