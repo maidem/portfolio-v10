@@ -18,3 +18,4 @@ fields:
   - identifier: bodytext
     useExistingField: true
     label: Der eigentliche Artikel (Haupttext)
+    enableRichtext: true

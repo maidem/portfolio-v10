@@ -1,23 +1,26 @@
 <html
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
+    xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
 
 <f:layout name="Preview"/>
 
 <f:section name="Header">
-    <cb:link.editRecord uid="{data.uid}" table="{data.mainType}">{data.header}</cb:link.editRecord>
+    <cb:link.editRecord uid="{data.uid}" table="{data.mainType}"><strong>{data.header}</strong></cb:link.editRecord>
 </f:section>
 
 <f:section name="Content">
-    Preview for Content Block: gripsraum/hero
+    <f:if condition="{data.subheader}">
+        <div><em>{data.subheader}</em></div>
+    </f:if>
+    <f:if condition="{data.background_image}">
+        <div style="margin-top: 10px;">
+            <f:for each="{data.background_image}" as="image">
+                <be:thumbnail image="{image}" width="200" />
+            </f:for>
+        </div>
+    </f:if>
 </f:section>
-
-<f:comment>
-<!-- Uncomment to override preview footer -->
-<f:section name="Footer">
-    My custom Footer
-</f:section>
-</f:comment>
 </html>

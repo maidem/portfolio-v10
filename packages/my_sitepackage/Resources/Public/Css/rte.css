@@ -1,3 +1,24 @@
 /**
  * Created by get.typo3.org/sitepackage
+ * Adjusted for TYPO3 v14 Dark Mode Support
  */
+
+body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color-scheme: light dark;
+    /* Im Light Mode: Standard Textfarbe */
+    color: #212529;
+}
+
+/* TYPO3 v14 Dark Mode Integration */
+@media (prefers-color-scheme: dark) {
+    body {
+        /* Im Dark Mode: Helle Textfarbe */
+        color: #f8f9fa;
+        background-color: transparent;
+    }
+    
+    a {
+        color: #6ea8fe;
+    }
+}

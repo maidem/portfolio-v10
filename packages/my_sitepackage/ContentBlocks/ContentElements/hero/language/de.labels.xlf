@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file datatype="plaintext" original="labels.xlf" source-language="en" date="2026-03-18T12:36:15+00:00" product-name="gripsraum/hero">
+  <file datatype="plaintext" original="labels.xlf" source-language="en" target-language="de" date="2026-03-18T12:36:15+00:00" product-name="gripsraum/hero">
     <header/>
     <body>
       <trans-unit id="title">
         <source>Hero</source>
+        <target>Hero (Startbildschirm)</target>
       </trans-unit>
       <trans-unit id="description">
         <source>A hero banner with background image, headline and subheadline</source>
+        <target>Ein Hero-Banner mit Hintergrundbild, Überschrift und Untertitel</target>
       </trans-unit>
       <trans-unit id="background_image">
         <source>Background Image</source>
+        <target>Hintergrundbild</target>
       </trans-unit>
     </body>
   </file>

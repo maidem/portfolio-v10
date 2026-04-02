@@ -1,4 +1,14 @@
 .cb-news-article {
+  scroll-margin-top: 100px; // Verhindert, dass der Anker-Sprung (#cXX) unter die Sticky Navbar rutscht
+  
+  .cb-news-article-title {
+    font-size: 2.5rem; // 40px
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 0px; // Abstand machen wir mit dem Span darunter
+    letter-spacing: -0.02em; // Minimalist premium tracking
+  }
+  
   .cb-news-article-date {
     font-size: 0.75rem; // 12px
     letter-spacing: 0.05em;
@@ -7,6 +17,26 @@
   .cb-news-article-body {
     font-size: 1rem; // 16px – 8px grid
     line-height: 2; // 32px at 16px base = 8px grid
+
+    h2, h3 {
+      font-weight: 500;
+      margin-top: 3rem; // 48px
+      margin-bottom: 1rem; // 16px
+      
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    h2 {
+      font-size: 1.5rem; // 24px
+      line-height: 2rem; // 32px
+    }
+
+    h3 {
+      font-size: 1.25rem; // 20px
+      line-height: 2rem; // 32px
+    }
 
     p {
       margin-bottom: 1.5rem; // 24px – 8px grid
@@ -27,18 +57,81 @@
     font-size: 0.75rem; // 12px
     letter-spacing: 0.05em;
     text-decoration: none;
-    display: inline-block;
-    margin-bottom: 1.5rem; // 24px – 8px grid
     transition: opacity 0.2s ease;
-
-    @media (min-width: 768px) {
-      margin-bottom: 0;
-      position: sticky;
-      top: 4.5rem; // 56px nav + 16px spacing = 72px ≈ 8px grid
-    }
-
+    
     &:hover {
       opacity: 0.7;
+    }
+  }
+
+  // --- Inhaltsverzeichnis (TOC) ---
+  .cb-toc-desktop {
+    margin-top: 2rem;
+  }
+
+  .cb-toc-list {
+    position: relative;
+    padding-left: 1rem !important; // Platz für die Linie
+    
+    // Die edle, durchgehende Index-Linie links
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 80%, transparent 100%);
+    }
+  }
+
+  .cb-toc-select {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+    padding-left: 0;
+    font-family: inherit;
+    font-size: 0.8125rem; // 13px
+    color: rgba(0, 0, 0, 0.6);
+    background-color: transparent;
+    cursor: pointer;
+
+    &:focus {
+      box-shadow: none;
+      border-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .cb-toc-link {
+    font-size: 0.8125rem; // 13px
+    font-family: "Inter", sans-serif;
+    color: rgba(0, 0, 0, 0.45) !important;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); // Premium easing
+    display: inline-block;
+    padding: 0.3rem 0;
+    position: relative;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.95) !important;
+      transform: translateX(6px); // Weicher Slide-out als Micro-Interaction
+    }
+
+    // Kleiner Dot beim Hover neben dem Item
+    &::before {
+      content: "";
+      position: absolute;
+      left: -1rem; // Rüber zur globalen Linie geschoben
+      top: 50%;
+      transform: translateY(-50%) scale(0);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.8);
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    &:hover::before {
+      transform: translateY(-50%) scale(1);
     }
   }
 }

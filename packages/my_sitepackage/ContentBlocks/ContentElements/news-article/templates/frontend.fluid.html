@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <f:if condition="{data.header}">
-                    <h2 class="cb-section-heading">{data.header}</h2>
+                    <h1 class="cb-news-article-title">{data.header}</h1>
                 </f:if>
                 <f:if condition="{data.gripsraum_newsarticle_project_date}">
                     <span
@@ -22,18 +22,26 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row position-relative">
             <div class="col-md-3">
-                <a
-                    href="#"
-                    onclick="
-                        history.back();
-                        return false;
-                    "
-                    class="cb-news-article-back text-uppercase font-monospace text-muted"
-                >
-                    ← Zurück
-                </a>
+                <div class="cb-sidebar sticky-top" style="top: 5.5rem; z-index: 1020;">
+                    <a
+                        href="javascript:void(0)"
+                        onclick="
+                            if (window.history.length > 1 && document.referrer.indexOf(window.location.host) !== -1) {
+                                history.back();
+                            } else {
+                                window.location.href = '/';
+                            }
+                        "
+                        class="cb-news-article-back text-uppercase font-monospace text-muted d-inline-block mb-4"
+                    >
+                        ← Zurück
+                    </a>
+                    
+                    <!-- TOC Container (populated by frontend.js) -->
+                    <div id="cb-news-article-toc-container"></div>
+                </div>
             </div>
             <div class="col-md-9">
                 <div class="cb-news-article-body">
