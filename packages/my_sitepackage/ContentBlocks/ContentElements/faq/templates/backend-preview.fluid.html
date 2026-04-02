@@ -11,7 +11,9 @@
 </f:section>
 
 <f:section name="Content">
-    Preview for Content Block: gripsraum/faq
+    <f:if condition="{data.faq_items}">
+        <p>{data.faq_items -> f:count()} Einträge konfiguriert.</p>
+    </f:if>
 </f:section>
 
 <f:comment>

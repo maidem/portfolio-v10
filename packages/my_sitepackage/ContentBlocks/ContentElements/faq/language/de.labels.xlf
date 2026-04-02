@@ -1,22 +1,27 @@
 <?xml version="1.0"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file datatype="plaintext" original="labels.xlf" source-language="en" date="2026-04-02T14:58:08+00:00" product-name="gripsraum/faq">
+  <file datatype="plaintext" original="labels.xlf" source-language="en" target-language="de" date="2026-04-02T14:58:08+00:00" product-name="gripsraum/faq">
     <header/>
     <body>
       <trans-unit id="title">
         <source>FAQ (Accordion)</source>
+        <target>FAQ (Akkordeon)</target>
       </trans-unit>
       <trans-unit id="description">
         <source>Minimalist FAQ with smooth expand animations. Items stay open on click.</source>
+        <target>Minimalistisches FAQ mit sanften Animationen. Mehrere Items können gleichzeitig offen bleiben.</target>
       </trans-unit>
       <trans-unit id="faq_items.label">
         <source>FAQ Items</source>
+        <target>FAQ-Einträge</target>
       </trans-unit>
       <trans-unit id="question.label">
         <source>Question</source>
+        <target>Frage</target>
       </trans-unit>
       <trans-unit id="answer.label">
         <source>Answer</source>
+        <target>Antwort</target>
       </trans-unit>
     </body>
   </file>

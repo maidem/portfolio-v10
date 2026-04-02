@@ -3,7 +3,28 @@ typeName: gripsraum_faq
 group: default
 prefixFields: true
 prefixType: full
+basics:
+  - TYPO3/Appearance
 fields:
-  -
-    identifier: header
+  - identifier: header
     useExistingField: true
+
+  - identifier: faq_items
+    type: Collection
+    label: FAQ-Einträge
+    labelField: question
+    minitems: 1
+    maxitems: 20
+    appearance:
+      collapseAll: true
+      levelLinksPosition: bottom
+    fields:
+      - identifier: question
+        type: Text
+        label: Frage
+        required: true
+      - identifier: answer
+        type: Textarea
+        label: Antwort
+        enableRichtext: true
+        required: true
