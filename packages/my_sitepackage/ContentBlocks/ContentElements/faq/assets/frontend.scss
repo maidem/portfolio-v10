@@ -58,7 +58,6 @@
             .cb-faq__content {
                 grid-template-rows: 1fr;
                 opacity: 1;
-                padding-bottom: 2rem;
             }
 
             .cb-faq__icon {
@@ -73,7 +72,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1.5rem 1rem; // 24px und 16px (8er Raster)
+        padding: 1.5rem 1rem; // 24px oben/unten (8er Raster)
         background: none;
         border: none;
         text-align: left;
@@ -107,13 +106,12 @@
         grid-template-rows: 0fr;
         opacity: 0;
         transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                    opacity 0.4s ease,
-                    padding-bottom 0.4s ease;
+                    opacity 0.4s ease;
         overflow: hidden;
 
         &-inner {
             min-height: 0;
-            padding: 0 1rem 2rem 1rem; // 16px beidseitig (8er Raster)
+            padding: 0 1rem 1.5rem 1rem; // 24px unten (8er Raster) für Symmetrie
             color: var(--cb-faq-text-muted);
             line-height: 1.6;
             font-size: 1rem;
