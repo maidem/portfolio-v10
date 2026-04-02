@@ -16,7 +16,7 @@
                     <div class="cb-faq__item" role="listitem">
                         <button class="cb-faq__trigger" aria-expanded="false" type="button">
                             <span class="cb-faq__meta">
-                                <span class="cb-faq__index">{f:if(condition: iter.cycle < 10, then: '0')}{iter.cycle}</span>
+                                <span class="cb-faq__index"><f:if condition="{iter.cycle} < 10">0</f:if>{iter.cycle}</span>
                                 <span class="cb-faq__question">{item.question}</span>
                             </span>
                             <span class="cb-faq__icon">
