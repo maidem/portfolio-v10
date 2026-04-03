@@ -1,7 +1,30 @@
+categories:
+  form.contact:
+    label: "Kontaktformular"
+
 settings:
   footer.storagePid:
-    label: 'Footer Storage PID'
-    description: 'Die UID des Sysfolder-Ordners, in dem das Footer-Element liegt.'
+    label: "Footer Storage PID"
+    description: "Die UID des Sysfolder-Ordners, in dem das Footer-Element liegt."
     type: int
     default: 0
     category: footer
+
+  form.contact.recipientEmail:
+    label: "Empfänger E-Mail"
+    default: "your.email@example.com"
+    type: string
+    category: form.contact
+
+  form.contact.recipientName:
+    label: "Empfänger Name"
+    default: "Portfolio"
+    type: string
+    category: form.contact
+
+  form.contact.privacyPageUid:
+    label: "Datenschutz-Seite (UID)"
+    description: "UID der Datenschutzseite, die im Kontaktformular verlinkt wird."
+    default: 0
+    type: int
+    category: form.contact

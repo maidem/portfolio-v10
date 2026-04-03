@@ -24,23 +24,34 @@
 
         <div class="row position-relative">
             <div class="col-md-3">
-                <div class="cb-sidebar sticky-top" style="top: 5.5rem; z-index: 1020;">
+                <div
+                    class="cb-sidebar sticky-top"
+                    style="top: 5.5rem; z-index: 1020"
+                >
                     <a
                         href="javascript:void(0)"
                         onclick="
-                            if (window.history.length > 1 && document.referrer.indexOf(window.location.host) !== -1) {
+                            if (
+                                window.history.length > 1 &&
+                                document.referrer.indexOf(
+                                    window.location.host,
+                                ) !== -1
+                            ) {
                                 history.back();
                             } else {
                                 window.location.href = '/';
                             }
                         "
-                        class="cb-news-article-back text-uppercase font-monospace text-muted d-inline-block mb-4"
+                        class="cb-news-article-back text-uppercase font-monospace text-muted d-inline-block mb-3"
                     >
                         ← Zurück
                     </a>
-                    
+
                     <!-- TOC Container (populated by frontend.js) -->
-                    <div id="cb-news-article-toc-container"></div>
+                    <div
+                        class="cb-sidebar-card"
+                        id="cb-news-article-toc-container"
+                    ></div>
                 </div>
             </div>
             <div class="col-md-9">

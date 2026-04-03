@@ -2,15 +2,18 @@
   .cb-news-item {
     position: relative;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    padding: 1.25rem 0;
-    transition: background-color 0.25s ease;
+    padding: 1.25rem 0.75rem;
+    border-radius: 0.5rem;
+    transition:
+      background-color 0.25s ease,
+      border-radius 0.25s ease;
 
     &:last-child {
       border-bottom: none;
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.012);
+      background-color: rgba(0, 0, 0, 0.015);
     }
   }
 

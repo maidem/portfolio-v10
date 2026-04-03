@@ -1,11 +1,11 @@
 .cb-footer {
-  padding-bottom: 3rem; // 48px – 8px grid
+  padding-bottom: 2rem; // 32px – 8px grid
 
   &__card {
     align-items: center;
 
     @media (min-width: 768px) {
-      padding: 2rem 3rem; // Compact card for footer
+      padding: 1.5rem 2rem; // 24px 32px – compact footer card
     }
   }
 

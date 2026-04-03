@@ -1,31 +1,37 @@
 styles:
   templates:
-    layoutRootPath: 'EXT:my_sitepackage/Resources/Private/ContentElements/Layouts/'
-    partialRootPath: 'EXT:my_sitepackage/Resources/Private/ContentElements/Partials/'
-    templateRootPath: 'EXT:my_sitepackage/Resources/Private/ContentElements/Templates/'
+    layoutRootPath: "EXT:my_sitepackage/Resources/Private/ContentElements/Layouts/"
+    partialRootPath: "EXT:my_sitepackage/Resources/Private/ContentElements/Partials/"
+    templateRootPath: "EXT:my_sitepackage/Resources/Private/ContentElements/Templates/"
 
 footer:
-  storagePid: '0'
+  storagePid: "0"
+
+form:
+  contact:
+    recipientEmail: "your.email@example.com"
+    recipientName: "Portfolio"
+    privacyPageUid: 0
 
 page:
   pageview:
-    paths: 'EXT:my_sitepackage/Resources/Private/PageView/'
+    paths: "EXT:my_sitepackage/Resources/Private/PageView/"
 
   meta:
-    viewport: 'width=device-width, initial-scale=1'
-    robots: 'index,follow'
-    apple-mobile-web-app-capable: 'no'
-    compatible: 'IE=edge'
+    viewport: "width=device-width, initial-scale=1"
+    robots: "index,follow"
+    apple-mobile-web-app-capable: "no"
+    compatible: "IE=edge"
 
   tracking:
     google:
-      trackingID: ''
-      anonymizeIp: '1'
+      trackingID: ""
+      anonymizeIp: "1"
 
 config:
-  no_cache: '0'
-  removeDefaultJS: '0'
-  admPanel: '1'
-  prefixLocalAnchors: 'all'
-  headerComment: 'build by get.typo3.org/sitepackage'
-  sendCacheHeaders: '1'
+  no_cache: "0"
+  removeDefaultJS: "0"
+  admPanel: "1"
+  prefixLocalAnchors: "all"
+  headerComment: "build by get.typo3.org/sitepackage"
+  sendCacheHeaders: "1"

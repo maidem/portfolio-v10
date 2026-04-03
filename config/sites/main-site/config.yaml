@@ -2,6 +2,7 @@ base: /
 dependencies:
   - typo3/fluid-styled-content
   - gripsraum/my-sitepackage
+  - typo3/form
 languages:
   -
     title: German

@@ -1,5 +1,8 @@
 console.log("Main JS loaded");
 
+// Bootstrap JS – nur Modal-Komponente
+import "bootstrap/js/dist/modal";
+
 // Google Font 'Inter' locally hosted via @fontsource
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
@@ -78,5 +81,3 @@ if (document.readyState === "loading") {
 } else {
     initNav();
 }
-
-

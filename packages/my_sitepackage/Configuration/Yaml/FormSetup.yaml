@@ -1,0 +1,57 @@
+TYPO3:
+  CMS:
+    Form:
+      persistenceManager:
+        allowedExtensionPaths:
+          10: "EXT:my_sitepackage/Resources/Private/Forms/"
+        allowSaveToExtensionPaths: true
+        allowDeleteFromExtensionPaths: true
+      prototypes:
+        standard:
+          formElementsDefinition:
+            Form:
+              renderingOptions:
+                templateRootPaths:
+                  20: "EXT:my_sitepackage/Resources/Private/Frontend/Templates/"
+                partialRootPaths:
+                  20: "EXT:my_sitepackage/Resources/Private/Frontend/Partials/"
+                layoutRootPaths:
+                  20: "EXT:my_sitepackage/Resources/Private/Frontend/Layouts/"
+            Honeypot:
+              renderingOptions:
+                templateRootPaths:
+                  100: "EXT:form/Resources/Private/Frontend/Partials/"
+            MathCaptcha:
+              implementationClassName: 'Gripsraum\MySitepackage\Form\Element\MathCaptcha'
+              renderingOptions:
+                templateName: "Text"
+              properties:
+                containerClassAttribute: "form-element form-element-text mb-3"
+                elementClassAttribute: form-control cb-math-input
+                elementErrorClassAttribute: ""
+                labelClassAttribute: form-label
+              formEditor:
+                iconIdentifier: form-text
+                label: "Sicherheitsabfrage (Math)"
+                group: custom
+                groupSorting: 600
+                _isTopLevelFormElement: false
+                _isCompositeFormElement: false
+                editors:
+                  100:
+                    identifier: header
+                    templateName: Inspector-FormElementHeaderEditor
+                  200:
+                    identifier: label
+                    templateName: Inspector-TextEditor
+                    label: "formEditor.elements.FormElement.editor.label.label"
+                    propertyPath: label
+                  9999:
+                    identifier: removeButton
+                    templateName: Inspector-RemoveElementEditor
+          formEditor:
+            formEditorPartials:
+              FormElement-MathCaptcha: "Stage/SimpleTemplate"
+          validatorsDefinition:
+            MathCaptcha:
+              implementationClassName: 'Gripsraum\MySitepackage\Form\Validator\MathCaptchaValidator'
