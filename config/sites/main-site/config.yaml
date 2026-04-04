@@ -3,6 +3,7 @@ dependencies:
   - typo3/fluid-styled-content
   - gripsraum/my-sitepackage
   - typo3/form
+  - typo3/email
 languages:
   -
     title: German

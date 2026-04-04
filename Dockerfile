@@ -35,7 +35,14 @@ RUN apt-get update && apt-get install -y \
     git \
     zip \
     unzip \
+    locales \
+    && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen \
     && rm -rf /var/lib/apt/lists/*
+
+ENV LANG=de_DE.UTF-8
+ENV LANGUAGE=de_DE:de
+ENV LC_ALL=de_DE.UTF-8
 
 # Use the official PHP extension installer for robust builds
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
