@@ -8,14 +8,24 @@ basics:
   - TYPO3/Appearance
   - TYPO3/Links
 fields:
-  -
-    identifier: header
+  - identifier: header
     useExistingField: true
-  -
-    identifier: subheader
+  - identifier: subheader
     useExistingField: true
-  -
-    identifier: background_image
+  - identifier: display_mode
+    type: Select
+    renderType: selectSingle
+    default: full
+    items:
+      - label: Full Width
+        value: full
+      - label: Split 50/50
+        value: split
+  - identifier: background_image
+    type: File
+    maxitems: 1
+    allowed: common-image-types
+  - identifier: split_left_image
     type: File
     maxitems: 1
     allowed: common-image-types

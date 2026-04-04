@@ -4,23 +4,45 @@
     xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
+    <f:layout name="Preview" />
 
-<f:layout name="Preview"/>
+    <f:section name="Header">
+        <cb:link.editRecord uid="{data.uid}" table="{data.mainType}"
+            ><strong>{data.header}</strong></cb:link.editRecord
+        >
+    </f:section>
 
-<f:section name="Header">
-    <cb:link.editRecord uid="{data.uid}" table="{data.mainType}"><strong>{data.header}</strong></cb:link.editRecord>
-</f:section>
-
-<f:section name="Content">
-    <f:if condition="{data.subheader}">
-        <div><em>{data.subheader}</em></div>
-    </f:if>
-    <f:if condition="{data.background_image}">
-        <div style="margin-top: 10px;">
-            <f:for each="{data.background_image}" as="image">
-                <be:thumbnail image="{image}" width="200" />
-            </f:for>
-        </div>
-    </f:if>
-</f:section>
+    <f:section name="Content">
+        <f:if condition="{data.subheader}">
+            <div><em>{data.subheader}</em></div>
+        </f:if>
+        <f:if condition="{data.display_mode} == 'split'">
+            <div style="margin-top: 6px">
+                <span
+                    style="
+                        display: inline-block;
+                        padding: 2px 6px;
+                        background: #e9ecef;
+                        border-radius: 3px;
+                        font-size: 11px;
+                    "
+                    >Split 50/50</span
+                >
+            </div>
+            <f:if condition="{data.split_left_image}">
+                <div style="margin-top: 8px">
+                    <f:for each="{data.split_left_image}" as="image">
+                        <be:thumbnail image="{image}" width="200" />
+                    </f:for>
+                </div>
+            </f:if>
+        </f:if>
+        <f:if condition="{data.background_image}">
+            <div style="margin-top: 10px">
+                <f:for each="{data.background_image}" as="image">
+                    <be:thumbnail image="{image}" width="200" />
+                </f:for>
+            </div>
+        </f:if>
+    </f:section>
 </html>

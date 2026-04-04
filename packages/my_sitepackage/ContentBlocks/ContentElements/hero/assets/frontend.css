@@ -29,7 +29,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay to make text readable */
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
 
@@ -37,4 +37,51 @@
     position: relative;
     z-index: 2;
     padding: 3rem 1.5rem;
+}
+
+/* ─── Split 50/50 Layout ─────────────────────────────────────────────────── */
+.cb-hero--split {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+}
+
+.cb-hero--split > .row {
+    min-height: 60vh;
+}
+
+.cb-hero-split-left {
+    position: relative;
+    min-height: 300px;
+    overflow: hidden;
+}
+
+.cb-hero-split-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cb-hero-split-right {
+    display: flex;
+    align-items: center;
+    padding: 3rem 2rem;
+    background-color: #fff;
+}
+
+.cb-hero-split-content {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .cb-hero-split-left {
+        min-height: 0;
+    }
+
+    .cb-hero-split-right {
+        padding: 4rem 3rem;
+    }
 }

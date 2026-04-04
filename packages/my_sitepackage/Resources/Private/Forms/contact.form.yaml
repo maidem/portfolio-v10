@@ -1,3 +1,4 @@
+
 identifier: contact
 type: Form
 label: contact
@@ -6,29 +7,32 @@ renderingOptions:
   submitButtonLabel: Absenden
   translation:
     translationFiles:
-      10: "EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf"
+      10: 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
 finishers:
-  - options:
-      subject: "Nachricht von portfolio-v1: {subject}"
+  -
+    options:
+      subject: 'Nachricht von portfolio-v1: {subject}'
       recipients:
-        "{$form.contact.recipientEmail}": "{$form.contact.recipientName}"
-      senderAddress: "{email}"
-      senderName: "{name}"
+        '{$form.contact.recipientEmail}': '{$form.contact.recipientName}'
+      senderAddress: '{email}'
+      senderName: '{name}'
       format: html
       attachUploads: true
       translation:
         language: default
-      title: "Bestätigung deiner Nachricht"
+      title: 'Bestätigung deiner Nachricht'
     identifier: EmailToReceiver
 renderables:
-  - renderingOptions:
-      previousButtonLabel: "Zurück"
-      nextButtonLabel: "Weiter"
+  -
+    renderingOptions:
+      previousButtonLabel: Zurück
+      nextButtonLabel: Weiter
     identifier: page-1
-    label: "Kontaktformular"
+    label: 'Sag Hallo!'
     type: Page
     renderables:
-      - defaultValue: ""
+      -
+        defaultValue: ''
         identifier: name
         label: Name
         type: Text
@@ -38,8 +42,10 @@ renderables:
             autocomplete: name
             required: required
         validators:
-          - identifier: NotEmpty
-      - defaultValue: ""
+          -
+            identifier: NotEmpty
+      -
+        defaultValue: ''
         identifier: subject
         label: Betreff
         type: Text
@@ -48,39 +54,48 @@ renderables:
             placeholder: Betreff
             required: required
         validators:
-          - identifier: NotEmpty
-      - defaultValue: ""
+          -
+            identifier: NotEmpty
+      -
+        defaultValue: ''
         identifier: email
         label: E-Mail
         type: Email
         properties:
           fluidAdditionalAttributes:
-            placeholder: "E-Mail-Adresse"
+            placeholder: E-Mail-Adresse
             autocomplete: email
             required: required
         validators:
-          - identifier: NotEmpty
-          - identifier: EmailAddress
-      - defaultValue: ""
+          -
+            identifier: NotEmpty
+          -
+            identifier: EmailAddress
+      -
+        defaultValue: ''
         identifier: message
         label: Nachricht
         type: Textarea
         properties:
           fluidAdditionalAttributes:
-            placeholder: "Deine Nachricht..."
+            placeholder: 'Deine Nachricht...'
             required: required
         validators:
-          - identifier: NotEmpty
-      - identifier: privacy
+          -
+            identifier: NotEmpty
+      -
+        identifier: privacy
         type: Checkbox
-        label: "Ja, ich habe die "
+        label: '<p>Ja, ich habe die </p>'
         properties:
-          privacyPageUid: "{$form.contact.privacyPageUid}"
-          privacyLinkText: "Datenschutzerklärung"
-          labelSuffix: " zur Kenntnis genommen und bin damit einverstanden, dass die von mir angegebenen Daten elektronisch erhoben und gespeichert werden. Meine Daten werden dabei nur streng zweckgebunden zur Bearbeitung und Beantwortung meiner Anfrage genutzt."
+          privacyPageUid: '{$form.contact.privacyPageUid}'
+          privacyLinkText: Datenschutzerklärung
+          labelSuffix: ' zur Kenntnis genommen und bin damit einverstanden, dass die von mir angegebenen Daten elektronisch erhoben und gespeichert werden. Meine Daten werden dabei nur streng zweckgebunden zur Bearbeitung und Beantwortung meiner Anfrage genutzt.'
         validators:
-          - identifier: NotEmpty
-      - defaultValue: ""
+          -
+            identifier: NotEmpty
+      -
+        defaultValue: ''
         identifier: math
         type: MathCaptcha
         label: Sicherheitsabfrage
@@ -88,7 +103,10 @@ renderables:
           fluidAdditionalAttributes:
             required: required
         validators:
-          - identifier: NotEmpty
-          - identifier: MathCaptcha
+          -
+            identifier: NotEmpty
+          -
+            identifier: MathCaptcha
             options:
               formIdentifier: contact
+variants: {  }

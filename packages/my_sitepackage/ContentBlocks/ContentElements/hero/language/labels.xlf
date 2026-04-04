@@ -12,6 +12,12 @@
       <trans-unit id="background_image">
         <source>Background Image</source>
       </trans-unit>
+      <trans-unit id="display_mode">
+        <source>Layout Mode</source>
+      </trans-unit>
+      <trans-unit id="split_left_image">
+        <source>Left Column Image</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

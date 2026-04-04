@@ -93,5 +93,5 @@ Dieses Setup demonstriert modernes **DevOps für PHP/TYPO3**. Es kombiniert inte
 
 ---
 
-_Erstellt mit ❤️ für effiziente TYPO3-Workflows._
+_Erstellt mit ❤️ für effiziente TYPO3-Workflows.
 //

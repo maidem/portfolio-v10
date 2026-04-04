@@ -8,34 +8,39 @@
         <vite:asset
             entry="EXT:my_sitepackage/Resources/Private/Frontend/Form.entry.scss"
         />
-        <div class="container">
-            <div class="cb-form">
-                <formvh:form
-                    object="{form}"
-                    action="{form.renderingOptions.controllerAction}"
-                    method="{form.renderingOptions.httpMethod}"
-                    id="{form.identifier}"
-                    section="{form.identifier}"
-                    enctype="{form.renderingOptions.httpEnctype}"
-                    addQueryString="{form.renderingOptions.addQueryString}"
-                    argumentsToBeExcludedFromQueryString="{form.renderingOptions.argumentsToBeExcludedFromQueryString}"
-                    additionalParams="{form.renderingOptions.additionalParams}"
-                    additionalAttributes="{formvh:translateElementProperty(element: form, property: 'fluidAdditionalAttributes')}"
-                    novalidate="novalidate"
-                >
-                    <f:render
-                        partial="{form.currentPage.templateName}"
-                        arguments="{page: form.currentPage}"
-                    />
-                    <div
-                        class="{form.renderingOptions.formNavigation.navigationWrapperClassAttribute}"
+        <div class="container" id="contact">
+            <div class="cb-card">
+                <div class="cb-card__left">
+                    <h2 class="cb-card__title">{form.currentPage.label}</h2>
+                </div>
+                <div class="cb-card__right cb-form">
+                    <formvh:form
+                        object="{form}"
+                        action="{form.renderingOptions.controllerAction}"
+                        method="{form.renderingOptions.httpMethod}"
+                        id="{form.identifier}"
+                        section="{form.identifier}"
+                        enctype="{form.renderingOptions.httpEnctype}"
+                        addQueryString="{form.renderingOptions.addQueryString}"
+                        argumentsToBeExcludedFromQueryString="{form.renderingOptions.argumentsToBeExcludedFromQueryString}"
+                        additionalParams="{form.renderingOptions.additionalParams}"
+                        additionalAttributes="{formvh:translateElementProperty(element: form, property: 'fluidAdditionalAttributes')}"
+                        novalidate="novalidate"
                     >
                         <f:render
-                            partial="Form/Navigation"
-                            arguments="{form: form}"
+                            partial="{form.currentPage.templateName}"
+                            arguments="{page: form.currentPage}"
                         />
-                    </div>
-                </formvh:form>
+                        <div
+                            class="{form.renderingOptions.formNavigation.navigationWrapperClassAttribute}"
+                        >
+                            <f:render
+                                partial="Form/Navigation"
+                                arguments="{form: form}"
+                            />
+                        </div>
+                    </formvh:form>
+                </div>
             </div>
 
             <div
