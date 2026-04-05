@@ -86,7 +86,7 @@ renderables:
       -
         identifier: privacy
         type: Checkbox
-        label: '<p>Ja, ich habe die </p>'
+        label: 'Ja, ich habe die '
         properties:
           privacyPageUid: '{$form.contact.privacyPageUid}'
           privacyLinkText: Datenschutzerklärung

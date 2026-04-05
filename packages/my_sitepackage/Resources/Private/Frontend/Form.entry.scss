@@ -1,298 +1,119 @@
-// ─── Form Wrapper — sits inside .cb-card__right, no own box needed ───────────
-.cb-form {
-  // background, border, shadow and padding come from .cb-card
-}
+// =============================
+// Form Specific Design Tokens (Glass Hybrid)
+// =============================
+$glass-form-bg: rgba(148, 163, 184, 0.1);
+$glass-form-border: rgba(148, 163, 184, 0.2);
+$text-primary: #1e293b;
+$text-secondary: #64748b;
 
-// ─── Labels ──────────────────────────────────────────────────────────────────
 .cb-form {
-  .form-label {
-    display: block;
-    font-size: 0.75rem; // 12px
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.4);
-    margin-bottom: 0.5rem; // 8px
-    transition: color 0.2s ease;
-  }
-
-  .form-element:focus-within > .form-label {
-    color: #111;
-  }
-}
-
-// ─── Inputs & Textarea ───────────────────────────────────────────────────────
-.cb-form {
+  // ─── Input Fields ──────────────────────────────────────────────────────────
   .form-control {
-    display: block;
-    width: 100%;
-    background: #f8f9fa;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
-    font-family: inherit;
-    font-size: 1rem;
-    color: #111;
-    line-height: 1.5;
-    transition:
-      border-color 0.2s ease,
-      background 0.2s ease,
-      box-shadow 0.2s ease;
-    appearance: none;
+    background-color: $glass-form-bg;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid $glass-form-border;
+    border-radius: 1rem;
+    color: $text-primary;
+    padding: 0.8rem 1.25rem;
+    transition: all 0.2s ease-in-out;
 
     &::placeholder {
-      color: rgba(0, 0, 0, 0.3);
-      font-weight: 400;
+      color: rgba(30, 41, 59, 0.3);
     }
 
     &:focus {
+      background-color: rgba(148, 163, 184, 0.15);
+      border-color: rgba(30, 41, 59, 0.4);
+      box-shadow: 0 4px 12px rgba(30, 41, 59, 0.05);
       outline: none;
-      background: #fff;
-      border-color: #111;
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
-    }
-
-    &.is-invalid {
-      border-color: #ef4444;
-      background: #fff7f7;
-
-      &:focus {
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-      }
     }
   }
 
   textarea.form-control {
-    min-height: 150px;
-    resize: vertical;
+    min-height: 220px;
   }
-}
 
-// ─── Field Container Spacing ─────────────────────────────────────────────────
-.cb-form {
-  .form-element {
-    margin-bottom: 1.5rem; // 24px
-  }
-}
-
-// ─── Required Mark ───────────────────────────────────────────────────────────
-.cb-form {
-  .required {
-    color: #111;
-    font-weight: 900;
-    margin-left: 0.2em;
-    font-size: 0.9em;
-    vertical-align: middle;
-  }
-}
-
-// ─── Validation Error Messages ───────────────────────────────────────────────
-.cb-form {
-  .invalid-feedback {
+  label, .form-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: $text-secondary;
+    margin-bottom: 0.6rem;
     display: block;
-    margin-top: 0.4rem;
-    font-size: 0.8125rem; // 13px
-    font-weight: 600;
-    color: #ef4444;
+  }
 
-    &::before {
-      content: "";
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      margin-right: 0.3rem;
-      vertical-align: -2px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 8v4m0 4h.01'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-size: contain;
+  // ─── Submit Button (Styled like Technical Badge) ───────────────────────────
+  .cb-form-submit {
+    background-color: $glass-form-bg;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid $glass-form-border !important;
+    color: $text-primary;
+    border-radius: 999px;
+    padding: 0.8rem 2.5rem;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(148, 163, 184, 0.2);
+      border-color: rgba(30, 41, 59, 0.3) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
   }
-}
 
-// ─── Checkbox (Privacy) ──────────────────────────────────────────────────────
-.cb-form {
-  .form-element-check {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-check-wrapping-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    cursor: pointer;
-    margin: 0;
-  }
-
+  // ─── Checkbox ──────────────────────────────────────────────────────────────
   .form-check-input {
-    flex-shrink: 0;
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-top: 0.1rem;
+    background-color: $glass-form-bg;
+    border: 1px solid $glass-form-border;
+    width: 1.2rem;
+    height: 1.2rem;
     cursor: pointer;
-    appearance: none;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
-    background: #f8f9fa;
-    transition:
-      border-color 0.2s ease,
-      background 0.2s ease,
-      box-shadow 0.2s ease;
 
     &:checked {
-      background-color: #111;
-      border-color: #111;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m5 10 3.5 3.5L15 6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 75%;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: #111;
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
-    }
-
-    &.is-invalid {
-      border-color: #ef4444;
-
-      &:focus {
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-      }
+      background-color: rgba(30, 41, 59, 0.5);
+      border-color: rgba(30, 41, 59, 0.6);
     }
   }
 
   .form-check-label {
     font-size: 0.875rem;
-    color: rgba(0, 0, 0, 0.55);
-    line-height: 1.6;
-    font-weight: 400;
+    color: #475569;
+    font-weight: 500;
+    padding-left: 0.5rem;
 
     a {
-      color: #111;
-      font-weight: 600;
+      color: #1e293b;
+      font-weight: 700;
       text-decoration: underline;
-      text-underline-offset: 3px;
-      transition: opacity 0.2s ease;
-
-      &:hover {
-        opacity: 0.7;
-      }
+      text-underline-offset: 2px;
     }
   }
-}
 
-// ─── Form Navigation / Submit Button ─────────────────────────────────────────
-.cb-form {
-  .actions {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  // ─── Navigation (Alignment) ───────────────────────────────────────────────
+  nav {
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
-  }
-}
-
-// Submit button
-.cb-form-submit {
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  padding: 0.875rem 2rem;
-  min-height: 48px;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1;
-  color: #111;
-  background-color: #f8f9fa;
-  border-color: rgba(0, 0, 0, 0.15) !important;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-
-  &:hover,
-  &:focus-visible {
-    background-color: #111;
-    border-color: #111 !important;
-    color: #fff;
-    box-shadow: none !important;
-    outline: none;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
 
-  &:active {
-    transform: translateY(1px);
-  }
-}
-
-// ─── Math Captcha (Sicherheitsabfrage) ──────────────────────────────────────
-.cb-form {
+  // ─── Math Captcha ─────────────────────────────────────────────────────────
   .cb-math-input {
-    max-width: 80px;
-  }
-}
-
-// ─── Confirmation / Success State ────────────────────────────────────────────
-.cb-form-confirmation {
-  text-align: center;
-  padding: 3rem 1.5rem;
-
-  @media (min-width: 768px) {
-    padding: 4rem 2rem;
-  }
-
-  .cb-form-success-icon {
-    width: 4rem;
-    height: 4rem;
-    background: #111;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 2rem;
-    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.06);
-
-    svg {
-      width: 1.75rem;
-      height: 1.75rem;
-      stroke: #fff;
-    }
-  }
-}
-
-// ─── Privacy Modal ───────────────────────────────────────────────────────────
-
-// Prevent scrollbar jump when modal opens
-body.modal-open {
-  overflow-y: scroll !important;
-  padding-right: 0 !important;
-}
-
-.modal-backdrop {
-  // Reset Bootstrap's padding-right compensation
-}
-
-#privacyModal {
-  .modal-content {
-    border-radius: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-  }
-
-  .modal-header {
-    border-bottom-color: rgba(0, 0, 0, 0.06);
-    padding: 1.25rem 1.5rem;
-  }
-
-  .modal-title {
-    font-size: 1rem;
+    max-width: 100px;
+    text-align: center;
     font-weight: 700;
   }
-
-  .modal-body {
-    padding: 1.5rem;
-    max-height: 70vh;
-    overflow-y: auto;
-  }
 }
+

@@ -18,7 +18,7 @@ const initSkills = () => {
         skills.forEach(skill => {
             const pill = document.createElement('span');
             // Bootstrap: badge (base), rounded-pill (pill shape), text-bg-light (theme)
-            pill.className = 'badge rounded-pill text-bg-light border cb-skills-item px-3 py-2 text-dark font-monospace fw-normal';
+            pill.className = 'glass-badge-pill px-3 py-1 font-monospace fw-normal';
             pill.textContent = skill;
             container.appendChild(pill);
         });
