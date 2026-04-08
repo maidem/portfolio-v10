@@ -1,32 +1,40 @@
 // =============================
 // Form Specific Design Tokens (Glass Hybrid)
 // =============================
-$glass-form-bg: rgba(148, 163, 184, 0.1);
-$glass-form-border: rgba(148, 163, 184, 0.2);
-$text-primary: #1e293b;
-$text-secondary: #64748b;
+$glass-form-bg: rgba(0, 0, 0, 0.05);
+$glass-form-border: rgba(0, 0, 0, 0.1);
+$text-primary: #111111;
+$text-secondary: #777777;
 
 .cb-form {
   // ─── Input Fields ──────────────────────────────────────────────────────────
   .form-control {
-    background-color: $glass-form-bg;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid $glass-form-border;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none !important; // Absolute glass minimalism
     border-radius: 1rem;
-    color: $text-primary;
-    padding: 0.8rem 1.25rem;
+    color: #ffffff !important; // Forced white
+    caret-color: #ffffff !important;
+    padding: 1rem 1.25rem;
+    
+    // Fix for unsharp text on glass backgrounds
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0); 
+    
     transition: all 0.2s ease-in-out;
 
     &::placeholder {
-      color: rgba(30, 41, 59, 0.3);
+      color: rgba(255, 255, 255, 0.3) !important;
     }
 
     &:focus {
-      background-color: rgba(148, 163, 184, 0.15);
-      border-color: rgba(30, 41, 59, 0.4);
-      box-shadow: 0 4px 12px rgba(30, 41, 59, 0.05);
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.4) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       outline: none;
+      color: #ffffff !important;
     }
   }
 
@@ -39,61 +47,60 @@ $text-secondary: #64748b;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: $text-secondary;
+    color: rgba(255, 255, 255, 0.8) !important; // Brighter
     margin-bottom: 0.6rem;
     display: block;
   }
 
   // ─── Submit Button (Styled like Technical Badge) ───────────────────────────
   .cb-form-submit {
-    background-color: $glass-form-bg;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid $glass-form-border !important;
-    color: $text-primary;
+    background-color: #F4F06B; 
+    border: none !important; // Removed to match PDF button height
+    color: #000 !important;
     border-radius: 999px;
-    padding: 0.8rem 2.5rem;
-    font-weight: 700;
+    padding: 0.8rem 3.2rem; // Unified padding
+    font-weight: 800;
     font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.3s ease;
+    letter-spacing: 0.12em;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
 
     &:hover {
-      background-color: rgba(148, 163, 184, 0.2);
-      border-color: rgba(30, 41, 59, 0.3) !important;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      background-color: transparent !important;
+      color: #F4F06B !important;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(237, 245, 38, 0.15);
     }
 
     &:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
   }
 
   // ─── Checkbox ──────────────────────────────────────────────────────────────
   .form-check-input {
-    background-color: $glass-form-bg;
-    border: 1px solid $glass-form-border;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     width: 1.2rem;
     height: 1.2rem;
     cursor: pointer;
 
     &:checked {
-      background-color: rgba(30, 41, 59, 0.5);
-      border-color: rgba(30, 41, 59, 0.6);
+      background-color: #F4F06B !important;
+      border-color: #F4F06B !important;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
     }
   }
 
   .form-check-label {
     font-size: 0.875rem;
-    color: #475569;
+    color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 500;
     padding-left: 0.5rem;
 
     a {
-      color: #1e293b;
+      color: #fff;
       font-weight: 700;
       text-decoration: underline;
       text-underline-offset: 2px;
@@ -106,7 +113,7 @@ $text-secondary: #64748b;
     justify-content: flex-end;
     margin-top: 2.5rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   // ─── Math Captcha ─────────────────────────────────────────────────────────

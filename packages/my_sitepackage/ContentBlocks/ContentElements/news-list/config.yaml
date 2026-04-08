@@ -1,14 +1,24 @@
 name: gripsraum/news-list
+typeName: gripsraum_newslist
 group: default
+prefixFields: true
+prefixType: full
+basics:
+  - TYPO3/Appearance
 fields:
   - identifier: header
     useExistingField: true
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
   - identifier: storage_folder
     type: Relation
-    label: Ordner mit News-Einträgen
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/news-list/language/labels.xlf:storage_folder.label
     foreign_table: pages
     allowed: pages
   - identifier: max_items
     type: Number
-    label: Maximum number of items to show
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/news-list/language/labels.xlf:max_items.label
     default: 10

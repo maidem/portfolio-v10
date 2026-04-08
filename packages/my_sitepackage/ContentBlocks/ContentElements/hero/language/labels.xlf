@@ -1,23 +1,28 @@
-<?xml version="1.0"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file datatype="plaintext" original="labels.xlf" source-language="en" date="2026-03-18T12:36:15+00:00" product-name="gripsraum/hero">
-    <header/>
-    <body>
-      <trans-unit id="title">
-        <source>Hero</source>
-      </trans-unit>
-      <trans-unit id="description">
-        <source>A hero banner with background image, headline and subheadline</source>
-      </trans-unit>
-      <trans-unit id="background_image">
-        <source>Background Image</source>
-      </trans-unit>
-      <trans-unit id="display_mode">
-        <source>Layout Mode</source>
-      </trans-unit>
-      <trans-unit id="split_left_image">
-        <source>Left Column Image</source>
-      </trans-unit>
-    </body>
-  </file>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="labels.xlf">
+        <body>
+            <trans-unit id="title">
+                <source>Hero</source>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>A large hero element with background image and text.</source>
+            </trans-unit>
+            <trans-unit id="display_mode.label">
+                <source>Display Mode</source>
+            </trans-unit>
+            <trans-unit id="display_mode.full">
+                <source>Full Width</source>
+            </trans-unit>
+            <trans-unit id="display_mode.split">
+                <source>Split 50/50</source>
+            </trans-unit>
+            <trans-unit id="background_image.label">
+                <source>Background Image</source>
+            </trans-unit>
+            <trans-unit id="split_left_image.label">
+                <source>Split Left Image</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

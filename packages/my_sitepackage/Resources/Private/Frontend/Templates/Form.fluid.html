@@ -8,8 +8,8 @@
         <vite:asset
             entry="EXT:my_sitepackage/Resources/Private/Frontend/Form.entry.scss"
         />
-        <div class="container" id="contact">
-            <div class="cb-card">
+        <div class="container" id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'contact')}">
+            <div class="cb-card cb-card--dark">
                 <div class="cb-card__left">
                     <h2 class="cb-card__title">{form.currentPage.label}</h2>
                 </div>

@@ -7,21 +7,8 @@ renderingOptions:
   submitButtonLabel: Absenden
   translation:
     translationFiles:
-      10: 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
-finishers:
-  -
-    options:
-      subject: 'Nachricht von portfolio-v1: {subject}'
-      recipients:
-        '{$form.contact.recipientEmail}': '{$form.contact.recipientName}'
-      senderAddress: '{email}'
-      senderName: '{name}'
-      format: html
-      attachUploads: true
-      translation:
-        language: default
-      title: 'Bestätigung deiner Nachricht'
-    identifier: EmailToReceiver
+      - 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
+finishers: {  }
 renderables:
   -
     renderingOptions:
@@ -34,24 +21,12 @@ renderables:
       -
         defaultValue: ''
         identifier: name
-        label: Name
+        label: Firma
         type: Text
         properties:
           fluidAdditionalAttributes:
             placeholder: Name
             autocomplete: name
-            required: required
-        validators:
-          -
-            identifier: NotEmpty
-      -
-        defaultValue: ''
-        identifier: subject
-        label: Betreff
-        type: Text
-        properties:
-          fluidAdditionalAttributes:
-            placeholder: Betreff
             required: required
         validators:
           -
@@ -86,11 +61,8 @@ renderables:
       -
         identifier: privacy
         type: Checkbox
-        label: 'Ja, ich habe die '
         properties:
           privacyPageUid: '{$form.contact.privacyPageUid}'
-          privacyLinkText: Datenschutzerklärung
-          labelSuffix: ' zur Kenntnis genommen und bin damit einverstanden, dass die von mir angegebenen Daten elektronisch erhoben und gespeichert werden. Meine Daten werden dabei nur streng zweckgebunden zur Bearbeitung und Beantwortung meiner Anfrage genutzt.'
         validators:
           -
             identifier: NotEmpty

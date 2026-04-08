@@ -3,7 +3,20 @@ typeName: gripsraum_about
 group: default
 prefixFields: true
 prefixType: full
+basics:
+  - TYPO3/Appearance
 fields:
-  -
-    identifier: header
+  - identifier: header
     useExistingField: true
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: bodytext
+    useExistingField: true
+  - identifier: about_image
+    type: File
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/about/language/labels.xlf:about_image.label
+    maxitems: 1
+    allowed: common-image-types

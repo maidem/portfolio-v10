@@ -8,10 +8,26 @@ basics:
 fields:
   - identifier: header
     useExistingField: true
-
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: bodytext
+    useExistingField: true
+    label: "Einleitung (Über mich)"
+  - identifier: about_image
+    type: File
+    label: "Profilbild"
+    maxitems: 1
+    allowed: common-image-types
+  - identifier: faq_header
+    type: Text
+    label: "Überschrift (FAQ)"
+    default: "HÄUFIGE FRAGEN"
   - identifier: faq_items
     type: Collection
-    label: FAQ-Einträge
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:faq_items.label
     labelField: question
     minitems: 1
     maxitems: 20
@@ -21,10 +37,10 @@ fields:
     fields:
       - identifier: question
         type: Text
-        label: Frage
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:question.label
         required: true
       - identifier: answer
         type: Textarea
-        label: Antwort
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:answer.label
         enableRichtext: true
         required: true

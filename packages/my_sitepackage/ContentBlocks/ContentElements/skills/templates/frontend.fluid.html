@@ -1,21 +1,21 @@
-<section id="skills">
-    <div class="container cb-skills-wrapper" id="c{data.uid}">
+<section id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}">
+    <div class="container cb-skills-wrapper">
         <f:if condition="{data.skill_collections}">
-            <f:for
-                each="{data.skill_collections}"
-                as="collection"
-                iteration="iter"
-            >
-                <div class="cb-card">
-                    <f:if condition="{collection.section_title}">
-                        <div class="cb-card__left">
+            <div class="cb-card cb-skills-unified-card">
+                <f:for
+                    each="{data.skill_collections}"
+                    as="collection"
+                    iteration="iter"
+                >
+                    <div class="cb-card__left {f:if(condition: iter.isFirst, else: 'mt-4 mt-md-0')}">
+                        <f:if condition="{collection.section_title}">
                             <h3 class="cb-card__title">
                                 {collection.section_title}
                             </h3>
-                        </div>
-                    </f:if>
+                        </f:if>
+                    </div>
 
-                    <div class="cb-card__right">
+                    <div class="cb-card__right {f:if(condition: iter.isFirst, else: 'mt-1 mt-md-0')}">
                         <f:if condition="{collection.skills_list}">
                             <div
                                 class="d-flex flex-wrap gap-2 skill-pills-container"
@@ -29,8 +29,8 @@
                             </div>
                         </f:if>
                     </div>
-                </div>
-            </f:for>
+                </f:for>
+            </div>
         </f:if>
     </div>
 </section>

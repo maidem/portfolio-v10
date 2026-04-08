@@ -3,7 +3,7 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <div class="container cb-news-article" id="c{data.uid}">
+    <div class="container cb-news-article" id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}">
         <div class="cb-card" style="padding: 4rem 3rem;">
             <!-- Header Block - Now without the border-bottom line -->
             <div class="row mb-5 pb-5">

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2026-03-17UTC22:05:270">
-        <header>
-            <authorName>Maik Demuth</authorName>
-            <authorEmail>connect@maidem.de</authorEmail>
-        </header>
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages">
         <body>
             <trans-unit id="anchor_id.label">
                 <source>Anchor ID</source>
+                <target>Anker-ID</target>
             </trans-unit>
             <trans-unit id="anchor_id.description">
                 <source>Enter a unique ID for this section (e.g., 'projects', 'about') to use in navigation and Scrollspy. Fallback is the element UID.</source>
+                <target>Gib eine eindeutige ID für diesen Abschnitt an (z. B. 'projects', 'about'), um ihn in der Navigation und für Scrollspy zu nutzen. Standard ist die Element-UID.</target>
             </trans-unit>
         </body>
     </file>

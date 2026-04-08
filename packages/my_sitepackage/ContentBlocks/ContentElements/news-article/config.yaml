@@ -1,21 +1,29 @@
 name: gripsraum/news-article
+typeName: gripsraum_newsarticle
 group: default
+prefixFields: true
+prefixType: full
+basics:
+  - TYPO3/Appearance
 fields:
   - identifier: header
     useExistingField: true
-    label: Headline
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
   - identifier: project_date
     type: DateTime
-    label: Veröffentlichungsdatum
-  - identifier: teaser_image
-    type: File
-    label: Teaser-Bild (Für die Anzeige in der Liste)
-    maxitems: 1
-    allowed: common-image-types
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/news-article/language/labels.xlf:project_date.label
   - identifier: teaser_text
     type: Textarea
-    label: Kurzfassung (Für die Liste)
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/news-article/language/labels.xlf:teaser_text.label
+    required: true
   - identifier: bodytext
     useExistingField: true
-    label: Der eigentliche Artikel (Haupttext)
-    enableRichtext: true
+  - identifier: images
+    type: File
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/news-article/language/labels.xlf:images.label
+    maxitems: 5
+    allowed: common-image-types

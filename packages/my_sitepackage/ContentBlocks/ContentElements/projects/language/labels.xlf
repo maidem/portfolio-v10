@@ -1,14 +1,28 @@
-<?xml version="1.0"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file datatype="plaintext" original="labels.xlf" source-language="en" date="2026-03-23T15:43:41+00:00" product-name="gripsraum/projects">
-    <header/>
-    <body>
-      <trans-unit id="title">
-        <source>Projekte</source>
-      </trans-unit>
-      <trans-unit id="description">
-        <source>Description for Content Element gripsraum/projects</source>
-      </trans-unit>
-    </body>
-  </file>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="labels.xlf">
+        <body>
+            <trans-unit id="title">
+                <source>Projects</source>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>A section displaying multiple projects in a list or grid.</source>
+            </trans-unit>
+            <trans-unit id="project_items.label">
+                <source>Project Items</source>
+            </trans-unit>
+            <trans-unit id="title.label">
+                <source>Project Title</source>
+            </trans-unit>
+            <trans-unit id="description.label">
+                <source>Project Description</source>
+            </trans-unit>
+            <trans-unit id="project_link.label">
+                <source>Project Link</source>
+            </trans-unit>
+            <trans-unit id="project_image.label">
+                <source>Project Image</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

@@ -1,20 +1,35 @@
-<?xml version="1.0"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file datatype="plaintext" original="labels.xlf" source-language="en" target-language="de" date="2026-03-18T12:36:15+00:00" product-name="gripsraum/hero">
-    <header/>
-    <body>
-      <trans-unit id="title">
-        <source>Hero</source>
-        <target>Hero (Startbildschirm)</target>
-      </trans-unit>
-      <trans-unit id="description">
-        <source>A hero banner with background image, headline and subheadline</source>
-        <target>Ein Hero-Banner mit Hintergrundbild, Überschrift und Untertitel</target>
-      </trans-unit>
-      <trans-unit id="background_image">
-        <source>Background Image</source>
-        <target>Hintergrundbild</target>
-      </trans-unit>
-    </body>
-  </file>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="labels.xlf">
+        <body>
+            <trans-unit id="title">
+                <source>Hero</source>
+                <target>Hero-Bereich</target>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>A large hero element with background image and text.</source>
+                <target>Ein großes Hero-Element mit Hintergrundbild und Text.</target>
+            </trans-unit>
+            <trans-unit id="display_mode.label">
+                <source>Display Mode</source>
+                <target>Anzeige-Modus</target>
+            </trans-unit>
+            <trans-unit id="display_mode.full">
+                <source>Full Width</source>
+                <target>Volle Breite</target>
+            </trans-unit>
+            <trans-unit id="display_mode.split">
+                <source>Split 50/50</source>
+                <target>Geteilt 50/50</target>
+            </trans-unit>
+            <trans-unit id="background_image.label">
+                <source>Background Image</source>
+                <target>Hintergrundbild</target>
+            </trans-unit>
+            <trans-unit id="split_left_image.label">
+                <source>Split Left Image</source>
+                <target>Bild links (bei Teilung)</target>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

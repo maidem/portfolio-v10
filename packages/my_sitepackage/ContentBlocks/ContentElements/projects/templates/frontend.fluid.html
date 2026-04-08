@@ -3,8 +3,9 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <section id="projects">
-        Frontend template for Content Block: gripsraum/projects<br />
-        Header: {data.header}
+    <section id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}">
+        <f:if condition="{data.header}">
+            <h2>{data.header}</h2>
+        </f:if>
     </section>
 </html>

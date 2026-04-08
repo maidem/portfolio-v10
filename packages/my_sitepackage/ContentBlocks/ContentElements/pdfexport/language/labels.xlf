@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="plaintext" original="labels.xlf" source-language="en" date="2026-04-08T03:11:54+00:00" product-name="gripsraum/pdfexport">
+    <header/>
+    <body>
+      <trans-unit id="title">
+        <source>Portfolio PDF Engine</source>
+      </trans-unit>
+      <trans-unit id="description">
+        <source>An interactive element that allows users to select sections for a custom PDF export.</source>
+      </trans-unit>
+      <trans-unit id="header">
+        <source>Headline (Left Column)</source>
+      </trans-unit>
+      <trans-unit id="bodytext">
+        <source>Description Text (Left Column)</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

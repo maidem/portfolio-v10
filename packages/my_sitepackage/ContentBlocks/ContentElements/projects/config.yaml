@@ -3,7 +3,38 @@ typeName: gripsraum_projects
 group: default
 prefixFields: true
 prefixType: full
+basics:
+  - TYPO3/Appearance
 fields:
-  -
-    identifier: header
+  - identifier: header
     useExistingField: true
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: project_items
+    type: Collection
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/projects/language/labels.xlf:project_items.label
+    labelField: title
+    minitems: 1
+    maxitems: 30
+    appearance:
+      collapseAll: true
+    fields:
+      - identifier: title
+        type: Text
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/projects/language/labels.xlf:title.label
+        required: true
+      - identifier: description
+        type: Textarea
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/projects/language/labels.xlf:description.label
+        required: true
+      - identifier: project_link
+        type: Link
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/projects/language/labels.xlf:project_link.label
+      - identifier: project_image
+        type: File
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/projects/language/labels.xlf:project_image.label
+        maxitems: 1
+        allowed: common-image-types

@@ -43,7 +43,7 @@
                         aria="{aria}"
                     />
                     <span class="{element.properties.labelTextClassAttribute}">
-                        {element.label}<f:if
+                        {formvh:translateElementProperty(element: element, property: 'label')}<f:if
                             condition="{element.properties.privacyPageUid}"
                             ><f:variable name="privacyUrl"
                                 ><f:uri.page
@@ -54,8 +54,8 @@
                             data-bs-toggle="modal"
                             data-bs-target="#privacyModal"
                             data-privacy-url="{privacyUrl}"
-                            >{element.properties.privacyLinkText}</a
-                        >{element.properties.labelSuffix}
+                            >{formvh:translateElementProperty(element: element, property: 'privacyLinkText')}</a
+                        >{formvh:translateElementProperty(element: element, property: 'labelSuffix')}
                         <f:if condition="{element.required}"
                             ><f:render
                                 partial="Field/Required"

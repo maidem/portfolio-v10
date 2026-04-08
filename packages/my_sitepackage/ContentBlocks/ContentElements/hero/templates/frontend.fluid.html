@@ -10,7 +10,7 @@
 
     <f:if condition="{data.display_mode} == 'split'">
         <f:then>
-            <section class="cb-hero cb-hero--split" id="hero">
+            <section class="cb-hero cb-hero--split" id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}">
                 <div class="row g-0">
                     <div class="col-12 col-md-6 cb-hero-split-left">
                         <f:if condition="{data.split_left_image}">
@@ -38,7 +38,7 @@
         <f:else>
             <section
                 class="cb-hero text-center {f:if(condition: data.background_image, then: 'text-white')}"
-                id="hero"
+                id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
             >
                 <f:if condition="{data.background_image}">
                     <div class="cb-hero-bg">

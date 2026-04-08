@@ -1,29 +1,28 @@
 .cb-footer {
-  padding-bottom: 2rem; // 32px – 8px grid
+  background-color: transparent;
+  padding: 8rem 0 4rem; // Huge negative space top to give editorial breathing room.
+  margin: 0;
 
-  &__card {
-    align-items: center;
-
-    @media (min-width: 768px) {
-      padding: 1.5rem 2rem; // 24px 32px – compact footer card
-    }
+  >.container {
+    max-width: 800px; // Keep it perfectly centered and narrow like the rest of the text elements
+    border-top: none; // Absolutely no line
+    padding-top: 0;
   }
 
   &__copyright {
-    font-size: 0.75rem; // 12px
-    font-family: "Inter", monospace;
+    font-size: 0.65rem; // Very minimal footprint
     letter-spacing: 0.05em;
     color: rgba(0, 0, 0, 0.4);
     text-transform: uppercase;
     display: block;
-    margin-bottom: 0.5rem; // 8px
+    margin: 0;
   }
 
   &__nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem; // 32px
+    gap: 3rem; // Wide airy gaps
     flex-wrap: wrap;
 
     @media (min-width: 768px) {
@@ -32,29 +31,31 @@
   }
 
   &__link {
-    font-size: 0.75rem; // 12px
-    font-family: "Inter", monospace;
-    letter-spacing: 0.05em;
+    font-size: 0.65rem; // Micro typography
+    font-family: inherit; // Already using monospace via Fluid classes, but this resets just in case
+    font-weight: 500;
+    letter-spacing: 0.15em; // Wide tracking for premium airy look
     text-transform: uppercase;
     text-decoration: none;
-    color: rgba(0, 0, 0, 0.45);
-    transition: color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    color: rgba(0, 0, 0, 0.4); // Subtle baseline
+    transition: color 0.4s ease, transform 0.4s ease;
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.5rem;
 
     &:hover {
-      color: rgba(0, 0, 0, 0.9);
+      color: rgba(0, 0, 0, 0.9); // Gentle fade to strong contrast on hover
     }
   }
 
   &__icon {
     width: 14px;
     height: 14px;
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    fill: currentColor;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &__github:hover &__icon {
-    transform: scale(1.15);
+    transform: scale(1.15) rotate(5deg);
   }
 }

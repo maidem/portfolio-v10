@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" target-language="de" datatype="plaintext" original="EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf">
+        <body>
+            <trans-unit id="contact.element.privacy.properties.label">
+                <source>I've read and accepted the </source>
+                <target xml:space="preserve">Ich habe die </target>
+            </trans-unit>
+            <trans-unit id="contact.element.privacy.properties.privacyLinkText">
+                <source>privacy policy</source>
+                <target xml:space="preserve">Datenschutzerklärung</target>
+            </trans-unit>
+            <trans-unit id="contact.element.privacy.properties.labelSuffix">
+                <source>.</source>
+                <target xml:space="preserve"> gelesen</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

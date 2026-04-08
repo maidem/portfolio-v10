@@ -1,7 +1,7 @@
 name: gripsraum/hero
-typeName: gripsraum_hero
+title: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:title
 group: default
-description: description
+description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:description
 prefixFields: true
 prefixType: full
 basics:
@@ -10,22 +10,30 @@ basics:
 fields:
   - identifier: header
     useExistingField: true
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
   - identifier: subheader
     useExistingField: true
   - identifier: display_mode
     type: Select
     renderType: selectSingle
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:display_mode.label
     default: full
     items:
-      - label: Full Width
+      - label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:display_mode.full
         value: full
-      - label: Split 50/50
+      - label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:display_mode.split
         value: split
   - identifier: background_image
     type: File
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:background_image.label
     maxitems: 1
     allowed: common-image-types
   - identifier: split_left_image
     type: File
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:split_left_image.label
     maxitems: 1
     allowed: common-image-types

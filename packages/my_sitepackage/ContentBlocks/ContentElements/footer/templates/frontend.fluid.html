@@ -3,10 +3,10 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <footer class="cb-footer" id="c{data.uid}">
+    <footer class="cb-footer py-5" id="c{data.uid}">
         <div class="container">
-            <div class="cb-card cb-footer__card">
-                <div class="cb-card__left">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4 text-center text-md-start">
+                <div class="cb-footer__left d-flex align-items-center gap-4">
                     <f:if condition="{data.header}">
                         <span class="cb-footer__copyright">{data.header}</span>
                     </f:if>
@@ -30,7 +30,7 @@
                         </f:link.typolink>
                     </f:if>
                 </div>
-                <div class="cb-card__right">
+                <div class="cb-footer__right">
                     <nav class="cb-footer__nav" aria-label="Footer Navigation">
                         <f:if condition="{data.footer_links}">
                             <f:for each="{data.footer_links}" as="item">

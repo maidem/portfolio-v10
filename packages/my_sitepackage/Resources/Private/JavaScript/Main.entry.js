@@ -67,6 +67,17 @@ const initNav = () => {
         link.addEventListener("click", close);
     });
 
+    // Close on explicit close button
+    const closeBtn = overlay.querySelector(".cb-nav__overlay-close");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", close);
+    }
+
+    // Close on backdrop click (outside box)
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) close();
+    });
+
     // Close on Escape
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && isOpen) {

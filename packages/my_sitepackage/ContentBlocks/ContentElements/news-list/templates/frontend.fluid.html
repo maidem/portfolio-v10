@@ -4,8 +4,8 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <section id="news">
-        <div class="container cb-news-list" id="c{data.uid}">
+    <section id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}">
+        <div class="container cb-news-list">
             <div class="cb-card">
                 <f:if condition="{data.header}">
                     <div class="cb-card__left">
@@ -32,13 +32,13 @@
                                 <div
                                     class="{f:if(condition: '{item.images}', then: 'col-md-10', else: 'col-12')}"
                                 >
-                                    <div class="row align-items-start">
+                                    <div class="row align-items-baseline">
                                         <div class="col-md-3">
                                             <f:if
                                                 condition="{item.data.gripsraum_newsarticle_project_date}"
                                             >
                                                 <span
-                                                    class="cb-news-date text-muted text-uppercase font-monospace"
+                                                    class="cb-news-date text-uppercase font-monospace"
                                                 >
                                                     <f:format.date
                                                         format="d. M Y"

@@ -3,19 +3,16 @@
     <file source-language="en" datatype="plaintext" original="labels.xlf">
         <body>
             <trans-unit id="title">
-                <source>FAQ (Accordion)</source>
+                <source>News List</source>
             </trans-unit>
             <trans-unit id="description">
-                <source>A section with multiple collapsible FAQ items.</source>
+                <source>Displays a list of latest news articles from a storage folder.</source>
             </trans-unit>
-            <trans-unit id="faq_items.label">
-                <source>FAQ Entries</source>
+            <trans-unit id="storage_folder.label">
+                <source>News Article Storage Folder</source>
             </trans-unit>
-            <trans-unit id="question.label">
-                <source>Question</source>
-            </trans-unit>
-            <trans-unit id="answer.label">
-                <source>Answer</source>
+            <trans-unit id="max_items.label">
+                <source>Maximum number of items to show</source>
             </trans-unit>
         </body>
     </file>

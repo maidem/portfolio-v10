@@ -50,26 +50,40 @@
         role="dialog"
         aria-label="Navigation"
     >
-        <nav aria-label="Hauptnavigation">
-            <ul class="cb-nav__overlay-list">
-                <f:for each="{mainnavigation}" as="item">
-                    <li class="cb-nav__overlay-item">
-                        <a
-                            href="{item.link}"
-                            class="cb-nav__overlay-link{f:if(condition: item.active, then: ' cb-nav__overlay-link--active')}"
-                            title="{item.title}"
-                        >
-                            {item.title}
-                        </a>
+        <div class="cb-nav__overlay-box">
+            <div class="cb-nav__overlay-handle"></div>
+
+            <nav aria-label="Hauptnavigation">
+                <ul class="cb-nav__overlay-list">
+                    <f:for each="{mainnavigation}" as="item">
+                        <li class="cb-nav__overlay-item">
+                            <a
+                                href="{item.link}"
+                                class="cb-nav__overlay-link{f:if(condition: item.active, then: ' cb-nav__overlay-link--active')}"
+                                title="{item.title}"
+                            >
+                                {item.title}
+                            </a>
+                        </li>
+                    </f:for>
+                    <li class="cb-nav__overlay-item mt-4">
+                        <button type="button" class="cb-nav__overlay-close">
+                            Schlie&szlig;en
+                        </button>
                     </li>
-                </f:for>
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+
+            <div class="cb-nav__overlay-footer">
+                <div class="cb-nav__overlay-feed">Portfolio</div>
+            </div>
+        </div>
     </div>
 
-    <main>
+    <main class="position-relative">
+        <div class="cb-bg-text" aria-hidden="true" data-text="Portfolio">Portfolio</div>
         <f:render section="Main" />
     </main>
 
-    <f:cObject typoscriptObjectPath="lib.footer" />
+    <f:render partial="Footer" />
 </html>

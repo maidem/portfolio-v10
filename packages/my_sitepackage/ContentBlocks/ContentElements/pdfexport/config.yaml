@@ -1,0 +1,15 @@
+name: gripsraum/pdfexport
+typeName: gripsraum_pdfexport
+group: default
+prefixFields: true
+prefixType: full
+fields:
+  -
+    identifier: header
+    useExistingField: true
+  -
+    identifier: bodytext
+    useExistingField: true
+assets:
+  css:
+    - assets/frontend.scss
