@@ -18,6 +18,7 @@
         "friendsoftypo3/content-blocks": "^2.1",
         "gripsraum/my-sitepackage": "@dev",
         "praetorius/vite-asset-collector": "^1.15",
+        "spatie/browsershot": "^5.2",
         "typo3/cms-backend": "^14.0",
         "typo3/cms-belog": "^14.0",
         "typo3/cms-beuser": "^14.0",

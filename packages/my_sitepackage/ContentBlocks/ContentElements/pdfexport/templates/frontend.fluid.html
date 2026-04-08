@@ -3,83 +3,78 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-
-<section class="cb-pdf-export-section">
-    <div class="container">
-        <!-- Using the same cb-card base as other elements for absolute visual consistency -->
-        <div class="cb-card cb-card--yellow">
-            
-            <!-- Left Column: Branding & Subline -->
-            <div class="cb-card__left">
-                <h2 class="cb-card__title">Portfolio-PDF<br>erstellen</h2>
-                <f:if condition="{data.bodytext}">
+    <section
+        id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+        class="cb-section-pdfexport"
+    >
+        <div class="container">
+            <div class="cb-card cb-card--yellow">
+                
+                <!-- Left Column: Content -->
+                <div class="cb-card__left">
+                    <h2 class="cb-card__title">{data.header}</h2>
                     <div class="cb-pdf-export__subline">
                         <f:format.html>{data.bodytext}</f:format.html>
                     </div>
-                </f:if>
-                <f:if condition="!{data.bodytext}">
-                    <p class="cb-pdf-export__subline">Wählen Sie alle relevanten Abschnitte aus, die Sie in eine kompakte PDF-Übersicht für Ihre Unterlagen exportieren möchten.</p>
-                </f:if>
+                </div>
+
+                <!-- Right Column: Interactive Grid -->
+                <div class="cb-card__right">
+                    <form class="cb-pdf-export__form" action="?type=1711" method="POST">
+                        <div class="cb-pdf-export__grid">
+                            
+                            <!-- Category: Information -->
+                            <label class="cb-pdf-export__tile">
+                                <div class="cb-pdf-export__tile-content">
+                                    <span class="cb-pdf-export__tile-label">Persönliches</span>
+                                    <h3 class="cb-pdf-export__tile-title">Informationen</h3>
+                                </div>
+                                <input type="checkbox" name="sections[]" value="info">
+                                <div class="cb-pdf-export__tile-indicator"></div>
+                            </label>
+
+                            <!-- Category: FAQ -->
+                            <label class="cb-pdf-export__tile">
+                                <div class="cb-pdf-export__tile-content">
+                                    <span class="cb-pdf-export__tile-label">Detailfragen</span>
+                                    <h3 class="cb-pdf-export__tile-title">Häufige Fragen</h3>
+                                </div>
+                                <input type="checkbox" name="sections[]" value="faq">
+                                <div class="cb-pdf-export__tile-indicator"></div>
+                            </label>
+
+                            <!-- Category: Stack -->
+                            <label class="cb-pdf-export__tile">
+                                <div class="cb-pdf-export__tile-content">
+                                    <span class="cb-pdf-export__tile-label">Stack</span>
+                                    <h3 class="cb-pdf-export__tile-title">Technologien</h3>
+                                </div>
+                                <input type="checkbox" name="sections[]" value="tech">
+                                <div class="cb-pdf-export__tile-indicator"></div>
+                            </label>
+
+                            <!-- Category: Projects -->
+                            <label class="cb-pdf-export__tile">
+                                <div class="cb-pdf-export__tile-content">
+                                    <span class="cb-pdf-export__tile-label">Arbeiten</span>
+                                    <h3 class="cb-pdf-export__tile-title">Projekte</h3>
+                                </div>
+                                <input type="checkbox" name="sections[]" value="projects">
+                                <div class="cb-pdf-export__tile-indicator"></div>
+                            </label>
+
+                        </div>
+
+                        <!-- Right-aligned Actions -->
+                        <div class="cb-pdf-export__actions">
+                            <button type="submit" class="cb-pdf-export__submit">
+                                PDF ERSTELLEN
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
             </div>
-
-            <!-- Right Column: Interactive Grid -->
-            <div class="cb-card__right">
-                <form class="cb-pdf-export__form">
-                    <div class="cb-pdf-export__grid">
-                        
-                        <!-- Category: Information -->
-                        <label class="cb-pdf-export__tile">
-                            <div class="cb-pdf-export__tile-info">
-                                <span class="cb-pdf-export__tile-label">Persönliches</span>
-                                <h3 class="cb-pdf-export__tile-title">Informationen</h3>
-                            </div>
-                            <input type="checkbox" name="sections[]" value="info">
-                            <div class="cb-pdf-export__tile-indicator"></div>
-                        </label>
-
-                        <!-- Category: FAQ -->
-                        <label class="cb-pdf-export__tile">
-                            <div class="cb-pdf-export__tile-info">
-                                <span class="cb-pdf-export__tile-label">Detailfragen</span>
-                                <h3 class="cb-pdf-export__tile-title">Häufige Fragen</h3>
-                            </div>
-                            <input type="checkbox" name="sections[]" value="faq">
-                            <div class="cb-pdf-export__tile-indicator"></div>
-                        </label>
-
-                        <!-- Category: Tech -->
-                        <label class="cb-pdf-export__tile">
-                            <div class="cb-pdf-export__tile-info">
-                                <span class="cb-pdf-export__tile-label">Stack</span>
-                                <h3 class="cb-pdf-export__tile-title">Technologien</h3>
-                            </div>
-                            <input type="checkbox" name="sections[]" value="tech">
-                            <div class="cb-pdf-export__tile-indicator"></div>
-                        </label>
-
-                        <!-- Category: Projects -->
-                        <label class="cb-pdf-export__tile">
-                            <div class="cb-pdf-export__tile-info">
-                                <span class="cb-pdf-export__tile-label">Arbeiten</span>
-                                <h3 class="cb-pdf-export__tile-title">Projekte</h3>
-                            </div>
-                            <input type="checkbox" name="sections[]" value="projects">
-                            <div class="cb-pdf-export__tile-indicator"></div>
-                        </label>
-
-                    </div>
-
-                    <!-- Right-aligned Actions -->
-                    <div class="cb-pdf-export__actions">
-                        <button type="submit" class="cb-pdf-export__submit">
-                            PDF ERSTELLEN
-                        </button>
-                    </div>
-                </form>
-            </div>
-            
         </div>
-    </div>
-</section>
-
+    </section>
 </html>

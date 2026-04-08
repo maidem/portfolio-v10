@@ -17,3 +17,11 @@ module.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Confi
     [\TYPO3\CMS\Form\Controller\FormFrontendController::class => ['render', 'perform']],
     [\TYPO3\CMS\Form\Controller\FormFrontendController::class => ['render', 'perform']]
 );
+
+// Register PDF Export Plugin
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'MySitepackage',
+    'PdfExport',
+    [\Gripsraum\MySitepackage\Controller\PdfExportController::class => 'generate'],
+    [\Gripsraum\MySitepackage\Controller\PdfExportController::class => 'generate']
+);

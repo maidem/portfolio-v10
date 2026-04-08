@@ -11,6 +11,8 @@ database:
     version: "11.8"
 use_dns_when_possible: true
 composer_version: "2"
+nodejs_version: "20"
+webimage_extra_packages: ["chromium"]
 web_environment:
   - TYPO3_CONTEXT=Development
 corepack_enable: false
