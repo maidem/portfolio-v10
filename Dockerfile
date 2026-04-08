@@ -24,9 +24,22 @@ RUN npm run build
 
 # Stage 3: Project Image
 FROM php:8.5-apache-bookworm
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Install system utilities, Node.js (for Browsershot), and Chromium dependencies
+# Set working directory
+WORKDIR /var/www/html
+
+# FORCE SEQUENTIAL BUILD: Copy from builders first. 
+# This forces Docker to finish the heavy composer/vite stages before starting the heavy system-installs in this stage.
+COPY --from=composer-builder /app/vendor ./vendor/
+COPY --from=vite-builder /app/public/_assets ./public/_assets/
+COPY --from=vite-builder /app/node_modules ./node_modules/
+
+# Configure Apache
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf && \
+    sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Now that the other stages are done, we can use the remaining RAM for the system installation
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
@@ -63,7 +76,7 @@ ENV LANG=de_DE.UTF-8
 ENV LANGUAGE=de_DE:de
 ENV LC_ALL=de_DE.UTF-8
 
-# Use the official PHP extension installer for robust builds
+# Use official PHP extension installer again for the remaining extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions gd intl zip opcache pdo_mysql mysqli soap bcmath exif imagick
@@ -71,9 +84,11 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
 # Enable Apache modules
 RUN a2enmod rewrite headers expires
 
-# Update Apache configuration
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Copy the rest of the application
+COPY . .
+
+# Final cleanup and permissions
+RUN chown -R www-data:www-data /var/www/html
 
 # Set recommended PHP.ini settings
 RUN { \
