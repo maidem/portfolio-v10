@@ -29,7 +29,7 @@ RUN npm run build
 FROM php:8.5-apache-bookworm
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Install system utilities, Node.js (for Browsershot), and Chromium
+# Install system utilities, Node.js (for Browsershot), and Chromium dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -38,7 +38,10 @@ RUN apt-get update && apt-get install -y \
     locales \
     gnupg \
     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs chromium libgbm1 libasound2 libnss3 libxss1 \
+    && apt-get install -y nodejs chromium \
+    libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 \
+    libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libgbm1 libasound2 \
+    libpango-1.0-0 libcairo2 \
     && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen \
     && rm -rf /var/lib/apt/lists/*
@@ -77,6 +80,7 @@ WORKDIR /var/www/html
 # Copy project files with correct ownership
 COPY --chown=www-data:www-data . .
 COPY --from=composer-builder --chown=www-data:www-data /app/vendor ./vendor
+COPY --from=vite-builder --chown=www-data:www-data /app/node_modules ./node_modules
 COPY --from=vite-builder --chown=www-data:www-data /app/public/_assets/vite ./public/_assets/vite
 
 # Ensure specific TYPO3 directories exist and are writable
