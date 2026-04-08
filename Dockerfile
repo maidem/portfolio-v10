@@ -29,13 +29,16 @@ RUN npm run build
 FROM php:8.5-apache-bookworm
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Install system utilities and PHP extension installer
+# Install system utilities, Node.js (for Browsershot), and Chromium
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     zip \
     unzip \
     locales \
+    gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs chromium libgbm1 libasound2 libnss3 libxss1 \
     && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen \
     && rm -rf /var/lib/apt/lists/*

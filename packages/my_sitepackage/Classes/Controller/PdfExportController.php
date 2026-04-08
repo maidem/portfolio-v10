@@ -58,10 +58,7 @@ class PdfExportController extends ActionController
         $html = $view->render();
 
         // Generate PDF via Browsershot
-        // DDEV specific paths for Chromium and Node
         $pdf = Browsershot::html($html)
-            ->setChromePath('/usr/bin/chromium')
-            ->setIncludePath('$PATH:/usr/local/bin:/usr/bin')
             ->noSandbox()
             ->showBackground()
             ->format('A4')
