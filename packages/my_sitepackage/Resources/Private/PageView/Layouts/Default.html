@@ -10,7 +10,7 @@
     <header class="cb-nav" role="banner">
         <div class="container">
             <div class="cb-nav__bar">
-                <a href="/" class="cb-nav__logo"> Maik Demuth </a>
+                <a href="/" class="cb-nav__logo"> Portfolio </a>
 
                 <button
                     class="cb-nav__toggle"
@@ -50,40 +50,26 @@
         role="dialog"
         aria-label="Navigation"
     >
-        <div class="cb-nav__overlay-box">
-            <div class="cb-nav__overlay-handle"></div>
-
-            <nav aria-label="Hauptnavigation">
-                <ul class="cb-nav__overlay-list">
-                    <f:for each="{mainnavigation}" as="item">
-                        <li class="cb-nav__overlay-item">
-                            <a
-                                href="{item.link}"
-                                class="cb-nav__overlay-link{f:if(condition: item.active, then: ' cb-nav__overlay-link--active')}"
-                                title="{item.title}"
-                            >
-                                {item.title}
-                            </a>
-                        </li>
-                    </f:for>
-                    <li class="cb-nav__overlay-item mt-4">
-                        <button type="button" class="cb-nav__overlay-close">
-                            Schlie&szlig;en
-                        </button>
+        <nav aria-label="Hauptnavigation">
+            <ul class="cb-nav__overlay-list">
+                <f:for each="{mainnavigation}" as="item">
+                    <li class="cb-nav__overlay-item">
+                        <a
+                            href="{item.link}"
+                            class="cb-nav__overlay-link{f:if(condition: item.active, then: ' cb-nav__overlay-link--active')}"
+                            title="{item.title}"
+                        >
+                            {item.title}
+                        </a>
                     </li>
-                </ul>
-            </nav>
-
-            <div class="cb-nav__overlay-footer">
-                <div class="cb-nav__overlay-feed">Portfolio</div>
-            </div>
-        </div>
+                </f:for>
+            </ul>
+        </nav>
     </div>
 
-    <main class="position-relative">
-        <div class="cb-bg-text" aria-hidden="true" data-text="Portfolio">Portfolio</div>
+    <main>
         <f:render section="Main" />
     </main>
 
-    <f:render partial="Footer" />
+    <f:cObject typoscriptObjectPath="lib.footer" />
 </html>

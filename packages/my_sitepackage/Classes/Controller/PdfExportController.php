@@ -58,7 +58,9 @@ class PdfExportController extends ActionController
         $html = $view->render();
 
         // Generate PDF via Browsershot
+        // setChromePath ensures the system-installed Chromium is used (required in Docker/Coolify)
         $pdf = Browsershot::html($html)
+            ->setChromePath('/usr/bin/chromium')
             ->noSandbox()
             ->showBackground()
             ->format('A4')

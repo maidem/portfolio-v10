@@ -19,6 +19,8 @@ COPY package.json package-lock.json composer.json composer.lock ./
 COPY packages ./packages
 COPY --from=composer-builder /app/vendor ./vendor
 COPY vite.config.js ./
+# Skip Puppeteer Chrome download — system Chromium is used at runtime
+ENV PUPPETEER_SKIP_DOWNLOAD=true
 RUN npm ci
 RUN npm run build
 
@@ -75,6 +77,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV LANG=de_DE.UTF-8
 ENV LANGUAGE=de_DE:de
 ENV LC_ALL=de_DE.UTF-8
+# Tell Puppeteer to use the system-installed Chromium instead of a downloaded binary
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Use official PHP extension installer again for the remaining extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
