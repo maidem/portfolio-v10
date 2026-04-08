@@ -4,13 +4,10 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 COPY packages ./packages
 
-# Install system dependencies for intl/zip
-RUN apt-get update && apt-get install -y \
-    libicu-dev \
-    libzip-dev \
-    git \
-    unzip \
-    && docker-php-ext-install intl zip
+# Install system extensions for intl/zip via official installer
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions intl zip
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-gd --ignore-platform-req=ext-pdo_mysql --ignore-platform-req=ext-mysqli
@@ -30,7 +27,7 @@ FROM php:8.5-apache-bookworm
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 # Install system utilities, Node.js (for Browsershot), and Chromium dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     zip \
@@ -38,12 +35,28 @@ RUN apt-get update && apt-get install -y \
     locales \
     gnupg \
     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs chromium \
-    libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 \
-    libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libgbm1 libasound2 \
-    libpango-1.0-0 libcairo2 \
-    && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
-    locale-gen \
+    && apt-get install -y --no-install-recommends \
+    nodejs \
+    chromium \
+    fonts-liberation \
+    libnss3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libasound2 \
+    libpango-1.0-0 \
+    libcairo2 \
+    && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 ENV LANG=de_DE.UTF-8
