@@ -91,6 +91,7 @@ In Docker-Umgebungen (wie DDEV oder Coolify) muss Browsershot mit dem Flag `noSa
     ```
 
 3. **`PdfExportController.php`:** Expliziter Chromium-Pfad via `setChromePath()` als zusätzliche Absicherung.
+
     ```php
     $pdf = Browsershot::html($html)
         ->setChromePath('/usr/bin/chromium')
