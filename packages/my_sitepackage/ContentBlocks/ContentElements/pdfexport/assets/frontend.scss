@@ -1,6 +1,6 @@
-// --- Special Styling for the Yellow PDF Card ---
+// --- Special Styling for the Light Blue PDF Card (formerly Yellow) ---
 .cb-card--yellow {
-  background-color: #F4F06B !important; // Softened Corn Yellow
+  background-color: #e0f7ff !important; // Softened Light Blue
   color: #000 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -11,18 +11,17 @@
     color: #000 !important;
   }
 
-  p, span {
+  p,
+  span {
     color: #000 !important;
   }
-
-  // --- Removed Background PDF Text ---
 }
 
 // --- Specific PDF Export Section Spacing ---
 .cb-pdf-export-section {
   // No extra margin here, the inner .cb-card already has margin-bottom: 2rem;
   // This avoids double-spacing.
-  margin-bottom: 0; 
+  margin-bottom: 0;
 }
 
 .cb-pdf-export {
@@ -55,7 +54,7 @@
     justify-content: space-between;
     min-height: 100px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     input[type="checkbox"] {
       display: none;
     }
@@ -68,25 +67,25 @@
     &:has(input:checked) {
       background-color: #000;
       border-color: #000;
-      color: #F4F06B;
+      color: #e0f7ff;
       box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.2);
     }
   }
 
   &__tile-label {
-    font-size: 0.6rem;
-    font-weight: 800;
+    font-size: 0.6875rem; // 11px
+    font-weight: 600; 
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     margin-bottom: 0.4rem;
     display: block;
     opacity: 0.6;
   }
 
   &__tile-title {
-    font-size: 0.85rem;
-    font-weight: 800;
-    line-height: 1.2;
+    font-size: 0.8125rem; // 13px
+    font-weight: 700;
+    line-height: 1.3;
     margin: 0;
   }
 
@@ -126,26 +125,38 @@
 
   &__submit {
     background-color: #000;
-    color: #F4F06B;
+    color: #e0f7ff;
     border: none;
-    padding: 0.8rem 3.2rem; // Unified padding
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem; // 44px UX Standard
+    padding: 0 3.2rem;
     border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 800;
+    font-size: 0.8125rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      background-color: transparent;
+      color: #000;
+      box-shadow: inset 0 0 0 1.5px #000; // Ultra crisp outline
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 767.98px) {
+      width: 100%;
+      min-height: 3.25rem; // 52px for mobile
     }
   }
 }
 
 // Ensure the checkbox hack works across all browsers correctly
 input:checked ~ .cb-pdf-export__tile-indicator::after {
-    opacity: 1 !important;
-    transform: scale(1) !important;
+  opacity: 1 !important;
+  transform: scale(1) !important;
 }

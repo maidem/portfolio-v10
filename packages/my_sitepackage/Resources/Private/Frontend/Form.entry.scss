@@ -1,24 +1,23 @@
 // =============================
 // Form Specific Design Tokens (Glass Hybrid)
 // =============================
-$glass-form-bg: rgba(0, 0, 0, 0.05);
-$glass-form-border: rgba(0, 0, 0, 0.1);
+$glass-form-bg: #f5f5f7; // Solid light gray as requested
+$glass-form-border: #e5e5e7;
 $text-primary: #111111;
-$text-secondary: #777777;
+$text-secondary: #555555;
 
 .cb-form {
   // ─── Input Fields ──────────────────────────────────────────────────────────
   .form-control {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: none !important; // Absolute glass minimalism
+    background-color: #ffffff !important;
+    border: 1px solid $glass-form-border !important;
     border-radius: 1rem;
-    color: #ffffff !important; // Forced white
-    caret-color: #ffffff !important;
+    color: $text-primary !important;
+    caret-color: $text-primary !important;
     padding: 1rem 1.25rem;
+    font-size: 1rem;
     
-    // Fix for unsharp text on glass backgrounds
+    // Fix for unsharp text
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transform: translateZ(0); 
@@ -26,51 +25,61 @@ $text-secondary: #777777;
     transition: all 0.2s ease-in-out;
 
     &::placeholder {
-      color: rgba(255, 255, 255, 0.3) !important;
+      color: #999999 !important;
     }
 
     &:focus {
-      background-color: rgba(255, 255, 255, 0.1) !important;
-      border-color: rgba(255, 255, 255, 0.4) !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      background-color: #ffffff !important;
+      border-color: $text-primary !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
       outline: none;
-      color: #ffffff !important;
+      color: $text-primary !important;
     }
   }
 
   textarea.form-control {
-    min-height: 220px;
+    min-height: 200px;
   }
 
   label, .form-label {
     font-size: 0.75rem;
-    font-weight: 800;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.8) !important; // Brighter
+    letter-spacing: 0.15em;
+    color: #555555 !important;
     margin-bottom: 0.6rem;
     display: block;
   }
 
   // ─── Submit Button (Styled like Technical Badge) ───────────────────────────
   .cb-form-submit {
-    background-color: #F4F06B; 
-    border: none !important; // Removed to match PDF button height
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem; 
+    padding: 0 3.2rem;
+    background-color: #e0f7ff; 
+    border: none !important;
     color: #000 !important;
     border-radius: 999px;
-    padding: 0.8rem 3.2rem; // Unified padding
-    font-weight: 800;
-    font-size: 0.75rem;
+    font-weight: 700;
+    font-size: 0.8125rem; 
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0.15em;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
+    white-space: nowrap;
 
     &:hover {
       background-color: transparent !important;
-      color: #F4F06B !important;
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 10px 25px rgba(237, 245, 38, 0.15);
+      color: #111111 !important;
+      box-shadow: inset 0 0 0 1.5px #111111 !important; 
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 767.98px) {
+      width: 100%;
+      min-height: 3.25rem;
     }
 
     &:active {
@@ -80,27 +89,27 @@ $text-secondary: #777777;
 
   // ─── Checkbox ──────────────────────────────────────────────────────────────
   .form-check-input {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e5e7;
     width: 1.2rem;
     height: 1.2rem;
     cursor: pointer;
 
     &:checked {
-      background-color: #F4F06B !important;
-      border-color: #F4F06B !important;
+      background-color: #e0f7ff !important;
+      border-color: #e0f7ff !important;
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
     }
   }
 
   .form-check-label {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: #444444 !important;
     font-weight: 500;
     padding-left: 0.5rem;
 
     a {
-      color: #fff;
+      color: $text-primary;
       font-weight: 700;
       text-decoration: underline;
       text-underline-offset: 2px;

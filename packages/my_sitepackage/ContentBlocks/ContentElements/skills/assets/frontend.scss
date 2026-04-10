@@ -39,9 +39,11 @@
   color: #555; // Subtler grey text inside
   border-radius: 999px;
   font-family: inherit;
-  font-weight: 500; 
+  font-weight: 600; 
   white-space: nowrap;
-  font-size: 0.75rem; // Make text smaller (12px on 16px base)
+  font-size: 0.6875rem; // 11px
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   
   // More specific to override Bootstrap classes organically
   &.px-3 {

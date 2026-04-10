@@ -38,16 +38,18 @@
     width: 100%;
     background: transparent;
     border: none;
-    padding: 1.5rem 0;
+    padding: 1rem 0; // Tighter vertical padding
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 1rem; // Reduced gap for a tighter horizontal alignment between icon and text
-    color: #000; // Force explicitly black for questions
-    font-weight: 700;
-    font-size: 1.125rem;
-    line-height: 1.4;
-    transition: all 0.2s ease;
+    align-items: center; 
+    justify-content: flex-start; 
+    flex-direction: row; // Icon back on the left
+    gap: 1.25rem;
+    color: #111111; // $text-primary
+    font-weight: 400; // Slightly more weight for smaller size
+    font-size: 1.125rem; // Scaled down as requested
+    letter-spacing: -0.0125em;
+    line-height: 1.3;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     text-align: left;
     cursor: pointer;
 
@@ -75,40 +77,42 @@
   }
 
   &__icon {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     flex-shrink: 0;
-    border-radius: 50%;
-    border: 2px solid currentColor; // 2px exact for crisp edge
     position: relative;
-    // (Line height 1.125rem * 1.4 = 25.2px) vs (Icon 24px) -> Margin roughly 0 to perfectly sit on same Y-axis
-    margin-top: 0.5px; 
 
-    // Horizontal line (-)
-    &::before {
+    &::before, &::after {
       content: "";
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 10px;
-      height: 2px; // 2px exact for crisp rendering without blur
-      background: currentColor;
-      transform: translate(-50%, -50%);
-      border-radius: 2px;
+      background-color: #111111;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 999px;
     }
 
-    // Vertical line (|) for (+)
-    &::after {
-      content: "";
-      position: absolute;
+    // Horizontal line
+    &::before {
       top: 50%;
+      left: 0;
+      width: 100%;
+      height: 1.5px;
+      transform: translateY(-50%);
+    }
+
+    // Vertical line
+    &::after {
+      top: 0;
       left: 50%;
-      width: 2px; // 2px exact
-      height: 10px;
-      background: currentColor;
-      transform: translate(-50%, -50%);
-      border-radius: 2px;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      width: 1.5px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    [aria-expanded="true"] & {
+      &::after {
+        transform: translateX(-50%) rotate(90deg) scale(0); // Make vertical disappear for minus
+        opacity: 0;
+      }
     }
   }
 
@@ -128,13 +132,13 @@
 
 
   &__answer {
-    padding: 0 0 1.5rem calc(24px + 1rem); // Icon width (24px) + trigger gap (1rem)
-    color: #555;
+    padding: 0 0 1.5rem calc(16px + 1.25rem); // Align with question (icon width + gap)
+    color: #555555;
     font-size: 1rem;
     line-height: 1.6;
-    transform: translateY(8px);
+    transform: translateY(10px);
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
 
     p:last-child {
       margin-bottom: 0;
