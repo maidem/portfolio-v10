@@ -119,6 +119,10 @@ COPY --from=composer-builder --chown=www-data:www-data /app/vendor ./vendor
 COPY --from=vite-builder --chown=www-data:www-data /app/node_modules ./node_modules
 COPY --from=vite-builder --chown=www-data:www-data /app/public/_assets/vite ./public/_assets/vite
 
+# Publish ContentBlock assets (copies CSS/JS from packages/ to public/_assets/)
+# These are gitignored in public/_assets but must exist at runtime.
+RUN php vendor/bin/typo3 content-blocks:assets:publish
+
 # Ensure specific TYPO3 directories exist and are writable
 RUN mkdir -p var public/fileadmin public/uploads config/system \
     && chown -R www-data:www-data var public/fileadmin public/uploads config/system \
