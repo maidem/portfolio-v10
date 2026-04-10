@@ -93,10 +93,13 @@ RUN install-php-extensions gd zip opcache pdo_mysql mysqli soap bcmath exif imag
 RUN a2enmod rewrite headers expires
 
 # Copy the rest of the application
-COPY . .
+COPY --chown=www-data:www-data . .
 
-# Final cleanup and permissions
-RUN chown -R www-data:www-data /var/www/html
+# Overwrite vendor/ and node_modules/ with built versions (the COPY . . above contained
+# broken symlinks from .dockerignore'd vendor/ and node_modules/).
+COPY --from=composer-builder --chown=www-data:www-data /app/vendor ./vendor
+COPY --from=vite-builder --chown=www-data:www-data /app/node_modules ./node_modules
+COPY --from=vite-builder --chown=www-data:www-data /app/public/_assets/vite ./public/_assets/vite
 
 # Set recommended PHP.ini settings
 RUN { \
@@ -111,21 +114,30 @@ RUN { \
     echo 'max_execution_time=240'; \
     } > /usr/local/etc/php/conf.d/typo3-recommendations.ini
 
-WORKDIR /var/www/html
-
-# Copy project files with correct ownership
-COPY --chown=www-data:www-data . .
-COPY --from=composer-builder --chown=www-data:www-data /app/vendor ./vendor
-COPY --from=vite-builder --chown=www-data:www-data /app/node_modules ./node_modules
-COPY --from=vite-builder --chown=www-data:www-data /app/public/_assets/vite ./public/_assets/vite
-
 # Publish ContentBlock assets (copies CSS/JS from packages/ to public/_assets/)
 # These are gitignored in public/_assets but must exist at runtime.
 RUN php vendor/bin/typo3 content-blocks:assets:publish
 
+# Resolve ALL symlinks under public/_assets/ into real files/directories.
+# TYPO3/Composer creates deep symlink chains (public/_assets/HASH -> vendor -> packages/...)
+# which Apache cannot follow. We replace every symlink with a copy of its target.
+RUN find public/_assets -type l | while read link; do \
+      target="$(readlink -f "$link")"; \
+      rm "$link"; \
+      if [ -d "$target" ]; then \
+        cp -a "$target" "$link"; \
+      elif [ -f "$target" ]; then \
+        cp -a "$target" "$link"; \
+      fi; \
+    done
+
 # Ensure specific TYPO3 directories exist and are writable
-RUN mkdir -p var public/fileadmin public/uploads config/system \
-    && chown -R www-data:www-data var public/fileadmin public/uploads config/system \
-    && chmod -R 775 var public/fileadmin public/uploads config/system
+# public/typo3temp is gitignored but required at runtime for TYPO3's compressed CSS/JS output.
+RUN mkdir -p var public/fileadmin public/uploads public/typo3temp/assets/css public/typo3temp/assets/js public/typo3temp/assets/images public/typo3temp/assets/_processed_ config/system \
+    && chown -R www-data:www-data var public/fileadmin public/uploads public/typo3temp config/system \
+    && chmod -R 775 var public/fileadmin public/uploads public/typo3temp config/system
+
+# Final ownership fix
+RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
