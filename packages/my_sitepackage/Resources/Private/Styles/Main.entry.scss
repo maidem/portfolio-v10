@@ -9,7 +9,8 @@ $glass-blur: blur(24px) saturate(160%);
 $text-primary: #111111;
 $text-secondary: #555555;
 $text-muted: #888888;
-$brand-primary: #e0f7ff; // Switched from yellow to light blue
+$brand-primary: #e0f7ff; 
+$brand-btn: #9bc0cf; // New medium blue for buttons instead of black
 $bg-deep: #ffffff;
 $card-bg-gray: rgba(245, 245, 247, 0.92);
 
@@ -33,41 +34,6 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
-}
-
-.cb-bg-text {
-  display: none;
-
-  @media (min-width: 992px) {
-    display: block;
-    position: relative;
-    text-align: center;
-    line-height: 0.9;
-    font-size: clamp(8rem, 18vw, 16rem);
-    font-weight: $font-weight-display;
-    text-transform: uppercase;
-    letter-spacing: $letter-spacing-display;
-    color: rgba(0, 0, 0, 0.025);
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
-    margin-top: $grid-unit * 10;
-    margin-bottom: calc(-10vw - ($grid-unit * 8));
-
-    &::before {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: 0;
-      color: #000;
-      z-index: -1;
-      clip-path: inset(58% 0 0 0);
-      -webkit-clip-path: inset(58% 0 0 0);
-    }
-  }
 }
 
 // Consistent vertical rhythm for content sections
@@ -227,6 +193,13 @@ body {
 
 // Navigation
 
+main, 
+header, 
+footer {
+  position: relative;
+  z-index: 1; // Above background text
+}
+
 main > section:first-of-type {
   position: relative;
   z-index: 1;
@@ -237,10 +210,39 @@ main > section:first-of-type > * {
   z-index: 1;
 }
 
+.cb-bg-text-outline {
+  position: fixed;
+  top: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  font-size: 19vw; // Scaled to span full width of viewport
+  letter-spacing: -0.02em;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(155, 192, 207, 0.35); // Using exact button blue (#9bc0cf)
+  text-shadow: none; 
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .cb-nav {
-  position: relative;
-  z-index: 1030;
-  background-color: transparent;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1040;
+  background-color: rgba(255, 255, 255, 0.98); 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
 
   &__bar {
     display: flex;
@@ -304,8 +306,8 @@ main > section:first-of-type > * {
     justify-content: center;
     min-height: 2.75rem; // ~44px Apple Standard UX Height
     padding: 0 2rem;
-    background-color: $brand-primary;
-    color: #000;
+    background-color: $brand-btn;
+    color: #fff;
     border: none;
     border-radius: 999px;
     font-weight: 700;
@@ -317,10 +319,10 @@ main > section:first-of-type > * {
     white-space: nowrap;
 
     &:hover {
-      background-color: #000;
-      color: $brand-primary;
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15);
+      background-color: #8ab4c4; // Slightly darker blue
+      color: #fff;
+      transform: none;
+      box-shadow: none;
     }
 
     @media (max-width: 767.98px) {

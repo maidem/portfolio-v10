@@ -13,7 +13,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class PdfDataService
 {
     /**
-     * Fetches the latest "About" content from the FAQ element.
+     * Fetches the latest "About" content from the Hero element.
      */
     public function getAboutContent(): string
     {
@@ -22,7 +22,7 @@ class PdfDataService
             ->select('bodytext')
             ->from('tt_content')
             ->where(
-                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_faq')),
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_hero')),
                 $queryBuilder->expr()->neq('bodytext', $queryBuilder->createNamedParameter('')),
                 $queryBuilder->expr()->isNotNull('bodytext'),
                 $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
@@ -37,21 +37,48 @@ class PdfDataService
     }
 
     /**
-     * Fetches the FAQ items.
+     * Fetches the FAQ items and the FAQ header.
      */
     public function getFaqContent(): array
     {
-        $parent = $this->getLatestContentRecord('gripsraum_faq');
+        $parent = $this->getLatestContentRecord('gripsraum_hero');
         if (!$parent) return [];
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('gripsraum_faq_faq_items');
-        return $queryBuilder
+        // Header aus dem Parent holen
+        $header = $this->getLatestHeroFaqHeader();
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('gripsraum_hero_faq_items');
+        $items = $queryBuilder
             ->select('question', 'answer')
-            ->from('gripsraum_faq_faq_items')
+            ->from('gripsraum_hero_faq_items')
             ->where($queryBuilder->expr()->eq('foreign_table_parent_uid', $queryBuilder->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)))
             ->orderBy('sorting')
             ->executeQuery()
             ->fetchAllAssociative();
+
+        return [
+            'header' => $header,
+            'items' => $items,
+        ];
+    }
+
+    private function getLatestHeroFaqHeader(): string
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $row = $queryBuilder
+            ->select('gripsraum_hero_faq_header')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_hero')),
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+            )
+            ->orderBy('uid', 'DESC')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
+
+        return $row['gripsraum_hero_faq_header'] ?? 'HÄUFIGE FRAGEN';
     }
 
     /**
@@ -86,6 +113,25 @@ class PdfDataService
             ->from('gripsraum_projects_project_items')
             ->where($queryBuilder->expr()->eq('foreign_table_parent_uid', $queryBuilder->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)))
             ->orderBy('sorting')
+            ->executeQuery()
+            ->fetchAllAssociative();
+    }
+
+    /**
+     * Fetches the Logbook (news articles).
+     */
+    public function getLogbookContent(): array
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        return $queryBuilder
+            ->select('header', 'gripsraum_newsarticle_teaser_text as teaser_text', 'gripsraum_newsarticle_project_date as project_date', 'bodytext')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_newsarticle')),
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+            )
+            ->orderBy('gripsraum_newsarticle_project_date', 'DESC')
             ->executeQuery()
             ->fetchAllAssociative();
     }

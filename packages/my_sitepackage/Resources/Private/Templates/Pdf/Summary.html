@@ -116,13 +116,50 @@
             <div class="name-label">Maik Demuth</div>
         </div>
 
-        <!-- Section: About / Info (from FAQ element) -->
+        <!-- Section: About / Info (from Hero element) -->
         <f:if condition="{sections.info}">
             <div class="section">
                 <h2 class="section-title">INFORMATIONEN</h2>
                 <div class="content-block">
                     <f:format.html>{data.about}</f:format.html>
                 </div>
+            </div>
+        </f:if>
+
+        <!-- Section: FAQ -->
+        <f:if condition="{sections.faq}">
+            <div class="section">
+                <h2 class="section-title">
+                    <f:if condition="{data.faq.header}">
+                        <f:then>{data.faq.header}</f:then>
+                        <f:else>
+                            <f:translate key="LLL:EXT:my_sitepackage/Resources/Private/Language/locallang_pdf.xlf:pdf.section.faq" />
+                        </f:else>
+                    </f:if>
+                </h2>
+                <f:for each="{data.faq.items}" as="item">
+                    <div class="content-block">
+                        <span class="item-title">{item.question}</span>
+                        <div class="item-description">
+                            <f:format.html>{item.answer}</f:format.html>
+                        </div>
+                    </div>
+                </f:for>
+            </div>
+        </f:if>
+
+        <!-- Section: Projects -->
+        <f:if condition="{sections.projects}">
+            <div class="section">
+                <h2 class="section-title">PROJEKTE</h2>
+                <f:for each="{data.projects}" as="project">
+                    <div class="content-block">
+                        <span class="item-title">{project.title}</span>
+                        <div class="item-description">
+                            {project.description}
+                        </div>
+                    </div>
+                </f:for>
             </div>
         </f:if>
 
@@ -145,39 +182,26 @@
             </div>
         </f:if>
 
-        <!-- Section: Projects -->
-        <f:if condition="{sections.projects}">
+        <!-- Section: Logbook -->
+        <f:if condition="{sections.logbook}">
             <div class="section">
-                <h2 class="section-title">PROJEKTE</h2>
-                <f:for each="{data.projects}" as="project">
+                <h2 class="section-title">LOGBUCH</h2>
+                <f:for each="{data.logbook}" as="entry">
                     <div class="content-block">
-                        <span class="item-title">{project.title}</span>
+                        <span class="item-title">
+                            <f:if condition="{entry.project_date}">
+                                <f:format.date format="d.m.Y">{entry.project_date}</f:format.date> - 
+                            </f:if>
+                            {entry.header}
+                        </span>
                         <div class="item-description">
-                            {project.description}
+                            <f:format.html>{entry.teaser_text}</f:format.html>
                         </div>
                     </div>
                 </f:for>
             </div>
         </f:if>
 
-        <!-- Section: FAQ -->
-        <f:if condition="{sections.faq}">
-            <div class="section">
-                <h2 class="section-title">
-                    <f:translate
-                        key="LLL:EXT:my_sitepackage/Resources/Private/Language/locallang_pdf.xlf:pdf.section.faq"
-                    />
-                </h2>
-                <f:for each="{data.faq}" as="item">
-                    <div class="content-block">
-                        <span class="item-title">{item.question}</span>
-                        <div class="item-description">
-                            <f:format.html>{item.answer}</f:format.html>
-                        </div>
-                    </div>
-                </f:for>
-            </div>
-        </f:if>
 
         <div class="footer">
             Generated via maik-demuth.de —

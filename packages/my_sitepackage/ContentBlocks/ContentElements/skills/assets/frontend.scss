@@ -32,17 +32,17 @@
   }
 }
 
-// Subtler, smaller badge styling
+// Subtler, smaller badge styling aligned with new light blue theme
 .glass-badge-pill {
-  background: rgba(0, 0, 0, 0.03); 
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  color: #555; // Subtler grey text inside
+  background: rgba(224, 247, 255, 0.7); // Light blue tint
+  border: 1px solid rgba(155, 192, 207, 0.3); // Subtle darker blue border (button blue tint)
+  color: #444; 
   border-radius: 999px;
   font-family: inherit;
   font-weight: 600; 
   white-space: nowrap;
   font-size: 0.6875rem; // 11px
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   
   // More specific to override Bootstrap classes organically

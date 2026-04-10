@@ -15,25 +15,39 @@ fields:
     useExistingField: true
     label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
     description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
-  - identifier: subheader
+  - identifier: bodytext
     useExistingField: true
-  - identifier: display_mode
-    type: Select
-    renderType: selectSingle
-    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:display_mode.label
-    default: full
-    items:
-      - label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:display_mode.full
-        value: full
-      - label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:display_mode.split
-        value: split
-  - identifier: background_image
+    label: "Einleitung (Über mich)"
+  - identifier: about_image
     type: File
-    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:background_image.label
+    label: "Profilbild"
     maxitems: 1
     allowed: common-image-types
-  - identifier: split_left_image
-    type: File
-    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:split_left_image.label
-    maxitems: 1
-    allowed: common-image-types
+  - identifier: faq_header
+    type: Text
+    label: "Überschrift (FAQ)"
+    default: "HÄUFIGE FRAGEN"
+  - identifier: faq_items
+    type: Collection
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:faq_items.label
+    labelField: question
+    minitems: 1
+    maxitems: 20
+    appearance:
+      collapseAll: true
+      levelLinksPosition: bottom
+    fields:
+      - identifier: question
+        type: Text
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:question.label
+        required: true
+      - identifier: answer
+        type: Textarea
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:answer.label
+        enableRichtext: true
+        required: true
+assets:
+  css:
+    - assets/frontend.scss
+  js:
+    - assets/frontend.js

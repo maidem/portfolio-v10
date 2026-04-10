@@ -34,9 +34,10 @@ class PdfExportController extends ActionController
         
         $activeSections = [
             'info' => in_array('info', $sectionsInput),
-            'faq' => in_array('faq', $sectionsInput),
+            'faq' => in_array('info', $sectionsInput),
             'tech' => in_array('tech', $sectionsInput),
             'projects' => in_array('projects', $sectionsInput),
+            'logbook' => in_array('logbook', $sectionsInput),
         ];
 
         // Fetch data
@@ -45,6 +46,7 @@ class PdfExportController extends ActionController
             'faq' => $activeSections['faq'] ? $this->pdfDataService->getFaqContent() : [],
             'tech' => $activeSections['tech'] ? $this->pdfDataService->getTechContent() : [],
             'projects' => $activeSections['projects'] ? $this->pdfDataService->getProjectsContent() : [],
+            'logbook' => $activeSections['logbook'] ? $this->pdfDataService->getLogbookContent() : [],
         ];
 
         // Render HTML using FluidViewFactory (TYPO3 v14 style)

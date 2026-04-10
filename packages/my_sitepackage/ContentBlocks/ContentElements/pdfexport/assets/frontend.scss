@@ -65,10 +65,15 @@
     }
 
     &:has(input:checked) {
-      background-color: #000;
-      border-color: #000;
-      color: #e0f7ff;
-      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.2);
+      background-color: #9bc0cf; 
+      border-color: #9bc0cf;
+      color: #fff;
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.1);
+
+      .cb-pdf-export__tile-label {
+        color: #fff !important;
+        opacity: 0.8;
+      }
     }
   }
 
@@ -80,6 +85,7 @@
     margin-bottom: 0.4rem;
     display: block;
     opacity: 0.6;
+    transition: color 0.3s ease;
   }
 
   &__tile-title {
@@ -124,13 +130,13 @@
   }
 
   &__submit {
-    background-color: #000;
-    color: #e0f7ff;
+    background-color: #9bc0cf; 
+    color: #fff;
     border: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem; // 44px UX Standard
+    min-height: 2.75rem; 
     padding: 0 3.2rem;
     border-radius: 999px;
     font-size: 0.8125rem;
@@ -142,10 +148,10 @@
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
     &:hover {
-      background-color: transparent;
-      color: #000;
-      box-shadow: inset 0 0 0 1.5px #000; // Ultra crisp outline
-      transform: scale(1.02);
+      background-color: #8ab4c4;
+      color: #fff;
+      transform: none;
+      box-shadow: none;
     }
 
     @media (max-width: 767.98px) {
