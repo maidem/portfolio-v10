@@ -82,8 +82,12 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Use official PHP extension installer again for the remaining extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions gd intl zip opcache pdo_mysql mysqli soap bcmath exif imagick
+RUN chmod +x /usr/local/bin/install-php-extensions
+# Install intl first and alone — it compiles ICU from source and is very memory-intensive.
+# Isolating it in its own RUN prevents OOM during the linker step.
+RUN install-php-extensions intl
+# Install the remaining extensions after intl is done and memory is released.
+RUN install-php-extensions gd zip opcache pdo_mysql mysqli soap bcmath exif imagick
 
 # Enable Apache modules
 RUN a2enmod rewrite headers expires
