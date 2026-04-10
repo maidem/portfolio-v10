@@ -3,6 +3,11 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
+    <f:asset.css
+        identifier="cb-footer-css"
+        href="{cb:assetPath()}/frontend.css"
+    />
+
     <footer class="cb-footer py-5" id="c{data.uid}">
         <div class="container">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4 text-center text-md-start">
