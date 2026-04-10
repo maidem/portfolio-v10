@@ -3,7 +3,7 @@
   padding: 8rem 0 4rem; // Huge negative space top to give editorial breathing room.
   margin: 0;
 
-  >.container {
+  > .container {
     max-width: 800px; // Keep it perfectly centered and narrow like the rest of the text elements
     border-top: none; // Absolutely no line
     padding-top: 0;
@@ -38,7 +38,9 @@
     text-transform: uppercase;
     text-decoration: none;
     color: rgba(0, 0, 0, 0.4); // Subtle baseline
-    transition: color 0.4s ease, transform 0.4s ease;
+    transition:
+      color 0.4s ease,
+      transform 0.4s ease;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
