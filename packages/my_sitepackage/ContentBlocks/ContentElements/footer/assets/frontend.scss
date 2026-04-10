@@ -55,6 +55,14 @@
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  &__github {
+    color: #92b9c8; // Brand blue
+
+    &:hover {
+      color: #7aa8b8;
+    }
+  }
+
   &__github:hover &__icon {
     transform: scale(1.15) rotate(5deg);
   }
