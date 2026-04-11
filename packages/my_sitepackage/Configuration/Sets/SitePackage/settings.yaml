@@ -5,7 +5,7 @@ styles:
     templateRootPath: "EXT:my_sitepackage/Resources/Private/ContentElements/Templates/"
 
 footer:
-  storagePid: "0"
+  storagePid: "14"
 
 form:
   contact:
