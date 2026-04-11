@@ -33,9 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 // If it's the first heading, scroll to the top of the article container
                 let y;
                 if (targetId === firstHeadingId && articleContainer) {
-                    y = articleContainer.getBoundingClientRect().top + window.scrollY - 40;
+                    y =
+                        articleContainer.getBoundingClientRect().top +
+                        window.scrollY -
+                        40;
                 } else {
-                    y = targetElement.getBoundingClientRect().top + window.scrollY - 100;
+                    y =
+                        targetElement.getBoundingClientRect().top +
+                        window.scrollY -
+                        100;
                 }
                 window.scrollTo({ top: y, behavior: "smooth" });
             }
@@ -63,12 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // Mobile Select Option
         const option = document.createElement("option");
         option.value = id;
-        option.textContent = (heading.tagName === "H3" ? "   — " : "") + heading.textContent;
+        option.textContent =
+            (heading.tagName === "H3" ? "   — " : "") + heading.textContent;
         select.appendChild(option);
 
         // Sidebar List Item
         const li = document.createElement("li");
-        li.className = (heading.tagName === "H3" ? "ms-3 mb-2" : "mb-2");
+        li.className = heading.tagName === "H3" ? "ms-3 mb-2" : "mb-2";
 
         const a = document.createElement("a");
         a.href = `#${id}`;
@@ -86,10 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const articleContainer = document.querySelector(".cb-news-article");
     if (articleContainer) {
         selectWrapper.style.position = "sticky";
-        selectWrapper.style.top = "4rem";
+        selectWrapper.style.top = "5.5rem"; // Below cb-nav (88px)
         selectWrapper.style.zIndex = "1030";
-        selectWrapper.style.backgroundColor = "#f8f9fa";
-        articleContainer.insertBefore(selectWrapper, articleContainer.firstChild);
+        selectWrapper.style.marginLeft = "-1rem";
+        selectWrapper.style.marginRight = "-1rem";
+        selectWrapper.style.marginBottom = "1.5rem";
+        articleContainer.insertBefore(
+            selectWrapper,
+            articleContainer.firstChild,
+        );
     }
     tocContainer.appendChild(desktopNav);
 
@@ -97,32 +109,38 @@ document.addEventListener("DOMContentLoaded", () => {
      * Logic: Scroll heading to align with link's sidebar height
      */
     function getTargetViewportY(link) {
-        const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const remInPx = parseFloat(
+            getComputedStyle(document.documentElement).fontSize,
+        );
         const stickyTop = 8 * remInPx; // Viewport top offset
-        
-        // Use the actual current viewport position of the link 
+
+        // Use the actual current viewport position of the link
         // relative to the sticky sidebar container
         const tocRect = tocContainer.getBoundingClientRect();
         const linkRect = link.getBoundingClientRect();
-        
+
         // The distance from the top of the sticky sidebar to the link
         const relativeOffset = linkRect.top - tocRect.top;
-        
+
         return stickyTop + relativeOffset;
     }
 
-    const navLinks = ul.querySelectorAll('.cb-toc-link');
+    const navLinks = ul.querySelectorAll(".cb-toc-link");
 
     // Desktop Click: Precision Scroll
     navLinks.forEach((a) => {
         a.addEventListener("click", (e) => {
             e.preventDefault();
-            const id = a.getAttribute('href').substring(1);
+            const id = a.getAttribute("href").substring(1);
             const heading = document.getElementById(id);
             if (heading) {
-                const scrollY = heading.getBoundingClientRect().top + window.scrollY - getTargetViewportY(a);
+                const scrollY =
+                    heading.getBoundingClientRect().top +
+                    window.scrollY -
+                    getTargetViewportY(a);
                 window.scrollTo({ top: scrollY, behavior: "smooth" });
-                if (history.replaceState) history.replaceState(null, null, `#${id}`);
+                if (history.replaceState)
+                    history.replaceState(null, null, `#${id}`);
             }
         });
     });
@@ -133,7 +151,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const heading = document.getElementById(e.target.value);
         if (heading) {
             // Mobile: Standard Offset
-            window.scrollTo({ top: heading.getBoundingClientRect().top + window.scrollY - 100, behavior: "smooth" });
+            window.scrollTo({
+                top: heading.getBoundingClientRect().top + window.scrollY - 100,
+                behavior: "smooth",
+            });
         }
     });
 
@@ -141,24 +162,37 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateScrollSpy() {
         let activeId = null;
         headings.forEach((heading) => {
-            const link = ul.querySelector(`.cb-toc-link[href="#${heading.id}"]`);
+            const link = ul.querySelector(
+                `.cb-toc-link[href="#${heading.id}"]`,
+            );
             if (!link) return;
-            if (heading.getBoundingClientRect().top <= getTargetViewportY(link) + 20) {
+            if (
+                heading.getBoundingClientRect().top <=
+                getTargetViewportY(link) + 20
+            ) {
                 activeId = heading.id;
             }
         });
 
-        navLinks.forEach(link => {
-            const id = link.getAttribute('href').substring(1);
+        navLinks.forEach((link) => {
+            const id = link.getAttribute("href").substring(1);
             if (id === activeId) {
-                link.classList.add('active');
+                link.classList.add("active");
                 select.value = id;
+                // Mark select wrapper so CSS can highlight it with brand blue
+                if (select.parentElement)
+                    select.parentElement.classList.add("has-active");
+                select.classList.add("has-selection");
             } else {
-                link.classList.remove('active');
+                link.classList.remove("active");
             }
         });
+
+        if (!activeId) {
+            select.classList.remove("has-selection");
+        }
     }
 
-    window.addEventListener('scroll', updateScrollSpy);
+    window.addEventListener("scroll", updateScrollSpy);
     updateScrollSpy();
 });

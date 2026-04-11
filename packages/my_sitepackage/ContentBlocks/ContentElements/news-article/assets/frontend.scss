@@ -1,6 +1,6 @@
 .cb-news-article {
   scroll-margin-top: 100px;
-  
+
   // Reuse the global card styles but ensure internal spacing
   .cb-card {
     padding: 3rem;
@@ -9,7 +9,7 @@
   .cb-news-article-title-sidebar {
     font-size: 1.75rem;
     line-height: 1.2;
-    font-weight: 300; 
+    font-weight: 300;
     color: #111111;
     margin-bottom: 0.5rem;
     letter-spacing: -0.01em;
@@ -18,7 +18,7 @@
   .cb-news-article-title-top {
     font-size: clamp(1.75rem, 5vw, 2.75rem);
     line-height: 1.1;
-    font-weight: 300; 
+    font-weight: 300;
     color: #111111;
     letter-spacing: -0.02em;
     margin-top: 0.5rem;
@@ -40,7 +40,7 @@
     color: #555555; // $text-secondary
     font-weight: 500;
     font-style: normal; // Clean roman instead of italic
-    display: block; 
+    display: block;
     width: 100%;
     max-width: 420px;
     text-wrap: balance;
@@ -52,17 +52,24 @@
     line-height: 1.8;
     color: #444444;
 
-    h2, h3 {
+    h2,
+    h3 {
       font-weight: 700;
       color: #111111;
       margin-top: 3.5rem;
       margin-bottom: 1.25rem;
     }
 
-    h2 { font-size: 1.75rem; }
-    h3 { font-size: 1.5rem; }
+    h2 {
+      font-size: 1.75rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+    }
 
-    p { margin-bottom: 1.75rem; }
+    p {
+      margin-bottom: 1.75rem;
+    }
 
     a {
       color: #111111;
@@ -70,7 +77,9 @@
       text-decoration: underline;
       text-underline-offset: 4px;
       transition: opacity 0.2s ease;
-      &:hover { opacity: 0.7; }
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 
@@ -85,7 +94,9 @@
     display: inline-block;
     transition: color 0.2s ease;
 
-    &:hover { color: #1e293b; }
+    &:hover {
+      color: #1e293b;
+    }
   }
 
   // --- Minimalist Sidebar TOC ---
@@ -96,7 +107,7 @@
     position: relative;
 
     &::before {
-      content: 'INHALT';
+      content: "INHALT";
       display: block;
       font-size: 0.625rem; // 10px
       font-weight: 600; // $font-weight-label
@@ -138,9 +149,9 @@
     }
 
     &.active {
-      color: #000 !important;
+      color: #9bc0cf !important; // Brand blue — consistent with button blue
       font-weight: 700;
-      border-left-color: #000;
+      border-left-color: #9bc0cf;
     }
   }
 }
@@ -155,5 +166,42 @@
   }
   .cb-news-article-title-top {
     font-size: 2.25rem;
+  }
+}
+
+// Mobile TOC select wrapper — sticky bar below the site nav
+.cb-toc-select-wrapper {
+  padding: 0.625rem 1rem;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.06);
+
+  .cb-toc-select {
+    font-size: 1rem; // ≥ 16px prevents iOS auto-zoom
+    font-weight: 500;
+    border-color: rgba(0, 0, 0, 0.12);
+    border-radius: 0.75rem;
+    background-color: #ffffff;
+    color: #111111;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus {
+      border-color: #9bc0cf;
+      box-shadow: 0 0 0 3px rgba(155, 192, 207, 0.25);
+      outline: none;
+    }
+
+    option {
+      font-size: 1rem;
+      color: #111111;
+    }
+
+    // Active / selected option highlight via JS class on wrapper
+    &.has-selection {
+      border-color: #9bc0cf;
+      color: #9bc0cf;
+      font-weight: 600;
+    }
   }
 }
