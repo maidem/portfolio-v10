@@ -26,3 +26,7 @@ ExtensionManagementUtility::addFieldsToPalette(
     '--linebreak--,section_anchor',
     'after:sectionIndex'
 );
+
+// EXT:form (form_formframework) does not include the appearance palette by default,
+// so we explicitly add the field to that CType's showitem.
+$GLOBALS['TCA']['tt_content']['types']['form_formframework']['showitem'] .= ',section_anchor';

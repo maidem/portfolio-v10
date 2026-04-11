@@ -4,11 +4,14 @@ group: default
 prefixFields: true
 prefixType: full
 fields:
-  -
-    identifier: header
+  - identifier: header
     useExistingField: true
-  -
-    identifier: bodytext
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: bodytext
     useExistingField: true
 assets:
   css:

@@ -23,34 +23,28 @@ document.addEventListener("DOMContentLoaded", () => {
     select.appendChild(defaultOption);
 
     select.addEventListener("change", (e) => {
-        if (e.target.value) {
-            const targetId = e.target.value;
-            const targetElement = document.getElementById(targetId);
-            const articleContainer = document.querySelector(".cb-news-article");
-            const firstHeadingId = headings[0]?.id;
+        if (!e.target.value) return;
+        const targetElement = document.getElementById(e.target.value);
+        if (!targetElement) return;
 
-            if (targetElement) {
-                // If it's the first heading, scroll to the top of the article container
-                let y;
-                if (targetId === firstHeadingId && articleContainer) {
-                    y =
-                        articleContainer.getBoundingClientRect().top +
-                        window.scrollY -
-                        40;
-                } else {
-                    y =
-                        targetElement.getBoundingClientRect().top +
-                        window.scrollY -
-                        100;
-                }
-                window.scrollTo({ top: y, behavior: "smooth" });
-            }
+        // Calculate sticky offset: nav height + TOC bar height + breathing room
+        const navEl = document.querySelector(".cb-nav");
+        const navH = navEl ? navEl.offsetHeight : 88;
+        const tocH = selectWrapper ? selectWrapper.offsetHeight : 0;
+        const offset = navH + tocH + 16;
 
-            // Optionally reset select so users can select the same again if they scroll away
-            setTimeout(() => {
-                e.target.value = "";
-            }, 1000);
-        }
+        window.scrollTo({
+            top:
+                targetElement.getBoundingClientRect().top +
+                window.scrollY -
+                offset,
+            behavior: "smooth",
+        });
+
+        // Reset so users can re-select the same entry after scrolling away
+        setTimeout(() => {
+            e.target.value = "";
+        }, 1000);
     });
 
     selectWrapper.appendChild(select);
@@ -95,8 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
         selectWrapper.style.position = "sticky";
         selectWrapper.style.top = "5.5rem"; // Below cb-nav (88px)
         selectWrapper.style.zIndex = "1030";
-        selectWrapper.style.marginLeft = "-1rem";
-        selectWrapper.style.marginRight = "-1rem";
         selectWrapper.style.marginBottom = "1.5rem";
         articleContainer.insertBefore(
             selectWrapper,
@@ -143,19 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     history.replaceState(null, null, `#${id}`);
             }
         });
-    });
-
-    // Mobile Select: Scroll
-    select.addEventListener("change", (e) => {
-        if (!e.target.value) return;
-        const heading = document.getElementById(e.target.value);
-        if (heading) {
-            // Mobile: Standard Offset
-            window.scrollTo({
-                top: heading.getBoundingClientRect().top + window.scrollY - 100,
-                behavior: "smooth",
-            });
-        }
     });
 
     // ScrollSpy: Sync highlights during scroll

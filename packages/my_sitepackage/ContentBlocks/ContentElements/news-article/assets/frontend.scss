@@ -160,8 +160,24 @@
   // Global horizontal balance
 }
 
+@media (min-width: 768px) {
+  .cb-news-article .cb-card--article {
+    padding: 4rem 3rem;
+  }
+}
+
 @media (max-width: 767.98px) {
+  // Full-width edge-to-edge white card on mobile
+  .cb-news-article.container {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .cb-news-article .cb-card {
+    background: #ffffff;
+    border-radius: 0;
+    margin-bottom: 0;
     padding: 2rem 1.5rem;
   }
   .cb-news-article-title-top {
