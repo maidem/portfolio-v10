@@ -321,7 +321,7 @@ main > section:first-of-type > * {
     justify-content: center;
     min-height: 2.75rem; // ~44px Apple Standard UX Height
     padding: 0 2rem;
-    background-color: $brand-btn;
+    background-color: #7aafc0;
     color: #fff;
     border: none;
     border-radius: 999px;
@@ -334,7 +334,8 @@ main > section:first-of-type > * {
     white-space: nowrap;
 
     &:hover {
-      background-color: #8ab4c4; // Slightly darker blue
+      background-color: rgba(122, 175, 192, 0.8);
+      border-color: #fff;
       color: #fff;
       transform: none;
       box-shadow: none;

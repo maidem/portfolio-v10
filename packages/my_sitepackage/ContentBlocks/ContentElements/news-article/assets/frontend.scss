@@ -99,22 +99,30 @@
     }
   }
 
-  // --- Minimalist Sidebar TOC ---
+  // --- Sidebar TOC card — button blue ---
   .cb-toc-minimal {
-    border-left: 1px solid rgba(148, 163, 184, 0.1);
-    padding-left: 1.5rem;
-    padding-top: 4.85rem; // Precisely aligned with the first H2 heading in the content area
+    background-color: #9bc0cf;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
     position: relative;
+    margin-left: 1rem;
 
     &::before {
-      content: "INHALT";
-      display: block;
-      font-size: 0.625rem; // 10px
-      font-weight: 600; // $font-weight-label
-      letter-spacing: 0.25em;
-      color: #999999;
-      margin-bottom: 2rem;
+      display: none;
     }
+  }
+
+  .cb-toc-heading {
+    font-size: 0.6875rem; // 11px
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   .cb-toc-list {
@@ -134,24 +142,22 @@
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.4;
-    color: #777777 !important;
+    color: rgba(255, 255, 255, 0.75) !important;
     text-decoration: none;
     display: block;
     transition: all 0.2s ease;
     border-left: 3px solid transparent;
-    padding-left: 0;
-    margin-left: -1.7rem; // Align with vertical line
-    padding-left: 1.5rem;
+    padding-left: 0.5rem;
 
     &:hover {
-      color: #000 !important;
-      border-left-color: rgba(0, 0, 0, 0.2);
+      color: #ffffff !important;
+      border-left-color: rgba(255, 255, 255, 0.5);
     }
 
     &.active {
-      color: #9bc0cf !important; // Brand blue — consistent with button blue
+      color: #ffffff !important;
       font-weight: 700;
-      border-left-color: #9bc0cf;
+      border-left-color: #ffffff;
     }
   }
 }
@@ -185,38 +191,79 @@
   }
 }
 
-// Mobile TOC select wrapper — sticky bar below the site nav
-.cb-toc-select-wrapper {
-  padding: 0.625rem 1rem;
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.06);
+// Mobile TOC — Collapsible <details>/<summary> panel
+// Best-practice: native HTML toggle, no-JS fallback, fully accessible
+.cb-toc-panel {
+  background-color: #9bc0cf;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
 
-  .cb-toc-select {
-    font-size: 1rem; // ≥ 16px prevents iOS auto-zoom
-    font-weight: 500;
-    border-color: rgba(0, 0, 0, 0.12);
-    border-radius: 0.75rem;
-    background-color: #ffffff;
-    color: #111111;
+  &__header {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #ffffff;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
     -webkit-tap-highlight-color: transparent;
 
-    &:focus {
-      border-color: #9bc0cf;
-      box-shadow: 0 0 0 3px rgba(155, 192, 207, 0.25);
-      outline: none;
+    // Remove default disclosure triangle
+    &::marker,
+    &::-webkit-details-marker {
+      display: none;
     }
 
-    option {
-      font-size: 1rem;
-      color: #111111;
+    // Custom chevron → rotates when open
+    &::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid rgba(255, 255, 255, 0.8);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: -3px; // Optical vertical centering of rotated square
+    }
+  }
+
+  &[open] &__header::after {
+    transform: rotate(-135deg);
+    margin-top: 3px;
+  }
+
+  &__list {
+    padding: 0.5rem 1.25rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  &__item {
+    &--sub {
+      padding-left: 1rem;
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: 0.4rem 0;
+    font-size: 0.9375rem; // 15px — avoids iOS auto-zoom
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #ffffff;
     }
 
-    // Active / selected option highlight via JS class on wrapper
-    &.has-selection {
-      border-color: #9bc0cf;
-      color: #9bc0cf;
+    &.active {
+      color: #ffffff;
       font-weight: 600;
     }
   }

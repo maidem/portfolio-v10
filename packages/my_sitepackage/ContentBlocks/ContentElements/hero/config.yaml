@@ -18,6 +18,7 @@ fields:
   - identifier: bodytext
     useExistingField: true
     label: "Einleitung (Über mich)"
+    enableRichtext: true
   - identifier: about_image
     type: File
     label: "Profilbild"

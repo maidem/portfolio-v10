@@ -32,6 +32,11 @@ page {
         robots = {$page.meta.robots}
         apple-mobile-web-app-capable = {$page.meta.apple-mobile-web-app-capable}
 
+        theme-color = #ffffff
+        theme-color {
+            attribute = name
+        }
+
         X-UA-Compatible = {$page.meta.compatible}
         X-UA-Compatible {
             attribute = http-equiv

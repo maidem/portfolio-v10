@@ -1,19 +1,19 @@
-// --- Special Styling for the Light Blue PDF Card (formerly Yellow) ---
+// --- PDF Card — Button Blue ---
 .cb-card--yellow {
-  background-color: #e0f7ff !important; // Softened Light Blue
-  color: #000 !important;
+  background-color: #7aafc0 !important;
+  color: #fff !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   position: relative;
   overflow: hidden;
 
   .cb-card__title {
-    color: #000 !important;
+    color: #fff !important;
   }
 
   p,
   span {
-    color: #000 !important;
+    color: #fff !important;
   }
 }
 
@@ -45,8 +45,8 @@
 
   &__tile {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.05);
-    border: 1.5px solid rgba(0, 0, 0, 0.05);
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
     border-radius: 1rem;
     padding: 1rem;
     display: flex;
@@ -54,21 +54,22 @@
     justify-content: space-between;
     min-height: 100px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #fff;
 
     input[type="checkbox"] {
       display: none;
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.08);
+      background-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
     }
 
     &:has(input:checked) {
-      background-color: #9bc0cf; 
-      border-color: #9bc0cf;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.6);
       color: #fff;
-      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
 
       .cb-pdf-export__tile-label {
         color: #fff !important;
@@ -79,12 +80,13 @@
 
   &__tile-label {
     font-size: 0.6875rem; // 11px
-    font-weight: 600; 
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     margin-bottom: 0.4rem;
     display: block;
-    opacity: 0.6;
+    color: rgba(255, 255, 255, 0.65);
+    opacity: 1;
     transition: color 0.3s ease;
   }
 
@@ -93,6 +95,7 @@
     font-weight: 700;
     line-height: 1.3;
     margin: 0;
+    color: #fff;
   }
 
   &__tile-indicator {
@@ -130,13 +133,13 @@
   }
 
   &__submit {
-    background-color: #9bc0cf; 
+    background-color: transparent;
     color: #fff;
-    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem; 
+    min-height: 2.75rem;
     padding: 0 3.2rem;
     border-radius: 999px;
     font-size: 0.8125rem;
@@ -144,11 +147,11 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
     cursor: pointer;
-    border: none !important;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
     &:hover {
-      background-color: #8ab4c4;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-color: #fff !important;
       color: #fff;
       transform: none;
       box-shadow: none;
@@ -156,7 +159,7 @@
 
     @media (max-width: 767.98px) {
       width: 100%;
-      min-height: 3.25rem; // 52px for mobile
+      min-height: 3.25rem;
     }
   }
 }

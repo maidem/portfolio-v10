@@ -9,7 +9,9 @@
         href="{cb:assetPath()}/frontend.css"
     />
 
-    <section id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}">
+    <section
+        id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+    >
         <div class="container cb-hero">
             <div class="cb-card position-relative overflow-hidden">
                 <!-- Column 1: Header / Label -->
@@ -32,24 +34,26 @@
                             />
                         </div>
                     </f:if>
-                    
+
                     <f:if condition="{data.bodytext}">
-                        <div class="cb-hero__about-text lead fs-6 mb-5 pb-xl-5">
+                        <div class="cb-hero__about-text lead fs-6 mb-4">
                             <f:format.html>{data.bodytext}</f:format.html>
                         </div>
                     </f:if>
                 </div>
 
                 <!-- FAQ Section -->
-                <div class="cb-card__left cb-hero__faq-left pt-md-4">
+                <div class="cb-card__left cb-hero__faq-left pt-md-2">
                     <!-- Left column empty as requested -->
                 </div>
 
-                <div class="cb-card__right cb-hero__faq-right pt-md-4">
+                <div class="cb-card__right cb-hero__faq-right pt-md-2">
                     <f:if condition="{data.faq_header}">
-                        <h3 class="cb-faq__title-inline mb-4">{data.faq_header}</h3>
+                        <h3 class="cb-faq__title-inline mb-4">
+                            {data.faq_header}
+                        </h3>
                     </f:if>
-                    
+
                     <div class="cb-faq__list" role="list">
                         <f:if condition="{data.faq_items}">
                             <f:for
@@ -58,18 +62,22 @@
                                 iteration="iteration"
                             >
                                 <div class="cb-faq__item" role="listitem">
-                                    <button 
-                                        class="cb-faq__trigger" 
+                                    <button
+                                        class="cb-faq__trigger"
                                         aria-expanded="false"
                                         type="button"
                                     >
                                         <span class="cb-faq__icon"></span>
-                                        <span class="cb-faq__question">{faqItem.question}</span>
+                                        <span class="cb-faq__question"
+                                            >{faqItem.question}</span
+                                        >
                                     </button>
                                     <div class="cb-faq__content" role="region">
                                         <div class="cb-faq__content-inner">
                                             <div class="cb-faq__answer">
-                                                <f:format.html>{faqItem.answer}</f:format.html>
+                                                <f:format.html
+                                                    >{faqItem.answer}</f:format.html
+                                                >
                                             </div>
                                         </div>
                                     </div>
