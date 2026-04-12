@@ -16,12 +16,12 @@ $text-secondary: #555555;
     caret-color: $text-primary !important;
     padding: 1rem 1.25rem;
     font-size: 1rem;
-    
+
     // Fix for unsharp text
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transform: translateZ(0); 
-    
+    transform: translateZ(0);
+
     transition: all 0.2s ease-in-out;
 
     &::placeholder {
@@ -41,7 +41,8 @@ $text-secondary: #555555;
     min-height: 200px;
   }
 
-  label, .form-label {
+  label,
+  .form-label {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -132,4 +133,3 @@ $text-secondary: #555555;
     font-weight: 700;
   }
 }
-
