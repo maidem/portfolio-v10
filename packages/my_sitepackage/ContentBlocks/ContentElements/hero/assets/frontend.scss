@@ -2,8 +2,17 @@
 .cb-hero {
   position: relative;
 
+  // Dark card background for hero section
+  .cb-card {
+    background-color: #202020;
+  }
+
+  .cb-card__title {
+    color: #ffffff;
+  }
+
   &__about-text {
-    color: #111111;
+    color: #c0c0c0;
   }
 
   &__about-image {
@@ -19,7 +28,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #111111;
+    color: #ffffff;
     opacity: 0.8;
   }
 
@@ -53,13 +62,13 @@
     border: none;
     padding: 0.875rem 0;
     display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
+    align-items: center;
+    justify-content: flex-start;
     flex-direction: row;
     gap: 1rem;
-    color: #111111; 
-    font-weight: 400; 
-    font-size: 1rem; 
+    color: #bce2ff;
+    font-weight: 400;
+    font-size: 1rem;
     letter-spacing: -0.01em;
     line-height: 1.4;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -79,10 +88,11 @@
     flex-shrink: 0;
     position: relative;
 
-    &::before, &::after {
+    &::before,
+    &::after {
       content: "";
       position: absolute;
-      background-color: #111111;
+      background-color: #bce2ff;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       border-radius: 999px;
     }
@@ -119,8 +129,8 @@
   }
 
   &__answer {
-    padding: 0 0 1.5rem calc(12px + 1rem); 
-    color: #555555;
+    padding: 0 0 1.5rem calc(12px + 1rem);
+    color: #c0c0c0;
     font-size: 1rem;
     line-height: 1.6;
     transform: translateY(10px);

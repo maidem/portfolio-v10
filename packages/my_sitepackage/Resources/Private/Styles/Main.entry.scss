@@ -259,6 +259,19 @@ main > section:first-of-type > * {
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   transition: all 0.3s ease;
 
+  // Fills the iOS safe area above the nav so content doesn't bleed through
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top, 0px);
+    background-color: rgba(255, 255, 255, 0.98);
+    z-index: 1041;
+    pointer-events: none;
+  }
+
   &__bar {
     display: flex;
     align-items: center;
@@ -321,9 +334,9 @@ main > section:first-of-type > * {
     justify-content: center;
     min-height: 2.75rem; // ~44px Apple Standard UX Height
     padding: 0 2rem;
-    background-color: #7aafc0;
-    color: #fff;
-    border: none;
+    background-color: transparent;
+    color: $text-primary;
+    border: 2px solid $text-primary;
     border-radius: 999px;
     font-weight: 700;
     font-size: 0.8125rem;
@@ -334,8 +347,8 @@ main > section:first-of-type > * {
     white-space: nowrap;
 
     &:hover {
-      background-color: rgba(122, 175, 192, 0.8);
-      border-color: #fff;
+      background-color: $text-primary;
+      border-color: $text-primary;
       color: #fff;
       transform: none;
       box-shadow: none;

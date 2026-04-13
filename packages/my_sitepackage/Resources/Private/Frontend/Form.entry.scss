@@ -2,7 +2,7 @@
 // Form Specific Design Tokens (Glass Hybrid)
 // =============================
 $glass-form-bg: #f5f5f7; // Solid light gray as requested
-$glass-form-border: #e5e5e7;
+$glass-form-border: #111111;
 $text-primary: #111111;
 $text-secondary: #555555;
 
@@ -10,7 +10,7 @@ $text-secondary: #555555;
   // ─── Input Fields ──────────────────────────────────────────────────────────
   .form-control {
     background-color: #ffffff !important;
-    border: 1px solid $glass-form-border !important;
+    border: 2px solid $glass-form-border !important;
     border-radius: 1rem;
     color: $text-primary !important;
     caret-color: $text-primary !important;
@@ -59,9 +59,9 @@ $text-secondary: #555555;
     justify-content: center;
     min-height: 2.75rem;
     padding: 0 3.2rem;
-    background-color: #7aafc0;
-    border: none !important;
-    color: #fff !important;
+    background-color: transparent;
+    border: 2px solid #111111 !important;
+    color: #111111 !important;
     border-radius: 999px;
     font-weight: 700;
     font-size: 0.8125rem;
@@ -72,7 +72,7 @@ $text-secondary: #555555;
     white-space: nowrap;
 
     &:hover {
-      background-color: rgba(122, 175, 192, 0.8) !important;
+      background-color: #111111 !important;
       color: #fff !important;
       box-shadow: none !important;
       transform: none;
@@ -90,16 +90,16 @@ $text-secondary: #555555;
 
   // ─── Checkbox ──────────────────────────────────────────────────────────────
   .form-check-input {
-    background-color: #7aafc0;
-    border: 1px solid #7aafc0;
+    background-color: #bce2ff;
+    border: 1px solid #bce2ff;
     width: 1.2rem;
     height: 1.2rem;
     cursor: pointer;
 
     &:checked {
-      background-color: #7aafc0 !important;
-      border-color: #7aafc0 !important;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+      background-color: #bce2ff !important;
+      border-color: #bce2ff !important;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23111111' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
     }
   }
 
