@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "362b7e8f4022c190633895f138eb79c1",
+    "content-hash": "229012c75c1657332ce106e71040acc3",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -755,12 +755,12 @@
             "version": "v7.0.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/firebase/php-jwt.git",
+                "url": "https://github.com/googleapis/php-jwt.git",
                 "reference": "e41f1bd7dbe3c5455c3f72d4338cfeb083b71931"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/e41f1bd7dbe3c5455c3f72d4338cfeb083b71931",
+                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/e41f1bd7dbe3c5455c3f72d4338cfeb083b71931",
                 "reference": "e41f1bd7dbe3c5455c3f72d4338cfeb083b71931",
                 "shasum": ""
             },
@@ -914,10 +914,10 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/my_sitepackage",
-                "reference": "de5706e6882650a3032b0d46302956e6f9263cf0"
+                "reference": "7876a8bd550db9b1955307fa94346933b224de66"
             },
             "require": {
-                "php": ">=8.5.0",
+                "php": ">=8.4.0",
                 "typo3/cms-core": "^14.1",
                 "typo3/cms-fluid-styled-content": "^14.1",
                 "typo3/cms-rte-ckeditor": "^14.1"
@@ -7983,11 +7983,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.5.0"
+        "php": ">=8.4.0"
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.5.0"
+        "php": "8.4.0"
     },
     "plugin-api-version": "2.9.0"
 }

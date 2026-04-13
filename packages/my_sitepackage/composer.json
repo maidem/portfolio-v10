@@ -3,10 +3,14 @@
     "type": "typo3-cms-extension",
     "description": "",
     "homepage": "https://maidem.de",
-    "license": ["GPL-2.0-or-later"],
-    "keywords": ["TYPO3 CMS"],
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "keywords": [
+        "TYPO3 CMS"
+    ],
     "require": {
-        "php": ">=8.5.0",
+        "php": ">=8.4.0",
         "typo3/cms-core": "^14.1",
         "typo3/cms-rte-ckeditor": "^14.1",
         "typo3/cms-fluid-styled-content": "^14.1"

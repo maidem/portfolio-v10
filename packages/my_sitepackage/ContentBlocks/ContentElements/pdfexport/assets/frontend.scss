@@ -166,6 +166,6 @@
 
 // Ensure the checkbox hack works across all browsers correctly
 input:checked ~ .cb-pdf-export__tile-indicator::after {
-  opacity: 1 !important;
-  transform: scale(1) !important;
+  opacity: 1;
+  transform: scale(1);
 }

@@ -7,7 +7,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '14.0.0-14.9.99',
-            'php' => '8.5.0-8.5.99',
+            'php' => '8.4.0-8.4.99',
             'fluid_styled_content' => '14.0.0-14.9.99',
             'rte_ckeditor' => '14.0.0-14.9.99',
         ],
