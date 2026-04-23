@@ -1,20 +1,32 @@
-// --- PDF Card — Light Blue ---
-.cb-card--yellow {
-  background-color: #bce2ff !important;
-  color: #111111 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+// PDF Export Block — Wrapper wie .cb-hero: position relative + overflow visible
+.cb-pdf-export__block {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+}
 
-  .cb-card__title {
-    color: #111111 !important;
+// SVG Decoration — 1:1 identisch mit .cb-hero__decoration
+.cb-pdf-export__decoration {
+  position: absolute;
+  top: -4.4rem;
+  right: -2rem;
+  z-index: 3;
+  pointer-events: none;
+  color: #111;
+  transform: rotate(65deg);
+  transform-origin: bottom left;
+
+  svg {
+    width: 3.6rem;
+    height: auto;
   }
 
-  p,
-  span {
-    color: #111111 !important;
+  @media (max-width: 767.98px) {
+    display: none;
   }
+}
+// --- PDF Card — keep tiles on white background ---
+.cb-card--yellow {
+  // base card design applies; no override needed
 }
 
 // --- Specific PDF Export Section Spacing ---

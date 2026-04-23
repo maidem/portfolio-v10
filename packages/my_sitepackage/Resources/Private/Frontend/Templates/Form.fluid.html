@@ -8,38 +8,51 @@
         <vite:asset
             entry="EXT:my_sitepackage/Resources/Private/Frontend/Form.entry.scss"
         />
-        <div class="container" id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'contact')}">
-            <div class="cb-card cb-card--dark">
-                <div class="cb-card__left">
-                    <h2 class="cb-card__title">{form.currentPage.label}</h2>
+        <div
+            class="container"
+            id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'contact')}"
+        >
+            <div class="cb-card">
+                <div class="cb-card__label-bar">
+                    <f:if condition="{data.header}">
+                        <f:then>{data.header}</f:then>
+                        <f:else>Kontakt</f:else>
+                    </f:if>
                 </div>
-                <div class="cb-card__right cb-form">
-                    <formvh:form
-                        object="{form}"
-                        action="{form.renderingOptions.controllerAction}"
-                        method="{form.renderingOptions.httpMethod}"
-                        id="{form.identifier}"
-                        section="{form.identifier}"
-                        enctype="{form.renderingOptions.httpEnctype}"
-                        addQueryString="{form.renderingOptions.addQueryString}"
-                        argumentsToBeExcludedFromQueryString="{form.renderingOptions.argumentsToBeExcludedFromQueryString}"
-                        additionalParams="{form.renderingOptions.additionalParams}"
-                        additionalAttributes="{formvh:translateElementProperty(element: form, property: 'fluidAdditionalAttributes')}"
-                        novalidate="novalidate"
-                    >
-                        <f:render
-                            partial="{form.currentPage.templateName}"
-                            arguments="{page: form.currentPage}"
-                        />
-                        <div
-                            class="{form.renderingOptions.formNavigation.navigationWrapperClassAttribute}"
-                        >
-                            <f:render
-                                partial="Form/Navigation"
-                                arguments="{form: form}"
-                            />
+                <div class="cb-card__body">
+                    <div class="row gx-md-4">
+                        <div class="col-12 col-md-4">
+                            <!-- intentionally empty label column -->
                         </div>
-                    </formvh:form>
+                        <div class="col-12 col-md-8 cb-form">
+                            <formvh:form
+                                object="{form}"
+                                action="{form.renderingOptions.controllerAction}"
+                                method="{form.renderingOptions.httpMethod}"
+                                id="{form.identifier}"
+                                section="{form.identifier}"
+                                enctype="{form.renderingOptions.httpEnctype}"
+                                addQueryString="{form.renderingOptions.addQueryString}"
+                                argumentsToBeExcludedFromQueryString="{form.renderingOptions.argumentsToBeExcludedFromQueryString}"
+                                additionalParams="{form.renderingOptions.additionalParams}"
+                                additionalAttributes="{formvh:translateElementProperty(element: form, property: 'fluidAdditionalAttributes')}"
+                                novalidate="novalidate"
+                            >
+                                <f:render
+                                    partial="{form.currentPage.templateName}"
+                                    arguments="{page: form.currentPage}"
+                                />
+                                <div
+                                    class="{form.renderingOptions.formNavigation.navigationWrapperClassAttribute}"
+                                >
+                                    <f:render
+                                        partial="Form/Navigation"
+                                        arguments="{form: form}"
+                                    />
+                                </div>
+                            </formvh:form>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -1,70 +1,109 @@
+// ─── News Article — Premium Editorial Layout ──────────────────────────────────
 .cb-news-article {
   scroll-margin-top: 100px;
 
-  // Reuse the global card styles but ensure internal spacing
-  .cb-card {
-    padding: 3rem;
+  // Kein Card-Wrapper mehr — direkt auf weißem Hintergrund
+  .cb-news-article-inner {
+    padding: clamp(2rem, 5vw, 5rem) 0;
   }
 
-  .cb-news-article-title-sidebar {
-    font-size: 1.75rem;
-    line-height: 1.2;
-    font-weight: 300;
-    color: #111111;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.01em;
+  // Trennlinie nach Header-Block
+  .row.mb-4.pb-4 {
+    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    padding-bottom: 2.5rem !important;
+    margin-bottom: 2.5rem !important;
   }
 
-  .cb-news-article-title-top {
-    font-size: clamp(1.75rem, 5vw, 2.75rem);
-    line-height: 1.1;
-    font-weight: 300;
-    color: #111111;
-    letter-spacing: -0.02em;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+  // ── Sidebar: sticky beim Scrollen ─────────────────────────────────────────
+  .cb-sidebar {
+    position: sticky;
+    top: 7rem;
+    max-height: calc(100vh - 9rem);
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
+  // ── Datum ─────────────────────────────────────────────────────────────────
   .cb-news-article-date {
-    font-size: 0.6875rem; // 11px
-    color: #888888; // $text-muted
+    opacity: 0;
+    animation: cbSoftReveal 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0s forwards;
+    font-size: 0.625rem;
+    color: #aaaaaa;
     text-transform: uppercase;
-    font-weight: 600; // $font-weight-label
-    letter-spacing: 0.2em;
+    font-weight: 700;
+    letter-spacing: 0.25em;
     display: inline-block;
   }
 
-  .cb-news-article-teaser {
-    font-size: 1.25rem;
-    line-height: 1.5;
-    color: #555555; // $text-secondary
-    font-weight: 500;
-    font-style: normal; // Clean roman instead of italic
-    display: block;
-    width: 100%;
-    max-width: 420px;
-    text-wrap: balance;
-    margin-top: 1.5rem;
+  // ── Titel — große, leichte Schrift ────────────────────────────────────────
+  .cb-news-article-title-top {
+    opacity: 0;
+    animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+    font-size: clamp(2rem, 5.5vw, 3.5rem);
+    line-height: 1.05;
+    font-weight: 200;
+    color: #111111;
+    letter-spacing: -0.03em;
+    margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
   }
 
-  .cb-news-article-body {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    color: #444444;
+  // ── Teaser — subtile Einleitung ────────────────────────────────────────────
+  .cb-news-article-teaser {
+    opacity: 0;
+    animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.22s forwards;
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: #666666;
+    font-weight: 400;
+    display: block;
+    max-width: 52ch;
+    margin-top: 0;
+  }
 
-    h2,
-    h3 {
-      font-weight: 700;
+  // ── Zurück-Link ───────────────────────────────────────────────────────────
+  .cb-news-article-back {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #bbbbbb;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s ease;
+    margin-bottom: 1.5rem;
+
+    &:hover {
       color: #111111;
-      margin-top: 3.5rem;
-      margin-bottom: 1.25rem;
     }
+  }
+
+  // ── Artikel-Body — langer Lesetext ────────────────────────────────────────
+  .cb-news-article-body {
+    font-size: 1.0625rem;
+    line-height: 1.85;
+    color: #3a3a3a;
 
     h2 {
-      font-size: 1.75rem;
+      font-size: clamp(1.375rem, 3vw, 1.875rem);
+      font-weight: 600;
+      color: #111111;
+      letter-spacing: -0.01em;
+      margin-top: 3.5rem;
+      margin-bottom: 1rem;
     }
+
     h3 {
-      font-size: 1.5rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #111111;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
     }
 
     p {
@@ -73,39 +112,37 @@
 
     a {
       color: #111111;
-      font-weight: 700;
-      text-decoration: underline;
-      text-underline-offset: 4px;
+      font-weight: 600;
+      text-decoration-line: underline;
+      text-decoration-style: solid;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
       transition: opacity 0.2s ease;
+
       &:hover {
-        opacity: 0.7;
+        opacity: 0.55;
       }
     }
-  }
 
-  .cb-news-article-back {
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #999999;
-    text-decoration: none;
-    margin-bottom: 2rem;
-    display: inline-block;
-    transition: color 0.2s ease;
+    strong {
+      color: #111111;
+    }
 
-    &:hover {
-      color: #1e293b;
+    blockquote {
+      border-left: 2px solid #111111;
+      margin-left: 0;
+      padding-left: 1.5rem;
+      font-style: italic;
+      color: #555555;
     }
   }
 
-  // --- Sidebar TOC card — button blue ---
+  // ── TOC — kein Hintergrund, keine Box, rein typografisch ─────────────────
   .cb-toc-minimal {
-    background-color: #9bc0cf;
-    border-radius: 0.75rem;
-    padding: 1.25rem 1.5rem;
-    position: relative;
-    margin-left: 1rem;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    margin-left: 0;
 
     &::before {
       display: none;
@@ -113,14 +150,14 @@
   }
 
   .cb-toc-heading {
-    font-size: 0.6875rem; // 11px
-    font-weight: 600;
+    font-size: 0.5625rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.2em;
+    color: #bbbbbb;
     margin-bottom: 1.25rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
     overflow-wrap: break-word;
     word-break: break-word;
   }
@@ -131,105 +168,97 @@
   }
 
   .cb-toc-item {
-    margin-bottom: 0.75rem;
-
+    margin-bottom: 0.5rem;
     &:last-child {
       margin-bottom: 0;
     }
   }
 
   .cb-toc-link {
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 0.8125rem;
+    font-weight: 400;
     line-height: 1.4;
-    color: rgba(255, 255, 255, 0.75) !important;
+    color: rgba(17, 17, 17, 0.45) !important;
     text-decoration: none;
     display: block;
     transition: all 0.2s ease;
-    border-left: 3px solid transparent;
-    padding-left: 0.5rem;
+    border-left: 2px solid transparent;
+    padding-left: 0.75rem;
 
     &:hover {
-      color: #ffffff !important;
-      border-left-color: rgba(255, 255, 255, 0.5);
+      color: rgba(17, 17, 17, 0.8) !important;
+      border-left-color: rgba(17, 17, 17, 0.25);
     }
 
     &.active {
-      color: #ffffff !important;
-      font-weight: 700;
-      border-left-color: #ffffff;
+      color: #111111 !important;
+      font-weight: 600;
+      border-left-color: #111111;
     }
   }
 }
 
+// ── Responsive ──────────────────────────────────────────────────────────────
 @media (min-width: 768px) {
-  // Global horizontal balance
-}
-
-@media (min-width: 768px) {
-  .cb-news-article .cb-card--article {
-    padding: 4rem 3rem;
+  .cb-news-article .cb-news-article-inner {
+    padding: clamp(3rem, 6vw, 5rem) 0;
   }
 }
 
 @media (max-width: 767.98px) {
-  // Full-width edge-to-edge white card on mobile
   .cb-news-article.container {
-    max-width: 100%;
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
-  .cb-news-article .cb-card {
-    background: #ffffff;
-    border-radius: 0;
-    margin-bottom: 0;
-    padding: 2rem 1.5rem;
+  .cb-news-article .cb-news-article-inner {
+    padding: 2rem 0;
   }
+
   .cb-news-article-title-top {
-    font-size: 2.25rem;
+    font-size: 2rem;
   }
 }
 
-// Mobile TOC — Collapsible <details>/<summary> panel
-// Best-practice: native HTML toggle, no-JS fallback, fully accessible
+// ── Mobile TOC — Collapsible <details>/<summary> — kein blauer BG ───────────
 .cb-toc-panel {
-  background-color: #9bc0cf;
-  border-radius: 0.75rem;
+  background: none;
+  border-top: 1px solid rgba(17, 17, 17, 0.1);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 0;
   overflow: hidden;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 
   &__header {
-    padding: 0.875rem 1.25rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
+    padding: 0.875rem 0;
+    font-size: 0.625rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #ffffff;
+    color: #aaaaaa;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     user-select: none;
+    list-style: none;
     -webkit-tap-highlight-color: transparent;
 
-    // Remove default disclosure triangle
     &::marker,
     &::-webkit-details-marker {
       display: none;
     }
 
-    // Custom chevron → rotates when open
     &::after {
       content: "";
-      width: 8px;
-      height: 8px;
-      border-right: 2px solid rgba(255, 255, 255, 0.8);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid rgba(17, 17, 17, 0.4);
+      border-bottom: 1.5px solid rgba(17, 17, 17, 0.4);
       transform: rotate(45deg);
       flex-shrink: 0;
       transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      margin-top: -3px; // Optical vertical centering of rotated square
+      margin-top: -3px;
     }
   }
 
@@ -239,8 +268,7 @@
   }
 
   &__list {
-    padding: 0.5rem 1.25rem 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 0 1rem;
   }
 
   &__item {
@@ -252,18 +280,17 @@
   &__link {
     display: block;
     padding: 0.4rem 0;
-    font-size: 0.9375rem; // 15px — avoids iOS auto-zoom
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9375rem;
+    color: rgba(17, 17, 17, 0.65);
     text-decoration: none;
     line-height: 1.4;
     transition: color 0.2s ease;
 
     &:hover {
-      color: #ffffff;
+      color: #111111;
     }
-
     &.active {
-      color: #ffffff;
+      color: #111111;
       font-weight: 600;
     }
   }

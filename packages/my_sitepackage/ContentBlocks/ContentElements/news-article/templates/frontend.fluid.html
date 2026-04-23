@@ -7,9 +7,9 @@
         class="container cb-news-article"
         id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
     >
-        <div class="cb-card cb-card--article">
-            <!-- Header Block - Now without the border-bottom line -->
-            <div class="row mb-5 pb-5">
+        <div class="cb-news-article-inner">
+            <!-- Header Block -->
+            <div class="row mb-4 pb-4">
                 <div class="col-12">
                     <a
                         href="javascript:void(0)"
@@ -25,10 +25,19 @@
                                 window.location.href = '/';
                             }
                         "
-                        class="cb-news-article-back mb-4 d-inline-block"
+                        class="cb-news-article-back mb-3 d-inline-block"
                     >
                         ← Zurück
                     </a>
+
+                    <f:if condition="{data.gripsraum_newsarticle_project_date}">
+                        <span class="cb-news-article-date d-block mb-3">
+                            <f:format.date
+                                format="d. M Y"
+                                date="{data.gripsraum_newsarticle_project_date}"
+                            />
+                        </span>
+                    </f:if>
 
                     <f:if condition="{data.header}">
                         <h1 class="cb-news-article-title-top mb-3">
@@ -37,18 +46,9 @@
                     </f:if>
 
                     <f:if condition="{data.gripsraum_newsarticle_teaser_text}">
-                        <p class="cb-news-article-teaser mb-4">
+                        <p class="cb-news-article-teaser mb-0">
                             {data.gripsraum_newsarticle_teaser_text}
                         </p>
-                    </f:if>
-
-                    <f:if condition="{data.gripsraum_newsarticle_project_date}">
-                        <span class="cb-news-article-date mb-0 d-block">
-                            <f:format.date
-                                format="d. M Y"
-                                date="{data.gripsraum_newsarticle_project_date}"
-                            />
-                        </span>
                     </f:if>
                 </div>
             </div>
@@ -56,10 +56,7 @@
             <div class="row g-5">
                 <!-- Navigation Sidebar (Sticky) — hidden on mobile, select dropdown is used instead -->
                 <div class="col-md-4 d-none d-md-block">
-                    <div
-                        class="cb-sidebar sticky-top"
-                        style="top: 8rem; z-index: 10"
-                    >
+                    <div class="cb-sidebar">
                         <div
                             class="cb-toc-minimal"
                             id="cb-news-article-toc-container"

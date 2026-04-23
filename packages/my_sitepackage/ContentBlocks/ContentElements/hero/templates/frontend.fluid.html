@@ -3,87 +3,118 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <!-- Use the styles from the new consolidated hero/assets/frontend.scss -->
-    <f:asset.css
-        identifier="cb-hero-css"
-        href="{cb:assetPath()}/frontend.css"
-    />
-
     <section
         id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
     >
-        <div class="container cb-hero">
-            <div class="cb-card position-relative overflow-hidden">
-                <!-- Column 1: Header / Label -->
-                <f:if condition="{data.header}">
-                    <div class="cb-card__left">
-                        <h2 class="cb-card__title">{data.header}</h2>
-                    </div>
-                </f:if>
-
-                <!-- Column 2: Information / Profiles -->
-                <div class="cb-card__right">
-                    <f:if condition="{data.about_image}">
-                        <div class="cb-hero__about-image mb-4">
-                            <f:image
-                                image="{data.about_image.0}"
-                                class="img-fluid w-100 h-auto rounded-4"
-                                alt="{data.header}"
-                                width="600"
-                                height="800c"
-                            />
-                        </div>
-                    </f:if>
-
-                    <f:if condition="{data.bodytext}">
-                        <div class="cb-hero__about-text lead fs-6 mb-4">
-                            <f:format.html>{data.bodytext}</f:format.html>
-                        </div>
-                    </f:if>
+        <div class="container">
+            <div class="cb-hero position-relative">
+                <!-- SVG Decoration (top-right) -->
+                <div class="cb-hero__decoration" aria-hidden="true">
+                    <svg
+                        width="64"
+                        height="53"
+                        viewBox="0 0 64 53"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M54.3744 25.5006C55.6479 20.503 57.6362 15.6487 59.598 10.9586C60.0237 9.95026 61.1805 9.45337 62.139 9.91675C63.137 10.3133 63.5909 11.4713 63.204 12.4125C61.2989 16.9561 59.3542 21.6555 58.152 26.4254C57.9002 27.4445 56.8382 28.0863 55.7902 27.8401C54.7429 27.5942 54.1232 26.52 54.3744 25.5006Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M40.9009 21.0811C40.1773 16.7686 39.9417 12.2827 39.7394 7.93267C39.6984 6.99588 40.2671 6.16013 41.0038 6.13467C41.7448 6.04269 42.3783 6.74609 42.423 7.61634C42.6162 11.8324 42.8319 16.1828 43.5308 20.2937C43.6832 21.17 43.2174 22.0788 42.4909 22.3051C41.765 22.5314 41.0539 21.9574 40.9009 21.0811Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M32.9468 33.1041C25.2816 24.6385 18.7252 15.2291 10.8323 6.90531C10.0931 6.16143 10.1257 4.91984 10.9013 4.18919C11.6776 3.45859 12.9096 3.45514 13.6441 4.27646C21.5611 12.6017 28.1407 22.0125 35.8299 30.4795C36.5458 31.2997 36.4823 32.5391 35.6858 33.2685C34.8947 33.9205 33.6627 33.9243 32.9468 33.1041Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M2.41115 47.4752C7.08084 47.7079 11.7505 47.9402 16.421 48.173C17.4906 48.173 18.3165 49.1044 18.2645 50.1906C18.2117 51.2767 17.3012 52.0521 16.2308 52.0521C11.5534 51.8193 6.8767 51.587 2.20001 51.3543C1.13039 51.2767 0.309935 50.3456 0.368151 49.2594C0.426366 48.2509 1.3423 47.3976 2.41115 47.4752Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M9.6896 30.0921C13.5988 32.6569 17.5082 35.2213 21.4181 37.7866C22.3405 38.3281 22.5812 39.5494 21.9865 40.4598C21.3911 41.3697 20.2133 41.5774 19.2903 41.0355C15.3744 38.4668 11.4589 35.8988 7.54366 33.3304C6.66052 32.722 6.42438 31.5036 7.02447 30.5965C7.58527 29.7562 8.80713 29.484 9.6896 30.0921Z"
+                            fill="currentColor"
+                        />
+                    </svg>
                 </div>
 
-                <!-- FAQ Section -->
-                <div class="cb-card__left cb-hero__faq-left pt-md-2">
-                    <!-- Left column empty as requested -->
-                </div>
-
-                <div class="cb-card__right cb-hero__faq-right pt-md-2">
-                    <f:if condition="{data.faq_header}">
-                        <h3 class="cb-faq__title-inline mb-4">
-                            {data.faq_header}
-                        </h3>
+                <!-- Card with black border -->
+                <div class="cb-hero__card">
+                    <!-- Label Bar -->
+                    <f:if condition="{data.header}">
+                        <div class="cb-hero__label-bar">{data.header}</div>
                     </f:if>
 
-                    <div class="cb-faq__list" role="list">
-                        <f:if condition="{data.faq_items}">
-                            <f:for
-                                each="{data.faq_items}"
-                                as="faqItem"
-                                iteration="iteration"
-                            >
-                                <div class="cb-faq__item" role="listitem">
-                                    <button
-                                        class="cb-faq__trigger"
-                                        aria-expanded="false"
-                                        type="button"
-                                    >
-                                        <span class="cb-faq__icon"></span>
-                                        <span class="cb-faq__question"
-                                            >{faqItem.question}</span
+                    <!-- Content body: two columns -->
+                    <div class="cb-hero__body">
+                        <div class="row gx-md-5 align-items-start">
+                            <!-- Left: Text -->
+                            <div class="col-12 col-md-6 cb-hero__left">
+                                <f:if condition="{data.bodytext}">
+                                    <div class="cb-hero__about-text">
+                                        <f:format.html
+                                            >{data.bodytext}</f:format.html
                                         >
-                                    </button>
-                                    <div class="cb-faq__content" role="region">
-                                        <div class="cb-faq__content-inner">
-                                            <div class="cb-faq__answer">
-                                                <f:format.html
-                                                    >{faqItem.answer}</f:format.html
-                                                >
-                                            </div>
-                                        </div>
                                     </div>
+                                </f:if>
+                            </div>
+
+                            <!-- Right: FAQ -->
+                            <div class="col-12 col-md-6 cb-hero__right">
+                                <f:if condition="{data.faq_header}">
+                                    <h3 class="cb-faq__title-inline mb-4">
+                                        {data.faq_header}
+                                    </h3>
+                                </f:if>
+
+                                <div class="cb-faq__list" role="list">
+                                    <f:if condition="{data.faq_items}">
+                                        <f:for
+                                            each="{data.faq_items}"
+                                            as="faqItem"
+                                            iteration="iteration"
+                                        >
+                                            <div
+                                                class="cb-faq__item"
+                                                role="listitem"
+                                            >
+                                                <button
+                                                    class="cb-faq__trigger"
+                                                    aria-expanded="false"
+                                                    type="button"
+                                                >
+                                                    <span
+                                                        class="cb-faq__question"
+                                                        >{faqItem.question}</span
+                                                    >
+                                                    <span
+                                                        class="cb-faq__icon"
+                                                    ></span>
+                                                </button>
+                                                <div
+                                                    class="cb-faq__content"
+                                                    role="region"
+                                                >
+                                                    <div
+                                                        class="cb-faq__content-inner"
+                                                    >
+                                                        <div
+                                                            class="cb-faq__answer"
+                                                        >
+                                                            <f:format.html
+                                                                >{faqItem.answer}</f:format.html
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </f:for>
+                                    </f:if>
                                 </div>
-                            </f:for>
-                        </f:if>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

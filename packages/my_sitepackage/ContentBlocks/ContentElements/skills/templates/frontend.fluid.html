@@ -1,35 +1,48 @@
-<section id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}">
+<section
+    id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+>
     <div class="container cb-skills-wrapper">
         <f:if condition="{data.skill_collections}">
             <div class="cb-card cb-skills-unified-card">
-                <f:for
-                    each="{data.skill_collections}"
-                    as="collection"
-                    iteration="iter"
-                >
-                    <div class="cb-card__left {f:if(condition: iter.isFirst, else: 'mt-4 mt-md-0')}">
-                        <f:if condition="{collection.section_title}">
-                            <h3 class="cb-card__title">
-                                {collection.section_title}
-                            </h3>
-                        </f:if>
-                    </div>
-
-                    <div class="cb-card__right {f:if(condition: iter.isFirst, else: 'mt-1 mt-md-0')}">
-                        <f:if condition="{collection.skills_list}">
-                            <div
-                                class="d-flex flex-wrap gap-2 skill-pills-container"
-                                data-skills="{collection.skills_list}"
-                            >
-                                <noscript>
-                                    <div class="text-muted small italic">
-                                        {collection.skills_list}
-                                    </div>
-                                </noscript>
+                <f:if condition="{data.header}">
+                    <div class="cb-card__label-bar">{data.header}</div>
+                </f:if>
+                <div class="cb-card__body">
+                    <f:for
+                        each="{data.skill_collections}"
+                        as="collection"
+                        iteration="iter"
+                    >
+                        <div
+                            class="row gx-md-4 align-items-start align-items-md-center {f:if(condition: '!iter.isFirst', then: 'mt-4')}"
+                        >
+                            <div class="col-12 col-md-4">
+                                <f:if condition="{collection.section_title}">
+                                    <h3 class="cb-card__title">
+                                        {collection.section_title}
+                                    </h3>
+                                </f:if>
                             </div>
-                        </f:if>
-                    </div>
-                </f:for>
+
+                            <div class="col-12 col-md-8">
+                                <f:if condition="{collection.skills_list}">
+                                    <div
+                                        class="d-flex flex-wrap gap-2 skill-pills-container"
+                                        data-skills="{collection.skills_list}"
+                                    >
+                                        <noscript>
+                                            <div
+                                                class="text-muted small italic"
+                                            >
+                                                {collection.skills_list}
+                                            </div>
+                                        </noscript>
+                                    </div>
+                                </f:if>
+                            </div>
+                        </div>
+                    </f:for>
+                </div>
             </div>
         </f:if>
     </div>

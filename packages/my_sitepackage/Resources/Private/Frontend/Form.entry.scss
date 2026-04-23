@@ -6,6 +6,11 @@ $glass-form-border: #111111;
 $text-primary: #111111;
 $text-secondary: #555555;
 
+// Fallback: hide default FSC header output for form CE, custom title is in cb-card__label-bar.
+.frame-type-form_formframework > header {
+  display: none;
+}
+
 .cb-form {
   // ─── Input Fields ──────────────────────────────────────────────────────────
   .form-control {
@@ -124,12 +129,5 @@ $text-secondary: #555555;
     margin-top: 2.5rem;
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  // ─── Math Captcha ─────────────────────────────────────────────────────────
-  .cb-math-input {
-    max-width: 100px;
-    text-align: center;
-    font-weight: 700;
   }
 }

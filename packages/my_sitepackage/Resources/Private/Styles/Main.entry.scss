@@ -14,6 +14,12 @@ $brand-btn: #9bc0cf; // New medium blue for buttons instead of black
 $bg-deep: #ffffff;
 $card-bg-gray: rgba(245, 245, 247, 0.92);
 
+// Scroll offset for sticky navigation
+// Nav height = $grid-unit * 11 = 5.5rem
+section[id] {
+  scroll-margin-top: $grid-unit * 11;
+}
+
 $font-weight-display: 900;
 $font-weight-heading: 300; // Refined light weight
 $font-weight-label: 600;
@@ -93,22 +99,6 @@ body {
   }
 }
 
-.cb-news-article {
-  .cb-news-article-title-top {
-    animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-
-  .cb-news-article-teaser {
-    opacity: 0;
-    animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
-  }
-
-  .cb-news-article-date {
-    opacity: 0;
-    animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
-  }
-}
-
 .cb-card {
   opacity: 0;
   animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
@@ -116,51 +106,39 @@ body {
   position: relative;
   z-index: 1;
 
-  background: $card-bg-gray;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: 1.5rem;
-  border: none;
-  padding: 2.25rem;
+  background: #fff;
+  border: 2px solid $text-primary;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  padding: 0;
   margin-bottom: $grid-unit * 4;
 
-  // Removed shadows
-
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateZ(
-    0
-  ); // Hardware acceleration to prevent scrolling stutter
+  transform: translateZ(0);
   backface-visibility: hidden;
 
-  &--dark {
-    background: #f5f5f7; // Switched from black to gray as requested
-    color: $text-primary;
-    box-shadow: none;
-
-    .cb-card__title {
-      color: $text-primary;
-    }
-
-    .cb-card__right {
-      color: $text-secondary;
-    }
+  // Article detail page: no label bar, needs direct padding
+  &--article {
+    padding: $grid-unit * 4;
   }
-
-  // Removed hover effect
 
   &:last-child {
     margin-bottom: 0;
   }
 
-  @media (min-width: 768px) {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: $grid-unit * 4;
-    padding: $grid-unit * 4;
+  &__label-bar {
+    background-color: #bce2ff;
+    border-bottom: 2px solid $text-primary;
+    padding: 0.5rem 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: $text-primary;
   }
 
-  &__left {
-    margin-bottom: 1.5rem;
+  &__body {
+    padding: clamp(1.5rem, 3.5vw, 3rem);
 
     @media (min-width: 768px) {
       margin-bottom: 0;
@@ -168,10 +146,10 @@ body {
   }
 
   &__title {
-    font-size: 1.25rem; // Scaled down from 1.75rem
-    font-weight: $font-weight-heading;
-    text-transform: none;
-    letter-spacing: -0.01em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
     color: $text-primary;
     line-height: 1.2;
     margin: 0;
@@ -256,7 +234,7 @@ main > section:first-of-type > * {
   background-color: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: none;
   transition: all 0.3s ease;
 
   // Fills the iOS safe area above the nav so content doesn't bleed through
@@ -350,13 +328,11 @@ main > section:first-of-type > * {
       background-color: $text-primary;
       border-color: $text-primary;
       color: #fff;
-      transform: none;
-      box-shadow: none;
     }
 
     @media (max-width: 767.98px) {
       width: 100%;
-      min-height: 3.25rem; // Slightly larger for better touch on mobile
+      min-height: 3.25rem;
     }
   }
 

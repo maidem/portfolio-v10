@@ -26,17 +26,34 @@
 
                 <nav class="cb-nav__desktop" aria-label="Hauptnavigation">
                     <ul class="cb-nav__list">
-                        <f:for each="{mainnavigation}" as="item">
-                            <li class="cb-nav__item">
-                                <a
-                                    href="{item.link}"
-                                    class="cb-nav__link{f:if(condition: item.active, then: ' cb-nav__link--active')}"
-                                    title="{item.title}"
-                                >
-                                    {item.title}
-                                </a>
-                            </li>
-                        </f:for>
+                        <f:if condition="{sectionNavigation}">
+                            <f:then>
+                                <f:for each="{sectionNavigation}" as="section">
+                                    <li class="cb-nav__item">
+                                        <a
+                                            href="#{section.data.section_anchor}"
+                                            class="cb-nav__link"
+                                            title="{section.data.header}"
+                                        >
+                                            {section.data.header}
+                                        </a>
+                                    </li>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <f:for each="{homeNavigation}" as="section">
+                                    <li class="cb-nav__item">
+                                        <a
+                                            href="/#{section.data.section_anchor}"
+                                            class="cb-nav__link"
+                                            title="{section.data.header}"
+                                        >
+                                            {section.data.header}
+                                        </a>
+                                    </li>
+                                </f:for>
+                            </f:else>
+                        </f:if>
                     </ul>
                 </nav>
             </div>
@@ -52,17 +69,34 @@
     >
         <nav aria-label="Hauptnavigation">
             <ul class="cb-nav__overlay-list">
-                <f:for each="{mainnavigation}" as="item">
-                    <li class="cb-nav__overlay-item">
-                        <a
-                            href="{item.link}"
-                            class="cb-nav__overlay-link{f:if(condition: item.active, then: ' cb-nav__overlay-link--active')}"
-                            title="{item.title}"
-                        >
-                            {item.title}
-                        </a>
-                    </li>
-                </f:for>
+                <f:if condition="{sectionNavigation}">
+                    <f:then>
+                        <f:for each="{sectionNavigation}" as="section">
+                            <li class="cb-nav__overlay-item">
+                                <a
+                                    href="#{section.data.section_anchor}"
+                                    class="cb-nav__overlay-link"
+                                    title="{section.data.header}"
+                                >
+                                    {section.data.header}
+                                </a>
+                            </li>
+                        </f:for>
+                    </f:then>
+                    <f:else>
+                        <f:for each="{homeNavigation}" as="section">
+                            <li class="cb-nav__overlay-item">
+                                <a
+                                    href="/#{section.data.section_anchor}"
+                                    class="cb-nav__overlay-link"
+                                    title="{section.data.header}"
+                                >
+                                    {section.data.header}
+                                </a>
+                            </li>
+                        </f:for>
+                    </f:else>
+                </f:if>
             </ul>
         </nav>
     </div>

@@ -66,19 +66,4 @@ renderables:
         validators:
           -
             identifier: NotEmpty
-      -
-        defaultValue: ''
-        identifier: math
-        type: MathCaptcha
-        label: Sicherheitsabfrage
-        properties:
-          fluidAdditionalAttributes:
-            required: required
-        validators:
-          -
-            identifier: NotEmpty
-          -
-            identifier: MathCaptcha
-            options:
-              formIdentifier: contact
 variants: {  }
