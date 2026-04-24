@@ -19,7 +19,7 @@ COPY package.json package-lock.json composer.json composer.lock ./
 COPY packages ./packages
 COPY --from=composer-builder /app/vendor ./vendor
 COPY vite.config.js ./
-# Skip Puppeteer Chrome download — system Chromium is used at runtime
+# Skip Puppeteer Chrome download — Chromium runs as a separate service at runtime
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 RUN npm ci
 RUN npm run build
@@ -52,23 +52,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y --no-install-recommends \
     nodejs \
-    chromium \
-    fonts-liberation \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxext6 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    libasound2 \
-    libpango-1.0-0 \
-    libcairo2 \
     && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
     && apt-get clean \
@@ -77,8 +60,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV LANG=de_DE.UTF-8
 ENV LANGUAGE=de_DE:de
 ENV LC_ALL=de_DE.UTF-8
-# Tell Puppeteer to use the system-installed Chromium instead of a downloaded binary
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+# Chromium runs as a separate service; Puppeteer connects to it via CDP (remote debugging port).
+# The host/port can be overridden via BROWSERSHOT_CHROME_HOST / BROWSERSHOT_CHROME_PORT env vars.
+ENV BROWSERSHOT_CHROME_HOST=chromium
+ENV BROWSERSHOT_CHROME_PORT=9222
 
 # Use official PHP extension installer again for the remaining extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/

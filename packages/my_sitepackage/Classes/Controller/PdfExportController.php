@@ -59,11 +59,14 @@ class PdfExportController extends ActionController
         $view->assign('data', $data);
         $html = $view->render();
 
-        // Generate PDF via Browsershot
-        // setChromePath ensures the system-installed Chromium is used (required in Docker/Coolify)
+        // Generate PDF via Browsershot connected to the remote Chromium service.
+        // BROWSERSHOT_CHROME_HOST / BROWSERSHOT_CHROME_PORT are set in the Docker environment
+        // and point to the dedicated Chromium container (see Dockerfile.chromium).
+        $chromeHost = (string)(getenv('BROWSERSHOT_CHROME_HOST') ?: 'chromium');
+        $chromePort = (int)(getenv('BROWSERSHOT_CHROME_PORT') ?: 9222);
+
         $pdf = Browsershot::html($html)
-            ->setChromePath('/usr/bin/chromium')
-            ->noSandbox()
+            ->setRemoteInstance($chromeHost, $chromePort)
             ->showBackground()
             ->format('A4')
             ->pdf();
