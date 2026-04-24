@@ -4,13 +4,15 @@
 # 2. The webSocketDebuggerUrl returned by /json/version uses that IP,
 #    which Puppeteer can then connect to directly (it does NOT rewrite 0.0.0.0).
 #
-# Using 0.0.0.0 here would make Chromium listen on all interfaces but return
-# "ws://0.0.0.0:9222/..." in the JSON, which is not a valid connection target
-# from another container.
+# Coolify's Docker network uses IPv6 for DNS resolution, so we prefer the
+# IPv6 address from hostname -I. Falling back to IPv4 if no IPv6 is present.
 
-CONTAINER_IP=$(hostname -I | awk '{print $1}')
+# hostname -I returns space-separated IPs (IPv4 first, then IPv6)
+CONTAINER_IPV6=$(hostname -I | tr ' ' '\n' | grep ':' | head -1)
+CONTAINER_IPV4=$(hostname -I | awk '{print $1}')
+CONTAINER_IP="${CONTAINER_IPV6:-$CONTAINER_IPV4}"
 
-echo "Starting Chromium on ${CONTAINER_IP}:9222 ..."
+echo "Starting Chromium on [${CONTAINER_IP}]:9222 ..."
 
 exec chromium \
   --headless=old \
