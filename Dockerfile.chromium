@@ -31,17 +31,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# The entrypoint script detects the container's actual Docker-network IP at
+# runtime and passes it as --remote-debugging-address. This ensures that the
+# webSocketDebuggerUrl returned by /json/version contains a routable IP so
+# that Puppeteer (which does NOT rewrite 0.0.0.0 URLs) can connect from the
+# TYPO3 app container.
+COPY docker/chromium/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 9222
 
-# --no-sandbox        : required when running as root inside a container
-# --disable-dev-shm-usage : avoids crashes from Docker's limited /dev/shm (64 MB default)
-# --disable-gpu       : no GPU available in headless containers
-# --remote-debugging-address=0.0.0.0 : accept connections from other containers
-# --remote-debugging-port=9222       : standard CDP port
-CMD ["chromium", \
-     "--headless", \
-     "--no-sandbox", \
-     "--disable-dev-shm-usage", \
-     "--disable-gpu", \
-     "--remote-debugging-address=0.0.0.0", \
-     "--remote-debugging-port=9222"]
+ENTRYPOINT ["/entrypoint.sh"]
