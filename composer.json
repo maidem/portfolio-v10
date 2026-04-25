@@ -15,6 +15,7 @@
   },
   "require": {
     "php": ">=8.4.0",
+    "denkwerk/mosparo-form": "^1.1",
     "friendsoftypo3/content-blocks": "^2.1",
     "gripsraum/my-sitepackage": "@dev",
     "praetorius/vite-asset-collector": "^1.15",

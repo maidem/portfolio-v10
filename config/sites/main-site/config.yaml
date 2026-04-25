@@ -4,6 +4,7 @@ dependencies:
   - gripsraum/my-sitepackage
   - typo3/form
   - typo3/email
+  - denkwerk/mosparo-form
 languages:
   -
     title: German
