@@ -1,4 +1,3 @@
-
 identifier: contact
 type: Form
 label: contact
@@ -7,19 +6,17 @@ renderingOptions:
   submitButtonLabel: Absenden
   translation:
     translationFiles:
-      - 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
-finishers: {  }
+      - "EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf"
+finishers: {}
 renderables:
-  -
-    renderingOptions:
+  - renderingOptions:
       previousButtonLabel: Zurück
       nextButtonLabel: Weiter
     identifier: page-1
-    label: 'Sag Hallo!'
+    label: "Sag Hallo!"
     type: Page
     renderables:
-      -
-        defaultValue: ''
+      - defaultValue: ""
         identifier: name
         label: Firma
         type: Text
@@ -29,10 +26,8 @@ renderables:
             autocomplete: name
             required: required
         validators:
-          -
-            identifier: NotEmpty
-      -
-        defaultValue: ''
+          - identifier: NotEmpty
+      - defaultValue: ""
         identifier: email
         label: E-Mail
         type: Email
@@ -42,38 +37,30 @@ renderables:
             autocomplete: email
             required: required
         validators:
-          -
-            identifier: NotEmpty
-          -
-            identifier: EmailAddress
-      -
-        defaultValue: ''
+          - identifier: NotEmpty
+          - identifier: EmailAddress
+      - defaultValue: ""
         identifier: message
         label: Nachricht
         type: Textarea
         properties:
           fluidAdditionalAttributes:
-            placeholder: 'Deine Nachricht...'
+            placeholder: "Deine Nachricht..."
             required: required
         validators:
-          -
-            identifier: NotEmpty
-      -
-        identifier: privacy
+          - identifier: NotEmpty
+      - identifier: privacy
         type: Checkbox
         properties:
-          privacyPageUid: '{$form.contact.privacyPageUid}'
+          privacyPageUid: "{$form.contact.privacyPageUid}"
         validators:
-          -
-            identifier: NotEmpty
-      -
-        defaultValue: ''
+          - identifier: NotEmpty
+      - defaultValue: ""
         properties:
           selectedProject: portfolio
         validators:
-          -
-            identifier: MosparoCaptchaValidator
+          - identifier: MosparoCaptchaValidator
         type: MosparoCaptcha
         identifier: mosparocaptcha-1
-        label: 'Mosparo Captcha'
-variants: {  }
+        label: "Mosparo Captcha"
+variants: {}

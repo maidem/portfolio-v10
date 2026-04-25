@@ -88,11 +88,11 @@ Chromium ist über `webimage_extra_packages: ["chromium"]` (siehe `.ddev/config.
 
 Der `Dockerfile` ist auf **maximale Cache-Wiederverwendung** optimiert:
 
-| Stage | Inhalt | Cache-Verhalten |
-|---|---|---|
-| `composer-builder` | PHP-Vendor | rebuild nur bei `composer.json/lock`-Änderung |
-| `vite-builder` | Frontend-Build (Vite + npm) | rebuild nur bei `package.json/lock`-Änderung |
-| Production-Image | Apache + PHP + System-Pakete + Chromium | rebuild nur bei System-Paket-Änderung |
+| Stage              | Inhalt                                  | Cache-Verhalten                               |
+| ------------------ | --------------------------------------- | --------------------------------------------- |
+| `composer-builder` | PHP-Vendor                              | rebuild nur bei `composer.json/lock`-Änderung |
+| `vite-builder`     | Frontend-Build (Vite + npm)             | rebuild nur bei `package.json/lock`-Änderung  |
+| Production-Image   | Apache + PHP + System-Pakete + Chromium | rebuild nur bei System-Paket-Änderung         |
 
 System-Pakete (Chromium + alle Runtime-Libs + Node.js + locales) sind in **einer einzigen `RUN`-Schicht** zusammengefasst — Folge-Builds nutzen diese komplett aus dem Cache.
 
@@ -103,6 +103,7 @@ Wichtig in Coolify: **"Disable Build Cache" deaktiviert lassen** — sonst wird 
 ## 🚀 Deployment (Coolify + Tailscale + GitHub Actions)
 
 ### Voraussetzungen
+
 - Coolify-Instanz, erreichbar nur über Tailscale (`100.64.0.0/10`)
 - GitHub-Repository mit Push-Trigger auf `main`
 
@@ -119,6 +120,7 @@ Wichtig in Coolify: **"Disable Build Cache" deaktiviert lassen** — sonst wird 
 ### GitHub Actions
 
 Repository-Secrets setzen (`Settings → Secrets → Actions`):
+
 - `COOLIFY_WEBHOOK_URL`
 - `COOLIFY_TOKEN`
 - `TAILSCALE_AUTHKEY` (Reusable + Ephemeral)
