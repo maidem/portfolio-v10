@@ -34,7 +34,7 @@ class PdfExportController extends ActionController
         
         $activeSections = [
             'info' => in_array('info', $sectionsInput),
-            'faq' => in_array('info', $sectionsInput),
+            'faq' => in_array('faq', $sectionsInput),
             'tech' => in_array('tech', $sectionsInput),
             'projects' => in_array('projects', $sectionsInput),
             'logbook' => in_array('logbook', $sectionsInput),

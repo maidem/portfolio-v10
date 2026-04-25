@@ -15,6 +15,8 @@ nodejs_version: "20"
 webimage_extra_packages: ["chromium"]
 web_environment:
   - TYPO3_CONTEXT=Development
+  # Mosparo credentials are set in .ddev/config.local.yaml (gitignored).
+  # See README.md → "Mosparo Setup" for the required env vars.
 corepack_enable: false
 
 # Key features of DDEV's config.yaml:

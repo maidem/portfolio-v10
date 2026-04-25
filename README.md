@@ -1,97 +1,166 @@
-# TYPO3 v14 & Coolify Deployment Blueprint 🚀
+# maik-demuth.de — Portfolio (TYPO3 v14)
 
-Dieses Repository dient als hoch-optimierte Schablone für das Deployment von **TYPO3 v14** auf modernen Cloud-Infrastrukturen via **Coolify**. Es löst die typischen Probleme bei der Containerisierung von TYPO3 und sorgt für einen blitzschnellen, sicheren Workflow.
+Persönliche Portfolio-Website von Maik Demuth, gebaut mit **TYPO3 v14**, **PHP 8.4**, **Vite** und **Bootstrap 5**, deployed via **Coolify** auf einem Tailscale-gesicherten Server.
 
----
-
-## ✨ Features der Schablone
-
-- **PHP 8.5 Ready**: Volle Unterstützung für die neueste PHP-Generation auf Debian Bookworm Basis.
-- **Auto-Config MariaDB**: Die `additional.php` erkennt automatisch Coolify-Datenbank-Strings (DSN-URLs) und Hostnamen.
-- **Smart Reverse Proxy**: Integrierte Logik für Traefik/Coolify. Verhindert Redirect-Loops und fixiert den "Missing Referrer"-Fehler beim Login.
-- **Blitzschneller Build**:
-  - Multi-Stage Docker-Build (Composer -> Vite -> Apache).
-  - Nutzung des offiziellen `php-extension-installer` für maximale Stabilität.
-  - Optimierte `.dockerignore` und Dateiberechtigungen (`--chown` während `COPY`).
-- **Production Hardening**: SSL-Zwang fürs Backend und sichere Cookie-Einstellungen vorkonfiguriert.
+> Dieses Repository diente ursprünglich als TYPO3-v14/Coolify-Deployment-Blueprint und wurde inzwischen zur produktiven Portfolio-Site weiterentwickelt.
 
 ---
 
-## 🛠 Technische Highlights
+## ✨ Features
 
-### 1. PHP Extension Installer
-
-Statt mühsam Abhängigkeiten manuell zu installieren, nutzt dieses Projekt das Skript von `mlocati`. Das garantiert, dass alle TYPO3-Abhängigkeiten (GD, Intl, Zip, Imagick, etc.) sauber kompiliert werden, ohne den Build-Prozess durch Race-Conditions abzubrechen.
-
-### 2. Intelligente `additional.php`
-
-Die Datei in `config/system/additional.php` ist das Herzstück. Sie unterscheidet zwischen lokaler Entwicklung (**DDEV**) und Produktion (**Coolify**). Sie parst komplexe Datenbank-URLs und setzt Proxy-Header so um, dass TYPO3 intern weiß, dass es über HTTPS erreichbar ist.
+- **TYPO3 v14.3** mit modernen [Site Sets](https://docs.typo3.org/permalink/t3coreapi:site-sets) und [Content Blocks](https://docs.typo3.org/permalink/t3contentblocks:start) statt klassischem TypoScript-Templating
+- **Vite 7** mit `vite-plugin-typo3` und [praetorius/vite-asset-collector](https://packagist.org/packages/praetorius/vite-asset-collector)
+  - Dynamic Glob-Import lädt automatisch alle ContentBlock-Assets
+  - Bootstrap 5.3 + `@fontsource/inter` als Web-Font
+- **PDF-Export** der Portfolio-Inhalte als A4-Dokument via [Spatie Browsershot](https://packagist.org/packages/spatie/browsershot) + Headless Chromium
+- **Spam-Schutz** für das Kontaktformular via [denkwerk/mosparo-form](https://packagist.org/packages/denkwerk/mosparo-form), Credentials werden via Environment-Variablen injiziert
+- **Coolify-Deployment** mit GitHub Actions über einen Tailscale-VPN-Tunnel
+- **DDEV** für die lokale Entwicklung
 
 ---
 
-## 🚀 Anleitung: Auto-Deploy in 5 Minuten (Vite + Tailscale)
+## 🧱 Sitepackage-Architektur
 
-### 1. Repository vorbereiten
+Alle projektspezifischen Inhalte liegen in `packages/my_sitepackage/`:
 
-1. Markiere dieses Repository auf GitHub unter **Settings** als **Template repository**.
-2. Erstelle per "Use this template" Button ein neues Kundenprojekt.
-3. Ändere lokal in `.ddev/config.yaml` den Projektnamen (z.B. von `name: portfolio-v1` zu `name: neues-projekt`).
+```text
+packages/my_sitepackage/
+├── Classes/
+│   ├── Controller/PdfExportController.php   # PageType 1711, generiert das PDF
+│   └── Service/PdfDataService.php           # Datenquellen für den PDF-Export
+├── ContentBlocks/ContentElements/           # Content Blocks (Hero, Skills, Projects, …)
+│   ├── hero/        ├── projects/
+│   ├── skills/      ├── news-article/
+│   ├── footer/      ├── news-list/
+│   └── pdfexport/                           # ContentBlock mit dem PDF-Export-Formular
+├── Configuration/
+│   ├── Sets/SitePackage/                    # Site Set (TYPO3 v13+ Standard)
+│   ├── TypoScript/setup.typoscript          # PageType 1711 für PDF-Export
+│   ├── ViteEntrypoints.json                 # Entry-Points für vite-asset-collector
+│   └── Yaml/FormSetup.yaml                  # Eigene Templates für TYPO3 Form Framework
+└── Resources/
+    ├── Private/JavaScript/Main.entry.js     # Vite-Entry (JS)
+    ├── Private/Frontend/Form.entry.scss     # Vite-Entry (SCSS)
+    ├── Private/Forms/contact.form.yaml      # Kontakt-Formular mit Mosparo
+    └── Private/Templates/Pdf/Summary.html   # Fluid-Template für den PDF-Export
+```
 
-### 2. Coolify & Firewall Setup
+### PDF-Export
 
-Dein Coolify-Server ist per **Tailscale** unsichtbar aus dem öffentlichen Netz.
+Der ContentBlock `pdfexport` rendert ein Formular mit Checkboxen für die zu exportierenden Bereiche. Der Submit geht auf eine Seite mit `&type=1711`, die den `PdfExportController::generateAction()` triggert. Dieser holt die Daten via `PdfDataService` direkt aus den Content-Block-Tabellen, rendert das Fluid-Template `Summary.html` und schickt es durch eine lokale Chromium-Instanz (`/usr/bin/chromium`, im Container vorinstalliert).
 
-1. Lege in Coolify das neue GitHub-Projekt an (SSH Key oder Git App).
-2. Gehe in Coolify auf **Settings -> Advanced**:
-   - Haken setzen bei **API Access**.
-   - Trage unter "Allowed IPs for API Access" genau `100.64.0.0/10` ein (Das erlaubt API-Zugriffe nur aus deinem sicheren Tailscale-VPN).
-3. Gehe in Coolify auf **Keys & Tokens**:
-   - Erstelle einen neuen Token mit dem Haken bei **deploy** und kopiere ihn.
-4. Gehe in Coolify auf deinen Projekt-Reiter **Webhooks**:
-   - Kopiere die angezeigte URL unter **Deploy Webhook (auth required)** (z.B. `http://100.x.x.x:8000/api/v1/deploy?...`).
+### Mosparo-Integration
 
-### 3. GitHub Actions konfigurieren (Secrets)
+Die mosparo-Credentials kommen ausschließlich über Environment-Variablen — niemals im Repo. `config/system/additional.php` liest die fünf Variablen ein und injiziert sie als TypoScript-Konstanten unter `plugin.tx_mosparoform.settings.projects.portfolio`.
 
-Da GitHub für dich die Frontend-Assets (`npm run build` via Vite) baut, musst du dem GitHub Runner Zugang zu Coolify gewähren:
-Gehe auf GitHub zu `Settings -> Secrets and variables -> Actions` und erstelle:
+---
 
-- `COOLIFY_WEBHOOK_URL`: Die kopierte URL aus Schritt 2.4.
-- `COOLIFY_TOKEN`: Der kopierte Token aus Schritt 2.3.
-- `TAILSCALE_AUTHKEY`: Ein frischer Auth-Key aus deinem Tailscale Admin Panel (Reusable + Ephemeral).
-
-**Fertig!** Sobald du nun Änderungen auf `main` pushst, loggt sich GitHub kurz per Tailscale in dein VPN ein, baut deine Vite-Assets, pingt Coolify über die interne IP an und loggt sich rückstandslos wieder aus. Vollautomatisch.
-
-### 4. Datenbank & Backend User
-
-Um deine lokalen Daten auf den Server zu bekommen:
+## 🛠 Lokale Entwicklung (DDEV)
 
 ```bash
-# Lokal (DDEV)
+# Initial-Setup
+ddev start
+ddev composer install
+ddev npm install
+ddev npm run build
+
+# Kontinuierliche Entwicklung
+ddev npm run dev   # Vite-Dev-Server mit HMR
+```
+
+### Mosparo lokal aktivieren
+
+```bash
+cp .ddev/config.local.yaml.example .ddev/config.local.yaml
+# Echte Werte aus deinem Mosparo-Backend in .ddev/config.local.yaml eintragen
+ddev restart
+```
+
+`.ddev/config.local.yaml` wird von DDEV automatisch geignored.
+
+### PDF-Export lokal
+
+Chromium ist über `webimage_extra_packages: ["chromium"]` (siehe `.ddev/config.yaml`) im DDEV-Webcontainer installiert — der Export funktioniert lokal ohne weitere Konfiguration.
+
+---
+
+## 🐳 Docker-Build (Coolify)
+
+Der `Dockerfile` ist auf **maximale Cache-Wiederverwendung** optimiert:
+
+| Stage | Inhalt | Cache-Verhalten |
+|---|---|---|
+| `composer-builder` | PHP-Vendor | rebuild nur bei `composer.json/lock`-Änderung |
+| `vite-builder` | Frontend-Build (Vite + npm) | rebuild nur bei `package.json/lock`-Änderung |
+| Production-Image | Apache + PHP + System-Pakete + Chromium | rebuild nur bei System-Paket-Änderung |
+
+System-Pakete (Chromium + alle Runtime-Libs + Node.js + locales) sind in **einer einzigen `RUN`-Schicht** zusammengefasst — Folge-Builds nutzen diese komplett aus dem Cache.
+
+Wichtig in Coolify: **"Disable Build Cache" deaktiviert lassen** — sonst wird der Cache-Effekt zerstört.
+
+---
+
+## 🚀 Deployment (Coolify + Tailscale + GitHub Actions)
+
+### Voraussetzungen
+- Coolify-Instanz, erreichbar nur über Tailscale (`100.64.0.0/10`)
+- GitHub-Repository mit Push-Trigger auf `main`
+
+### Coolify konfigurieren
+
+1. Application aus Git-Repo erstellen, Build Pack: **Dockerfile**
+2. **Environment Variables** (Application → Environment Variables):
+   - `TYPO3_CONTEXT=Production`
+   - `MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE` (oder DSN)
+   - `MOSPARO_PUBLIC_SERVER`, `MOSPARO_VERIFY_SERVER`, `MOSPARO_UUID`,
+     `MOSPARO_PUBLIC_KEY`, `MOSPARO_PRIVATE_KEY` (alle als **Secret** markieren!)
+3. **Deploy Webhook** und **API-Token** kopieren
+
+### GitHub Actions
+
+Repository-Secrets setzen (`Settings → Secrets → Actions`):
+- `COOLIFY_WEBHOOK_URL`
+- `COOLIFY_TOKEN`
+- `TAILSCALE_AUTHKEY` (Reusable + Ephemeral)
+
+Der Workflow in `.github/workflows/` baut Vite-Assets, verbindet sich kurzzeitig per Tailscale und triggert den Coolify-Webhook.
+
+### Initial-Setup auf dem Server
+
+```bash
+# DB-Dump aus DDEV importieren
 ddev export-db --file=db_dump.sql.gz
-
-# Datei hochladen und importieren
 scp db_dump.sql.gz user@server:~/
-ssh user@server "zcat ~/db_dump.sql.gz | docker exec -i <mariadb-container-id> mariadb -u root -p<root-pass> default"
+ssh user@server "zcat ~/db_dump.sql.gz | docker exec -i <mariadb-container> \
+    mariadb -u root -p<root-pass> default"
 
-# Admin anlegen (im Coolify Terminal)
+# Backend-Admin anlegen (im Coolify-Terminal)
 ./vendor/bin/typo3 backend:user:create --username admin --admin
 ```
 
 ---
 
-## 📝 Portfolio-Artikel / Blog
+## 🔒 Sicherheit
 
-Dieses Setup demonstriert modernes **DevOps für PHP/TYPO3**. Es kombiniert intelligente Laufzeit-Konfigurationen mit einem Zero-Downtime, hochsicheren Deployment-Workflow über Tailscale VPN.
-
-**Verwendeter Tech-Stack:**
-
-- TYPO3 v14 + PHP 8.5
-- Vite (Frontend Asset Compilation + HMR)
-- Coolify (Self-hosted Vercel/Heroku Alternative)
-- GitHub Actions (CI/CD Pipeline)
-- Tailscale (Carrier-Grade NAT VPN zur Absicherung des Deploy-Ports)
+- **`additional.php`** erkennt Production via `TYPO3_CONTEXT=Production` und aktiviert dann:
+  - `displayErrors=0`, leeres `devIPmask`
+  - `cookieSecure=2`, `BE/lockSSL=true`
+  - Reverse-Proxy-Vertrauen für Traefik
+- **Trusted Hosts** sind aktuell auf `.*` gesetzt — bei Bedarf auf konkrete Domain einschränken
+- **Mosparo-Keys** liegen ausschließlich in Coolify-Env-Vars, nicht im Repo
 
 ---
 
-_Erstellt mit ❤️ für effiziente TYPO3-Workflows.
-//
+## 📦 Tech-Stack
+
+- TYPO3 v14.3 / PHP 8.4 / Apache
+- MariaDB 11.8
+- Vite 7 + `vite-plugin-typo3` 2 + Bootstrap 5.3
+- Spatie Browsershot 5 + Chromium (headless, lokal im Container)
+- Mosparo Form Protection
+- Coolify v4 + Traefik
+- Tailscale + GitHub Actions
+
+---
+
+_© Maik Demuth · `connect@maidem.de`_

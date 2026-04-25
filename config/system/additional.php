@@ -73,3 +73,27 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] = 2; // Always secure
     $GLOBALS['TYPO3_CONF_VARS']['BE']['lockSSL'] = true; // Force SSL for backend
 }
+
+// 3. MOSPARO CREDENTIALS (from environment)
+// The denkwerk/mosparo-form extension reads its config from TypoScript constants.
+// We inject them here so credentials never live in the repository.
+// Required env vars (set in Coolify or .ddev/config.yaml `web_environment`):
+//   MOSPARO_PUBLIC_SERVER, MOSPARO_VERIFY_SERVER, MOSPARO_UUID,
+//   MOSPARO_PUBLIC_KEY, MOSPARO_PRIVATE_KEY
+$mosparoEnv = [
+    'publicServer' => getenv('MOSPARO_PUBLIC_SERVER'),
+    'verifyServer' => getenv('MOSPARO_VERIFY_SERVER'),
+    'uuid'         => getenv('MOSPARO_UUID'),
+    'publicKey'    => getenv('MOSPARO_PUBLIC_KEY'),
+    'privateKey'   => getenv('MOSPARO_PRIVATE_KEY'),
+];
+$mosparoConstants = '';
+foreach ($mosparoEnv as $key => $value) {
+    if ($value !== false && $value !== '') {
+        $mosparoConstants .= "plugin.tx_mosparoform.settings.projects.portfolio.$key = $value\n";
+    }
+}
+if ($mosparoConstants !== '') {
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['defaultTypoScript_constants'] =
+        ($GLOBALS['TYPO3_CONF_VARS']['FE']['defaultTypoScript_constants'] ?? '') . $mosparoConstants;
+}

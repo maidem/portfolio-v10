@@ -1,0 +1,9 @@
+# Local DDEV overrides. NEVER commit real credentials!
+# Copy this file to `config.local.yaml` and fill in your actual mosparo values.
+# `config.local.yaml` is gitignored by DDEV by default.
+web_environment:
+  - MOSPARO_PUBLIC_SERVER=https://protect.maik-demuth.de
+  - MOSPARO_VERIFY_SERVER=https://protect.maik-demuth.de
+  - MOSPARO_UUID=
+  - MOSPARO_PUBLIC_KEY=
+  - MOSPARO_PRIVATE_KEY=
