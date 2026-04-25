@@ -59,14 +59,11 @@ class PdfExportController extends ActionController
         $view->assign('data', $data);
         $html = $view->render();
 
-        // Generate PDF via Browsershot connected to the remote Chromium service.
-        // BROWSERSHOT_CHROME_HOST / BROWSERSHOT_CHROME_PORT are set in the Docker environment
-        // and point to the dedicated Chromium container (see Dockerfile.chromium).
-        $chromeHost = (string)(getenv('BROWSERSHOT_CHROME_HOST') ?: 'chromium');
-        $chromePort = (int)(getenv('BROWSERSHOT_CHROME_PORT') ?: 9222);
-
+        // Generate PDF via Browsershot using the local Chromium binary installed
+        // in the app container (see Dockerfile).
         $pdf = Browsershot::html($html)
-            ->setRemoteInstance($chromeHost, $chromePort)
+            ->setChromePath('/usr/bin/chromium')
+            ->noSandbox()
             ->showBackground()
             ->format('A4')
             ->pdf();
