@@ -1,7 +1,12 @@
 form.contact.recipientEmail: connect@maidem.de
 form.contact.privacyPageUid: 15
-# Mosparo credentials are injected as TypoScript constants for the 'default'
-# project from environment variables in config/system/additional.php.
-# Required env vars (Coolify or .ddev/config.local.yaml `web_environment`):
+# Mosparo credentials are loaded at runtime from environment variables via
+# TYPO3's YamlFileLoader %env()% placeholder syntax. Set these in Coolify
+# (Available at Runtime ✓) or in .ddev/config.local.yaml `web_environment`:
 #   MOSPARO_PUBLIC_SERVER, MOSPARO_VERIFY_SERVER, MOSPARO_UUID,
 #   MOSPARO_PUBLIC_KEY, MOSPARO_PRIVATE_KEY
+plugin.tx_mosparoform.settings.projects.default.publicServer: '%env(MOSPARO_PUBLIC_SERVER)%'
+plugin.tx_mosparoform.settings.projects.default.verifyServer: '%env(MOSPARO_VERIFY_SERVER)%'
+plugin.tx_mosparoform.settings.projects.default.uuid: '%env(MOSPARO_UUID)%'
+plugin.tx_mosparoform.settings.projects.default.publicKey: '%env(MOSPARO_PUBLIC_KEY)%'
+plugin.tx_mosparoform.settings.projects.default.privateKey: '%env(MOSPARO_PRIVATE_KEY)%'
