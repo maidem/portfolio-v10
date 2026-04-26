@@ -10,10 +10,7 @@
                 size: A4;
             }
             body {
-                font-family:
-                    "JetBrains Mono",
-                    "Courier New",
-                    monospace;
+                font-family: "JetBrains Mono", "Courier New", monospace;
                 color: #111;
                 line-height: 1.5;
                 font-size: 11pt;
@@ -128,7 +125,9 @@
                     <f:if condition="{data.faq.header}">
                         <f:then>{data.faq.header}</f:then>
                         <f:else>
-                            <f:translate key="LLL:EXT:my_sitepackage/Resources/Private/Language/locallang_pdf.xlf:pdf.section.faq" />
+                            <f:translate
+                                key="LLL:EXT:my_sitepackage/Resources/Private/Language/locallang_pdf.xlf:pdf.section.faq"
+                            />
                         </f:else>
                     </f:if>
                 </h2>
@@ -185,7 +184,10 @@
                     <div class="content-block">
                         <span class="item-title">
                             <f:if condition="{entry.project_date}">
-                                <f:format.date format="d.m.Y">{entry.project_date}</f:format.date> - 
+                                <f:format.date format="d.m.Y"
+                                    >{entry.project_date}</f:format.date
+                                >
+                                -
                             </f:if>
                             {entry.header}
                         </span>
@@ -196,7 +198,6 @@
                 </f:for>
             </div>
         </f:if>
-
 
         <div class="footer">
             Generated via maik-demuth.de —

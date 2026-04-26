@@ -32,10 +32,7 @@ $letter-spacing-display: -0.04em;
 body {
   background-color: $bg-deep;
   color: $text-primary;
-  font-family:
-    "JetBrains Mono",
-    "Courier New",
-    monospace;
+  font-family: "JetBrains Mono", "Courier New", monospace;
   font-size: 1.125rem; // 18px base for better precision
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -103,15 +100,33 @@ main {
 
     // Wechselnde Größen — große & kleine Buchstaben im Wechsel,
     // unregelmäßig wie auf der Designvorlage.
-    &--1 { font-size: clamp(5rem, 16vw, 14rem); }
-    &--2 { font-size: clamp(3rem,  9vw,  8rem); }
-    &--3 { font-size: clamp(5rem, 15vw, 13rem); }
-    &--4 { font-size: clamp(3.5rem,11vw, 9.5rem); }
-    &--5 { font-size: clamp(5.5rem,17vw, 15rem); }
-    &--6 { font-size: clamp(3rem,  9vw,  8rem); }
-    &--7 { font-size: clamp(5rem, 14vw, 12rem); }
-    &--8 { font-size: clamp(3.5rem,10vw, 8.5rem); }
-    &--9 { font-size: clamp(5rem, 16vw, 14rem); }
+    &--1 {
+      font-size: clamp(5rem, 16vw, 14rem);
+    }
+    &--2 {
+      font-size: clamp(3rem, 9vw, 8rem);
+    }
+    &--3 {
+      font-size: clamp(5rem, 15vw, 13rem);
+    }
+    &--4 {
+      font-size: clamp(3.5rem, 11vw, 9.5rem);
+    }
+    &--5 {
+      font-size: clamp(5.5rem, 17vw, 15rem);
+    }
+    &--6 {
+      font-size: clamp(3rem, 9vw, 8rem);
+    }
+    &--7 {
+      font-size: clamp(5rem, 14vw, 12rem);
+    }
+    &--8 {
+      font-size: clamp(3.5rem, 10vw, 8.5rem);
+    }
+    &--9 {
+      font-size: clamp(5rem, 16vw, 14rem);
+    }
   }
 }
 
