@@ -75,9 +75,12 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
 }
 
 // 3. MOSPARO CREDENTIALS (from environment)
-// The denkwerk/mosparo-form extension reads its config from TypoScript constants.
-// We inject them here so credentials never live in the repository.
-// Required env vars (set in Coolify or .ddev/config.yaml `web_environment`):
+// The denkwerk/mosparo-form extension reads its config from TypoScript.
+// We inject the values directly into the SETUP (not constants), because
+// TYPO3 v14 site sets resolve {$...} placeholders at compile time from
+// settings.yaml — env-driven constants would not reach them. By writing
+// to defaultTypoScript_setup we override the already-resolved values.
+// Required env vars (set in Coolify or .ddev/config.local.yaml `web_environment`):
 //   MOSPARO_PUBLIC_SERVER, MOSPARO_VERIFY_SERVER, MOSPARO_UUID,
 //   MOSPARO_PUBLIC_KEY, MOSPARO_PRIVATE_KEY
 $mosparoEnv = [
@@ -87,13 +90,13 @@ $mosparoEnv = [
     'publicKey'    => getenv('MOSPARO_PUBLIC_KEY'),
     'privateKey'   => getenv('MOSPARO_PRIVATE_KEY'),
 ];
-$mosparoConstants = '';
+$mosparoSetup = '';
 foreach ($mosparoEnv as $key => $value) {
     if ($value !== false && $value !== '') {
-        $mosparoConstants .= "plugin.tx_mosparoform.settings.projects.default.$key = $value\n";
+        $mosparoSetup .= "plugin.tx_mosparoform.settings.projects.default.$key = $value\n";
     }
 }
-if ($mosparoConstants !== '') {
-    $GLOBALS['TYPO3_CONF_VARS']['FE']['defaultTypoScript_constants'] =
-        ($GLOBALS['TYPO3_CONF_VARS']['FE']['defaultTypoScript_constants'] ?? '') . $mosparoConstants;
+if ($mosparoSetup !== '') {
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['defaultTypoScript_setup'] =
+        ($GLOBALS['TYPO3_CONF_VARS']['FE']['defaultTypoScript_setup'] ?? '') . $mosparoSetup;
 }
