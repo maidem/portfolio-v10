@@ -90,7 +90,7 @@ $mosparoEnv = [
 $mosparoConstants = '';
 foreach ($mosparoEnv as $key => $value) {
     if ($value !== false && $value !== '') {
-        $mosparoConstants .= "plugin.tx_mosparoform.settings.projects.portfolio.$key = $value\n";
+        $mosparoConstants .= "plugin.tx_mosparoform.settings.projects.default.$key = $value\n";
     }
 }
 if ($mosparoConstants !== '') {

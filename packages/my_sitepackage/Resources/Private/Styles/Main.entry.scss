@@ -72,38 +72,46 @@ main {
 
 // ─── Background Schriftzug ──────────────────────────────────────────────────
 // Minimalistischer Typografie-Hintergrund: "MAIK DEMUTH" mit wechselnden
-// Schriftgrößen, fest am oberen Seitenrand verankert, nicht scrollend.
+// Hintergrund-Schriftzug "PORTFOLIO"
+// Spannt sich über die gesamte Viewport-Breite, einzelne Buchstaben mit
+// abwechselnden Größen für vertikale Irregularität (siehe Designvorlage).
 // pointer-events: none → kein Einfluss auf Klickverhalten.
 .cb-bg-text {
   position: fixed;
-  top: -0.1em;
-  left: -0.02em;
+  top: 0;
+  left: 0;
   right: 0;
+  width: 100vw;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  line-height: 0.82;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 1.5vw;
   font-family: "JetBrains Mono", monospace;
   font-weight: 800;
   color: $text-primary;
-  opacity: 0.035;
-  white-space: nowrap;
+  opacity: 0.045;
   user-select: none;
+  line-height: 0.82;
 
-  &__large {
+  &__l {
     display: inline-block;
-    font-size: clamp(8rem, 24vw, 20rem);
+    line-height: 0.82;
     letter-spacing: -0.04em;
-    vertical-align: top;
-  }
 
-  &__small {
-    display: inline-block;
-    font-size: clamp(3.5rem, 10vw, 8.5rem);
-    letter-spacing: 0.06em;
-    vertical-align: bottom;
-    margin-left: 0.15em;
-    padding-bottom: 0.05em;
+    // Wechselnde Größen — große & kleine Buchstaben im Wechsel,
+    // unregelmäßig wie auf der Designvorlage.
+    &--1 { font-size: clamp(5rem, 16vw, 14rem); }
+    &--2 { font-size: clamp(3rem,  9vw,  8rem); }
+    &--3 { font-size: clamp(5rem, 15vw, 13rem); }
+    &--4 { font-size: clamp(3.5rem,11vw, 9.5rem); }
+    &--5 { font-size: clamp(5.5rem,17vw, 15rem); }
+    &--6 { font-size: clamp(3rem,  9vw,  8rem); }
+    &--7 { font-size: clamp(5rem, 14vw, 12rem); }
+    &--8 { font-size: clamp(3.5rem,10vw, 8.5rem); }
+    &--9 { font-size: clamp(5rem, 16vw, 14rem); }
   }
 }
 
