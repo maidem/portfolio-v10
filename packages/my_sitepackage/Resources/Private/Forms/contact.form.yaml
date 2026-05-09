@@ -66,4 +66,14 @@ renderables:
         validators:
           -
             identifier: NotEmpty
+      -
+        defaultValue: ''
+        properties:
+          selectedProject: Default
+        validators:
+          -
+            identifier: MosparoCaptchaValidator
+        type: MosparoCaptcha
+        identifier: mosparocaptcha-1
+        label: 'Mosparo Captcha'
 variants: {  }

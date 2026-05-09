@@ -5,6 +5,7 @@
 >
     <section
         id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+        class="cb-hero-section"
     >
         <div class="container">
             <div class="cb-hero position-relative">
@@ -42,78 +43,37 @@
 
                 <!-- Card with black border -->
                 <div class="cb-hero__card">
-                    <!-- Label Bar -->
+                    <!-- Heading with #01FFD0 strikethrough -->
                     <f:if condition="{data.header}">
-                        <div class="cb-hero__label-bar">{data.header}</div>
+                        <h1 class="cb-hero__heading">{data.header}</h1>
                     </f:if>
 
                     <!-- Content body: two columns -->
                     <div class="cb-hero__body">
                         <div class="row gx-md-5 align-items-start">
-                            <!-- Left: Text -->
-                            <div class="col-12 col-md-6 cb-hero__left">
+                            <f:if condition="{data.show_left}">
                                 <f:if condition="{data.bodytext}">
-                                    <div class="cb-hero__about-text">
-                                        <f:format.html
-                                            >{data.bodytext}</f:format.html
-                                        >
+                                    <div class="col-12 col-md-6 cb-hero__left">
+                                        <div class="cb-hero__text">
+                                            <f:format.html
+                                                >{data.bodytext}</f:format.html
+                                            >
+                                        </div>
                                     </div>
                                 </f:if>
-                            </div>
+                            </f:if>
 
-                            <!-- Right: FAQ -->
-                            <div class="col-12 col-md-6 cb-hero__right">
-                                <f:if condition="{data.faq_header}">
-                                    <h3 class="cb-faq__title-inline mb-4">
-                                        {data.faq_header}
-                                    </h3>
-                                </f:if>
-
-                                <div class="cb-faq__list" role="list">
-                                    <f:if condition="{data.faq_items}">
-                                        <f:for
-                                            each="{data.faq_items}"
-                                            as="faqItem"
-                                            iteration="iteration"
-                                        >
-                                            <div
-                                                class="cb-faq__item"
-                                                role="listitem"
+                            <f:if condition="{data.show_right}">
+                                <f:if condition="{data.right_text}">
+                                    <div class="col-12 col-md-6 cb-hero__right">
+                                        <div class="cb-hero__text">
+                                            <f:format.html
+                                                >{data.right_text}</f:format.html
                                             >
-                                                <button
-                                                    class="cb-faq__trigger"
-                                                    aria-expanded="false"
-                                                    type="button"
-                                                >
-                                                    <span
-                                                        class="cb-faq__question"
-                                                        >{faqItem.question}</span
-                                                    >
-                                                    <span
-                                                        class="cb-faq__icon"
-                                                    ></span>
-                                                </button>
-                                                <div
-                                                    class="cb-faq__content"
-                                                    role="region"
-                                                >
-                                                    <div
-                                                        class="cb-faq__content-inner"
-                                                    >
-                                                        <div
-                                                            class="cb-faq__answer"
-                                                        >
-                                                            <f:format.html
-                                                                >{faqItem.answer}</f:format.html
-                                                            >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </f:for>
-                                    </f:if>
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
+                                </f:if>
+                            </f:if>
                         </div>
                     </div>
                 </div>

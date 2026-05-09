@@ -1,0 +1,43 @@
+name: gripsraum/faq
+typeName: gripsraum_faq
+title: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:title
+group: default
+description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:description
+prefixFields: true
+prefixType: full
+basics:
+  - TYPO3/Appearance
+fields:
+  - identifier: header
+    useExistingField: true
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: bodytext
+    useExistingField: true
+    label: "Einleitung"
+    enableRichtext: true
+  - identifier: faq_items
+    type: Collection
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:faq_items.label
+    labelField: question
+    minitems: 1
+    maxitems: 30
+    appearance:
+      collapseAll: true
+      levelLinksPosition: bottom
+    fields:
+      - identifier: question
+        type: Text
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:question.label
+        required: true
+      - identifier: answer
+        type: Textarea
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:answer.label
+        enableRichtext: true
+        required: true
+assets:
+  css:
+    - assets/frontend.scss

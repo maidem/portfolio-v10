@@ -41,44 +41,24 @@ class PdfDataService
      */
     public function getFaqContent(): array
     {
-        $parent = $this->getLatestContentRecord('gripsraum_hero');
-        if (!$parent) return [];
+        $parent = $this->getLatestContentRecord('gripsraum_faq');
+        if (!$parent) {
+            return [];
+        }
 
-        // Header aus dem Parent holen
-        $header = $this->getLatestHeroFaqHeader();
-
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('gripsraum_hero_faq_items');
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('gripsraum_faq_faq_items');
         $items = $queryBuilder
             ->select('question', 'answer')
-            ->from('gripsraum_hero_faq_items')
+            ->from('gripsraum_faq_faq_items')
             ->where($queryBuilder->expr()->eq('foreign_table_parent_uid', $queryBuilder->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)))
             ->orderBy('sorting')
             ->executeQuery()
             ->fetchAllAssociative();
 
         return [
-            'header' => $header,
+            'header' => $parent['header'] ?? 'FAQ',
             'items' => $items,
         ];
-    }
-
-    private function getLatestHeroFaqHeader(): string
-    {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-        $row = $queryBuilder
-            ->select('gripsraum_hero_faq_header')
-            ->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_hero')),
-                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
-                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
-            )
-            ->orderBy('uid', 'DESC')
-            ->setMaxResults(1)
-            ->executeQuery()
-            ->fetchAssociative();
-
-        return $row['gripsraum_hero_faq_header'] ?? 'HÄUFIGE FRAGEN';
     }
 
     /**
@@ -143,7 +123,7 @@ class PdfDataService
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $row = $queryBuilder
-            ->select('uid')
+            ->select('uid', 'header')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter($ctype)),

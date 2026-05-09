@@ -6,22 +6,7 @@
                 <source>Hero</source>
             </trans-unit>
             <trans-unit id="description">
-                <source>A large hero element with background image and text.</source>
-            </trans-unit>
-            <trans-unit id="display_mode.label">
-                <source>Display Mode</source>
-            </trans-unit>
-            <trans-unit id="display_mode.full">
-                <source>Full Width</source>
-            </trans-unit>
-            <trans-unit id="display_mode.split">
-                <source>Split 50/50</source>
-            </trans-unit>
-            <trans-unit id="background_image.label">
-                <source>Background Image</source>
-            </trans-unit>
-            <trans-unit id="split_left_image.label">
-                <source>Split Left Image</source>
+                <source>A minimalist hero block with optional left and right text columns.</source>
             </trans-unit>
         </body>
     </file>

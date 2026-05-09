@@ -1,0 +1,35 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+    <section
+        id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+        class="cb-faq-section"
+    >
+        <div class="container">
+            <div class="cb-faq-simple">
+                <f:if condition="{data.header}">
+                    <h2 class="cb-faq-simple__title">{data.header}</h2>
+                </f:if>
+
+                <f:if condition="{data.bodytext}">
+                    <div class="cb-faq-simple__intro">
+                        <f:format.html>{data.bodytext}</f:format.html>
+                    </div>
+                </f:if>
+
+                <div class="cb-faq-simple__list">
+                    <f:for each="{data.faq_items}" as="faqItem">
+                        <details class="cb-faq-simple__item">
+                            <summary>{faqItem.question}</summary>
+                            <div class="cb-faq-simple__answer">
+                                <f:format.html>{faqItem.answer}</f:format.html>
+                            </div>
+                        </details>
+                    </f:for>
+                </div>
+            </div>
+        </div>
+    </section>
+</html>

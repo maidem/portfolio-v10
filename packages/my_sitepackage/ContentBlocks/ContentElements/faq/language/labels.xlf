@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="labels.xlf">
+        <body>
+            <trans-unit id="title">
+                <source>FAQ</source>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>A simple FAQ block using native details and summary tags.</source>
+            </trans-unit>
+            <trans-unit id="faq_items.label">
+                <source>FAQ Items</source>
+            </trans-unit>
+            <trans-unit id="question.label">
+                <source>Question</source>
+            </trans-unit>
+            <trans-unit id="answer.label">
+                <source>Answer</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

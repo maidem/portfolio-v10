@@ -1,3 +1,14 @@
+.cb-hero-section {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0; // frame:first-child handles top spacing for all pages
+  padding-bottom: 4rem; // 64px — 8er Raster
+
+  > .container {
+    width: 100%;
+  }
+}
+
 // Hero Section Styles
 .cb-hero {
   position: relative;
@@ -24,24 +35,18 @@
   }
 
   &__card {
-    border: 2px solid #111;
-    border-radius: 0.75rem;
+    border: 0;
+    border-radius: 0;
     overflow: hidden;
+    background-color: transparent;
   }
 
   &__label-bar {
-    background-color: #bce2ff;
-    padding: 0.5rem 1.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #111;
-    border-bottom: 2px solid #111;
+    display: none;
   }
 
   &__body {
-    padding: clamp(1.5rem, 3.5vw, 3rem);
+    padding: 0;
   }
 
   &__left {
@@ -63,11 +68,15 @@
     font-weight: 700;
     line-height: 1.2;
     color: #111;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    text-decoration: underline;
+    text-decoration-color: #01ffd0;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
   }
 
-  &__about-text {
-    color: #555;
+  &__text {
+    color: #222;
     font-size: 1rem;
     line-height: 1.6;
     margin-top: 0;
@@ -77,135 +86,26 @@
       margin-top: 0;
       padding-top: 0;
     }
-  }
-}
 
-// FAQ Styles
-.cb-faq {
-  &__title-inline {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #111;
-    opacity: 0.8;
-    margin-top: 0;
-  }
+    // Reset Bootstrap link color inside richtext
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: rgba(0, 0, 0, 0.3);
+    }
 
-  &__list {
-    position: relative;
-    z-index: 2;
-  }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #888888;
 
-  &__item {
-    &:first-child {
-      .cb-faq__trigger {
-        padding-top: 0;
+      a {
+        color: inherit;
+        text-decoration: none;
       }
     }
-
-    &.is-open {
-      .cb-faq__content {
-        grid-template-rows: 1fr;
-        opacity: 1;
-      }
-      .cb-faq__answer {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  }
-
-  &__trigger {
-    width: 100%;
-    background: transparent;
-    border: none;
-    padding: 0.875rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-    gap: 1rem;
-    color: #111;
-    font-weight: 400;
-    font-size: 1rem;
-    letter-spacing: -0.01em;
-    line-height: 1.4;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    text-align: left;
-    cursor: pointer;
-
-    &:hover,
-    &:focus {
-      outline: none;
-      opacity: 0.8;
-    }
-  }
-
-  &__icon {
-    width: 12px;
-    height: 12px;
-    flex-shrink: 0;
-    position: relative;
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      background-color: #111;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      border-radius: 999px;
-    }
-
-    &::before {
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 1.5px;
-      transform: translateY(-50%);
-    }
-
-    &::after {
-      top: 0;
-      left: 50%;
-      width: 1.5px;
-      height: 100%;
-      transform: translateX(-50%);
-    }
-  }
-
-  &__content {
-    display: grid;
-    grid-template-rows: 0fr;
-    opacity: 0;
-    transition:
-      grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.35s ease;
-    overflow: hidden;
-
-    &-inner {
-      min-height: 0;
-    }
-  }
-
-  &__answer {
-    padding: 0 0 1.5rem 0;
-    color: #555;
-    font-size: 1rem;
-    line-height: 1.6;
-    transform: translateY(10px);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
-
-    p:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.cb-faq__item.is-open {
-  .cb-faq__icon::after {
-    transform: translateX(-50%) rotate(90deg) scale(0);
-    opacity: 0;
   }
 }

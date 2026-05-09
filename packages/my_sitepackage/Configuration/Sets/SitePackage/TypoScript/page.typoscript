@@ -24,26 +24,6 @@ page {
                 as = mainnavigation
             }
             30 = page-content
-
-            # One-pager: read content elements with section_anchor to build anchor navigation
-            40 = database-query
-            40 {
-                table = tt_content
-                pidInList.data = page:uid
-                where = section_anchor != ''
-                orderBy = sorting
-                as = sectionNavigation
-            }
-
-            # Global nav fallback: always fetch homepage sections for use on detail pages
-            50 = database-query
-            50 {
-                table = tt_content
-                pidInList.data = leveluid:0
-                where = section_anchor != ''
-                orderBy = sorting
-                as = homeNavigation
-            }
         }
     }
 

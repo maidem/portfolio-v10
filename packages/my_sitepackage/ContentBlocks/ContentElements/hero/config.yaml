@@ -17,38 +17,22 @@ fields:
     description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
   - identifier: bodytext
     useExistingField: true
-    label: "Einleitung (Über mich)"
+    label: "Text links"
     enableRichtext: true
-  - identifier: about_image
-    type: File
-    label: "Profilbild"
-    maxitems: 1
-    allowed: common-image-types
-  - identifier: faq_header
-    type: Text
-    label: "Überschrift (FAQ)"
-    default: "HÄUFIGE FRAGEN"
-  - identifier: faq_items
-    type: Collection
-    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:faq_items.label
-    labelField: question
-    minitems: 1
-    maxitems: 20
-    appearance:
-      collapseAll: true
-      levelLinksPosition: bottom
-    fields:
-      - identifier: question
-        type: Text
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:question.label
-        required: true
-      - identifier: answer
-        type: Textarea
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:answer.label
-        enableRichtext: true
-        required: true
+  - identifier: show_left
+    type: Checkbox
+    renderType: checkboxToggle
+    label: "Linke Spalte anzeigen"
+    default: true
+  - identifier: show_right
+    type: Checkbox
+    renderType: checkboxToggle
+    label: "Rechte Spalte anzeigen"
+    default: true
+  - identifier: right_text
+    type: Textarea
+    label: "Text rechts"
+    enableRichtext: true
 assets:
   css:
     - assets/frontend.scss
-  js:
-    - assets/frontend.js

@@ -1,0 +1,59 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
+    xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+    <f:layout name="Preview" />
+
+    <f:section name="Header">
+        <cb:link.editRecord uid="{data.uid}" table="{data.mainType}">
+            <strong>{data.header}</strong>
+        </cb:link.editRecord>
+    </f:section>
+
+    <f:section name="Content">
+        <f:if condition="{data.bodytext}">
+            <div><em>{data.bodytext}</em></div>
+        </f:if>
+
+        <f:if condition="{data.faq_items}">
+            <div style="margin-top: 12px; display: grid; gap: 8px">
+                <f:for
+                    each="{data.faq_items}"
+                    as="faqItem"
+                    iteration="iteration"
+                >
+                    <details
+                        open
+                        style="
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            padding: 10px 12px;
+                            background: #fff;
+                        "
+                    >
+                        <summary
+                            style="
+                                font-weight: 600;
+                                cursor: pointer;
+                                list-style: none;
+                            "
+                        >
+                            {faqItem.question}
+                        </summary>
+                        <div
+                            style="
+                                margin-top: 8px;
+                                color: #555;
+                                font-size: 12px;
+                            "
+                        >
+                            {faqItem.answer -> f:sanitize.html()}
+                        </div>
+                    </details>
+                </f:for>
+            </div>
+        </f:if>
+    </f:section>
+</html>

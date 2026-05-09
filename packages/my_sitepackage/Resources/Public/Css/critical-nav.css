@@ -3,9 +3,7 @@
     position: sticky;
     top: 0;
     z-index: 1030;
-    background-color: rgba(248, 249, 250, 0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: transparent;
 }
 .cb-nav__bar {
     display: flex;
@@ -36,7 +34,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     text-decoration: none;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.62);
 }
 .cb-nav__overlay {
     opacity: 0;

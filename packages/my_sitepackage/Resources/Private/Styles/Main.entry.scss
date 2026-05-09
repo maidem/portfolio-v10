@@ -11,7 +11,7 @@ $text-secondary: #555555;
 $text-muted: #888888;
 $brand-primary: #e0f7ff;
 $brand-btn: #9bc0cf; // New medium blue for buttons instead of black
-$bg-deep: #ffffff;
+$bg-deep: #f7f7f5;
 $card-bg-gray: rgba(245, 245, 247, 0.92);
 
 // Scroll offset for sticky navigation
@@ -40,6 +40,12 @@ body {
   overflow-x: clip; // 'clip' prevents horizontal overflow without creating a scroll context — keeps position:sticky working
   min-height: 100vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
+
+  > main {
+    flex: 1 0 auto;
+  }
 }
 
 // Consistent vertical rhythm for content sections
@@ -55,6 +61,17 @@ main > .frame {
   }
 }
 
+// All pages: first direct child of main always gets the same top spacing
+main > .frame:first-child,
+main > section:first-child,
+main > .container:first-child {
+  padding-top: clamp(
+    6rem,
+    10vw,
+    10rem
+  ); // vertical mid of PORTFOLIO wordmark — 8er grid
+}
+
 main {
   padding-bottom: $grid-unit * 3; // 24px — mobile
 
@@ -67,67 +84,98 @@ main {
   margin-bottom: 0;
 }
 
-// ─── Background Schriftzug ──────────────────────────────────────────────────
-// Minimalistischer Typografie-Hintergrund: "MAIK DEMUTH" mit wechselnden
-// Hintergrund-Schriftzug "PORTFOLIO"
-// Spannt sich über die gesamte Viewport-Breite, einzelne Buchstaben mit
-// abwechselnden Größen für vertikale Irregularität (siehe Designvorlage).
-// pointer-events: none → kein Einfluss auf Klickverhalten.
-.cb-bg-text {
+// ─── Perspective grid — radiating SVG lines from top vanishing point (v7) ───
+.cb-perspective-grid {
   position: fixed;
-  top: 0;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      black 15%,
+      black 85%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 25%,
+      black 75%,
+      transparent 100%
+    );
+  -webkit-mask-composite: destination-in;
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      black 15%,
+      black 85%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 25%,
+      black 75%,
+      transparent 100%
+    );
+  mask-composite: intersect;
+
+  @media (max-width: 639px) {
+    display: none;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+  }
+}
+
+// ─── PORTFOLIO background wordmark — fixed, outline + 3D shadow (v7 style) ──
+// Single centered "PORTFOLIO" text, outline-only, sits behind all content.
+// Adapts to the site background color so only the stroke is visible.
+.cb-portfolio-banner {
+  position: fixed;
+  top: $grid-unit * 11; // below nav
   left: 0;
   right: 0;
-  width: 100vw;
-  z-index: 0;
-  pointer-events: none;
+  padding: $grid-unit * 3 0 0;
   overflow: hidden;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0 1.5vw;
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 800;
-  color: $text-primary;
-  opacity: 0.045;
   user-select: none;
-  line-height: 0.82;
+  pointer-events: none;
+  z-index: 0;
+  isolation: isolate;
 
-  &__l {
-    display: inline-block;
-    line-height: 0.82;
-    letter-spacing: -0.04em;
-
-    // Wechselnde Größen — große & kleine Buchstaben im Wechsel,
-    // unregelmäßig wie auf der Designvorlage.
-    &--1 {
-      font-size: clamp(5rem, 16vw, 14rem);
-    }
-    &--2 {
-      font-size: clamp(3rem, 9vw, 8rem);
-    }
-    &--3 {
-      font-size: clamp(5rem, 15vw, 13rem);
-    }
-    &--4 {
-      font-size: clamp(3.5rem, 11vw, 9.5rem);
-    }
-    &--5 {
-      font-size: clamp(5.5rem, 17vw, 15rem);
-    }
-    &--6 {
-      font-size: clamp(3rem, 9vw, 8rem);
-    }
-    &--7 {
-      font-size: clamp(5rem, 14vw, 12rem);
-    }
-    &--8 {
-      font-size: clamp(3.5rem, 10vw, 8.5rem);
-    }
-    &--9 {
-      font-size: clamp(5rem, 16vw, 14rem);
-    }
+  @media (max-width: 639px) {
+    display: none;
   }
+}
+
+.cb-portfolio-text {
+  display: block;
+  width: 100%;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 900;
+  font-size: clamp(4rem, 19vw, 22rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-align: center;
+  color: $bg-deep; // matches page background — only stroke visible
+  -webkit-text-stroke: 1px rgba(100, 100, 100, 0.18);
+  text-shadow:
+    2px 3px 0 rgba(140, 140, 140, 0.07),
+    4px 6px 0 rgba(130, 130, 130, 0.05),
+    6px 9px 0 rgba(120, 120, 120, 0.03),
+    8px 12px 0 rgba(110, 110, 110, 0.02);
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
 }
 
 // Card Layout
@@ -163,9 +211,9 @@ body {
   position: relative;
   z-index: 1;
 
-  background: #fff;
-  border: 2px solid $text-primary;
-  border-radius: 0.75rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   overflow: hidden;
   padding: 0;
   margin-bottom: $grid-unit * 4;
@@ -184,14 +232,18 @@ body {
   }
 
   &__label-bar {
-    background-color: #bce2ff;
-    border-bottom: 2px solid $text-primary;
-    padding: 0.5rem 2rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
+    background-color: transparent;
+    border-bottom: none;
+    padding: 0 clamp(1.5rem, 3.5vw, 3rem);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
     color: $text-primary;
+    text-decoration: underline;
+    text-decoration-color: #01ffd0;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
   }
 
   &__body {
@@ -260,56 +312,26 @@ main > section:first-of-type > * {
   z-index: 1;
 }
 
-.cb-bg-text-outline {
-  position: fixed;
-  top: 15vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  font-size: 19vw; // Scaled to span full width of viewport
-  letter-spacing: -0.02em;
-  font-weight: 900;
-  line-height: 1;
-  text-transform: uppercase;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(155, 192, 207, 0.35); // Using exact button blue (#9bc0cf)
-  text-shadow: none;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .cb-nav {
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1040;
-  background-color: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: none;
+  background-color: transparent;
   transition: all 0.3s ease;
 
-  // Fills the iOS safe area above the nav so content doesn't bleed through
-  &::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: env(safe-area-inset-top, 0px);
-    background-color: rgba(255, 255, 255, 0.98);
-    z-index: 1041;
-    pointer-events: none;
+  // Override Bootstrap link color CSS variables for all links inside nav
+  --bs-link-color-rgb: 136, 136, 136;
+  --bs-link-hover-color-rgb: 17, 17, 17;
+
+  a {
+    text-decoration: none;
   }
 
   &__bar {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     height: $grid-unit * 11;
     position: relative;
@@ -327,13 +349,15 @@ main > section:first-of-type > * {
     text-transform: uppercase;
     color: $text-primary;
     text-decoration: none;
+    line-height: 1;
   }
 
   &__desktop {
     display: none;
 
     @media (min-width: 768px) {
-      display: block;
+      display: flex;
+      align-items: baseline;
     }
   }
 
@@ -354,42 +378,23 @@ main > section:first-of-type > * {
     color: $text-muted;
     font-weight: $font-weight-label;
     transition: color 0.2s ease;
-    padding: $grid-unit 0;
+    line-height: 1;
+    padding: 0;
+
+    &:link,
+    &:visited {
+      color: $text-muted;
+      text-decoration: none;
+    }
 
     &:hover,
     &--active {
       color: $text-primary;
     }
-  }
 
-  &__item:last-child .cb-nav__link,
-  &__overlay-item:last-child .cb-nav__overlay.cb-btn-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.75rem; // ~44px Apple Standard UX Height
-    padding: 0 2rem;
-    background-color: transparent;
-    color: $text-primary;
-    border: 2px solid $text-primary;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.8125rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    text-decoration: none;
-    white-space: nowrap;
-
-    &:hover {
-      background-color: $text-primary;
-      border-color: $text-primary;
-      color: #fff;
-    }
-
-    @media (max-width: 767.98px) {
-      width: 100%;
-      min-height: 3.25rem;
+    &--active:link,
+    &--active:visited {
+      color: $text-primary;
     }
   }
 
@@ -397,6 +402,7 @@ main > section:first-of-type > * {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-self: center; // Keep toggle button centered even when bar uses baseline
     gap: 6px;
     width: 32px;
     height: 32px;
@@ -429,7 +435,7 @@ main > section:first-of-type > * {
     position: fixed;
     inset: 0;
     z-index: 1040;
-    background-color: rgba(240, 240, 235, 0.4);
+    background-color: rgba(254, 254, 254, 0.7);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     display: flex;
@@ -501,7 +507,7 @@ main > section:first-of-type > * {
     min-height: 3.25rem; // UX Touch Target
     text-align: center;
     padding: 0 2rem;
-    background-color: #ffffff;
+    background-color: #fefefe;
     color: #000;
     font-size: 0.8125rem;
     font-weight: 700;
@@ -513,7 +519,7 @@ main > section:first-of-type > * {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      background-color: #ffffff;
+      background-color: #fefefe;
       transform: scale(1.02);
     }
 
@@ -569,6 +575,45 @@ main > section:first-of-type > * {
       letter-spacing: 0.1em;
     }
   }
+}
+
+// ─── Global Heading Styles ─────────────────────────────────────────────────
+// h1: schwarz mit #01FFD0 Durchstreichung
+// h2–h6: gedämpftes Grau
+
+h1 {
+  color: $text-primary;
+  text-decoration: line-through;
+  text-decoration-color: #01ffd0;
+  text-decoration-thickness: 3px;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: $letter-spacing-display;
+}
+
+h2 {
+  color: $text-muted;
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  color: $text-muted;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h4,
+h5,
+h6 {
+  color: $text-muted;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .modal-backdrop.show {
