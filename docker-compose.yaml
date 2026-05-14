@@ -5,9 +5,8 @@ services:
     image: ${DOCKER_REGISTRY_URL:-ghcr.io}/${DOCKER_REGISTRY_USERNAME:-maidem}/portfolio-v1:${DOCKER_REGISTRY_TAG:-latest}
     container_name: portfolio-app
     restart: always
-    ports:
-      - "80:80"
-      - "443:443"
+    expose:
+      - "80"
     environment:
       # TYPO3 Environment Variables
       TYPO3_CONTEXT: ${TYPO3_CONTEXT:-Production}
