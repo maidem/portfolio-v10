@@ -1,10 +1,6 @@
-# maik-demuth.de — Portfolio (TYPO3 v14)
+# Portfolio (TYPO3 v14)
 
-Persönliche Portfolio-Website von Maik Demuth, gebaut mit **TYPO3 v14**, **PHP 8.4**, **Vite** und **Bootstrap 5**, deployed via **Coolify** auf einem Tailscale-gesicherten Server.
-
-> Dieses Repository diente ursprünglich als TYPO3-v14/Coolify-Deployment-Blueprint und wurde inzwischen zur produktiven Portfolio-Site weiterentwickelt.
-
----
+Persönliche Portfolio-Website, gebaut mit **TYPO3 v14**, **PHP 8.4**, **Vite** und **Bootstrap 5**, deployed via **Coolify** auf einem Tailscale-gesicherten Server.
 
 ## ✨ Features
 
@@ -51,32 +47,12 @@ Der ContentBlock `pdfexport` rendert ein Formular mit Checkboxen für die zu exp
 
 ### Mosparo-Integration
 
-Die mosparo-Credentials kommen ausschließlich über Environment-Variablen — niemals im Repo. `config/system/additional.php` liest die fünf Variablen ein und injiziert sie als TypoScript-Konstanten unter `plugin.tx_mosparoform.settings.projects.portfolio`.
+Die mosparo-Credentials kommen ausschließlich über Environment-Variablen.
+`config/system/additional.php` liest die fünf Variablen ein und injiziert sie als TypoScript-Konstanten unter `plugin.tx_mosparoform.settings.projects.portfolio`.
 
 ---
 
-## 🛠 Lokale Entwicklung (DDEV)
-
-```bash
-# Initial-Setup
-ddev start
-ddev composer install
-ddev npm install
-ddev npm run build
-
-# Kontinuierliche Entwicklung
-ddev npm run dev   # Vite-Dev-Server mit HMR
-```
-
-### Mosparo lokal aktivieren
-
-```bash
-cp .ddev/config.local.yaml.example .ddev/config.local.yaml
-# Echte Werte aus deinem Mosparo-Backend in .ddev/config.local.yaml eintragen
-ddev restart
-```
-
-`.ddev/config.local.yaml` wird von DDEV automatisch geignored.
+## Lokale Entwicklung (DDEV)
 
 ### PDF-Export lokal
 
@@ -95,8 +71,6 @@ Der `Dockerfile` ist auf **maximale Cache-Wiederverwendung** optimiert:
 | Production-Image   | Apache + PHP + System-Pakete + Chromium | rebuild nur bei System-Paket-Änderung         |
 
 System-Pakete (Chromium + alle Runtime-Libs + Node.js + locales) sind in **einer einzigen `RUN`-Schicht** zusammengefasst — Folge-Builds nutzen diese komplett aus dem Cache.
-
-Wichtig in Coolify: **"Disable Build Cache" deaktiviert lassen** — sonst wird der Cache-Effekt zerstört.
 
 ---
 
@@ -127,32 +101,6 @@ Repository-Secrets setzen (`Settings → Secrets → Actions`):
 
 Der Workflow in `.github/workflows/` baut Vite-Assets, verbindet sich kurzzeitig per Tailscale und triggert den Coolify-Webhook.
 
-### Initial-Setup auf dem Server
-
-```bash
-# DB-Dump aus DDEV importieren
-ddev export-db --file=db_dump.sql.gz
-scp db_dump.sql.gz user@server:~/
-ssh user@server "zcat ~/db_dump.sql.gz | docker exec -i <mariadb-container> \
-    mariadb -u root -p<root-pass> default"
-
-# Backend-Admin anlegen (im Coolify-Terminal)
-./vendor/bin/typo3 backend:user:create --username admin --admin
-```
-
----
-
-## 🔒 Sicherheit
-
-- **`additional.php`** erkennt Production via `TYPO3_CONTEXT=Production` und aktiviert dann:
-  - `displayErrors=0`, leeres `devIPmask`
-  - `cookieSecure=2`, `BE/lockSSL=true`
-  - Reverse-Proxy-Vertrauen für Traefik
-- **Trusted Hosts** sind aktuell auf `.*` gesetzt — bei Bedarf auf konkrete Domain einschränken
-- **Mosparo-Keys** liegen ausschließlich in Coolify-Env-Vars, nicht im Repo
-
----
-
 ## 📦 Tech-Stack
 
 - TYPO3 v14.3 / PHP 8.4 / Apache
@@ -162,7 +110,3 @@ ssh user@server "zcat ~/db_dump.sql.gz | docker exec -i <mariadb-container> \
 - Mosparo Form Protection
 - Coolify v4 + Traefik
 - Tailscale + GitHub Actions
-
----
-
-_© Maik Demuth · `connect@maidem.de`_
