@@ -1,47 +1,19 @@
-name: Deploy to Coolify
+name: Build and Deploy with GHCR
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Build and Push Docker Image to GHCR"]
+    types:
+      - completed
 
 jobs:
-  build-and-deploy:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.4"
-          extensions: mbstring, intl, pdo, mysqli, zip, gd
-          tools: composer:v2
-
-      - name: Install PHP Dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install Node Dependencies
-        run: npm ci
-
-      - name: Build Assets (Vite)
-        run: npm run build
-
-      - name: Connect to Tailscale Network
-        uses: tailscale/github-action@v3
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-
-      - name: Deploy to Coolify
+      - name: Deploy to Coolify via GHCR Image
         run: |
-          echo "🚀 Triggering Coolify deploy..."
+          echo "🚀 Triggering Coolify deploy with GHCR image..."
           curl --silent --show-error --fail-with-body \
             --request GET \
             --url "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
@@ -49,4 +21,4 @@ jobs:
             --output /tmp/coolify_response.txt \
             --write-out "HTTP Status: %{http_code}\n"
           echo "Response: $(cat /tmp/coolify_response.txt)"
-          echo "✅ Deploy successfully triggered!"
+          echo "✅ Coolify deployment triggered! Using image from ghcr.io/${{ github.repository }}"

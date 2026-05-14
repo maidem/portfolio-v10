@@ -2,14 +2,20 @@
 .ddev
 .idea
 .vscode
+.DS_Store
+.github
 node_modules
 vendor
 public/fileadmin/*
 public/uploads/*
 public/_assets/vite/*
+public/typo3temp/*
 var/*
-# config/system/additional.php
+*.md
+.dockerignore
 docker-compose.yaml
 Dockerfile
 .env
 .env.*
+*.log
+.agent/
