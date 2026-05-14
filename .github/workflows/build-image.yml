@@ -6,6 +6,7 @@ on:
             - main
         paths:
             - "Dockerfile"
+            - "docker-compose.yaml"
             - "composer.json"
             - "composer.lock"
             - "package.json"
