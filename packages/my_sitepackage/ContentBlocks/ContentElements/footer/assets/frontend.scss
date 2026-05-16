@@ -1,43 +1,30 @@
 .cb-footer {
   background-color: transparent;
-  padding: 8rem 0 4rem; // Huge negative space top to give editorial breathing room.
+  padding: 8rem 0 4rem;
   margin: 0;
 
   > .container {
-    max-width: 800px; // Keep it perfectly centered and narrow like the rest of the text elements
-    border-top: none; // Absolutely no line
+    max-width: 50rem;
+    border-top: none;
     padding-top: 0;
-  }
-
-  &__copyright {
-    font-size: 0.65rem; // Very minimal footprint
-    letter-spacing: 0.05em;
-    color: rgba(0, 0, 0, 0.4);
-    text-transform: uppercase;
-    display: block;
-    margin: 0;
   }
 
   &__nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3rem; // Wide airy gaps
-    flex-wrap: wrap;
-
-    @media (min-width: 768px) {
-      justify-content: flex-end;
-    }
+    gap: 2rem;
+    flex-wrap: nowrap;
   }
 
   &__link {
-    font-size: 0.65rem; // Micro typography
-    font-family: inherit; // Already using monospace via Fluid classes, but this resets just in case
+    font-size: 0.65rem;
+    font-family: inherit;
     font-weight: 500;
-    letter-spacing: 0.15em; // Wide tracking for premium airy look
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     text-decoration: none;
-    color: rgba(0, 0, 0, 0.4); // Subtle baseline
+    color: rgba(0, 0, 0, 0.4);
     transition:
       color 0.4s ease,
       transform 0.4s ease;
@@ -46,26 +33,7 @@
     gap: 0.5rem;
 
     &:hover {
-      color: rgba(0, 0, 0, 0.9); // Gentle fade to strong contrast on hover
+      color: rgba(0, 0, 0, 0.9);
     }
-  }
-
-  &__icon {
-    width: 14px;
-    height: 14px;
-    fill: currentColor;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &__github {
-    color: #bce2ff; // Brand blue
-
-    &:hover {
-      color: #a0cff5;
-    }
-  }
-
-  &__github:hover &__icon {
-    transform: scale(1.15) rotate(5deg);
   }
 }

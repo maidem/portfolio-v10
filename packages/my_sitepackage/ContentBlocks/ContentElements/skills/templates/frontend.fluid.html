@@ -14,32 +14,27 @@
                         iteration="iter"
                     >
                         <div
-                            class="row gx-md-4 align-items-start align-items-md-center {f:if(condition: '!iter.isFirst', then: 'mt-4')}"
+                            class="cb-skills-section text-center {f:if(condition: '!iter.isFirst', then: 'mt-5')}"
                         >
-                            <div class="col-12 col-md-4">
-                                <f:if condition="{collection.section_title}">
-                                    <h3 class="cb-card__title">
-                                        {collection.section_title}
-                                    </h3>
-                                </f:if>
-                            </div>
-
-                            <div class="col-12 col-md-8">
-                                <f:if condition="{collection.skills_list}">
-                                    <div
-                                        class="d-flex flex-wrap gap-2 skill-pills-container"
-                                        data-skills="{collection.skills_list}"
-                                    >
-                                        <noscript>
-                                            <div
-                                                class="text-muted small italic"
-                                            >
-                                                {collection.skills_list}
-                                            </div>
-                                        </noscript>
-                                    </div>
-                                </f:if>
-                            </div>
+                            <f:if condition="{collection.section_title}">
+                                <h3
+                                    class="cb-card__title cb-skills-section-title mb-3"
+                                >
+                                    {collection.section_title}
+                                </h3>
+                            </f:if>
+                            <f:if condition="{collection.skills_list}">
+                                <div
+                                    class="d-flex flex-wrap gap-2 justify-content-center skill-pills-container"
+                                    data-skills="{collection.skills_list}"
+                                >
+                                    <noscript>
+                                        <div class="text-muted small italic">
+                                            {collection.skills_list}
+                                        </div>
+                                    </noscript>
+                                </div>
+                            </f:if>
                         </div>
                     </f:for>
                 </div>

@@ -1,0 +1,111 @@
+<html
+  xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+  xmlns:v="http://typo3.org/ns/Praetorius/ViteAssetCollector/ViewHelpers"
+  data-namespace-typo3-fluid="true"
+>
+  <v:asset
+    entry="EXT:gripsraum_pdfexport/Resources/Private/Scss/PdfExport.scss"
+  />
+  <section
+    id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+    class="cb-section-pdfexport"
+  >
+    <div class="container">
+      <div class="cb-pdf-export__block">
+        <div class="cb-card cb-card--yellow">
+          <f:if condition="{data.header}">
+            <div class="cb-card__label-bar">{data.header}</div>
+          </f:if>
+          <div class="cb-card__body">
+            <div class="row gx-md-4">
+              <!-- Left Column: Content -->
+              <div class="col-12 col-md-4">
+                <div class="cb-pdf-export__subline">
+                  <f:format.html>{data.bodytext}</f:format.html>
+                </div>
+              </div>
+
+              <!-- Right Column: Interactive Grid -->
+              <div class="col-12 col-md-8">
+                <form
+                  class="cb-pdf-export__form"
+                  action="?type=1711"
+                  method="POST"
+                >
+                  <div class="cb-pdf-export__grid">
+                    <!-- Category: Information -->
+                    <label class="cb-pdf-export__tile">
+                      <div class="cb-pdf-export__tile-content">
+                        <span class="cb-pdf-export__tile-label">Vitals</span>
+                        <h3 class="cb-pdf-export__tile-title">About me</h3>
+                      </div>
+                      <input type="checkbox" name="sections[]" value="info" />
+                      <div class="cb-pdf-export__tile-indicator"></div>
+                    </label>
+
+                    <!-- Category: Technologien -->
+                    <label class="cb-pdf-export__tile">
+                      <div class="cb-pdf-export__tile-content">
+                        <span class="cb-pdf-export__tile-label">Stack</span>
+                        <h3 class="cb-pdf-export__tile-title">Skills</h3>
+                      </div>
+                      <input type="checkbox" name="sections[]" value="tech" />
+                      <div class="cb-pdf-export__tile-indicator"></div>
+                    </label>
+
+                    <!-- Individual Project Tiles -->
+                    <f:for each="{pdfProjects}" as="project">
+                      <label class="cb-pdf-export__tile">
+                        <div class="cb-pdf-export__tile-content">
+                          <span class="cb-pdf-export__tile-label"
+                            >Projekte</span
+                          >
+                          <h3 class="cb-pdf-export__tile-title">
+                            {project.title}
+                          </h3>
+                        </div>
+                        <input
+                          type="checkbox"
+                          name="sections[]"
+                          value="project_{project.uid}"
+                        />
+                        <div class="cb-pdf-export__tile-indicator"></div>
+                      </label>
+                    </f:for>
+
+                    <!-- Individual Logbook Tiles -->
+                    <f:for each="{pdfLogbook}" as="entry">
+                      <label class="cb-pdf-export__tile">
+                        <div class="cb-pdf-export__tile-content">
+                          <span class="cb-pdf-export__tile-label"
+                            >{entry.tile_label}</span
+                          >
+                          <h3 class="cb-pdf-export__tile-title">
+                            {entry.header}
+                          </h3>
+                        </div>
+                        <input
+                          type="checkbox"
+                          name="sections[]"
+                          value="logbook_{entry.uid}"
+                        />
+                        <div class="cb-pdf-export__tile-indicator"></div>
+                      </label>
+                    </f:for>
+                  </div>
+
+                  <!-- Right-aligned Actions -->
+                  <div class="cb-pdf-export__actions">
+                    <button type="submit" class="cb-pdf-export__submit">
+                      PDF ERSTELLEN
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</html>

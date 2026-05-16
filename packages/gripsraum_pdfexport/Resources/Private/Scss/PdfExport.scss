@@ -58,7 +58,7 @@
 
   &__tile {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.06);
+    background-color: rgba(120, 60, 255, 0.1);
     border: 2px solid rgba(0, 0, 0, 0.4);
     border-radius: 1rem;
     padding: 1rem;
@@ -74,11 +74,11 @@
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(120, 60, 255, 0.2);
     }
 
     &:has(input:checked) {
-      background-color: rgba(0, 0, 0, 0.12);
+      background-color: rgba(120, 60, 255, 0.85);
       border-color: #111111;
       color: #111111;
       box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
@@ -162,9 +162,9 @@
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
     &:hover {
-      background-color: #111111;
-      border-color: #111111 !important;
-      color: #fff;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-color: rgba(0, 0, 0, 0.4) !important;
+      color: #111111;
       transform: none;
       box-shadow: none;
     }

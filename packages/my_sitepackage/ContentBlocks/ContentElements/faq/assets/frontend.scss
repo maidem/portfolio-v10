@@ -62,7 +62,7 @@
       display: none;
     }
 
-    // Black circle with "+"
+    // Muted green circle with "+"
     summary::after {
       content: "+";
       display: inline-flex;
@@ -72,18 +72,21 @@
       width: 2rem;
       height: 2rem;
       border-radius: 50%;
-      background: #111;
-      color: #fff;
+      background: rgba(1, 255, 208, 0.18);
+      color: #111;
       font-size: 1.1rem;
       font-weight: 400;
       line-height: 1;
+      box-shadow: none;
+      border: 1.5px solid #111;
+      transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &[open] {
       summary::after {
         content: "−";
-        background: #111;
-        color: #fff;
+        background: rgba(1, 255, 208, 0.3);
+        color: #111;
       }
     }
   }

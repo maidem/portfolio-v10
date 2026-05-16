@@ -1,6 +1,7 @@
-name: gripsraum/pdfexport
-typeName: gripsraum_pdfexport
+name: gripsraum/page-header
+title: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/page-header/language/labels.xlf:title
 group: default
+description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/page-header/language/labels.xlf:description
 prefixFields: true
 prefixType: full
 fields:
@@ -11,8 +12,6 @@ fields:
     useExistingField: true
     label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
     description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
-  - identifier: bodytext
-    useExistingField: true
 assets:
   css:
     - assets/frontend.scss

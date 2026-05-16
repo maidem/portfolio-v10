@@ -6,19 +6,25 @@ $glass-form-border: #111111;
 $text-primary: #111111;
 $text-secondary: #555555;
 
-// Fallback: hide default FSC header output for form CE, custom title is in cb-card__label-bar.
+// Hide default FSC header output for the form CE.
+// The page title is handled semantically by the page-header ContentBlock (h1).
 .frame-type-form_formframework > header {
   display: none;
+}
+
+// ─── Remove outer card padding for the form frame ────────────────────────────
+.frame-type-form_formframework .cb-card__body {
+  padding: 0;
 }
 
 .cb-form {
   // ─── Input Fields — white cards like FAQ items ─────────────────────────────
   .form-control {
-    background-color: rgba(255, 255, 255, 0.65) !important;
+    background-color: rgba(120, 60, 255, 0.1) !important;
     backdrop-filter: blur(6px) saturate(120%);
     -webkit-backdrop-filter: blur(6px) saturate(120%);
-    border: none !important;
-    border-radius: 12px !important;
+    border: 2px solid rgba(0, 0, 0, 0.4) !important;
+    border-radius: 1rem !important;
     color: $text-primary !important;
     caret-color: $text-primary !important;
     padding: 0.875rem 1.25rem !important;
@@ -35,7 +41,7 @@ $text-secondary: #555555;
     }
 
     &:focus {
-      background-color: rgba(255, 255, 255, 0.9) !important;
+      background-color: rgba(120, 60, 255, 0.2) !important;
       box-shadow: none !important;
       outline: none;
       color: $text-primary !important;
@@ -72,9 +78,9 @@ $text-secondary: #555555;
     min-height: 2.75rem;
     padding: 0 3.2rem;
     background-color: transparent;
-    border: 1px solid rgba(17, 17, 17, 0.3) !important;
+    border: 2px solid #111111 !important;
     color: #111111 !important;
-    border-radius: 0;
+    border-radius: 999px;
     font-weight: 700;
     font-size: 0.6875rem;
     text-transform: uppercase;
@@ -84,8 +90,9 @@ $text-secondary: #555555;
     white-space: nowrap;
 
     &:hover {
-      background-color: #111111 !important;
-      color: #fff !important;
+      background-color: rgba(0, 0, 0, 0.1) !important;
+      color: #111111 !important;
+      border-color: rgba(0, 0, 0, 0.4) !important;
       box-shadow: none !important;
     }
 

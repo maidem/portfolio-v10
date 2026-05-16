@@ -1,0 +1,123 @@
+// ─── Banner container ─────────────────────────────────────────────────────────
+// position: relative — stays in normal document flow so content flows below it.
+.cb-portfolio-banner {
+  position: relative;
+  width: 100%;
+  padding: 2rem 0; // 2rem top + 2rem bottom = 4 × 8px grid units each
+  margin-bottom: clamp(
+    2rem,
+    4vw,
+    4rem
+  ); // harmonious gap to first content element
+  background-color: #e7e7e7;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+  isolation: isolate;
+
+  // ─── Millimeter-paper structure: 3-tier horizontal + vertical lines ────────
+  // 4px base (≈1mm) → 20px (≈5mm) → 80px (≈10mm)
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    // Fine lines (1mm ≈ 4px), medium (5mm ≈ 20px), coarse (10mm ≈ 80px)
+    // All 1px wide so sub-pixel rendering doesn't eliminate them
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.03) 0,
+        rgba(0, 0, 0, 0.03) 0.0625rem,
+        transparent 0.0625rem,
+        transparent 0.25rem
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.06) 0,
+        rgba(0, 0, 0, 0.06) 0.0625rem,
+        transparent 0.0625rem,
+        transparent 1.25rem
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.1) 0,
+        rgba(0, 0, 0, 0.1) 0.0625rem,
+        transparent 0.0625rem,
+        transparent 5rem
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.03) 0,
+        rgba(0, 0, 0, 0.03) 0.0625rem,
+        transparent 0.0625rem,
+        transparent 0.25rem
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.06) 0,
+        rgba(0, 0, 0, 0.06) 0.0625rem,
+        transparent 0.0625rem,
+        transparent 1.25rem
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1) 0,
+        rgba(0, 0, 0, 0.1) 0.0625rem,
+        transparent 0.0625rem,
+        transparent 5rem
+      );
+    pointer-events: none;
+  }
+}
+
+// ─── Wordmark text ────────────────────────────────────────────────────────────
+.cb-portfolio-text {
+  display: block;
+  position: relative;
+  width: 100%;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 900;
+  font-size: clamp(4rem, 19vw, 22rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-align: center;
+  color: #e7e7e7; // matches banner background — only stroke visible
+  -webkit-text-stroke: 1px rgba(100, 100, 100, 0.18);
+  text-shadow:
+    2px 3px 0 rgba(120, 60, 255, 0.08),
+    4px 6px 0 rgba(120, 60, 255, 0.055),
+    6px 9px 0 rgba(120, 60, 255, 0.032),
+    8px 12px 0 rgba(120, 60, 255, 0.018);
+  white-space: nowrap;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+
+// ─── Live dimension annotation ────────────────────────────────────────────────
+// Pfeile per SVG im JS gezeichnet — Spitzen exakt auf x=0 / x=wordWidth
+.cb-banner-dimension {
+  position: absolute;
+  bottom: calc(0.75rem - 0.625rem);
+  height: 1.25rem;
+  pointer-events: none;
+
+  &__label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e7e7e7;
+    padding: 1px 0.5rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.5625rem; // 9px
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(120, 60, 255, 0.7);
+    white-space: nowrap;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+}

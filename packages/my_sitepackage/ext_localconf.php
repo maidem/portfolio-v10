@@ -9,11 +9,3 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['my_sitepackage'] = 'EXT:my_sitepa
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
 module.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Configuration/Yaml/FormSetup.yaml
 ');
-
-// Register PDF Export Plugin
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'MySitepackage',
-    'PdfExport',
-    [\Gripsraum\MySitepackage\Controller\PdfExportController::class => 'generate'],
-    [\Gripsraum\MySitepackage\Controller\PdfExportController::class => 'generate']
-);

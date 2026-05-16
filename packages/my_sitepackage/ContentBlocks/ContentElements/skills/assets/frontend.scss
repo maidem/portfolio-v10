@@ -15,9 +15,9 @@
   align-items: center;
 }
 
-// Skill pills — white with black border
+// Skill pills — green tint with hover (like PDF Export tiles)
 .glass-badge-pill {
-  background: #ffffff;
+  background: rgba(1, 255, 208, 0.18);
   border: 1.5px solid #111111;
   color: #111111;
   border-radius: 999px;
@@ -28,13 +28,27 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.25rem 0.75rem; // 4px 12px
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: rgba(1, 255, 208, 0.3);
+  }
 }
 
-// Skill pills container using flexbox only (no JS layout dependency).
+// Section title above pills
+.cb-skills-section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+// Skill pills container — centered for pyramid visual
 .skill-pills-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   column-gap: 0.5rem;
   row-gap: 1rem;
+  max-width: 700px;
+  margin: 0 auto;
 }

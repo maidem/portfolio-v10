@@ -5,8 +5,5 @@ services:
     public: false
 
   Gripsraum\MySitepackage\:
-    resource: '../Classes/*'
-    exclude: '../Classes/Domain/Model/*'
-
-  Gripsraum\MySitepackage\Controller\PdfExportController:
-    public: true
+    resource: "../Classes/*"
+    exclude: "../Classes/Domain/Model/*"

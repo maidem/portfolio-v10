@@ -18,6 +18,7 @@
     "denkwerk/mosparo-form": "^1.1",
     "friendsoftypo3/content-blocks": "^2.1",
     "gripsraum/my-sitepackage": "@dev",
+    "gripsraum/pdf-export": "@dev",
     "praetorius/vite-asset-collector": "^1.15",
     "spatie/browsershot": "^5.2",
     "typo3/cms-backend": "^14.0",

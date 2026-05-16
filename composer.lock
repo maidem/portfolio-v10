@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "637e77c0bbafa27707c027fb3cba219f",
+    "content-hash": "35bf09725b4f57616284cfe7640b9061",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -909,6 +909,46 @@
             ],
             "homepage": "https://maidem.de",
             "keywords": [
+                "TYPO3 CMS"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "gripsraum/pdf-export",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/gripsraum_pdfexport",
+                "reference": "2f97d95a0747bb06fd6639b512ccdd6a5b6f3b8f"
+            },
+            "require": {
+                "php": ">=8.4.0",
+                "spatie/browsershot": "^5.2",
+                "typo3/cms-core": "^14.1",
+                "typo3/cms-extbase": "^14.1",
+                "typo3/cms-fluid": "^14.1"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "gripsraum_pdfexport"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gripsraum\\PdfExport\\": "Classes/"
+                }
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "PDF Export functionality for the Gripsraum Portfolio. Provides a ContentBlock selection form and Extbase controller to generate custom PDF summaries via Chromium.",
+            "homepage": "https://maidem.de",
+            "keywords": [
+                "Export",
+                "PDF",
                 "TYPO3 CMS"
             ],
             "transport-options": {
@@ -7955,7 +7995,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "gripsraum/my-sitepackage": 20
+        "gripsraum/my-sitepackage": 20,
+        "gripsraum/pdf-export": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

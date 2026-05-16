@@ -3,12 +3,12 @@
     <file source-language="en" target-language="de" datatype="plaintext" original="labels.xlf">
         <body>
             <trans-unit id="title">
-                <source>Hero</source>
-                <target>Hero-Bereich</target>
+                <source>Intro-Bereich</source>
+                <target>Intro-Bereich</target>
             </trans-unit>
             <trans-unit id="description">
-                <source>A large hero element with background image and text.</source>
-                <target>Ein großes Hero-Element mit Hintergrundbild und Text.</target>
+                <source>Two-column content block for introductory sections.</source>
+                <target>Zweispaltiger Inhaltsbereich für Einleitungsabschnitte.</target>
             </trans-unit>
             <trans-unit id="display_mode.label">
                 <source>Display Mode</source>

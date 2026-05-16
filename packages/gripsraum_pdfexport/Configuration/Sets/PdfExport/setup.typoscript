@@ -1,0 +1,33 @@
+# Content element rendering — standard TYPO3 FLUIDTEMPLATE, no ContentBlocks dependency
+tt_content.gripsraum_pdfexport = FLUIDTEMPLATE
+tt_content.gripsraum_pdfexport {
+    templateRootPaths {
+        10 = EXT:gripsraum_pdfexport/Resources/Private/Templates/ContentElements/
+    }
+    templateName = PdfExport
+    dataProcessing {
+        10 = Gripsraum\PdfExport\DataProcessing\PdfExportDataProcessor
+    }
+}
+
+# PageType 1711 — renders only the PDF, no page header/footer
+pdf_export = PAGE
+pdf_export {
+    typeNum = 1711
+    config {
+        disableAllHeaderCode = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+        no_cache = 1
+    }
+    10 = USER_INT
+    10 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = PdfExport
+        pluginName = PdfExport
+        vendorName = Gripsraum
+        controller = PdfExport
+        action = generate
+    }
+}

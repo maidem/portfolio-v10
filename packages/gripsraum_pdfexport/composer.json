@@ -1,0 +1,29 @@
+{
+  "name": "gripsraum/pdf-export",
+  "type": "typo3-cms-extension",
+  "description": "PDF Export functionality for the Gripsraum Portfolio. Provides a ContentBlock selection form and Extbase controller to generate custom PDF summaries via Chromium.",
+  "homepage": "https://maidem.de",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "TYPO3 CMS",
+    "PDF",
+    "Export"
+  ],
+  "require": {
+    "php": ">=8.4.0",
+    "typo3/cms-core": "^14.1",
+    "typo3/cms-extbase": "^14.1",
+    "typo3/cms-fluid": "^14.1",
+    "spatie/browsershot": "^5.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gripsraum\\PdfExport\\": "Classes/"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "gripsraum_pdfexport"
+    }
+  }
+}

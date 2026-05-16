@@ -15,9 +15,9 @@ $bg-deep: #f7f7f5;
 $card-bg-gray: rgba(245, 245, 247, 0.92);
 
 // Scroll offset for sticky navigation
-// Nav height = $grid-unit * 11 = 5.5rem
+// Nav height = $grid-unit * 9 = 4.5rem
 section[id] {
-  scroll-margin-top: $grid-unit * 11;
+  scroll-margin-top: $grid-unit * 9;
 }
 
 $font-weight-display: 900;
@@ -30,7 +30,7 @@ $letter-spacing-wide: 0.15em;
 $letter-spacing-display: -0.04em;
 
 body {
-  background-color: $bg-deep;
+  background-color: #ffffff;
   color: $text-primary;
   font-family: "JetBrains Mono", "Courier New", monospace;
   font-size: 1.125rem; // 18px base for better precision
@@ -61,16 +61,7 @@ main > .frame {
   }
 }
 
-// All pages: first direct child of main always gets the same top spacing
-main > .frame:first-child,
-main > section:first-child,
-main > .container:first-child {
-  padding-top: clamp(
-    6rem,
-    10vw,
-    10rem
-  ); // vertical mid of PORTFOLIO wordmark — 8er grid
-}
+// Banner is now position:relative (normal flow) — no override needed here.
 
 main {
   padding-bottom: $grid-unit * 3; // 24px — mobile
@@ -84,99 +75,11 @@ main {
   margin-bottom: 0;
 }
 
-// ─── Perspective grid — radiating SVG lines from top vanishing point (v7) ───
 .cb-perspective-grid {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-
-  -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      black 15%,
-      black 85%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 25%,
-      black 75%,
-      transparent 100%
-    );
-  -webkit-mask-composite: destination-in;
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      black 15%,
-      black 85%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 25%,
-      black 75%,
-      transparent 100%
-    );
-  mask-composite: intersect;
-
-  @media (max-width: 639px) {
-    display: none;
-  }
-
-  svg {
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-  }
+  display: none;
 }
 
-// ─── PORTFOLIO background wordmark — fixed, outline + 3D shadow (v7 style) ──
-// Single centered "PORTFOLIO" text, outline-only, sits behind all content.
-// Adapts to the site background color so only the stroke is visible.
-.cb-portfolio-banner {
-  position: fixed;
-  top: $grid-unit * 11; // below nav
-  left: 0;
-  right: 0;
-  padding: $grid-unit * 3 0 0;
-  overflow: hidden;
-  user-select: none;
-  pointer-events: none;
-  z-index: 0;
-  isolation: isolate;
-
-  @media (max-width: 639px) {
-    display: none;
-  }
-}
-
-.cb-portfolio-text {
-  display: block;
-  width: 100%;
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 900;
-  font-size: clamp(4rem, 19vw, 22rem);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  text-align: center;
-  color: $bg-deep; // matches page background — only stroke visible
-  -webkit-text-stroke: 1px rgba(100, 100, 100, 0.18);
-  text-shadow:
-    2px 3px 0 rgba(140, 140, 140, 0.07),
-    4px 6px 0 rgba(130, 130, 130, 0.05),
-    6px 9px 0 rgba(120, 120, 120, 0.03),
-    8px 12px 0 rgba(110, 110, 110, 0.02);
-  white-space: nowrap;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: geometricPrecision;
-}
+// ─── Banner styles moved to ContentBlock banner/assets/frontend.scss ─────────
 
 // Card Layout
 
@@ -240,10 +143,6 @@ body {
     letter-spacing: -0.02em;
     line-height: 1.15;
     color: $text-primary;
-    text-decoration: underline;
-    text-decoration-color: #01ffd0;
-    text-decoration-thickness: 3px;
-    text-underline-offset: 4px;
   }
 
   &__body {
@@ -318,7 +217,10 @@ main > section:first-of-type > * {
   left: 0;
   right: 0;
   z-index: 1040;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
 
   // Override Bootstrap link color CSS variables for all links inside nav
@@ -333,23 +235,23 @@ main > section:first-of-type > * {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    height: $grid-unit * 11;
+    flex-wrap: nowrap;
+    min-height: $grid-unit * 9;
     position: relative;
-    padding: 0 2.25rem; // Align with card internal padding
-
-    @media (min-width: 768px) {
-      padding: 0 2rem; // Align with desktop card padding
-    }
+    padding-top: $grid-unit * 2;
+    padding-bottom: $grid-unit * 2;
   }
 
   &__logo {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     letter-spacing: 0.25em;
     font-weight: $font-weight-display;
     text-transform: uppercase;
     color: $text-primary;
     text-decoration: none;
     line-height: 1;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   &__desktop {
@@ -366,12 +268,17 @@ main > section:first-of-type > * {
     margin: 0;
     padding: 0;
     display: flex;
-    align-items: center; // Ensure items are aligned
-    gap: $grid-unit * 5;
+    align-items: baseline;
+    flex-wrap: nowrap;
+    gap: clamp(
+      0.75rem,
+      1.5vw,
+      2.5rem
+    ); // responsive gap — shrinks before hamburger
   }
 
   &__link {
-    font-size: 0.6875rem; // 11px
+    font-size: 0.875rem; // 14px
     text-transform: uppercase;
     letter-spacing: 0.2em;
     text-decoration: none;
@@ -396,6 +303,56 @@ main > section:first-of-type > * {
     &--active:visited {
       color: $text-primary;
     }
+
+    &.active,
+    &.active:link,
+    &.active:visited,
+    &.active:hover {
+      color: $text-primary;
+    }
+
+    &__desktop &__link.cb-nav__link--active,
+    &__desktop &__link.active,
+    &__desktop &__link.cb-nav__link--active:visited,
+    &__desktop &__link.active:visited {
+      color: $text-primary;
+    }
+    // GitHub icon — SVG aligned to nav text baseline
+    &--icon {
+      display: inline-flex;
+      align-items: center;
+      color: $text-muted;
+      padding: 0;
+      line-height: 1;
+      position: relative;
+      top: 0.1875rem; // nudge SVG to visually sit on text baseline
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $text-primary;
+      }
+    }
+
+    // Kontakt — pill button with accent fill
+    &[title="Kontakt"] {
+      background-color: #01ffd0;
+      color: $text-primary;
+      border: 1.5px solid $text-primary;
+      border-radius: 999px;
+      padding: 0.3125rem 0.875rem;
+      line-height: 1;
+
+      &:link,
+      &:visited {
+        color: $text-primary;
+      }
+
+      &:hover {
+        background-color: transparent;
+        color: #111111;
+        border-color: #111111;
+      }
+    }
   }
 
   &__toggle {
@@ -403,9 +360,9 @@ main > section:first-of-type > * {
     flex-direction: column;
     justify-content: center;
     align-self: center; // Keep toggle button centered even when bar uses baseline
-    gap: 6px;
-    width: 32px;
-    height: 32px;
+    gap: 0.375rem;
+    width: 2rem;
+    height: 2rem;
     background: none;
     border: none;
     cursor: pointer;
@@ -418,8 +375,8 @@ main > section:first-of-type > * {
 
   &__toggle-line {
     display: block;
-    width: 24px;
-    height: 1.5px;
+    width: 1.5rem;
+    height: 0.09375rem;
     background-color: $text-primary;
     border-radius: 1px;
     transition:
@@ -427,7 +384,7 @@ main > section:first-of-type > * {
       opacity 0.3s ease;
 
     &:nth-child(2) {
-      width: 18px;
+      width: 1.125rem;
     }
   }
 
@@ -578,17 +535,14 @@ main > section:first-of-type > * {
 }
 
 // ─── Global Heading Styles ─────────────────────────────────────────────────
-// h1: schwarz mit #01FFD0 Durchstreichung
 // h2–h6: gedämpftes Grau
 
 h1 {
   color: $text-primary;
-  text-decoration: line-through;
-  text-decoration-color: #01ffd0;
-  text-decoration-thickness: 3px;
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  text-decoration: none;
+  font-size: clamp(1.375rem, 1.8vw, 1.75rem);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.25;
   letter-spacing: $letter-spacing-display;
 }
 

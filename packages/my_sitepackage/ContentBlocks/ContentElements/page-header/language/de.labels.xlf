@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="labels.xlf">
+        <body>
+            <trans-unit id="title">
+                <source>Page Header</source>
+                <target>Seitenüberschrift</target>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>Full-width page headline rendered as a semantic h1.</source>
+                <target>Seitenweite h1-Überschrift – semantisch korrekte Hauptüberschrift der Seite.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

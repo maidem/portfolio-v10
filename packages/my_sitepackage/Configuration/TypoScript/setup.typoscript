@@ -1,20 +1,3 @@
-pdf_export = PAGE
-pdf_export {
-    typeNum = 1711
-    config {
-        disableAllHeaderCode = 1
-        xhtml_cleaning = 0
-        admPanel = 0
-        debug = 0
-        no_cache = 1
-    }
-    10 = USER_INT
-    10 {
-        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-        extensionName = MySitepackage
-        pluginName = PdfExport
-        vendorName = Gripsraum
-        controller = PdfExport
-        action = generate
-    }
-}
+# PDF Export is now handled by EXT:gripsraum_pdfexport
+# See packages/gripsraum_pdfexport/Configuration/Sets/PdfExport/setup.typoscript
+

@@ -3,10 +3,10 @@
     <file source-language="en" datatype="plaintext" original="labels.xlf">
         <body>
             <trans-unit id="title">
-                <source>Hero</source>
+                <source>Intro-Bereich</source>
             </trans-unit>
             <trans-unit id="description">
-                <source>A minimalist hero block with optional left and right text columns.</source>
+                <source>Two-column content block for introductory sections, with optional left and right text columns.</source>
             </trans-unit>
         </body>
     </file>

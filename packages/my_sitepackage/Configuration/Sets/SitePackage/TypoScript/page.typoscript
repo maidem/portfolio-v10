@@ -12,6 +12,16 @@ page {
             0 = EXT:my_sitepackage/Resources/Private/PageView/
             1 = {$page.pageview.paths}
         }
+        variables {
+            # nav_title overrides the wordmark if set (e.g. root page = "Über mich"),
+            # otherwise falls back to the regular page title.
+            pageTitle = TEXT
+            pageTitle.data = page:nav_title // page:title
+
+            # Expose current page uid for active-link detection in Fluid layouts
+            pageUid = TEXT
+            pageUid.data = page:uid
+        }
         dataProcessing {
             10 = files
             10 {

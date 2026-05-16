@@ -5,25 +5,3 @@
 plugin.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Configuration/Yaml/FormSetup.yaml
 module.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Configuration/Yaml/FormSetup.yaml
 
-# PDF Export PageType
-pdf_export = PAGE
-pdf_export {
-    typeNum = 1711
-    config {
-        disableAllHeaderCode = 1
-        xhtml_cleaning = 0
-        admPanel = 0
-        debug = 0
-        no_cache = 1
-    }
-    10 = USER_INT
-    10 {
-        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-        extensionName = MySitepackage
-        pluginName = PdfExport
-        vendorName = Gripsraum
-        controller = PdfExport
-        action = generate
-    }
-}
-
