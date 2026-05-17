@@ -28,9 +28,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    // Black dot
-    background-color: #111111;
-    color: #fff;
+    // Light purple dot, black number
+    background-color: rgba(120, 60, 255, 0.15);
+    color: #111111;
   }
 
   &--visible {
