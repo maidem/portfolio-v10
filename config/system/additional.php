@@ -13,41 +13,24 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = '.*';
 // 1. DATABASE CONFIGURATION (Production only)
 // We skip this in DDEV to let DDEV handle its internal connection.
 if (!getenv('IS_DDEV_PROJECT')) {
-    $mysqlHost = getenv('MYSQL_HOST');
-    
-    // Default fallback values (Edit as needed for your base stack)
-    $dbConfig = [
-        'driver' => 'mysqli',
-        'host' => '127.0.0.1',
-        'port' => 3306,
-        'user' => getenv('MYSQL_USER') ?: 'maidem',
-        'password' => getenv('MYSQL_PASSWORD'),
-        'dbname' => getenv('MYSQL_DATABASE') ?: 'default',
-    ];
+    // Prefer TYPO3_DATABASE_* vars (set in docker-compose.yaml / Coolify env),
+    // fall back to MYSQL_* vars (auto-injected by some Coolify MySQL service setups).
+    $dbHost     = getenv('TYPO3_DATABASE_HOST')     ?: getenv('MYSQL_HOST')     ?: '127.0.0.1';
+    $dbPort     = (int)(getenv('TYPO3_DATABASE_PORT')    ?: getenv('MYSQL_PORT')     ?: 3306);
+    $dbUser     = getenv('TYPO3_DATABASE_USERNAME')  ?: getenv('MYSQL_USER')     ?: '';
+    $dbPassword = getenv('TYPO3_DATABASE_PASSWORD')  ?: getenv('MYSQL_PASSWORD') ?: '';
+    $dbName     = getenv('TYPO3_DATABASE_NAME')      ?: getenv('MYSQL_DATABASE') ?: '';
 
-    if ($mysqlHost) {
-        // Coolify/Traefik often provides a DSN string (mysql://user:pass@host:port/dbname)
-        $dbUrl = parse_url($mysqlHost);
-        if (isset($dbUrl['host'])) {
-            $dbConfig['host'] = $dbUrl['host'];
-            $dbConfig['port'] = $dbUrl['port'] ?? 3306;
-            
-            // Extract user/pass/path from DSN if provided
-            if (isset($dbUrl['user'])) $dbConfig['user'] = $dbUrl['user'];
-            if (isset($dbUrl['pass'])) $dbConfig['password'] = $dbUrl['pass'];
-            if (isset($dbUrl['path']) && strlen(ltrim($dbUrl['path'], '/')) > 0) {
-                $dbConfig['dbname'] = ltrim($dbUrl['path'], '/');
-            }
-        } else {
-            // Simple hostname provided
-            $dbConfig['host'] = $mysqlHost;
-        }
-    }
-
-    // Merge our dynamically detected config into TYPO3 globals
     $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = array_merge(
         $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] ?? [],
-        $dbConfig
+        [
+            'driver'   => 'mysqli',
+            'host'     => $dbHost,
+            'port'     => $dbPort,
+            'user'     => $dbUser,
+            'password' => $dbPassword,
+            'dbname'   => $dbName,
+        ]
     );
 }
 

@@ -15,6 +15,12 @@ services:
       TYPO3_DATABASE_NAME: ${TYPO3_DATABASE_NAME:-typo3}
       TYPO3_DATABASE_USERNAME: ${TYPO3_DATABASE_USERNAME:-typo3}
       TYPO3_DATABASE_PASSWORD: ${TYPO3_DATABASE_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost/robots.txt || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     volumes:
       - ./var:/var/www/html/var
       - ./public/fileadmin:/var/www/html/public/fileadmin
