@@ -39,7 +39,7 @@
 
         <f:if condition="{data.skill_workflows}">
             <div class="cb-card cb-skills-unified-card cb-workflows-card">
-                <div class="cb-card__label-bar">Workflows</div>
+                <h3 class="cb-card__label-bar cb-workflows__heading">Workflows</h3>
                 <div class="cb-card__body">
                     <div class="row">
                         <div class="col-12 col-md-10 mx-auto">
@@ -58,13 +58,25 @@
                                         data-workflow-name="{workflow.workflow_name}"
                                         aria-hidden="true"
                                     >
-                                        <f:for each="{workflow.workflow_steps}" as="step" iteration="iter">
+                                        <f:for
+                                            each="{workflow.workflow_steps}"
+                                            as="step"
+                                            iteration="iter"
+                                        >
                                             <f:if condition="{step.step_name}">
                                                 <div class="cb-workflow-step">
-                                                    <span class="cb-workflow-step__label">{step.step_name}</span>
+                                                    <span
+                                                        class="cb-workflow-step__label"
+                                                        >{step.step_name}</span
+                                                    >
                                                 </div>
-                                                <f:if condition="{iter.isLast} == 0">
-                                                    <div class="cb-workflow-connector" aria-hidden="true"></div>
+                                                <f:if
+                                                    condition="{iter.isLast} == 0"
+                                                >
+                                                    <div
+                                                        class="cb-workflow-connector"
+                                                        aria-hidden="true"
+                                                    ></div>
                                                 </f:if>
                                             </f:if>
                                         </f:for>

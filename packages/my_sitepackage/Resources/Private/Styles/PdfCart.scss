@@ -28,6 +28,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    // Purple — override Bootstrap bg-danger
+    background-color: rgba(120, 60, 255, 0.9) !important;
+    color: #fff !important;
   }
 
   &--visible {

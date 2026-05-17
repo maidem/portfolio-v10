@@ -110,9 +110,20 @@
   }
 }
 
-// ── Workflow section ──────────────────────────────────────────────────────────
+// ── Workflows section ──────────────────────────────────────────────────────────
 .cb-workflows-card {
   margin-top: 1.5rem;
+}
+
+// Heading matches filter-button typestyle but as a real heading, centered
+.cb-workflows__heading {
+  font-size: 0.625rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.12em !important;
+  text-align: center;
+  color: rgba(17, 17, 17, 0.45) !important;
+  padding-top: 0.5rem;
 }
 
 .cb-workflow-filter-bar {
@@ -186,7 +197,11 @@
   width: 2.25rem;
   flex-shrink: 0;
   height: 2px;
-  background: linear-gradient(90deg, rgba(120, 60, 255, 0.35), rgba(120, 60, 255, 0.55));
+  background: linear-gradient(
+    90deg,
+    rgba(120, 60, 255, 0.35),
+    rgba(120, 60, 255, 0.55)
+  );
 
   // Arrowhead
   &::after {
@@ -211,4 +226,3 @@
     width: 1.5rem;
   }
 }
-

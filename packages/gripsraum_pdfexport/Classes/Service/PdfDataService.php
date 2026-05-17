@@ -62,14 +62,77 @@ class PdfDataService
             return [];
         }
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('gripsraum_skills_skill_collections');
-        return $queryBuilder
-            ->select('section_title', 'skills_list')
+        $qb = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('gripsraum_skills_skill_collections');
+
+        $rows = $qb
+            ->select('skill_name', 'skill_category')
             ->from('gripsraum_skills_skill_collections')
-            ->where($queryBuilder->expr()->eq('foreign_table_parent_uid', $queryBuilder->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)))
+            ->where(
+                $qb->expr()->eq('foreign_table_parent_uid', $qb->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
+                $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $qb->expr()->neq('skill_name', $qb->createNamedParameter(''))
+            )
             ->orderBy('sorting')
             ->executeQuery()
             ->fetchAllAssociative();
+
+        // Group skill names by category
+        $grouped = [];
+        foreach ($rows as $row) {
+            $cat  = trim((string)($row['skill_category'] ?? ''));
+            $name = trim((string)($row['skill_name'] ?? ''));
+            if ($name === '') {
+                continue;
+            }
+            $grouped[$cat][] = $name;
+        }
+
+        return $grouped;
+    }
+
+    public function getWorkflowsContent(): array
+    {
+        $parent = $this->getLatestContentRecord('gripsraum_skills');
+        if (!$parent) {
+            return [];
+        }
+
+        $qb = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('gripsraum_skills_skill_workflows');
+
+        $workflows = $qb
+            ->select('uid', 'workflow_name')
+            ->from('gripsraum_skills_skill_workflows')
+            ->where(
+                $qb->expr()->eq('foreign_table_parent_uid', $qb->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
+                $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+            )
+            ->orderBy('sorting')
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        foreach ($workflows as &$workflow) {
+            $sq = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('workflow_steps');
+
+            $steps = $sq
+                ->select('step_name')
+                ->from('workflow_steps')
+                ->where(
+                    $sq->expr()->eq('foreign_table_parent_uid', $sq->createNamedParameter((int)$workflow['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
+                    $sq->expr()->eq('deleted', $sq->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                    $sq->expr()->neq('step_name', $sq->createNamedParameter(''))
+                )
+                ->orderBy('sorting')
+                ->executeQuery()
+                ->fetchAllAssociative();
+
+            $workflow['steps'] = array_column($steps, 'step_name');
+        }
+        unset($workflow);
+
+        return $workflows;
     }
 
     public function getProjectsByUids(array $uids): array

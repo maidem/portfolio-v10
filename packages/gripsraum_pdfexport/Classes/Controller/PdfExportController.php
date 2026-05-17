@@ -50,11 +50,12 @@ class PdfExportController extends ActionController
         ];
 
         $data = [
-            'about'    => $activeSections['info']     ? $this->pdfDataService->getAboutContent()            : '',
-            'faq'      => $activeSections['faq']      ? $this->pdfDataService->getFaqContent()              : [],
-            'tech'     => $activeSections['tech']     ? $this->pdfDataService->getTechContent()             : [],
-            'projects' => $activeSections['projects'] ? $this->pdfDataService->getProjectsByUids($projectUids) : [],
-            'logbook'  => $activeSections['logbook']  ? $this->pdfDataService->getLogbookByUids($logbookUids)  : [],
+            'about'     => $activeSections['info']     ? $this->pdfDataService->getAboutContent()               : '',
+            'faq'       => $activeSections['faq']      ? $this->pdfDataService->getFaqContent()                 : [],
+            'tech'      => $activeSections['tech']     ? $this->pdfDataService->getTechContent()                : [],
+            'workflows' => $activeSections['tech']     ? $this->pdfDataService->getWorkflowsContent()           : [],
+            'projects'  => $activeSections['projects'] ? $this->pdfDataService->getProjectsByUids($projectUids) : [],
+            'logbook'   => $activeSections['logbook']  ? $this->pdfDataService->getLogbookByUids($logbookUids)  : [],
         ];
 
         $viewData = new ViewFactoryData(

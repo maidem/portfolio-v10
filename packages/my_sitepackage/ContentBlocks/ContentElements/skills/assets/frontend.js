@@ -30,7 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         filterBar.appendChild(makeFilterBtn("Alle", "*"));
-        categories.forEach((cat) => filterBar.appendChild(makeFilterBtn(cat, cat)));
+        categories.forEach((cat) =>
+            filterBar.appendChild(makeFilterBtn(cat, cat)),
+        );
 
         const applyFilter = (active) => {
             filterBar.querySelectorAll(".cb-skills-filter-btn").forEach((b) => {
@@ -38,7 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             tiles.forEach((tile) => {
                 const cat = (tile.dataset.category || "").trim();
-                tile.classList.toggle("cb-skill-tile--hidden", active !== "*" && cat !== active);
+                tile.classList.toggle(
+                    "cb-skill-tile--hidden",
+                    active !== "*" && cat !== active,
+                );
             });
         };
 
@@ -51,7 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // ── Workflow chain filter ─────────────────────────────────────────────────
     document.querySelectorAll(".cb-workflows-card").forEach((card) => {
         const filterBar = card.querySelector(".cb-workflow-filter-bar");
-        const chains = card.querySelectorAll(".cb-workflow-chain[data-workflow-id]");
+        const chains = card.querySelectorAll(
+            ".cb-workflow-chain[data-workflow-id]",
+        );
 
         if (!filterBar || chains.length === 0) return;
 
@@ -66,14 +73,21 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         chains.forEach((chain) => {
-            filterBar.appendChild(makeBtn(chain.dataset.workflowName, chain.dataset.workflowId));
+            filterBar.appendChild(
+                makeBtn(chain.dataset.workflowName, chain.dataset.workflowId),
+            );
         });
 
         // Show first workflow by default
         const showChain = (activeId) => {
-            filterBar.querySelectorAll(".cb-workflow-filter-btn").forEach((b) => {
-                b.classList.toggle("active", b.dataset.workflowId === activeId);
-            });
+            filterBar
+                .querySelectorAll(".cb-workflow-filter-btn")
+                .forEach((b) => {
+                    b.classList.toggle(
+                        "active",
+                        b.dataset.workflowId === activeId,
+                    );
+                });
             chains.forEach((chain) => {
                 const isActive = chain.dataset.workflowId === activeId;
                 chain.classList.toggle("cb-workflow-chain--hidden", !isActive);
