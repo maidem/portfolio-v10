@@ -17,12 +17,12 @@
                                     each="{data.skill_collections}"
                                     as="skill"
                                 >
-                                    <f:if condition="{skill.gripsraum_skills_skill_name}">
+                                    <f:if condition="{skill.skill_name}">
                                         <div
                                             class="cb-skill-tile"
-                                            data-category="{skill.gripsraum_skills_skill_category}"
+                                            data-category="{skill.skill_category}"
                                         >
-                                            {skill.gripsraum_skills_skill_name}
+                                            {skill.skill_name}
                                         </div>
                                     </f:if>
                                 </f:for>
