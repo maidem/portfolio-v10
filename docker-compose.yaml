@@ -21,7 +21,10 @@ services:
       - ./public/typo3temp:/var/www/html/public/typo3temp
     networks:
       - portfolio-network
+      - coolify # Zwingt den Container in das Netzwerk von Traefik
 
 networks:
   portfolio-network:
     driver: bridge
+  coolify:
+    external: true # Sagt Docker, dass es das globale Coolify-Netzwerk nutzen soll
