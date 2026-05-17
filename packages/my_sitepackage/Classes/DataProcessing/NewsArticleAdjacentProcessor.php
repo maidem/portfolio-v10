@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Gripsraum\MySitepackage\DataProcessing;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
@@ -19,8 +20,6 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  */
 final class NewsArticleAdjacentProcessor implements DataProcessorInterface
 {
-    public function __construct(private readonly ConnectionPool $connectionPool) {}
-
     public function process(
         ContentObjectRenderer $cObj,
         array $contentObjectConfiguration,
@@ -34,7 +33,7 @@ final class NewsArticleAdjacentProcessor implements DataProcessorInterface
             return $processedData;
         }
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('tt_content');
+        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $articles = $qb
             ->select('uid', 'pid', 'header', 'gripsraum_newsarticle_project_date')
             ->from('tt_content')
