@@ -13,8 +13,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    column-gap: 2rem;
+    row-gap: 0.75rem;
   }
 
   &__link {
