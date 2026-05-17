@@ -11,42 +11,61 @@
             <div class="cb-hero position-relative">
                 <!-- Card with black border -->
                 <div class="cb-hero__card">
-                    <!-- Heading + Decoration inline -->
-                    <f:if condition="{data.header}">
-                        <div class="cb-hero__heading-wrapper">
-                            <h1 class="cb-hero__heading">{data.header}</h1>
-                        </div>
-                    </f:if>
-
-                    <!-- Content body: two columns -->
+                    <!-- Content body: single centred column -->
                     <div class="cb-hero__body">
-                        <div class="row gx-md-5 align-items-start">
-                            <f:if condition="{data.show_left}">
+                        <div class="row">
+                            <div class="col-12 col-md-9 mx-auto">
+                                <f:if condition="{data.header}">
+                                    <h1 class="cb-hero__heading">
+                                        {data.header}
+                                    </h1>
+                                </f:if>
                                 <f:if condition="{data.bodytext}">
-                                    <div class="col-12 col-md-6 cb-hero__left">
-                                        <div class="cb-hero__text">
-                                            <f:format.html
-                                                >{data.bodytext}</f:format.html
-                                            >
-                                        </div>
+                                    <div class="cb-hero__text">
+                                        <f:format.html
+                                            >{data.bodytext}</f:format.html
+                                        >
                                     </div>
                                 </f:if>
-                            </f:if>
-
-                            <f:if condition="{data.show_right}">
-                                <f:if condition="{data.right_text}">
-                                    <div class="col-12 col-md-6 cb-hero__right">
-                                        <div class="cb-hero__text">
-                                            <f:format.html
-                                                >{data.right_text}</f:format.html
+                                <f:if condition="{data.cta_1_label}">
+                                    <div class="cb-hero__cta-group">
+                                        <f:if condition="{data.cta_1_link}">
+                                            <f:link.typolink
+                                                parameter="{data.cta_1_link}"
+                                                class="cb-hero__cta-btn"
+                                                >{data.cta_1_label}</f:link.typolink
                                             >
-                                        </div>
+                                        </f:if>
+                                        <f:if
+                                            condition="{data.cta_2_label} && {data.cta_2_link}"
+                                        >
+                                            <f:link.typolink
+                                                parameter="{data.cta_2_link}"
+                                                class="cb-hero__cta-btn"
+                                                >{data.cta_2_label}</f:link.typolink
+                                            >
+                                        </f:if>
                                     </div>
                                 </f:if>
-                            </f:if>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <f:if condition="{data.gripsraum_hero_show_pdf_export_button}">
+                    <div class="cb-hero__pdf-action">
+                        <button
+                            class="cb-pdf-add-btn"
+                            type="button"
+                            data-pdf-section="info"
+                            aria-pressed="false"
+                        >
+                            <span class="cb-pdf-add-btn__label"
+                                >Zu PDF-Export hinzufügen</span
+                            >
+                        </button>
+                    </div>
+                </f:if>
             </div>
         </div>
     </section>

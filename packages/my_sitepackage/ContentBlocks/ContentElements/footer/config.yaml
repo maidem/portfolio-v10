@@ -1,6 +1,6 @@
 name: gripsraum/footer
 typeName: gripsraum_footer
-group: default
+group: portfolio
 prefixFields: true
 prefixType: full
 fields:

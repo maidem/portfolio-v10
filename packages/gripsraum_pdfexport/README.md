@@ -1,60 +1,70 @@
 # gripsraum/pdf-export
 
-TYPO3 v14 extension that generates a custom PDF summary of portfolio content via headless Chromium (`spatie/browsershot`).
+TYPO3-v14-Extension, die eine individuelle PDF-Zusammenfassung des Portfolio-Inhalts über headless Chromium (`spatie/browsershot`) erzeugt.
 
-## How it works
+## So funktioniert es
 
-1. A frontend content element (`gripsraum_pdfexport` CType) renders a checkbox form — visitors select which sections to include.
-2. On submit the form posts to the same page with `&type=1711`.
-3. The PageType `1711` bootstraps `PdfExportController::generateAction()` via Extbase.
-4. `PdfDataService` queries the relevant ContentBlock tables directly and returns structured data.
-5. A Fluid template (`Summary.html`) renders the data as a self-contained HTML document.
-6. Browsershot pipes the HTML through `/usr/bin/chromium` (headless) and returns a binary PDF stream.
+1. Ein Frontend-Content-Element (`gripsraum_pdfexport` CType) zeigt ein Checkbox-Formular — Besucher wählen, welche Abschnitte enthalten sein sollen.
+2. Beim Absenden wird das Formular an dieselbe Seite mit `&type=1711` gepostet.
+3. Der PageType `1711` startet `PdfExportController::generateAction()` via Extbase.
+4. `PdfDataService` liest die benötigten ContentBlock-Tabellen direkt aus der Datenbank.
+5. Ein Fluid-Template (`Summary.html`) rendert die Daten als eigenständiges HTML-Dokument.
+6. Browsershot übergibt das HTML an `/usr/bin/chromium` (headless) und liefert einen binären PDF-Stream zurück.
 
-## Selectable sections
+## Vorauswahl (PDF-Warenkorb)
 
-| Checkbox value | Data source |
-|---|---|
-| `info` | `gripsraum_hero` bodytext |
-| `faq` | `gripsraum_faq` + child table `gripsraum_faq_faq_items` |
-| `tech` | `gripsraum_skills` + child items |
-| `project_<uid>` | `gripsraum_projects` row by UID |
-| `logbook_<uid>` | `gripsraum_news_article` row by UID |
+Besucher können Inhalte bereits auf anderen Seiten vormerken, bevor sie das PDF-Export-Formular aufrufen:
 
-## Requirements
+- Einzelne Content-Elemente (`hero`, `news-article`) bieten im Backend ein Toggle **„PDF-Export Button anzeigen"** — bei Aktivierung erscheint ein Button im Frontend.
+- Ein Klick speichert die Abschnitts-ID im `localStorage` (Schlüssel `gripsraum_pdf_cart`).
+- Ein roter Badge-Zähler neben dem **Pdf-Export**-Navigationslink zeigt seitenübergreifend die Anzahl vorgemerkter Einträge.
+- Auf der PDF-Export-Seite sind vorgemerkte Kacheln automatisch vorausgewählt; Änderungen dort synchronisieren sich zurück in den Warenkorb.
+- Implementiert in `my_sitepackage`: `Resources/Private/JavaScript/PdfCart.js` + `Resources/Private/Styles/PdfCart.scss`.
+
+## Wählbare Abschnitte
+
+| Checkbox-Wert   | Datenquelle                                             |
+| --------------- | ------------------------------------------------------- |
+| `info`          | `gripsraum_hero` bodytext                               |
+| `faq`           | `gripsraum_faq` + Kindtabelle `gripsraum_faq_faq_items` |
+| `tech`          | `gripsraum_skills` + Kindeinträge                       |
+| `project_<uid>` | `gripsraum_projects`-Eintrag per UID                    |
+| `logbook_<uid>` | `gripsraum_newsarticle`-Eintrag per UID                 |
+
+## Voraussetzungen
 
 - TYPO3 14.1+, PHP 8.4+
 - `spatie/browsershot` ^5.2
-- Chromium at `/usr/bin/chromium` (installed in the DDEV web container via `webimage_extra_packages: ["chromium"]` and in the production Docker image)
+- Chromium unter `/usr/bin/chromium` (im DDEV-Webcontainer via `webimage_extra_packages: ["chromium"]` und im produktiven Docker-Image installiert)
 
 ## Site Set
 
-Register the set in your site configuration:
+Set in der Site-Konfiguration eintragen:
 
 ```yaml
 dependencies:
   - gripsraum/pdf-export
 ```
 
-This includes `setup.typoscript` which registers the `gripsraum_pdfexport` FLUIDTEMPLATE renderer and the `pdf_export` PageType (`typeNum = 1711`).
+Dadurch wird `setup.typoscript` eingebunden, das den `gripsraum_pdfexport`-FLUIDTEMPLATE-Renderer und den `pdf_export`-PageType (`typeNum = 1711`) registriert.
 
-## Extension structure
+## Extension-Struktur
 
 ```
 Classes/
-  Controller/PdfExportController.php     # Extbase action controller, entry point for type=1711
-  DataProcessing/PdfExportDataProcessor.php  # Passes page data to the frontend CE template
-  Service/PdfDataService.php             # DB queries for all selectable sections
+  Controller/PdfExportController.php         # Extbase-Controller, Einstiegspunkt für type=1711
+  DataProcessing/PdfExportDataProcessor.php  # Stellt Daten für das Frontend-CE-Template bereit
+  Service/PdfDataService.php                 # DB-Abfragen für alle wählbaren Abschnitte
 Configuration/
   Sets/PdfExport/
-    config.yaml                          # Site Set definition
-    setup.typoscript                     # FLUIDTEMPLATE + PageType 1711
-  Services.yaml                          # Dependency injection
-  TCA/Overrides/tt_content.php           # Registers gripsraum_pdfexport CType
+    config.yaml                              # Site-Set-Definition
+    setup.typoscript                         # FLUIDTEMPLATE + PageType 1711
+  Services.yaml                              # Dependency Injection
+  TCA/Overrides/tt_content.php               # Registriert den gripsraum_pdfexport-CType
 Resources/
   Private/Templates/
-    ContentElements/PdfExport.html       # Frontend checkbox form
-    PdfExport/Summary.html               # PDF Fluid template (A4 layout)
-  Private/Scss/PdfExport.scss            # Print styles inlined into Summary.html
-  Public/Icons/pdfexport.svg             # Backend CType icon
+    ContentElements/PdfExport.html           # Frontend-Checkbox-Formular
+    PdfExport/Summary.html                   # PDF-Fluid-Template (A4-Layout)
+  Private/Scss/PdfExport.scss                # Druckstile, inline in Summary.html
+  Public/Icons/pdfexport.svg                 # Backend-CType-Icon
 ```

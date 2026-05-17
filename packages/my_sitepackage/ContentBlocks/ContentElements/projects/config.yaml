@@ -1,6 +1,6 @@
 name: gripsraum/projects
 typeName: gripsraum_projects
-group: default
+group: portfolio
 prefixFields: true
 prefixType: full
 basics:

@@ -35,16 +35,16 @@
                                     <a
                                         href="{f:uri.page(pageUid: site.rootPageId)}"
                                         class="cb-nav__link cb-nav__link--active"
-                                        title="About me"
-                                        >About me</a
+                                        title="{settings.nav.homeTitle}"
+                                        >{settings.nav.homeTitle}</a
                                     >
                                 </f:then>
                                 <f:else>
                                     <a
                                         href="{f:uri.page(pageUid: site.rootPageId)}"
                                         class="cb-nav__link"
-                                        title="About me"
-                                        >About me</a
+                                        title="{settings.nav.homeTitle}"
+                                        >{settings.nav.homeTitle}</a
                                     >
                                 </f:else>
                             </f:if>
@@ -102,16 +102,16 @@
                             <a
                                 href="{f:uri.page(pageUid: site.rootPageId)}"
                                 class="cb-nav__overlay-link cb-nav__overlay-link--active"
-                                title="About me"
-                                >About me</a
+                                title="{settings.nav.homeTitle}"
+                                >{settings.nav.homeTitle}</a
                             >
                         </f:then>
                         <f:else>
                             <a
                                 href="{f:uri.page(pageUid: site.rootPageId)}"
                                 class="cb-nav__overlay-link"
-                                title="About me"
-                                >About me</a
+                                title="{settings.nav.homeTitle}"
+                                >{settings.nav.homeTitle}</a
                             >
                         </f:else>
                     </f:if>

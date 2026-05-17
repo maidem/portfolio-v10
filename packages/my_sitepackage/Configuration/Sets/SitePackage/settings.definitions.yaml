@@ -1,8 +1,17 @@
 categories:
   form.contact:
     label: "Kontaktformular"
+  nav:
+    label: "Navigation"
 
 settings:
+  nav.homeTitle:
+    label: "Home-Link Bezeichnung"
+    description: "Der angezeigte Name des Home-Links in der Navigation (z.B. 'About me')."
+    type: string
+    default: "About me"
+    category: nav
+
   footer.storagePid:
     label: "Footer Storage PID"
     description: "Die UID des Sysfolder-Ordners, in dem das Footer-Element liegt."

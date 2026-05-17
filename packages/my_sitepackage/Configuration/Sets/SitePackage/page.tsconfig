@@ -1,5 +1,18 @@
 @import './PageTsConfig/BackendLayouts/'
 
+# =========================================================
+# New Content Element Wizard — show only Portfolio elements
+# =========================================================
+mod.wizards.newContentElement.wizardItems {
+    common.show =
+    special.show =
+    forms.show =
+    plugins.show =
+    menu.show =
+    default.show =
+    portfolio.header = Portfolio
+}
+
 RTE {
     default {
         preset = my_sitepackage

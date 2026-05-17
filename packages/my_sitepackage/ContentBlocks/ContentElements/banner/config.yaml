@@ -1,6 +1,6 @@
 name: gripsraum/banner
 title: "LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/banner/language/labels.xlf:title"
-group: default
+group: portfolio
 description: "LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/banner/language/labels.xlf:description"
 prefixFields: true
 prefixType: full

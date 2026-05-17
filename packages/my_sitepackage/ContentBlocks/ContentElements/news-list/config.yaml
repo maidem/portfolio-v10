@@ -1,6 +1,6 @@
 name: gripsraum/news-list
 typeName: gripsraum_newslist
-group: default
+group: portfolio
 prefixFields: true
 prefixType: full
 basics:

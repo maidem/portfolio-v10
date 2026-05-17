@@ -10,19 +10,13 @@
         <source>A block to display categorized skills with pill-shaped buttons.</source>
       </trans-unit>
       <trans-unit id="skill_collections.label">
-        <source>Skill Categories</source>
+        <source>Skills</source>
       </trans-unit>
       <trans-unit id="skill_collections.description">
-        <source>Add multiple categories to group your skills.</source>
+        <source>Add one entry per skill.</source>
       </trans-unit>
-      <trans-unit id="section_title.label">
-        <source>Category Title</source>
-      </trans-unit>
-      <trans-unit id="skills_list.label">
-        <source>Skills (Comma-separated)</source>
-      </trans-unit>
-      <trans-unit id="skills_list.description">
-        <source>Enter the skills separated by commas, e.g. "HTML, CSS, JavaScript".</source>
+      <trans-unit id="skill_name.label">
+        <source>Skill</source>
       </trans-unit>
     </body>
   </file>

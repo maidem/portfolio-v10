@@ -8,36 +8,37 @@
                     <div class="cb-card__label-bar">{data.header}</div>
                 </f:if>
                 <div class="cb-card__body">
-                    <f:for
-                        each="{data.skill_collections}"
-                        as="collection"
-                        iteration="iter"
-                    >
-                        <div
-                            class="cb-skills-section text-center {f:if(condition: '!iter.isFirst', then: 'mt-5')}"
-                        >
-                            <f:if condition="{collection.section_title}">
-                                <h3
-                                    class="cb-card__title cb-skills-section-title mb-3"
+                    <div class="row">
+                        <div class="col-12 col-md-9 mx-auto">
+                            <div class="cb-skill-tiles-grid">
+                                <f:for
+                                    each="{data.skill_collections}"
+                                    as="skill"
                                 >
-                                    {collection.section_title}
-                                </h3>
-                            </f:if>
-                            <f:if condition="{collection.skills_list}">
-                                <div
-                                    class="d-flex flex-wrap gap-2 justify-content-center skill-pills-container"
-                                    data-skills="{collection.skills_list}"
-                                >
-                                    <noscript>
-                                        <div class="text-muted small italic">
-                                            {collection.skills_list}
+                                    <f:if condition="{skill.skill_name}">
+                                        <div class="cb-skill-tile">
+                                            {skill.skill_name}
                                         </div>
-                                    </noscript>
-                                </div>
-                            </f:if>
+                                    </f:if>
+                                </f:for>
+                            </div>
                         </div>
-                    </f:for>
+                    </div>
                 </div>
+            </div>
+        </f:if>
+        <f:if condition="{data.gripsraum_skills_show_pdf_export_button}">
+            <div class="cb-skills__pdf-action">
+                <button
+                    class="cb-pdf-add-btn"
+                    type="button"
+                    data-pdf-section="tech"
+                    aria-pressed="false"
+                >
+                    <span class="cb-pdf-add-btn__label"
+                        >Zu PDF-Export hinzufügen</span
+                    >
+                </button>
             </div>
         </f:if>
     </div>

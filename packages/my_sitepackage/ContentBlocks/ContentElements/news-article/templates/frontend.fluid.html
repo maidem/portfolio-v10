@@ -50,6 +50,23 @@
                             {data.gripsraum_newsarticle_teaser_text}
                         </p>
                     </f:if>
+
+                    <f:if
+                        condition="{data.gripsraum_newsarticle_show_pdf_export_button}"
+                    >
+                        <div class="mt-3">
+                            <button
+                                class="cb-pdf-add-btn"
+                                type="button"
+                                data-pdf-section="logbook_{data.uid}"
+                                aria-pressed="false"
+                            >
+                                <span class="cb-pdf-add-btn__label"
+                                    >Zu PDF-Export hinzufügen</span
+                                >
+                            </button>
+                        </div>
+                    </f:if>
                 </div>
             </div>
 

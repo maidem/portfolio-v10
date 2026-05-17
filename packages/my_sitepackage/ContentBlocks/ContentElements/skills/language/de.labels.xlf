@@ -12,24 +12,16 @@
         <target>Ein Block zur Darstellung kategorisierter Skills als abgerundete Buttons ("Pills").</target>
       </trans-unit>
       <trans-unit id="skill_collections.label">
-        <source>Skill Categories</source>
-        <target>Skill-Bereiche</target>
+        <source>Skills</source>
+        <target>Skills</target>
       </trans-unit>
       <trans-unit id="skill_collections.description">
-        <source>Add multiple categories to group your skills.</source>
-        <target>Füge mehrere Bereiche hinzu, um deine Skills zu gruppieren.</target>
+        <source>Add one entry per skill.</source>
+        <target>Füge je einen Eintrag pro Skill hinzu.</target>
       </trans-unit>
-      <trans-unit id="section_title.label">
-        <source>Category Title</source>
-        <target>Bereich-Überschrift</target>
-      </trans-unit>
-      <trans-unit id="skills_list.label">
-        <source>Skills (Comma-separated)</source>
-        <target>Skills (kommagetrennt)</target>
-      </trans-unit>
-      <trans-unit id="skills_list.description">
-        <source>Enter the skills separated by commas, e.g. "HTML, CSS, JavaScript".</source>
-        <target>Trage die Skills als kommagetrennte Liste ein, z.B. "HTML, CSS, JavaScript".</target>
+      <trans-unit id="skill_name.label">
+        <source>Skill</source>
+        <target>Skill</target>
       </trans-unit>
     </body>
   </file>

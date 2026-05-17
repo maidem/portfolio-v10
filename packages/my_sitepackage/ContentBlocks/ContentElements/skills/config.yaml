@@ -1,6 +1,6 @@
 name: gripsraum/skills
 typeName: gripsraum_skills
-group: default
+group: portfolio
 prefixFields: true
 prefixType: full
 fields:
@@ -16,12 +16,13 @@ fields:
     label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.label
     description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.description
     appearance:
-      collapseAll: true
+      levelLinksPosition: both
     fields:
-      - identifier: section_title
+      - identifier: skill_name
         type: Text
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:section_title.label
-      - identifier: skills_list
-        type: Textarea
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skills_list.label
-        description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skills_list.description
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_name.label
+  - identifier: show_pdf_export_button
+    type: Checkbox
+    renderType: checkboxToggle
+    label: "PDF-Export Button anzeigen"
+    default: false

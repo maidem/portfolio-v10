@@ -1,6 +1,6 @@
 name: gripsraum/news-article
 typeName: gripsraum_newsarticle
-group: default
+group: portfolio
 prefixFields: true
 prefixType: full
 basics:
@@ -27,3 +27,8 @@ fields:
     label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/news-article/language/labels.xlf:images.label
     maxitems: 5
     allowed: common-image-types
+  - identifier: show_pdf_export_button
+    type: Checkbox
+    renderType: checkboxToggle
+    label: "PDF-Export Button anzeigen"
+    default: false

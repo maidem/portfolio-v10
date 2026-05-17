@@ -10,6 +10,10 @@ import "@fontsource/jetbrains-mono/600.css";
 
 import "../Styles/Main.entry.scss";
 
+// PDF Cart — pre-selection feature for PDF export
+import "./PdfCart.js";
+import "../Styles/PdfCart.scss";
+
 // Vite Collector "Glob-Module" (Best Practice nach Simon Praetorius)
 // Alle frontend.{js,scss,css} Dateien aus den Content-Blöcken automatisch laden
 import.meta.glob(

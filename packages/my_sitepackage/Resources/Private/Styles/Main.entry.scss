@@ -333,14 +333,15 @@ main > section:first-of-type > * {
       }
     }
 
-    // Kontakt — pill button with accent fill
+    // Kontakt — pill button styled like the active PDF-Export add button
     &[title="Kontakt"] {
-      background-color: #01ffd0;
+      background-color: rgba(120, 60, 255, 0.1);
       color: $text-primary;
-      border: 1.5px solid $text-primary;
+      border: 1.5px solid rgba(120, 60, 255, 0.55);
       border-radius: 999px;
       padding: 0.3125rem 0.875rem;
       line-height: 1;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
       &:link,
       &:visited {
@@ -348,9 +349,9 @@ main > section:first-of-type > * {
       }
 
       &:hover {
-        background-color: transparent;
-        color: #111111;
-        border-color: #111111;
+        background-color: rgba(120, 60, 255, 0.2);
+        border-color: rgba(120, 60, 255, 0.85);
+        color: $text-primary;
       }
     }
   }

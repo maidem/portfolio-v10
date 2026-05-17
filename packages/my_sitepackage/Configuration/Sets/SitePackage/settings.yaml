@@ -7,6 +7,9 @@ styles:
 footer:
   storagePid: "14"
 
+nav:
+  homeTitle: "About me"
+
 form:
   contact:
     recipientEmail: "your.email@example.com"

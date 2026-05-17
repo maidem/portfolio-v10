@@ -1,7 +1,7 @@
 name: gripsraum/faq
 typeName: gripsraum_faq
 title: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:title
-group: default
+group: portfolio
 description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:description
 prefixFields: true
 prefixType: full

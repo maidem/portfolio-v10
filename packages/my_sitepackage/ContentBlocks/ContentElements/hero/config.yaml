@@ -1,6 +1,6 @@
 name: gripsraum/hero
 title: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:title
-group: default
+group: portfolio
 description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/hero/language/labels.xlf:description
 prefixFields: true
 prefixType: full
@@ -17,22 +17,25 @@ fields:
     description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
   - identifier: bodytext
     useExistingField: true
-    label: "Text links"
+    label: "Text"
     enableRichtext: true
-  - identifier: show_left
+  - identifier: cta_1_label
+    type: Text
+    label: "CTA Button 1 – Beschriftung"
+  - identifier: cta_1_link
+    type: Link
+    label: "CTA Button 1 – Link"
+  - identifier: cta_2_label
+    type: Text
+    label: "CTA Button 2 – Beschriftung"
+  - identifier: cta_2_link
+    type: Link
+    label: "CTA Button 2 – Link"
+  - identifier: show_pdf_export_button
     type: Checkbox
     renderType: checkboxToggle
-    label: "Linke Spalte anzeigen"
-    default: true
-  - identifier: show_right
-    type: Checkbox
-    renderType: checkboxToggle
-    label: "Rechte Spalte anzeigen"
-    default: true
-  - identifier: right_text
-    type: Textarea
-    label: "Text rechts"
-    enableRichtext: true
+    label: "PDF-Export Button anzeigen"
+    default: false
 assets:
   css:
     - assets/frontend.scss

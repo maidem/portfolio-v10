@@ -8,47 +8,60 @@
   cursor: default;
 }
 
-// Keep links aligned with surrounding text and pills, and use black text color.
+// Keep links aligned with surrounding text and use black text color.
 .cb-skills-wrapper a {
   color: #000;
   display: inline-flex;
   align-items: center;
 }
 
-// Skill pills — green tint with hover (like PDF Export tiles)
-.glass-badge-pill {
-  background: rgba(1, 255, 208, 0.18);
-  border: 1.5px solid #111111;
-  color: #111111;
-  border-radius: 999px;
-  font-family: inherit;
-  font-weight: 600;
-  white-space: nowrap;
-  font-size: 0.6875rem; // 11px
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.75rem; // 4px 12px
-  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:hover {
-    background: rgba(1, 255, 208, 0.3);
-  }
-}
-
-// Section title above pills
-.cb-skills-section-title {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-}
-
-// Skill pills container — centered for pyramid visual
-.skill-pills-container {
+// Skill tile cloud — centered flex-wrap, tiles size to content naturally
+.cb-skill-tiles-grid {
   display: flex;
   flex-wrap: wrap;
+  gap: 0.625rem;
   justify-content: center;
   align-items: center;
-  column-gap: 0.5rem;
-  row-gap: 1rem;
-  max-width: 700px;
-  margin: 0 auto;
+}
+
+.cb-skill-tile {
+  background-color: rgba(120, 60, 255, 0.1);
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  padding: 0.5625rem 1.125rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #111111;
+  white-space: nowrap;
+  will-change: transform;
+  transition:
+    transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  // Organic shape: each nth-child gets its own border-radius rhythm
+  &:nth-child(3n) {
+    border-radius: 0.5rem 1.5rem 0.5rem 1.5rem;
+  }
+  &:nth-child(3n + 1) {
+    border-radius: 1.5rem 0.5rem 1.5rem 0.5rem;
+  }
+  &:nth-child(3n + 2) {
+    border-radius: 1.25rem;
+  }
+
+  &:hover {
+    transform: translateY(-6px) scale(1.06);
+    background-color: rgba(120, 60, 255, 0.26);
+    border-color: rgba(120, 60, 255, 0.72);
+    box-shadow: 0 10px 30px rgba(120, 60, 255, 0.22);
+    position: relative;
+    z-index: 2;
+  }
 }
