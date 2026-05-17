@@ -22,7 +22,7 @@ services:
     networks:
       - portfolio-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-fL", "http://localhost/"]
       interval: 30s
       timeout: 10s
       retries: 3
