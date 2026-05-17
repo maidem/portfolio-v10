@@ -95,28 +95,40 @@
                 <nav class="cb-article-nav" aria-label="Weitere Artikel">
                     <div class="cb-article-nav__inner">
                         <!-- Previous = older article -->
-                        <div class="cb-article-nav__item cb-article-nav__item--prev">
+                        <div
+                            class="cb-article-nav__item cb-article-nav__item--prev"
+                        >
                             <f:if condition="{prevArticle}">
                                 <f:link.page
                                     pageUid="{prevArticle.pid}"
                                     section="c{prevArticle.uid}"
                                     class="cb-article-nav__link"
                                 >
-                                    <span class="cb-article-nav__label">← Vorheriger Artikel</span>
-                                    <span class="cb-article-nav__title">{prevArticle.header}</span>
+                                    <span class="cb-article-nav__label"
+                                        >← Vorheriger Artikel</span
+                                    >
+                                    <span class="cb-article-nav__title"
+                                        >{prevArticle.header}</span
+                                    >
                                 </f:link.page>
                             </f:if>
                         </div>
                         <!-- Next = newer article -->
-                        <div class="cb-article-nav__item cb-article-nav__item--next">
+                        <div
+                            class="cb-article-nav__item cb-article-nav__item--next"
+                        >
                             <f:if condition="{nextArticle}">
                                 <f:link.page
                                     pageUid="{nextArticle.pid}"
                                     section="c{nextArticle.uid}"
                                     class="cb-article-nav__link"
                                 >
-                                    <span class="cb-article-nav__label">Nächster Artikel →</span>
-                                    <span class="cb-article-nav__title">{nextArticle.header}</span>
+                                    <span class="cb-article-nav__label"
+                                        >Nächster Artikel →</span
+                                    >
+                                    <span class="cb-article-nav__title"
+                                        >{nextArticle.header}</span
+                                    >
                                 </f:link.page>
                             </f:if>
                         </div>

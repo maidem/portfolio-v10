@@ -24,6 +24,15 @@
       <trans-unit id="skill_category.description">
         <source>e.g. CMS Systems, Frameworks, Languages — used as filter tab</source>
       </trans-unit>
+      <trans-unit id="skill_categories.label">
+        <source>Filter Categories</source>
+      </trans-unit>
+      <trans-unit id="skill_categories.description">
+        <source>Define the available filter categories here. Assign them to individual skills below.</source>
+      </trans-unit>
+      <trans-unit id="category_name.label">
+        <source>Category name</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

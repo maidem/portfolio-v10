@@ -31,6 +31,18 @@
         <source>e.g. CMS Systems, Frameworks, Languages — used as filter tab</source>
         <target>z. B. CMS-Systeme, Frameworks, Sprachen — wird als Filter-Tab angezeigt</target>
       </trans-unit>
+      <trans-unit id="skill_categories.label">
+        <source>Filter Categories</source>
+        <target>Filter-Kategorien</target>
+      </trans-unit>
+      <trans-unit id="skill_categories.description">
+        <source>Define the available filter categories here. Assign them to individual skills below.</source>
+        <target>Lege hier die verfügbaren Filter-Kategorien an. Diese können dann den einzelnen Skills zugeordnet werden.</target>
+      </trans-unit>
+      <trans-unit id="category_name.label">
+        <source>Category name</source>
+        <target>Kategoriename</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
