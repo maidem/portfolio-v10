@@ -21,12 +21,6 @@ services:
       - ./public/typo3temp:/var/www/html/public/typo3temp
     networks:
       - portfolio-network
-    healthcheck:
-      test: ["CMD", "curl", "-fL", "http://localhost/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
 networks:
   portfolio-network:
