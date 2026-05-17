@@ -27,23 +27,37 @@
                                         >
                                     </div>
                                 </f:if>
-                                <f:if condition="{data.cta_1_label}">
-                                    <div class="cb-hero__cta-group">
-                                        <f:if condition="{data.cta_1_link}">
-                                            <f:link.typolink
-                                                parameter="{data.cta_1_link}"
-                                                class="cb-hero__cta-btn"
-                                                >{data.cta_1_label}</f:link.typolink
+                                <f:if condition="{data.cta_1_label} || {data.gripsraum_hero_show_pdf_export_button}">
+                                    <div class="cb-hero__actions">
+                                        <f:if condition="{data.cta_1_label}">
+                                            <f:if condition="{data.cta_1_link}">
+                                                <f:link.typolink
+                                                    parameter="{data.cta_1_link}"
+                                                    class="cb-hero__cta-btn"
+                                                    >{data.cta_1_label}</f:link.typolink
+                                                >
+                                            </f:if>
+                                            <f:if
+                                                condition="{data.cta_2_label} && {data.cta_2_link}"
                                             >
+                                                <f:link.typolink
+                                                    parameter="{data.cta_2_link}"
+                                                    class="cb-hero__cta-btn"
+                                                    >{data.cta_2_label}</f:link.typolink
+                                                >
+                                            </f:if>
                                         </f:if>
-                                        <f:if
-                                            condition="{data.cta_2_label} && {data.cta_2_link}"
-                                        >
-                                            <f:link.typolink
-                                                parameter="{data.cta_2_link}"
-                                                class="cb-hero__cta-btn"
-                                                >{data.cta_2_label}</f:link.typolink
+                                        <f:if condition="{data.gripsraum_hero_show_pdf_export_button}">
+                                            <button
+                                                class="cb-pdf-add-btn"
+                                                type="button"
+                                                data-pdf-section="info"
+                                                aria-pressed="false"
                                             >
+                                                <span class="cb-pdf-add-btn__label"
+                                                    >Zu PDF-Export hinzufügen</span
+                                                >
+                                            </button>
                                         </f:if>
                                     </div>
                                 </f:if>
@@ -51,21 +65,6 @@
                         </div>
                     </div>
                 </div>
-
-                <f:if condition="{data.gripsraum_hero_show_pdf_export_button}">
-                    <div class="cb-hero__pdf-action">
-                        <button
-                            class="cb-pdf-add-btn"
-                            type="button"
-                            data-pdf-section="info"
-                            aria-pressed="false"
-                        >
-                            <span class="cb-pdf-add-btn__label"
-                                >Zu PDF-Export hinzufügen</span
-                            >
-                        </button>
-                    </div>
-                </f:if>
             </div>
         </div>
     </section>
