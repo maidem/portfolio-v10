@@ -58,8 +58,8 @@
 
   &__tile {
     cursor: pointer;
-    background-color: rgba(120, 60, 255, 0.1);
-    border: 2px solid rgba(0, 0, 0, 0.4);
+    background-color: transparent;
+    border: 1.5px solid rgba(0, 0, 0, 0.3);
     border-radius: 1rem;
     padding: 1rem;
     display: flex;
@@ -74,18 +74,24 @@
     }
 
     &:hover {
-      background-color: rgba(120, 60, 255, 0.2);
+      border-color: #111111;
+      background-color: rgba(0, 0, 0, 0.04);
     }
 
     &:has(input:checked) {
-      background-color: rgba(120, 60, 255, 0.85);
-      border-color: #111111;
+      background-color: rgba(120, 60, 255, 0.12);
+      border-color: rgba(120, 60, 255, 0.55);
       color: #111111;
-      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
+
+      &:hover {
+        background-color: rgba(120, 60, 255, 0.2);
+        border-color: rgba(120, 60, 255, 0.85);
+      }
 
       .cb-pdf-export__tile-label {
-        color: #111111;
-        opacity: 0.8;
+        color: rgba(120, 60, 255, 0.75);
+        opacity: 1;
       }
     }
   }

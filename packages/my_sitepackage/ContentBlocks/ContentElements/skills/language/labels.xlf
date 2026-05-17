@@ -33,6 +33,24 @@
       <trans-unit id="category_name.label">
         <source>Category name</source>
       </trans-unit>
+      <trans-unit id="skill_workflows.label">
+        <source>Workflows</source>
+      </trans-unit>
+      <trans-unit id="skill_workflows.description">
+        <source>Define tool/tech workflows shown as connected step chains in the frontend.</source>
+      </trans-unit>
+      <trans-unit id="workflow_name.label">
+        <source>Workflow name</source>
+      </trans-unit>
+      <trans-unit id="workflow_name.description">
+        <source>Label shown on the filter button, e.g. "CMS Deployment"</source>
+      </trans-unit>
+      <trans-unit id="workflow_steps.label">
+        <source>Steps</source>
+      </trans-unit>
+      <trans-unit id="step_name.label">
+        <source>Step / Tool</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

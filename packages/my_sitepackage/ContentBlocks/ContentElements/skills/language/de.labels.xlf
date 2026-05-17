@@ -43,6 +43,30 @@
         <source>Category name</source>
         <target>Kategoriename</target>
       </trans-unit>
+      <trans-unit id="skill_workflows.label">
+        <source>Workflows</source>
+        <target>Workflows</target>
+      </trans-unit>
+      <trans-unit id="skill_workflows.description">
+        <source>Define tool/tech workflows shown as connected step chains in the frontend.</source>
+        <target>Definiere Tool-/Tech-Workflows, die im Frontend als verkettete Schritte angezeigt werden.</target>
+      </trans-unit>
+      <trans-unit id="workflow_name.label">
+        <source>Workflow name</source>
+        <target>Workflow-Name</target>
+      </trans-unit>
+      <trans-unit id="workflow_name.description">
+        <source>Label shown on the filter button, e.g. "CMS Deployment"</source>
+        <target>Beschriftung des Filter-Buttons, z. B. „CMS-Deployment“</target>
+      </trans-unit>
+      <trans-unit id="workflow_steps.label">
+        <source>Steps</source>
+        <target>Schritte</target>
+      </trans-unit>
+      <trans-unit id="step_name.label">
+        <source>Step / Tool</source>
+        <target>Schritt / Tool</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

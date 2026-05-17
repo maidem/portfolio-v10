@@ -36,6 +36,47 @@
                 </div>
             </div>
         </f:if>
+
+        <f:if condition="{data.skill_workflows}">
+            <div class="cb-card cb-skills-unified-card cb-workflows-card">
+                <div class="cb-card__label-bar">Workflows</div>
+                <div class="cb-card__body">
+                    <div class="row">
+                        <div class="col-12 col-md-10 mx-auto">
+                            <!-- Workflow-Filter: wird via JS aus data-workflow-id aufgebaut -->
+                            <div
+                                class="cb-workflow-filter-bar"
+                                role="group"
+                                aria-label="Workflow auswählen"
+                            ></div>
+                            <!-- Workflow-Chains: je ein sichtbares chain-Element pro Workflow -->
+                            <f:for each="{data.skill_workflows}" as="workflow">
+                                <f:if condition="{workflow.workflow_name}">
+                                    <div
+                                        class="cb-workflow-chain"
+                                        data-workflow-id="{workflow.uid}"
+                                        data-workflow-name="{workflow.workflow_name}"
+                                        aria-hidden="true"
+                                    >
+                                        <f:for each="{workflow.workflow_steps}" as="step" iteration="iter">
+                                            <f:if condition="{step.step_name}">
+                                                <div class="cb-workflow-step">
+                                                    <span class="cb-workflow-step__label">{step.step_name}</span>
+                                                </div>
+                                                <f:if condition="{iter.isLast} == 0">
+                                                    <div class="cb-workflow-connector" aria-hidden="true"></div>
+                                                </f:if>
+                                            </f:if>
+                                        </f:for>
+                                    </div>
+                                </f:if>
+                            </f:for>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </f:if>
+
         <f:if condition="{data.gripsraum_skills_show_pdf_export_button}">
             <div class="cb-skills__pdf-action">
                 <button

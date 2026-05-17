@@ -35,6 +35,26 @@ fields:
       - identifier: category_name
         type: Text
         label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:category_name.label
+  - identifier: skill_workflows
+    type: Collection
+    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_workflows.label
+    description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_workflows.description
+    appearance:
+      levelLinksPosition: bottom
+    fields:
+      - identifier: workflow_name
+        type: Text
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:workflow_name.label
+        description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:workflow_name.description
+      - identifier: workflow_steps
+        type: Collection
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:workflow_steps.label
+        appearance:
+          levelLinksPosition: bottom
+        fields:
+          - identifier: step_name
+            type: Text
+            label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:step_name.label
   - identifier: show_pdf_export_button
     type: Checkbox
     renderType: checkboxToggle
