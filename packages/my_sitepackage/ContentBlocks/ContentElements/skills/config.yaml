@@ -17,6 +17,7 @@ fields:
     description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.description
     appearance:
       levelLinksPosition: both
+      collapseAll: true
     fields:
       - identifier: skill_name
         type: Text
@@ -31,6 +32,7 @@ fields:
     description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_categories.description
     appearance:
       levelLinksPosition: bottom
+      collapseAll: true
     fields:
       - identifier: category_name
         type: Text
@@ -41,6 +43,7 @@ fields:
     description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_workflows.description
     appearance:
       levelLinksPosition: bottom
+      collapseAll: true
     fields:
       - identifier: workflow_name
         type: Text
@@ -51,6 +54,7 @@ fields:
         label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:workflow_steps.label
         appearance:
           levelLinksPosition: bottom
+          collapseAll: true
         fields:
           - identifier: step_name
             type: Text
