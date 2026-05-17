@@ -151,16 +151,16 @@
   }
 
   &__submit {
-    background-color: transparent;
-    color: #111111;
-    border: 2px solid #111111 !important;
+    background-color: rgba(120, 60, 255, 0.85);
+    color: #fff;
+    border: 1.5px solid rgba(120, 60, 255, 0.85);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem;
-    padding: 0 3.2rem;
+    min-height: 2rem;
+    padding: 0.45rem 2rem;
     border-radius: 999px;
-    font-size: 0.8125rem;
+    font-size: 0.6875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -168,16 +168,26 @@
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-      border-color: rgba(0, 0, 0, 0.4) !important;
-      color: #111111;
+      background-color: rgba(120, 60, 255, 1);
+      border-color: rgba(120, 60, 255, 1);
+      color: #fff;
       transform: none;
       box-shadow: none;
     }
 
+    &--loading {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+
+    &--done {
+      background-color: rgba(40, 167, 80, 0.85);
+      border-color: rgba(40, 167, 80, 0.85);
+    }
+
     @media (max-width: 767.98px) {
       width: 100%;
-      min-height: 3.25rem;
+      min-height: 2rem;
     }
   }
 }

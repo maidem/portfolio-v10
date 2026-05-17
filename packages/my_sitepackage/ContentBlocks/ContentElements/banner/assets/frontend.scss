@@ -3,14 +3,14 @@
 .cb-portfolio-banner {
   position: relative;
   width: 100%;
-  padding: 2rem 0; // 2rem top + 2rem bottom = 4 × 8px grid units each
+  padding: 2rem 0 3rem; // extra bottom clearance for dimension labels
   margin-bottom: clamp(
     2rem,
     4vw,
     4rem
   ); // harmonious gap to first content element
   background-color: #e7e7e7;
-  overflow: hidden;
+  overflow: visible; // allow dimension labels to not be clipped on narrow viewports
   user-select: none;
   pointer-events: none;
   z-index: 0;

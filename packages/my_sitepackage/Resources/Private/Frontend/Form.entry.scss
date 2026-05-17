@@ -75,11 +75,11 @@ $text-secondary: #555555;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem;
-    padding: 0 3.2rem;
-    background-color: transparent;
-    border: 2px solid #111111 !important;
-    color: #111111 !important;
+    min-height: 2rem;
+    padding: 0.45rem 2rem;
+    background-color: rgba(120, 60, 255, 0.85);
+    border: 1.5px solid rgba(120, 60, 255, 0.85);
+    color: #fff;
     border-radius: 999px;
     font-weight: 700;
     font-size: 0.6875rem;
@@ -90,15 +90,15 @@ $text-secondary: #555555;
     white-space: nowrap;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1) !important;
-      color: #111111 !important;
-      border-color: rgba(0, 0, 0, 0.4) !important;
-      box-shadow: none !important;
+      background-color: rgba(120, 60, 255, 1);
+      border-color: rgba(120, 60, 255, 1);
+      color: #fff;
+      box-shadow: none;
     }
 
     @media (max-width: 767.98px) {
       width: 100%;
-      min-height: 3.25rem;
+      min-height: 2rem;
     }
 
     &:active {

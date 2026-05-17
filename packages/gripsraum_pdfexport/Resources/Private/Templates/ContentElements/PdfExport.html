@@ -96,7 +96,7 @@
 
                   <!-- Right-aligned Actions -->
                   <div class="cb-pdf-export__actions">
-                    <button type="submit" class="cb-pdf-export__submit">
+                    <button type="submit" class="cb-pdf-export__submit" data-label-default="PDF ERSTELLEN" data-label-loading="WIRD ERSTELLT ..." data-label-done="PDF BEREIT ✓">
                       PDF ERSTELLEN
                     </button>
                   </div>
@@ -108,4 +108,29 @@
       </div>
     </div>
   </section>
+  <script>
+    (function () {
+      var form = document.querySelector(".cb-pdf-export__form");
+      if (!form) return;
+      var btn = form.querySelector(".cb-pdf-export__submit");
+      if (!btn) return;
+      form.addEventListener("submit", function () {
+        btn.disabled = true;
+        btn.classList.add("cb-pdf-export__submit--loading");
+        btn.textContent = btn.dataset.labelLoading || "WIRD ERSTELLT ...";
+        // PDF download triggers within ~2s; show success after a delay
+        setTimeout(function () {
+          btn.textContent = btn.dataset.labelDone || "PDF BEREIT \u2713";
+          btn.classList.remove("cb-pdf-export__submit--loading");
+          btn.classList.add("cb-pdf-export__submit--done");
+          // Reset to default after 4s so user can generate again
+          setTimeout(function () {
+            btn.textContent = btn.dataset.labelDefault || "PDF ERSTELLEN";
+            btn.classList.remove("cb-pdf-export__submit--done");
+            btn.disabled = false;
+          }, 4000);
+        }, 2500);
+      });
+    })();
+  </script>
 </html>

@@ -19,18 +19,18 @@
     opacity 0.2s ease,
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  // Override Bootstrap .badge via higher specificity (0,2,0 > 0,1,0) — no !important needed
+  // .cb-pdf-cart-badge.badge (0,2,0) beats Bootstrap .badge (0,1,0) — no !important needed
   &.badge {
     min-width: 0;
     padding: 0;
     font-size: 0.6rem;
-    line-height: 1rem; // equal to height: ensures single-line text centers in normal flow too
+    line-height: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    // Purple — override Bootstrap bg-danger
-    background-color: rgba(120, 60, 255, 0.9) !important;
-    color: #fff !important;
+    // Purple
+    background-color: rgba(120, 60, 255, 0.9);
+    color: #fff;
   }
 
   &--visible {
@@ -45,6 +45,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  min-height: 2rem;
   padding: 0.45rem 1rem;
   font-family: inherit;
   font-size: 0.6875rem; // 11px — matches tile-label size

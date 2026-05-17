@@ -74,7 +74,7 @@ function injectBadges() {
         if (!link) return;
         if (!link.querySelector(".cb-pdf-cart-badge")) {
             const badge = document.createElement("span");
-            badge.className = "badge bg-danger rounded-pill cb-pdf-cart-badge";
+            badge.className = "badge rounded-pill cb-pdf-cart-badge";
             badge.setAttribute("aria-hidden", "true");
             link.appendChild(badge);
         }

@@ -115,15 +115,17 @@
   margin-top: 1.5rem;
 }
 
-// Heading matches filter-button typestyle but as a real heading, centered
+// Heading: real heading size, still uppercase label style — between button and section heading
+// .cb-workflows__heading (0,1,0) beats Bootstrap h3 (0,0,1) — no !important needed
 .cb-workflows__heading {
-  font-size: 0.625rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.12em !important;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   text-align: center;
-  color: rgba(17, 17, 17, 0.45) !important;
+  color: rgba(17, 17, 17, 0.6);
   padding-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .cb-workflow-filter-bar {
