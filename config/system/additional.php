@@ -24,12 +24,16 @@ if (!getenv('IS_DDEV_PROJECT')) {
     $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = array_merge(
         $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] ?? [],
         [
-            'driver'   => 'mysqli',
-            'host'     => $dbHost,
-            'port'     => $dbPort,
-            'user'     => $dbUser,
-            'password' => $dbPassword,
-            'dbname'   => $dbName,
+            'driver'        => 'mysqli',
+            'host'          => $dbHost,
+            'port'          => $dbPort,
+            'user'          => $dbUser,
+            'password'      => $dbPassword,
+            'dbname'        => $dbName,
+            'driverOptions' => [
+                // Fail fast if the host is unreachable instead of hanging for minutes
+                MYSQLI_OPT_CONNECT_TIMEOUT => 5,
+            ],
         ]
     );
 }
