@@ -333,11 +333,11 @@ main > section:first-of-type > * {
       }
     }
 
-    // Kontakt — pill button styled like the active PDF-Export add button
+    // Kontakt — solid purple pill like the hero CTA buttons
     &[title="Kontakt"] {
-      background-color: rgba(120, 60, 255, 0.1);
-      color: $text-primary;
-      border: 1.5px solid rgba(120, 60, 255, 0.55);
+      background-color: rgba(120, 60, 255, 0.85);
+      color: #fff;
+      border: 1.5px solid rgba(120, 60, 255, 0.85);
       border-radius: 999px;
       padding: 0.3125rem 0.875rem;
       line-height: 1;
@@ -345,13 +345,13 @@ main > section:first-of-type > * {
 
       &:link,
       &:visited {
-        color: $text-primary;
+        color: #fff;
       }
 
       &:hover {
-        background-color: rgba(120, 60, 255, 0.2);
-        border-color: rgba(120, 60, 255, 0.85);
-        color: $text-primary;
+        background-color: rgba(120, 60, 255, 1);
+        border-color: rgba(120, 60, 255, 1);
+        color: #fff;
       }
     }
   }
