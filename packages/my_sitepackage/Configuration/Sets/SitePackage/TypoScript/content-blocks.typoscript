@@ -32,3 +32,9 @@ tt_content.gripsraum_newslist {
         }
     }
 }
+
+tt_content.gripsraum_newsarticle {
+    dataProcessing {
+        10 = Gripsraum\MySitepackage\DataProcessing\NewsArticleAdjacentProcessor
+    }
+}

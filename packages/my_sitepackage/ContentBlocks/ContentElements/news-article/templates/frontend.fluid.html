@@ -6,6 +6,7 @@
     <div
         class="container cb-news-article"
         id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+        data-article-uid="{data.uid}"
     >
         <div class="cb-news-article-inner">
             <!-- Header Block -->
@@ -71,12 +72,12 @@
             </div>
 
             <div class="row g-5">
-                <!-- Navigation Sidebar (Sticky) — hidden on mobile, select dropdown is used instead -->
+                <!-- Navigation Sidebar (Sticky) — hidden on mobile, collapsible panel is used instead -->
                 <div class="col-md-4 d-none d-md-block">
                     <div class="cb-sidebar">
                         <div
                             class="cb-toc-minimal"
-                            id="cb-news-article-toc-container"
+                            id="cb-news-article-toc-{data.uid}"
                         ></div>
                     </div>
                 </div>
@@ -88,6 +89,40 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Prev / Next Article Navigation -->
+            <f:if condition="{prevArticle} || {nextArticle}">
+                <nav class="cb-article-nav" aria-label="Weitere Artikel">
+                    <div class="cb-article-nav__inner">
+                        <!-- Previous = older article -->
+                        <div class="cb-article-nav__item cb-article-nav__item--prev">
+                            <f:if condition="{prevArticle}">
+                                <f:link.page
+                                    pageUid="{prevArticle.pid}"
+                                    section="c{prevArticle.uid}"
+                                    class="cb-article-nav__link"
+                                >
+                                    <span class="cb-article-nav__label">← Vorheriger Artikel</span>
+                                    <span class="cb-article-nav__title">{prevArticle.header}</span>
+                                </f:link.page>
+                            </f:if>
+                        </div>
+                        <!-- Next = newer article -->
+                        <div class="cb-article-nav__item cb-article-nav__item--next">
+                            <f:if condition="{nextArticle}">
+                                <f:link.page
+                                    pageUid="{nextArticle.pid}"
+                                    section="c{nextArticle.uid}"
+                                    class="cb-article-nav__link"
+                                >
+                                    <span class="cb-article-nav__label">Nächster Artikel →</span>
+                                    <span class="cb-article-nav__title">{nextArticle.header}</span>
+                                </f:link.page>
+                            </f:if>
+                        </div>
+                    </div>
+                </nav>
+            </f:if>
         </div>
     </div>
 </html>

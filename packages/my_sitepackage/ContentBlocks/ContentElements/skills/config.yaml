@@ -21,6 +21,10 @@ fields:
       - identifier: skill_name
         type: Text
         label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_name.label
+      - identifier: skill_category
+        type: Text
+        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_category.label
+        description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_category.description
   - identifier: show_pdf_export_button
     type: Checkbox
     renderType: checkboxToggle

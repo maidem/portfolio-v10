@@ -23,6 +23,14 @@
         <source>Skill</source>
         <target>Skill</target>
       </trans-unit>
+      <trans-unit id="skill_category.label">
+        <source>Category</source>
+        <target>Kategorie</target>
+      </trans-unit>
+      <trans-unit id="skill_category.description">
+        <source>e.g. CMS Systems, Frameworks, Languages — used as filter tab</source>
+        <target>z. B. CMS-Systeme, Frameworks, Sprachen — wird als Filter-Tab angezeigt</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

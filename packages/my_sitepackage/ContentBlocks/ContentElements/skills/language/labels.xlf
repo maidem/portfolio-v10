@@ -18,6 +18,12 @@
       <trans-unit id="skill_name.label">
         <source>Skill</source>
       </trans-unit>
+      <trans-unit id="skill_category.label">
+        <source>Category</source>
+      </trans-unit>
+      <trans-unit id="skill_category.description">
+        <source>e.g. CMS Systems, Frameworks, Languages — used as filter tab</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

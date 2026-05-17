@@ -10,14 +10,19 @@
                 <div class="cb-card__body">
                     <div class="row">
                         <div class="col-12 col-md-9 mx-auto">
-                            <div class="cb-skill-tiles-grid">
+                            <!-- Filter-Bar: wird via JS aus data-category-Attributen aufgebaut -->
+                            <div class="cb-skills-filter-bar" role="group" aria-label="Filter nach Kategorie"></div>
+                            <div class="cb-skill-tiles-grid" data-skills-filter>
                                 <f:for
                                     each="{data.skill_collections}"
                                     as="skill"
                                 >
-                                    <f:if condition="{skill.skill_name}">
-                                        <div class="cb-skill-tile">
-                                            {skill.skill_name}
+                                    <f:if condition="{skill.gripsraum_skills_skill_name}">
+                                        <div
+                                            class="cb-skill-tile"
+                                            data-category="{skill.gripsraum_skills_skill_category}"
+                                        >
+                                            {skill.gripsraum_skills_skill_name}
                                         </div>
                                     </f:if>
                                 </f:for>

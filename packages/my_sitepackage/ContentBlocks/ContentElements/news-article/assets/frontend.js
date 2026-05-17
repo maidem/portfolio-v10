@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const articleBody = document.querySelector(".cb-news-article-body");
-    const tocContainer = document.getElementById(
-        "cb-news-article-toc-container",
-    );
+    // Scoped per article — supports multiple news-article elements on one page
+    document.querySelectorAll(".cb-news-article").forEach((articleEl) => {
+        const articleBody = articleEl.querySelector(".cb-news-article-body");
+        const tocContainer = articleEl.querySelector(".cb-toc-minimal");
 
-    if (!articleBody || !tocContainer) return;
+        if (!articleBody || !tocContainer) return;
 
-    const headings = articleBody.querySelectorAll("h2, h3");
-    if (headings.length === 0) return;
+        const headings = articleBody.querySelectorAll("h2, h3");
+        if (headings.length === 0) return;
 
     // ── Mobile: Collapsible <details>/<summary> Panel ─────────────────
     // Best practice: native HTML, no JS required for toggle, a11y built-in
@@ -154,4 +154,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("scroll", updateScrollSpy, { passive: true });
     updateScrollSpy();
+    }); // end querySelectorAll forEach
 });
