@@ -135,4 +135,10 @@ RUN php vendor/bin/typo3 content-blocks:assets:publish \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 var public/fileadmin public/uploads public/typo3temp config/system
 
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["apache2-foreground"]
+
 EXPOSE 80
