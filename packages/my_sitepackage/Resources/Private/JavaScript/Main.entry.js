@@ -22,11 +22,12 @@ import.meta.glob(
 );
 
 // =============================
-// Mobile Navigation Overlay
+// Mobile Navigation — Bottom Sheet
 // =============================
 const initNav = () => {
     const toggle = document.querySelector(".cb-nav__toggle");
     const overlay = document.getElementById("cb-nav-overlay");
+    const backdrop = document.getElementById("cb-nav-backdrop");
 
     if (!toggle || !overlay) return;
 
@@ -39,10 +40,11 @@ const initNav = () => {
         overlay.classList.add("cb-nav__overlay--open");
         overlay.setAttribute("aria-hidden", "false");
         document.body.classList.add("cb-nav--open");
+        if (backdrop) backdrop.classList.add("cb-nav__backdrop--open");
 
         // Staggered fade-in for items
         items.forEach((item, i) => {
-            item.style.transitionDelay = `${(i + 1) * 60}ms`;
+            item.style.transitionDelay = `${(i + 1) * 55}ms`;
             item.style.opacity = "1";
             item.style.transform = "translateY(0)";
         });
@@ -54,6 +56,7 @@ const initNav = () => {
         overlay.classList.remove("cb-nav__overlay--open");
         overlay.setAttribute("aria-hidden", "true");
         document.body.classList.remove("cb-nav--open");
+        if (backdrop) backdrop.classList.remove("cb-nav__backdrop--open");
 
         items.forEach((item) => {
             item.style.transitionDelay = "0ms";
@@ -71,16 +74,10 @@ const initNav = () => {
         link.addEventListener("click", close);
     });
 
-    // Close on explicit close button
-    const closeBtn = overlay.querySelector(".cb-nav__overlay-close");
-    if (closeBtn) {
-        closeBtn.addEventListener("click", close);
+    // Close on backdrop click
+    if (backdrop) {
+        backdrop.addEventListener("click", close);
     }
-
-    // Close on backdrop click (outside box)
-    overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) close();
-    });
 
     // Close on Escape
     document.addEventListener("keydown", (e) => {

@@ -10,13 +10,17 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 /**
- * Provides prevArticle / nextArticle variables for the news-article template.
+ * Provides prevArticle / nextArticle variables for the news-article and project-article templates.
  *
  * Articles are sorted by project_date DESC (newest first), so:
  *   nextArticle = newer  (index − 1 in the sorted list)
  *   prevArticle = older  (index + 1 in the sorted list)
  *
  * Only articles from the same TYPO3 page (pid) are considered.
+ *
+ * TypoScript configuration:
+ *   10 = Gripsraum\MySitepackage\DataProcessing\NewsArticleAdjacentProcessor
+ *   10.ctype = gripsraum_projectarticle
  */
 final class NewsArticleAdjacentProcessor implements DataProcessorInterface
 {
@@ -33,12 +37,14 @@ final class NewsArticleAdjacentProcessor implements DataProcessorInterface
             return $processedData;
         }
 
+        $ctype = $processorConfiguration['ctype'] ?? 'gripsraum_newsarticle';
+
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $articles = $qb
             ->select('uid', 'pid', 'header', 'gripsraum_newsarticle_project_date')
             ->from('tt_content')
             ->where(
-                $qb->expr()->eq('CType', $qb->createNamedParameter('gripsraum_newsarticle')),
+                $qb->expr()->eq('CType', $qb->createNamedParameter($ctype)),
                 $qb->expr()->eq('pid', $qb->createNamedParameter($currentPid, \Doctrine\DBAL\Types\Types::INTEGER)),
                 $qb->expr()->eq('hidden', $qb->createNamedParameter(0, \Doctrine\DBAL\Types\Types::INTEGER)),
                 $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\Types\Types::INTEGER)),

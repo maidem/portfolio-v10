@@ -68,6 +68,10 @@
         </div>
     </header>
 
+    <!-- Mobile nav backdrop (click to close) -->
+    <div class="cb-nav__backdrop" id="cb-nav-backdrop" aria-hidden="true"></div>
+
+    <!-- Mobile nav bottom sheet -->
     <div
         class="cb-nav__overlay"
         id="cb-nav-overlay"
@@ -75,6 +79,7 @@
         role="dialog"
         aria-label="Navigation"
     >
+        <div class="cb-nav__sheet-handle" aria-hidden="true"></div>
         <nav aria-label="Hauptnavigation">
             <ul class="cb-nav__overlay-list">
                 <li class="cb-nav__overlay-item">

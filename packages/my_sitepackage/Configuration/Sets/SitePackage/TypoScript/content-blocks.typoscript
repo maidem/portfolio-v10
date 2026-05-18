@@ -6,8 +6,8 @@ tt_content.gripsraum_newslist {
         10 {
             table = tt_content
             
-            # Fetch only our new 'News Article' content elements
-            where = CType='gripsraum_newsarticle' AND hidden=0 AND deleted=0
+            # Fetch both project articles and logbook articles
+            where = (CType='gripsraum_newsarticle' OR CType='gripsraum_projectarticle') AND hidden=0 AND deleted=0
             
             # Where to look for them (the sys_folder or parent page)
             pidInList.field = gripsraum_newslist_storage_folder
@@ -36,5 +36,14 @@ tt_content.gripsraum_newslist {
 tt_content.gripsraum_newsarticle {
     dataProcessing {
         10 = Gripsraum\MySitepackage\DataProcessing\NewsArticleAdjacentProcessor
+    }
+}
+
+tt_content.gripsraum_projectarticle {
+    dataProcessing {
+        10 = Gripsraum\MySitepackage\DataProcessing\NewsArticleAdjacentProcessor
+        10 {
+            ctype = gripsraum_projectarticle
+        }
     }
 }

@@ -43,13 +43,26 @@
                                             {item.data.gripsraum_newsarticle_teaser_text}
                                         </p>
                                     </f:if>
-                                    <f:link.page
-                                        pageUid="{item.data.pid}"
-                                        section="c{item.data.uid}"
-                                        class="cb-news-link text-uppercase font-monospace text-dark stretched-link"
-                                    >
-                                        Weiterlesen →
-                                    </f:link.page>
+                                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                                        <f:link.page
+                                            pageUid="{item.data.pid}"
+                                            section="c{item.data.uid}"
+                                            class="cb-news-link text-uppercase font-monospace text-dark stretched-link"
+                                        >
+                                            Weiterlesen →
+                                        </f:link.page>
+                                        <f:if condition="{item.data.gripsraum_projectarticle_website_url}">
+                                            <a
+                                                href="{item.data.gripsraum_projectarticle_website_url}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="cb-news-website-link text-uppercase font-monospace"
+                                                style="position:relative;z-index:1"
+                                            >
+                                                Website →
+                                            </a>
+                                        </f:if>
+                                    </div>
                                 </div>
                             </div>
                         </div>

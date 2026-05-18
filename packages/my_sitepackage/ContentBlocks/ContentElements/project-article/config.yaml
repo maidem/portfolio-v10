@@ -1,0 +1,41 @@
+name: gripsraum/project-article
+typeName: gripsraum_projectarticle
+group: portfolio
+prefixFields: true
+prefixType: full
+basics:
+  - TYPO3/Appearance
+fields:
+  - identifier: header
+    useExistingField: true
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: gripsraum_newsarticle_project_date
+    useExistingField: true
+    type: DateTime
+    label: "Datum"
+  - identifier: gripsraum_newsarticle_teaser_text
+    useExistingField: true
+    type: Textarea
+    label: "Teaser-Text"
+    required: true
+  - identifier: website_url
+    type: Link
+    label: "Projekt-Website URL"
+  - identifier: bodytext
+    useExistingField: true
+  - identifier: gripsraum_newsarticle_images
+    useExistingField: true
+    type: File
+    label: "Bilder"
+    maxitems: 5
+    allowed: common-image-types
+  - identifier: gripsraum_newsarticle_show_pdf_export_button
+    useExistingField: true
+    type: Checkbox
+    renderType: checkboxToggle
+    label: "PDF-Export Button anzeigen"
+    default: false

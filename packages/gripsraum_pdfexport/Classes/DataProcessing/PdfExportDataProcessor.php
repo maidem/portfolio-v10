@@ -38,10 +38,9 @@ class PdfExportDataProcessor implements DataProcessorInterface
         $qbLogbook = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('tt_content');
         $qbLogbook->getRestrictions()->removeAll();
-        $processedData['pdfLogbook'] = $qbLogbook
-            ->select('tc.uid', 'tc.header', 'tc.gripsraum_newsarticle_project_date', 'p.slug as page_slug')
+        $logbookEntries = $qbLogbook
+            ->select('tc.uid', 'tc.header', 'tc.gripsraum_newsarticle_project_date')
             ->from('tt_content', 'tc')
-            ->leftJoin('tc', 'pages', 'p', 'tc.pid = p.uid')
             ->where(
                 $qbLogbook->expr()->eq('tc.CType', $qbLogbook->createNamedParameter('gripsraum_newsarticle')),
                 $qbLogbook->expr()->eq('tc.hidden', $qbLogbook->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
@@ -51,15 +50,37 @@ class PdfExportDataProcessor implements DataProcessorInterface
             ->executeQuery()
             ->fetchAllAssociative();
 
+        $qbProjectArticles = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('tt_content');
+        $qbProjectArticles->getRestrictions()->removeAll();
+        $projectArticleEntries = $qbProjectArticles
+            ->select('tc.uid', 'tc.header', 'tc.gripsraum_newsarticle_project_date')
+            ->from('tt_content', 'tc')
+            ->where(
+                $qbProjectArticles->expr()->eq('tc.CType', $qbProjectArticles->createNamedParameter('gripsraum_projectarticle')),
+                $qbProjectArticles->expr()->eq('tc.hidden', $qbProjectArticles->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $qbProjectArticles->expr()->eq('tc.deleted', $qbProjectArticles->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+            )
+            ->orderBy('tc.gripsraum_newsarticle_project_date', 'DESC')
+            ->executeQuery()
+            ->fetchAllAssociative();
+
         $projectsLabel = ($processedData['data']['gripsraum_pdfexport_projects_label'] ?? '') ?: 'Projekte';
         $logbookLabel  = ($processedData['data']['gripsraum_pdfexport_logbook_label'] ?? '') ?: 'Logbuch';
         $processedData['projectsLabel'] = $projectsLabel;
 
-        foreach ($processedData['pdfLogbook'] as &$entry) {
-            $slug = $entry['page_slug'] ?? '';
-            $entry['tile_label'] = (str_contains($slug, 'projekte')) ? $projectsLabel : $logbookLabel;
+        foreach ($logbookEntries as &$entry) {
+            $entry['tile_label'] = $logbookLabel;
         }
         unset($entry);
+
+        foreach ($projectArticleEntries as &$entry) {
+            $entry['tile_label'] = $projectsLabel;
+        }
+        unset($entry);
+
+        // Merge: project articles first, then logbook entries
+        $processedData['pdfLogbook'] = array_merge($projectArticleEntries, $logbookEntries);
 
         // Home/tech nav titles from site settings (mirrors the nav's {settings.nav.*})
         $site = $cObj->getRequest()->getAttribute('site');
