@@ -140,6 +140,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
+            // When scrolled to the bottom of the page, always activate the last heading
+            const nearBottom =
+                window.scrollY + window.innerHeight >=
+                document.documentElement.scrollHeight - 80;
+            if (nearBottom && headings.length > 0) {
+                activeId = headings[headings.length - 1].id;
+            }
+
             navLinks.forEach((link) => {
                 link.classList.toggle(
                     "active",

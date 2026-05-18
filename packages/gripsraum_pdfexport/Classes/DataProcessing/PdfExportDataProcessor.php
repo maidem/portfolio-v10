@@ -57,6 +57,23 @@ class PdfExportDataProcessor implements DataProcessorInterface
         }
         unset($entry);
 
+        // Root-page nav_title for the "About me" / "Kurzprofil" tile title
+        $site = $cObj->getRequest()->getAttribute('site');
+        if ($site !== null) {
+            $rootPageId = $site->getRootPageId();
+            $qbRoot = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('pages');
+            $rootPage = $qbRoot
+                ->select('nav_title', 'title')
+                ->from('pages')
+                ->where($qbRoot->expr()->eq('uid', $qbRoot->createNamedParameter($rootPageId, \Doctrine\DBAL\ParameterType::INTEGER)))
+                ->executeQuery()
+                ->fetchAssociative();
+            $processedData['homeNavTitle'] = ($rootPage['nav_title'] ?? '') ?: ($rootPage['title'] ?? 'Kurzprofil');
+        } else {
+            $processedData['homeNavTitle'] = 'Kurzprofil';
+        }
+
         return $processedData;
     }
 }

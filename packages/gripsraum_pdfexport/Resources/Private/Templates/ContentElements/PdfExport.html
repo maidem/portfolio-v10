@@ -36,8 +36,8 @@
                     <!-- Category: Information -->
                     <label class="cb-pdf-export__tile">
                       <div class="cb-pdf-export__tile-content">
-                        <span class="cb-pdf-export__tile-label">Vitals</span>
-                        <h3 class="cb-pdf-export__tile-title">About me</h3>
+                        <span class="cb-pdf-export__tile-label">{f:if(condition: data.gripsraum_pdfexport_info_label, then: data.gripsraum_pdfexport_info_label, else: 'Vitals')}</span>
+                        <h3 class="cb-pdf-export__tile-title">{homeNavTitle}</h3>
                       </div>
                       <input type="checkbox" name="sections[]" value="info" />
                       <div class="cb-pdf-export__tile-indicator"></div>
@@ -46,8 +46,8 @@
                     <!-- Category: Technologien -->
                     <label class="cb-pdf-export__tile">
                       <div class="cb-pdf-export__tile-content">
-                        <span class="cb-pdf-export__tile-label">Stack</span>
-                        <h3 class="cb-pdf-export__tile-title">Skills</h3>
+                        <span class="cb-pdf-export__tile-label">{f:if(condition: data.gripsraum_pdfexport_tech_label, then: data.gripsraum_pdfexport_tech_label, else: 'Stack')}</span>
+                        <h3 class="cb-pdf-export__tile-title">{f:if(condition: data.gripsraum_pdfexport_tech_title, then: data.gripsraum_pdfexport_tech_title, else: 'Skills')}</h3>
                       </div>
                       <input type="checkbox" name="sections[]" value="tech" />
                       <div class="cb-pdf-export__tile-indicator"></div>
@@ -96,14 +96,15 @@
 
                   <!-- Right-aligned Actions -->
                   <div class="cb-pdf-export__actions">
+                    <f:variable name="btnLabel">{f:if(condition: data.subtitle, then: data.subtitle, else: 'PDF ERSTELLEN')}</f:variable>
                     <button
                       type="submit"
                       class="cb-pdf-export__submit"
-                      data-label-default="PDF ERSTELLEN"
+                      data-label-default="{btnLabel}"
                       data-label-loading="WIRD ERSTELLT ..."
                       data-label-done="PDF BEREIT ✓"
                     >
-                      PDF ERSTELLEN
+                      {btnLabel}
                     </button>
                   </div>
                 </form>
