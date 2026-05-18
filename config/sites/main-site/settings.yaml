@@ -6,3 +6,4 @@ plugin.tx_mosparoform.settings.projects.default.uuid: ce81c46b-6219-4514-be5a-c3
 plugin.tx_mosparoform.settings.projects.default.publicKey: I8_K2QCbjhFuq0Mgmlz7oodN_vzxtoF1pTOdaS4hBbc
 plugin.tx_mosparoform.settings.projects.default.privateKey: wetC-sP-SJ5Ld4-ZW0Ff4896hkHE2I5sniFDxx7dc3c
 nav.homeTitle: Kurzprofil
+nav.techTitle: Fokus

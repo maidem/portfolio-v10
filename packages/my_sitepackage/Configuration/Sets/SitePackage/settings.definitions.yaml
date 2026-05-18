@@ -12,6 +12,13 @@ settings:
     default: "About me"
     category: nav
 
+  nav.techTitle:
+    label: "Skills-Abschnitt Bezeichnung"
+    description: "Titel des Skills/Technologien-Abschnitts im PDF-Export (z.B. 'Skills' oder 'Fokus')."
+    type: string
+    default: "Skills"
+    category: nav
+
   footer.storagePid:
     label: "Footer Storage PID"
     description: "Die UID des Sysfolder-Ordners, in dem das Footer-Element liegt."
