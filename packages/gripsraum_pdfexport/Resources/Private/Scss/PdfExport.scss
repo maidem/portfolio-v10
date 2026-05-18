@@ -60,7 +60,7 @@
     cursor: pointer;
     background-color: transparent;
     border: 1.5px solid rgba(0, 0, 0, 0.3);
-    border-radius: 0;
+    border-radius: 1rem;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -68,24 +68,9 @@
     min-height: 100px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: #111111;
-    position: relative;
-    // Dog-ear: cut the top-right corner
-    clip-path: polygon(0 0, calc(100% - 1.25rem) 0, 100% 1.25rem, 100% 100%, 0 100%);
 
     input[type="checkbox"] {
       display: none;
-    }
-
-    // Fold shadow for the dog-ear
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 1.25rem;
-      height: 1.25rem;
-      background: linear-gradient(225deg, rgba(0, 0, 0, 0.08) 50%, transparent 50%);
-      pointer-events: none;
     }
 
     &:hover {
@@ -97,12 +82,7 @@
       background-color: rgba(120, 60, 255, 0.12);
       border-color: rgba(120, 60, 255, 0.55);
       color: #111111;
-      // box-shadow doesn't work with clip-path → use filter:drop-shadow
-      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.12));
-
-      &::after {
-        background: linear-gradient(225deg, rgba(120, 60, 255, 0.22) 50%, transparent 50%);
-      }
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
 
       &:hover {
         background-color: rgba(120, 60, 255, 0.2);
