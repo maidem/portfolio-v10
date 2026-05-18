@@ -65,6 +65,22 @@
       background-color: rgba(120, 60, 255, 1);
       color: #fff;
     }
+
+    &--ghost {
+      background-color: rgba(120, 60, 255, 0.15);
+      color: #111111;
+      border-color: #111111;
+
+      &:link,
+      &:visited {
+        color: #111111;
+      }
+
+      &:hover {
+        background-color: rgba(120, 60, 255, 0.28);
+        color: #111111;
+      }
+    }
   }
 
   &__heading {
