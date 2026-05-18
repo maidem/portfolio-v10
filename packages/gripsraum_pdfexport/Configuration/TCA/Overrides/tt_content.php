@@ -43,6 +43,24 @@ $GLOBALS['TCA']['tt_content']['columns']['gripsraum_pdfexport_tech_title'] = [
         'default' => 'Skills',
     ],
 ];
+$GLOBALS['TCA']['tt_content']['columns']['gripsraum_pdfexport_projects_label'] = [
+    'label' => 'Kachel „Projekte": Kategorie-Label (z. B. Projekte)',
+    'config' => [
+        'type'    => 'input',
+        'size'    => 30,
+        'eval'    => 'trim',
+        'default' => 'Projekte',
+    ],
+];
+$GLOBALS['TCA']['tt_content']['columns']['gripsraum_pdfexport_logbook_label'] = [
+    'label' => 'Kachel „Logbuch": Kategorie-Label (z. B. Logbuch)',
+    'config' => [
+        'type'    => 'input',
+        'size'    => 30,
+        'eval'    => 'trim',
+        'default' => 'Logbuch',
+    ],
+];
 
 // Define which fields are shown in the backend form for this CType
 $GLOBALS['TCA']['tt_content']['types']['gripsraum_pdfexport'] = [
@@ -57,6 +75,8 @@ $GLOBALS['TCA']['tt_content']['types']['gripsraum_pdfexport'] = [
             gripsraum_pdfexport_info_label,
             gripsraum_pdfexport_tech_label,
             gripsraum_pdfexport_tech_title,
+            gripsraum_pdfexport_projects_label,
+            gripsraum_pdfexport_logbook_label,
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
             --palette--;;hidden,
             --palette--;;access,

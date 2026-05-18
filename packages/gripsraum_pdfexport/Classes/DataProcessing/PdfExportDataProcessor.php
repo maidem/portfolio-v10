@@ -51,9 +51,13 @@ class PdfExportDataProcessor implements DataProcessorInterface
             ->executeQuery()
             ->fetchAllAssociative();
 
+        $projectsLabel = ($processedData['data']['gripsraum_pdfexport_projects_label'] ?? '') ?: 'Projekte';
+        $logbookLabel  = ($processedData['data']['gripsraum_pdfexport_logbook_label'] ?? '') ?: 'Logbuch';
+        $processedData['projectsLabel'] = $projectsLabel;
+
         foreach ($processedData['pdfLogbook'] as &$entry) {
             $slug = $entry['page_slug'] ?? '';
-            $entry['tile_label'] = (str_contains($slug, 'projekte')) ? 'Projekte' : 'Logbuch';
+            $entry['tile_label'] = (str_contains($slug, 'projekte')) ? $projectsLabel : $logbookLabel;
         }
         unset($entry);
 
