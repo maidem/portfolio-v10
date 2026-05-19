@@ -65,27 +65,7 @@
                       <div class="cb-pdf-export__tile-indicator"></div>
                     </label>
 
-                    <!-- Individual Project Tiles -->
-                    <f:for each="{pdfProjects}" as="project">
-                      <label class="cb-pdf-export__tile">
-                        <div class="cb-pdf-export__tile-content">
-                          <span class="cb-pdf-export__tile-label"
-                            >{projectsLabel}</span
-                          >
-                          <h3 class="cb-pdf-export__tile-title">
-                            {project.title}
-                          </h3>
-                        </div>
-                        <input
-                          type="checkbox"
-                          name="sections[]"
-                          value="project_{project.uid}"
-                        />
-                        <div class="cb-pdf-export__tile-indicator"></div>
-                      </label>
-                    </f:for>
-
-                    <!-- Individual Logbook Tiles -->
+                    <!-- Individual News/Project/Logbook Tiles (from EXT:news) -->
                     <f:for each="{pdfLogbook}" as="entry">
                       <label class="cb-pdf-export__tile">
                         <div class="cb-pdf-export__tile-content">
@@ -93,13 +73,13 @@
                             >{entry.tile_label}</span
                           >
                           <h3 class="cb-pdf-export__tile-title">
-                            {entry.header}
+                            {entry.title}
                           </h3>
                         </div>
                         <input
                           type="checkbox"
                           name="sections[]"
-                          value="logbook_{entry.uid}"
+                          value="news_{entry.uid}"
                         />
                         <div class="cb-pdf-export__tile-indicator"></div>
                       </label>

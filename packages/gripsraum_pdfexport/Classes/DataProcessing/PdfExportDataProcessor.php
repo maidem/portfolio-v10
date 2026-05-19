@@ -10,8 +10,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 /**
- * Fetches all project items and logbook entries for the PDF export selection UI.
- * Queries without page-ID restriction so all records are found regardless of storage page.
+ * Fetches all EXT:news articles with their categories for the PDF export selection UI.
+ * Groups tiles by category title (e.g. "Projekte", "Logbuch").
  */
 class PdfExportDataProcessor implements DataProcessorInterface
 {
@@ -21,68 +21,38 @@ class PdfExportDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-        $qbProjects = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('gripsraum_projects_project_items');
-        $qbProjects->getRestrictions()->removeAll();
-        $processedData['pdfProjects'] = $qbProjects
-            ->select('uid', 'title')
-            ->from('gripsraum_projects_project_items')
-            ->where(
-                $qbProjects->expr()->eq('deleted', $qbProjects->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
-                $qbProjects->expr()->eq('hidden', $qbProjects->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
-            )
-            ->orderBy('sorting')
-            ->executeQuery()
-            ->fetchAllAssociative();
+        // Fetch all news records with their first category title via JOIN
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('tx_news_domain_model_news');
 
-        $qbLogbook = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('tt_content');
-        $qbLogbook->getRestrictions()->removeAll();
-        $logbookEntries = $qbLogbook
-            ->select('tc.uid', 'tc.header', 'tc.gripsraum_newsarticle_project_date')
-            ->from('tt_content', 'tc')
-            ->where(
-                $qbLogbook->expr()->eq('tc.CType', $qbLogbook->createNamedParameter('gripsraum_newsarticle')),
-                $qbLogbook->expr()->eq('tc.hidden', $qbLogbook->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
-                $qbLogbook->expr()->eq('tc.deleted', $qbLogbook->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
-            )
-            ->orderBy('tc.gripsraum_newsarticle_project_date', 'DESC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+        $sql = <<<'SQL'
+            SELECT
+                n.uid,
+                n.title,
+                n.datetime,
+                COALESCE(sc.title, 'News') AS category_title
+            FROM tx_news_domain_model_news n
+            LEFT JOIN sys_category_record_mm mm
+                ON mm.uid_foreign = n.uid
+                AND mm.tablenames = 'tx_news_domain_model_news'
+                AND mm.fieldname = 'categories'
+            LEFT JOIN sys_category sc ON sc.uid = mm.uid_local AND sc.deleted = 0
+            WHERE n.deleted = 0 AND n.hidden = 0
+            GROUP BY n.uid
+            ORDER BY n.datetime DESC
+        SQL;
 
-        $qbProjectArticles = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('tt_content');
-        $qbProjectArticles->getRestrictions()->removeAll();
-        $projectArticleEntries = $qbProjectArticles
-            ->select('tc.uid', 'tc.header', 'tc.gripsraum_newsarticle_project_date')
-            ->from('tt_content', 'tc')
-            ->where(
-                $qbProjectArticles->expr()->eq('tc.CType', $qbProjectArticles->createNamedParameter('gripsraum_projectarticle')),
-                $qbProjectArticles->expr()->eq('tc.hidden', $qbProjectArticles->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
-                $qbProjectArticles->expr()->eq('tc.deleted', $qbProjectArticles->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
-            )
-            ->orderBy('tc.gripsraum_newsarticle_project_date', 'DESC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+        $newsItems = $connection->executeQuery($sql)->fetchAllAssociative();
 
-        $projectsLabel = ($processedData['data']['gripsraum_pdfexport_projects_label'] ?? '') ?: 'Projekte';
-        $logbookLabel  = ($processedData['data']['gripsraum_pdfexport_logbook_label'] ?? '') ?: 'Logbuch';
-        $processedData['projectsLabel'] = $projectsLabel;
-
-        foreach ($logbookEntries as &$entry) {
-            $entry['tile_label'] = $logbookLabel;
+        foreach ($newsItems as &$item) {
+            $item['tile_label'] = $item['category_title'];
         }
-        unset($entry);
+        unset($item);
 
-        foreach ($projectArticleEntries as &$entry) {
-            $entry['tile_label'] = $projectsLabel;
-        }
-        unset($entry);
+        $processedData['pdfLogbook'] = $newsItems;
+        $processedData['pdfProjects'] = [];
 
-        // Merge: project articles first, then logbook entries
-        $processedData['pdfLogbook'] = array_merge($projectArticleEntries, $logbookEntries);
-
-        // Home/tech nav titles from site settings (mirrors the nav's {settings.nav.*})
+        // Home/tech nav titles from site settings
         $site = $cObj->getRequest()->getAttribute('site');
         if ($site !== null) {
             $siteSettings = $site->getSettings();

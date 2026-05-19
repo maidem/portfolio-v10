@@ -5,16 +5,35 @@ dependencies:
   - typo3/form
   - typo3/email
   - denkwerk/mosparo-form
+  - georgringer/news
 languages:
-  -
-    title: German
+  - title: German
     enabled: true
     locale: de_DE.utf8
-    hreflang: ''
+    hreflang: ""
     base: /
-    websiteTitle: ''
-    navigationTitle: ''
+    websiteTitle: ""
+    navigationTitle: ""
     flag: de
     languageId: 0
 rootPageId: 1
-websiteTitle: ''
+websiteTitle: ""
+routeEnhancers:
+  NewsPluginDetail:
+    type: Extbase
+    extension: News
+    plugin: Pi1
+    limitToPages:
+      - 21
+      - 23
+    routes:
+      - routePath: "/{news-title}"
+        _controller: "News::detail"
+        _arguments:
+          news-title: news
+    defaultController: "News::list"
+    aspects:
+      news-title:
+        type: PersistedAliasMapper
+        tableName: tx_news_domain_model_news
+        routeFieldName: path_segment

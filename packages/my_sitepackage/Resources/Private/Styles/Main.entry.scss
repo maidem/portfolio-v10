@@ -61,7 +61,17 @@ main > .frame {
   }
 }
 
-// Banner is now position:relative (normal flow) — no override needed here.
+// First element after banner gets no extra top padding — banner margin-bottom handles the gap
+.cb-portfolio-banner + .container,
+.cb-portfolio-banner + section,
+.cb-portfolio-banner + .frame {
+  padding-top: 0;
+}
+
+// Remove internal top padding from first card body directly after banner (PDF-Export, etc.)
+.cb-portfolio-banner + section .cb-card__body {
+  padding-top: 0;
+}
 
 main {
   padding-bottom: $grid-unit * 3; // 24px — mobile
@@ -372,7 +382,9 @@ main > section:first-of-type > * {
     z-index: 1051;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
 
     &:hover {
       background: rgba(255, 255, 255, 0.9);
@@ -401,7 +413,7 @@ main > section:first-of-type > * {
   }
 
   // X animation when open
-  &__toggle[aria-expanded='true'] {
+  &__toggle[aria-expanded="true"] {
     .cb-nav__toggle-line:nth-child(1) {
       transform: translateY(6.5px) rotate(45deg);
       width: 1.125rem;
@@ -567,4 +579,332 @@ h6 {
 .modal-header,
 .modal-footer {
   border: none;
+}
+
+// ─── EXT:news — Global Styles ─────────────────────────────────────────────────
+
+// Category label shown above titles in list and detail view
+.cb-news-category-label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(0, 0, 0, 0.45);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+// ── News Category Filter Buttons ──────────────────────────────────────────────
+.cb-news-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0;
+
+  &__btn {
+    display: inline-block;
+    padding: 0.3125rem 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: $font-family-monospace;
+    text-decoration: none;
+    border: 1.5px solid rgba(17, 17, 17, 0.18);
+    border-radius: 999px;
+    color: $text-muted;
+    line-height: 1;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+
+    &:hover {
+      border-color: $text-primary;
+      color: $text-primary;
+    }
+
+    &--active {
+      background-color: rgba(120, 60, 255, 0.85);
+      border-color: rgba(120, 60, 255, 0.85);
+      color: #fff;
+
+      &:hover {
+        background-color: rgba(120, 60, 255, 1);
+        border-color: rgba(120, 60, 255, 1);
+        color: #fff;
+      }
+    }
+  }
+}
+
+// ── News List Item Spacing ──────────────────────────────────────────────────────
+.cb-news-item {
+  position: relative; // Required: contains Bootstrap stretched-link ::after overlay
+  padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.07);
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+// ── News List Item Typography ─────────────────────────────────────────────────
+.cb-news-date {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-family: $font-family-monospace;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.cb-news-title {
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  font-weight: 600;
+  color: $text-primary;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
+}
+
+.cb-news-teaser {
+  font-size: 0.875rem;
+  color: $text-muted;
+  line-height: 1.55;
+}
+
+.cb-news-link {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-family: $font-family-monospace;
+  text-decoration: none;
+  color: $text-primary;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+// ── News Detail Back Link ─────────────────────────────────────────────────────
+.cb-news-article-back {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-family: $font-family-monospace;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.4);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.cb-news-article-date {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-family: $font-family-monospace;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.cb-news-article-title-top {
+  font-size: clamp(1.375rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: $text-primary;
+}
+
+.cb-news-article-teaser {
+  font-size: 0.9375rem;
+  color: $text-muted;
+  line-height: 1.6;
+}
+
+// Detail view wrapper (replaces .cb-news-article / .cb-project-article)
+.cb-news-detail {
+  opacity: 0;
+  animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  scroll-margin-top: 100px;
+
+  .cb-news-detail__inner {
+    padding: clamp(2rem, 5vw, 5rem) 0;
+  }
+
+  .cb-news-detail__header-row {
+    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    padding-bottom: 2.5rem !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  .cb-sidebar {
+    position: sticky;
+    top: 7rem;
+    max-height: calc(100vh - 9rem);
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .cb-news-detail__inner {
+      padding: clamp(3rem, 6vw, 5rem) 0;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    &.container {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+    .cb-news-detail__inner {
+      padding: 2rem 0;
+    }
+  }
+}
+
+// External project website link (used in news detail + list)
+.cb-project-article-website-link,
+.cb-news-website-link {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #111111;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(17, 17, 17, 0.25);
+  padding-bottom: 1px;
+  transition:
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.6;
+    border-color: transparent;
+  }
+}
+
+// Prev / Next Article Navigation
+.cb-article-nav {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.1);
+
+  @media (max-width: 575.98px) {
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
+  }
+
+  &__inner {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    @media (max-width: 575.98px) {
+      gap: 0.75rem;
+    }
+  }
+
+  &__item {
+    flex: 1 1 0;
+    min-width: 0;
+
+    &--next {
+      text-align: right;
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-decoration: none;
+    max-width: 100%;
+
+    &:hover .cb-article-nav__title {
+      color: #111111;
+    }
+  }
+
+  &__label {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #bbbbbb;
+    display: block;
+  }
+
+  &__title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: rgba(17, 17, 17, 0.55);
+    line-height: 1.4;
+    transition: color 0.2s ease;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 28ch;
+
+    @media (max-width: 767.98px) {
+      max-width: 18ch;
+    }
+  }
+
+  &__overview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0 0.25rem;
+  }
+
+  &__overview-link {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #bbbbbb;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: rgba(17, 17, 17, 0.7);
+    }
+
+    @media (max-width: 575.98px) {
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+    }
+  }
+}
+
+// ── Hide category filter on news detail pages ───────────────────────────────────
+body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
+  display: none;
+}
+
+// ── Skills ContentBlock: Workflows-Heading ────────────────────────────────────
+.cb-workflows__heading {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem) !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }

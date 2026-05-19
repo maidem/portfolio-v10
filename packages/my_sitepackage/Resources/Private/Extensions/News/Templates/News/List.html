@@ -1,0 +1,31 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+    <f:layout name="Default" />
+
+    <f:section name="content">
+        <div class="container cb-news-list">
+            <div class="cb-card">
+                <div class="cb-card__body">
+                    <f:if condition="{news}">
+                        <f:then>
+                            <f:for each="{news}" as="newsItem">
+                                <f:render
+                                    partial="List/Item"
+                                    arguments="{newsItem: newsItem, settings: settings}"
+                                />
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            <p class="text-muted font-monospace small">
+                                Keine Einträge vorhanden.
+                            </p>
+                        </f:else>
+                    </f:if>
+                </div>
+            </div>
+        </div>
+    </f:section>
+</html>

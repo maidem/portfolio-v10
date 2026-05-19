@@ -1,8 +1,10 @@
 .cb-hero-section {
   display: flex;
   align-items: flex-start;
-  padding-top: 0; // frame:first-child handles top spacing for all pages
+  padding-top: 0;
   padding-bottom: 4rem;
+  opacity: 0;
+  animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 
   > .container {
     width: 100%;

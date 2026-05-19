@@ -1,0 +1,43 @@
+# ─── EXT:news — Template Overrides & Plugin Settings ─────────────────────────
+
+plugin.tx_news {
+    view {
+        templateRootPaths {
+            0 = EXT:news/Resources/Private/Templates/
+            10 = EXT:my_sitepackage/Resources/Private/Extensions/News/Templates/
+        }
+        partialRootPaths {
+            0 = EXT:news/Resources/Private/Partials/
+            10 = EXT:my_sitepackage/Resources/Private/Extensions/News/Partials/
+        }
+        layoutRootPaths {
+            0 = EXT:news/Resources/Private/Layouts/
+            10 = EXT:my_sitepackage/Resources/Private/Extensions/News/Layouts/
+        }
+    }
+    settings {
+        list {
+            paginate {
+                itemsPerPage = 50
+                insertAbove = 0
+                insertBelow = 0
+            }
+            media {
+                image {
+                    maxWidth = 800
+                    maxHeight = 450
+                }
+            }
+        }
+        detail {
+            showPrevNext = 1
+            redirectToExternalUrl = 0
+            showMetaTags = 0
+            checkPidOfNewsRecord = 0
+        }
+        # Disable dummy image if no media
+        displayDummyIfNoMedia = 0
+        # No pagination needed for portfolio
+        hidePagination = 1
+    }
+}

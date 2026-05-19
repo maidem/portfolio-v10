@@ -49,12 +49,12 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.875rem;
     margin-bottom: 2.5rem;
     position: relative;
     z-index: 1;
-    align-items: start;
+    align-items: stretch;
   }
 
   &__tile {
@@ -62,7 +62,8 @@
     background-color: transparent;
     border: 1.5px solid rgba(0, 0, 0, 0.3);
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 1.25rem;
+    min-height: 90px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -93,3 +93,38 @@ if (document.readyState === "loading") {
 } else {
     initNav();
 }
+
+// =============================
+// News Category Filter — Client-side
+// =============================
+const initNewsFilter = () => {
+    const filter = document.querySelector(".cb-news-filter");
+    if (!filter) return;
+
+    const buttons = filter.querySelectorAll(".cb-news-filter__btn");
+    const items = document.querySelectorAll(".cb-news-item");
+
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const selected = btn.dataset.filter;
+
+            buttons.forEach((b) =>
+                b.classList.remove("cb-news-filter__btn--active"),
+            );
+            btn.classList.add("cb-news-filter__btn--active");
+
+            items.forEach((item) => {
+                const label = item.querySelector(".cb-news-category-label");
+                const cat = label ? label.textContent.trim() : "";
+                const visible = selected === "all" || cat === selected;
+                item.style.display = visible ? "" : "none";
+            });
+        });
+    });
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNewsFilter);
+} else {
+    initNewsFilter();
+}
