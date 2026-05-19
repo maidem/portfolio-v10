@@ -3,21 +3,35 @@
     xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-<f:layout name="Default" />
+    <f:layout name="Default" />
 
-<f:section name="content">
-    <f:if condition="{categories}">
-        <div class="container">
-            <div class="cb-news-filter" role="group" aria-label="Nach Kategorie filtern">
+    <f:section name="content">
+        <f:if condition="{categories}">
+            <div class="container">
+                <div
+                    class="cb-news-filter"
+                    role="group"
+                    aria-label="Nach Kategorie filtern"
+                >
+                    <button
+                        type="button"
+                        class="cb-news-filter__btn cb-news-filter__btn--active"
+                        data-filter="all"
+                    >
+                        Alle
+                    </button>
 
-                <button type="button" class="cb-news-filter__btn cb-news-filter__btn--active" data-filter="all">Alle</button>
-
-                <f:for each="{categories}" as="category">
-                    <button type="button" class="cb-news-filter__btn" data-filter="{category.item.title}">{category.item.title}</button>
-                </f:for>
-
+                    <f:for each="{categories}" as="category">
+                        <button
+                            type="button"
+                            class="cb-news-filter__btn"
+                            data-filter="{category.item.title}"
+                        >
+                            {category.item.title}
+                        </button>
+                    </f:for>
+                </div>
             </div>
-        </div>
-    </f:if>
-</f:section>
+        </f:if>
+    </f:section>
 </html>
