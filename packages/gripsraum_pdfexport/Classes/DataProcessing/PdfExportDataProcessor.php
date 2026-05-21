@@ -21,28 +21,41 @@ class PdfExportDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-        // Fetch all news records with their first category title via JOIN
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tx_news_domain_model_news');
+        // Fetch all news records with their first category title via QueryBuilder JOIN
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('tx_news_domain_model_news');
 
-        $sql = <<<'SQL'
-            SELECT
-                n.uid,
-                n.title,
-                n.datetime,
-                COALESCE(sc.title, 'News') AS category_title
-            FROM tx_news_domain_model_news n
-            LEFT JOIN sys_category_record_mm mm
-                ON mm.uid_foreign = n.uid
-                AND mm.tablenames = 'tx_news_domain_model_news'
-                AND mm.fieldname = 'categories'
-            LEFT JOIN sys_category sc ON sc.uid = mm.uid_local AND sc.deleted = 0
-            WHERE n.deleted = 0 AND n.hidden = 0
-            GROUP BY n.uid
-            ORDER BY n.datetime DESC
-        SQL;
-
-        $newsItems = $connection->executeQuery($sql)->fetchAllAssociative();
+        $newsItems = $queryBuilder
+            ->select('n.uid', 'n.title', 'n.datetime')
+            ->addSelectLiteral("COALESCE(sc.title, 'News') AS category_title")
+            ->from('tx_news_domain_model_news', 'n')
+            ->leftJoin(
+                'n',
+                'sys_category_record_mm',
+                'mm',
+                $queryBuilder->expr()->and(
+                    $queryBuilder->expr()->eq('mm.uid_foreign', $queryBuilder->quoteIdentifier('n.uid')),
+                    $queryBuilder->expr()->eq('mm.tablenames', $queryBuilder->createNamedParameter('tx_news_domain_model_news')),
+                    $queryBuilder->expr()->eq('mm.fieldname', $queryBuilder->createNamedParameter('categories'))
+                )
+            )
+            ->leftJoin(
+                'mm',
+                'sys_category',
+                'sc',
+                $queryBuilder->expr()->and(
+                    $queryBuilder->expr()->eq('sc.uid', $queryBuilder->quoteIdentifier('mm.uid_local')),
+                    $queryBuilder->expr()->eq('sc.deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+                )
+            )
+            ->where(
+                $queryBuilder->expr()->eq('n.deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('n.hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+            )
+            ->groupBy('n.uid')
+            ->orderBy('n.datetime', 'DESC')
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         foreach ($newsItems as &$item) {
             $item['tile_label'] = $item['category_title'];

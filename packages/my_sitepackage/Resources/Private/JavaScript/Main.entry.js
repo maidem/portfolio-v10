@@ -114,9 +114,11 @@ const initNewsFilter = () => {
             btn.classList.add("cb-news-filter__btn--active");
 
             items.forEach((item) => {
-                const label = item.querySelector(".cb-news-category-label");
-                const cat = label ? label.textContent.trim() : "";
-                const visible = selected === "all" || cat === selected;
+                const labels = item.querySelectorAll(".cb-news-category-label");
+                const cats = Array.from(labels).map((l) =>
+                    l.textContent.trim(),
+                );
+                const visible = selected === "all" || cats.includes(selected);
                 item.style.display = visible ? "" : "none";
             });
         });

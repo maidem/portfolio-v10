@@ -55,18 +55,11 @@
                                 </span>
                             </f:if>
 
-                            <!-- Category label (first category) -->
-                            <f:for
-                                each="{newsItem.categories}"
-                                as="cat"
-                                iteration="catIter"
-                            >
-                                <f:if condition="{catIter.isFirst}">
-                                    <span
-                                        class="cb-news-category-label d-block mb-2"
-                                        >{cat.title}</span
-                                    >
-                                </f:if>
+                            <!-- Category labels -->
+                            <f:for each="{newsItem.categories}" as="cat">
+                                <span class="cb-news-category-label"
+                                    >{cat.title}</span
+                                >
                             </f:for>
 
                             <!-- Title -->

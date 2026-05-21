@@ -15,6 +15,8 @@ nodejs_version: "20"
 webimage_extra_packages: ["chromium"]
 web_environment:
   - TYPO3_CONTEXT=Development
+  - PDF_CHROMIUM_NO_SANDBOX=true
+  - PDF_CHROMIUM_PATH=/usr/bin/chromium
   # Mosparo credentials are set in .ddev/config.local.yaml (gitignored).
   # See README.md → "Mosparo Setup" for the required env vars.
 corepack_enable: false

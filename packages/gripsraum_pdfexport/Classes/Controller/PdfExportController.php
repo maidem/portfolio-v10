@@ -69,12 +69,27 @@ class PdfExportController extends ActionController
         $view->assign('data', $data);
         $html = $view->render();
 
-        $pdf = Browsershot::html($html)
-            ->setChromePath('/usr/bin/chromium')
-            ->noSandbox()
+        $chromePath = (string)(getenv('PDF_CHROMIUM_PATH') ?: '/usr/bin/chromium');
+        $noSandbox = filter_var(getenv('PDF_CHROMIUM_NO_SANDBOX') ?: false, FILTER_VALIDATE_BOOLEAN);
+
+        $browsershot = Browsershot::html($html)
+            ->setChromePath($chromePath)
             ->showBackground()
-            ->format('A4')
-            ->pdf();
+            ->format('A4');
+
+        if ($noSandbox) {
+            $browsershot->noSandbox();
+        }
+
+        try {
+            $pdf = $browsershot->pdf();
+        } catch (\Throwable $e) {
+            return $this->responseFactory->createResponse(500)
+                ->withHeader('Content-Type', 'application/json')
+                ->withBody($this->streamFactory->createStream(
+                    json_encode(['error' => 'PDF generation failed. Please try again later.'], JSON_THROW_ON_ERROR)
+                ));
+        }
 
         return $this->responseFactory->createResponse()
             ->withHeader('Content-Type', 'application/pdf')

@@ -20,15 +20,9 @@
 
             <!-- Content column -->
             <div class="col-12 col-md-8">
-                <!-- Category label -->
-                <f:for
-                    each="{newsItem.categories}"
-                    as="cat"
-                    iteration="catIter"
-                >
-                    <f:if condition="{catIter.isFirst}">
-                        <span class="cb-news-category-label">{cat.title}</span>
-                    </f:if>
+                <!-- Category labels -->
+                <f:for each="{newsItem.categories}" as="cat">
+                    <span class="cb-news-category-label">{cat.title}</span>
                 </f:for>
 
                 <h3 class="cb-news-title fw-normal mb-1">{newsItem.title}</h3>

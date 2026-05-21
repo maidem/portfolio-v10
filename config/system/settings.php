@@ -77,6 +77,11 @@ return [
         'processor_enabled' => true,
         'processor_path' => '/usr/bin/',
     ],
+    'LANG' => [
+        'availableLocales' => [
+            'de',
+        ],
+    ],
     'LOG' => [
         'TYPO3' => [
             'CMS' => [
