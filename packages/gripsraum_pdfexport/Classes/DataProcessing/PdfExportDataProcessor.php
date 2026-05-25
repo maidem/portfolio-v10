@@ -21,44 +21,46 @@ class PdfExportDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ): array {
-        // Fetch all news records with their first category title via QueryBuilder JOIN
+        // Fetch all news records; join with pages to determine type (project vs logbook)
+        // by the page title (e.g. "Projekte" → project, "Logbuch" → logbook).
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('tx_news_domain_model_news');
 
         $newsItems = $queryBuilder
             ->select('n.uid', 'n.title', 'n.datetime')
-            ->addSelectLiteral("COALESCE(sc.title, 'News') AS category_title")
+            ->addSelectLiteral("COALESCE(p.title, '') AS page_title")
             ->from('tx_news_domain_model_news', 'n')
             ->leftJoin(
                 'n',
-                'sys_category_record_mm',
-                'mm',
+                'pages',
+                'p',
                 $queryBuilder->expr()->and(
-                    $queryBuilder->expr()->eq('mm.uid_foreign', $queryBuilder->quoteIdentifier('n.uid')),
-                    $queryBuilder->expr()->eq('mm.tablenames', $queryBuilder->createNamedParameter('tx_news_domain_model_news')),
-                    $queryBuilder->expr()->eq('mm.fieldname', $queryBuilder->createNamedParameter('categories'))
-                )
-            )
-            ->leftJoin(
-                'mm',
-                'sys_category',
-                'sc',
-                $queryBuilder->expr()->and(
-                    $queryBuilder->expr()->eq('sc.uid', $queryBuilder->quoteIdentifier('mm.uid_local')),
-                    $queryBuilder->expr()->eq('sc.deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+                    $queryBuilder->expr()->eq('p.uid', $queryBuilder->quoteIdentifier('n.pid')),
+                    $queryBuilder->expr()->eq('p.deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
                 )
             )
             ->where(
                 $queryBuilder->expr()->eq('n.deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->eq('n.hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
             )
-            ->groupBy('n.uid')
             ->orderBy('n.datetime', 'DESC')
             ->executeQuery()
             ->fetchAllAssociative();
 
+        // Classify each entry as "project" or "logbook" based on its parent page title
         foreach ($newsItems as &$item) {
-            $item['tile_label'] = $item['category_title'];
+            $pageTitle = strtolower(trim($item['page_title'] ?? ''));
+            if (str_contains($pageTitle, 'projekt') || str_contains($pageTitle, 'project')) {
+                $item['type']       = 'project';
+                $item['tile_label'] = 'Projekt';
+            } elseif (str_contains($pageTitle, 'logbuch') || str_contains($pageTitle, 'log')) {
+                $item['type']       = 'logbook';
+                $item['tile_label'] = 'Logbuch';
+            } else {
+                // Default: treat as logbook; show page title as label if available
+                $item['type']       = 'logbook';
+                $item['tile_label'] = $item['page_title'] ?: 'Eintrag';
+            }
         }
         unset($item);
 

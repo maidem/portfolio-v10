@@ -19,12 +19,19 @@
         const src = node.textContent;
         const words = src.trim().split(/\s+/).filter(Boolean);
 
-        // Canvas for accurate ink measurements (respects letter-spacing if available)
+        // Canvas for accurate ink measurements.
+        // Build font string from individual properties — the `font` shorthand
+        // may return "" on some mobile browsers (e.g. older WebKit), which would
+        // silently reset the canvas to 10px sans-serif and misalign arrows.
         const style = window.getComputedStyle(el);
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
-        ctx.font = style.font;
-        if ("letterSpacing" in ctx) ctx.letterSpacing = style.letterSpacing;
+        const fWeight = style.fontWeight || "900";
+        const fSize = style.fontSize || "16px";
+        const fFamily = style.fontFamily || "monospace";
+        ctx.font = `${fWeight} ${fSize} ${fFamily}`;
+        if ("letterSpacing" in ctx)
+            ctx.letterSpacing = style.letterSpacing || "0px";
 
         const out = [];
         let cursor = 0;
@@ -39,7 +46,10 @@
 
             // text-transform:uppercase → measure the uppercase glyph
             const m = ctx.measureText(word.toUpperCase());
-            const hasBounds = m.actualBoundingBoxLeft != null;
+            const hasBounds =
+                m.actualBoundingBoxLeft != null &&
+                typeof m.actualBoundingBoxRight === "number" &&
+                m.actualBoundingBoxRight > 0;
             // actualBoundingBoxLeft is negative when ink starts RIGHT of origin
             const inkOffsetLeft = hasBounds ? -m.actualBoundingBoxLeft : 0;
             const inkWidth = hasBounds
@@ -131,8 +141,11 @@
             const fs = parseFloat(s.fontSize);
             const c = document.createElement("canvas");
             const x = c.getContext("2d");
-            x.font = s.font;
-            if ("letterSpacing" in x) x.letterSpacing = s.letterSpacing;
+            // Same individual-property approach as getWordRects — avoids empty
+            // font shorthand on certain mobile browsers.
+            x.font = `${s.fontWeight || "900"} ${s.fontSize || "16px"} ${s.fontFamily || "monospace"}`;
+            if ("letterSpacing" in x)
+                x.letterSpacing = s.letterSpacing || "0px";
             const fullW = x.measureText(
                 text.textContent.trim().toUpperCase(),
             ).width;

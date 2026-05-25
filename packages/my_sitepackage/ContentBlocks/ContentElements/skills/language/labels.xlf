@@ -9,47 +9,14 @@
       <trans-unit id="description">
         <source>A block to display categorized skills with pill-shaped buttons.</source>
       </trans-unit>
-      <trans-unit id="skill_collections.label">
+      <trans-unit id="skill_items.label">
         <source>Skills</source>
       </trans-unit>
-      <trans-unit id="skill_collections.description">
-        <source>Add one entry per skill.</source>
-      </trans-unit>
-      <trans-unit id="skill_name.label">
+      <trans-unit id="skill_items.skill_name.label">
         <source>Skill</source>
       </trans-unit>
-      <trans-unit id="skill_category.label">
-        <source>Category</source>
-      </trans-unit>
-      <trans-unit id="skill_category.description">
-        <source>e.g. CMS Systems, Frameworks, Languages — used as filter tab</source>
-      </trans-unit>
-      <trans-unit id="skill_categories.label">
-        <source>Filter Categories</source>
-      </trans-unit>
-      <trans-unit id="skill_categories.description">
-        <source>Define the available filter categories here. Assign them to individual skills below.</source>
-      </trans-unit>
-      <trans-unit id="category_name.label">
-        <source>Category name</source>
-      </trans-unit>
-      <trans-unit id="skill_workflows.label">
-        <source>Workflows</source>
-      </trans-unit>
-      <trans-unit id="skill_workflows.description">
-        <source>Define tool/tech workflows shown as connected step chains in the frontend.</source>
-      </trans-unit>
-      <trans-unit id="workflow_name.label">
-        <source>Workflow name</source>
-      </trans-unit>
-      <trans-unit id="workflow_name.description">
-        <source>Label shown on the filter button, e.g. "CMS Deployment"</source>
-      </trans-unit>
-      <trans-unit id="workflow_steps.label">
-        <source>Steps</source>
-      </trans-unit>
-      <trans-unit id="step_name.label">
-        <source>Step / Tool</source>
+      <trans-unit id="skill_items.filter_group.label">
+        <source>Filtergruppe(n)</source>
       </trans-unit>
     </body>
   </file>

@@ -29,6 +29,11 @@ $font-weight-regular: 400;
 $letter-spacing-wide: 0.15em;
 $letter-spacing-display: -0.04em;
 
+// Scrollbar immer anzeigen → kein Layout-Shift
+html {
+  overflow-y: scroll;
+}
+
 body {
   background-color: #ffffff;
   color: $text-primary;

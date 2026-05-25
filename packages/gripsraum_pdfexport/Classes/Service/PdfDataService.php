@@ -12,10 +12,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class PdfDataService
 {
-    public function getAboutContent(): string
+    public function getAboutContent(int $homePid = 0): string
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-        $row = $queryBuilder
+        $queryBuilder
             ->select('bodytext')
             ->from('tt_content')
             ->where(
@@ -24,7 +24,15 @@ class PdfDataService
                 $queryBuilder->expr()->isNotNull('bodytext'),
                 $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
-            )
+            );
+
+        if ($homePid > 0) {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($homePid, \Doctrine\DBAL\ParameterType::INTEGER))
+            );
+        }
+
+        $row = $queryBuilder
             ->orderBy('uid', 'DESC')
             ->setMaxResults(1)
             ->executeQuery()
@@ -141,20 +149,16 @@ class PdfDataService
             return [];
         }
 
-        $parent = $this->getLatestContentRecord('gripsraum_projects');
-        if (!$parent) {
-            return [];
-        }
-
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('gripsraum_projects_project_items');
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_news_domain_model_news');
         return $queryBuilder
-            ->select('uid', 'title', 'description')
-            ->from('gripsraum_projects_project_items')
+            ->select('uid', 'title', 'teaser AS description', 'datetime')
+            ->from('tx_news_domain_model_news')
             ->where(
-                $queryBuilder->expr()->eq('foreign_table_parent_uid', $queryBuilder->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->in('uid', array_map('intval', $uids))
             )
-            ->orderBy('sorting')
+            ->orderBy('datetime', 'DESC')
             ->executeQuery()
             ->fetchAllAssociative();
     }
@@ -165,17 +169,16 @@ class PdfDataService
             return [];
         }
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_news_domain_model_news');
         return $queryBuilder
-            ->select('uid', 'header', 'gripsraum_newsarticle_teaser_text as teaser_text', 'gripsraum_newsarticle_project_date as project_date', 'bodytext')
-            ->from('tt_content')
+            ->select('uid', 'title AS header', 'teaser AS teaser_text', 'datetime AS project_date', 'bodytext')
+            ->from('tx_news_domain_model_news')
             ->where(
-                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_newsarticle')),
-                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->in('uid', array_map('intval', $uids))
             )
-            ->orderBy('gripsraum_newsarticle_project_date', 'DESC')
+            ->orderBy('datetime', 'DESC')
             ->executeQuery()
             ->fetchAllAssociative();
     }

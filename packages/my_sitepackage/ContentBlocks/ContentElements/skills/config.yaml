@@ -11,54 +11,22 @@ fields:
     useExistingField: true
     label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
     description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
-  - identifier: skill_collections
+  - identifier: skill_items
     type: Collection
-    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.label
-    description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_collections.description
+    label: Skills
+    labelField: skill_name
     appearance:
-      levelLinksPosition: both
       collapseAll: true
+      levelLinksPosition: bottom
     fields:
       - identifier: skill_name
         type: Text
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_name.label
-      - identifier: skill_category
+        label: Skill
+        required: true
+      - identifier: filter_group
         type: Text
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_category.label
-        description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_category.description
-  - identifier: skill_categories
-    type: Collection
-    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_categories.label
-    description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_categories.description
-    appearance:
-      levelLinksPosition: bottom
-      collapseAll: true
-    fields:
-      - identifier: category_name
-        type: Text
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:category_name.label
-  - identifier: skill_workflows
-    type: Collection
-    label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_workflows.label
-    description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:skill_workflows.description
-    appearance:
-      levelLinksPosition: bottom
-      collapseAll: true
-    fields:
-      - identifier: workflow_name
-        type: Text
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:workflow_name.label
-        description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:workflow_name.description
-      - identifier: workflow_steps
-        type: Collection
-        label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:workflow_steps.label
-        appearance:
-          levelLinksPosition: bottom
-          collapseAll: true
-        fields:
-          - identifier: step_name
-            type: Text
-            label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/skills/language/labels.xlf:step_name.label
+        label: Filtergruppe(n)
+        description: 'Kommagetrennt für mehrere Gruppen, z. B. "Frontend, Design"'
   - identifier: show_pdf_export_button
     type: Checkbox
     renderType: checkboxToggle

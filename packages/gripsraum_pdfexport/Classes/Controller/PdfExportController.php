@@ -49,8 +49,11 @@ class PdfExportController extends ActionController
             'logbook'  => !empty($logbookUids),
         ];
 
+        $site = $this->request->getAttribute('site');
+        $rootPid = $site !== null ? $site->getRootPageId() : 0;
+
         $data = [
-            'about'     => $activeSections['info']     ? $this->pdfDataService->getAboutContent()               : '',
+            'about'     => $activeSections['info']     ? $this->pdfDataService->getAboutContent($rootPid)             : '',
             'faq'       => $activeSections['faq']      ? $this->pdfDataService->getFaqContent()                 : [],
             'tech'      => $activeSections['tech']     ? $this->pdfDataService->getTechContent()                : [],
             'workflows' => $activeSections['tech']     ? $this->pdfDataService->getWorkflowsContent()           : [],

@@ -67,6 +67,14 @@
         <source>Step / Tool</source>
         <target>Schritt / Tool</target>
       </trans-unit>
+      <trans-unit id="step_is_branch.label">
+        <source>Branch step</source>
+        <target>Abzweigung</target>
+      </trans-unit>
+      <trans-unit id="step_is_branch.description">
+        <source>Mark this step as a branch (alternative path) from the previous step.</source>
+        <target>Diesen Schritt als Abzweigung (alternativen Pfad) vom vorherigen Schritt markieren.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

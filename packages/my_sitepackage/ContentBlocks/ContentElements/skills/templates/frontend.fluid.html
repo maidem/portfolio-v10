@@ -2,7 +2,7 @@
     id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
 >
     <div class="container cb-skills-wrapper">
-        <f:if condition="{data.skill_collections}">
+        <f:if condition="{data.skill_items}">
             <div class="cb-card cb-skills-unified-card">
                 <f:if condition="{data.header}">
                     <div class="cb-card__label-bar">{data.header}</div>
@@ -17,74 +17,17 @@
                                 aria-label="Filter nach Kategorie"
                             ></div>
                             <div class="cb-skill-tiles-grid" data-skills-filter>
-                                <f:for
-                                    each="{data.skill_collections}"
-                                    as="skill"
-                                >
+                                <f:for each="{data.skill_items}" as="skill">
                                     <f:if condition="{skill.skill_name}">
                                         <div
                                             class="cb-skill-tile"
-                                            data-category="{skill.skill_category}"
+                                            data-category="{skill.filter_group}"
                                         >
                                             {skill.skill_name}
                                         </div>
                                     </f:if>
                                 </f:for>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </f:if>
-
-        <f:if condition="{data.skill_workflows}">
-            <div class="cb-card cb-skills-unified-card cb-workflows-card">
-                <h3 class="cb-card__label-bar cb-workflows__heading">
-                    Meine Workflows
-                </h3>
-                <div class="cb-card__body">
-                    <div class="row">
-                        <div class="col-12 col-md-10 mx-auto">
-                            <!-- Workflow-Filter: wird via JS aus data-workflow-id aufgebaut -->
-                            <div
-                                class="cb-workflow-filter-bar"
-                                role="group"
-                                aria-label="Workflow auswählen"
-                            ></div>
-                            <!-- Workflow-Chains: je ein sichtbares chain-Element pro Workflow -->
-                            <f:for each="{data.skill_workflows}" as="workflow">
-                                <f:if condition="{workflow.workflow_name}">
-                                    <div
-                                        class="cb-workflow-chain"
-                                        data-workflow-id="{workflow.uid}"
-                                        data-workflow-name="{workflow.workflow_name}"
-                                        aria-hidden="true"
-                                    >
-                                        <f:for
-                                            each="{workflow.workflow_steps}"
-                                            as="step"
-                                            iteration="iter"
-                                        >
-                                            <f:if condition="{step.step_name}">
-                                                <div class="cb-workflow-step">
-                                                    <span
-                                                        class="cb-workflow-step__label"
-                                                        >{step.step_name}</span
-                                                    >
-                                                </div>
-                                                <f:if
-                                                    condition="{iter.isLast} == 0"
-                                                >
-                                                    <div
-                                                        class="cb-workflow-connector"
-                                                        aria-hidden="true"
-                                                    ></div>
-                                                </f:if>
-                                            </f:if>
-                                        </f:for>
-                                    </div>
-                                </f:if>
-                            </f:for>
                         </div>
                     </div>
                 </div>
