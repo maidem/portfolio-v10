@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!filterBar || tiles.length === 0) return;
 
+        // Set tile index for staggered entrance animation
+        tiles.forEach((tile, i) => tile.style.setProperty("--tile-i", i));
+
         // Collect unique, non-empty categories (preserving first-seen order)
         // data-category may contain comma-separated values, e.g. "Frontend, Design"
         const seen = new Set();
@@ -44,15 +47,41 @@ document.addEventListener("DOMContentLoaded", () => {
             filterBar.querySelectorAll(".cb-skills-filter-btn").forEach((b) => {
                 b.classList.toggle("active", b.dataset.filter === active);
             });
-            tiles.forEach((tile) => {
+
+            let showIndex = 0;
+            tiles.forEach((tile, originalIndex) => {
                 const cats = (tile.dataset.category || "")
                     .split(",")
                     .map((c) => c.trim())
                     .filter(Boolean);
-                tile.classList.toggle(
-                    "cb-skill-tile--hidden",
-                    active !== "*" && !cats.includes(active),
-                );
+                const shouldHide = active !== "*" && !cats.includes(active);
+                const isHidden = tile.classList.contains("cb-skill-tile--hidden");
+
+                if (shouldHide && !isHidden) {
+                    // Animate out, then hide
+                    tile.classList.add("cb-skill-tile--exiting");
+                    setTimeout(() => {
+                        tile.classList.add("cb-skill-tile--hidden");
+                        tile.classList.remove("cb-skill-tile--exiting");
+                    }, 165);
+                } else if (!shouldHide && isHidden) {
+                    // Show with staggered entrance animation
+                    const idx = active === "*" ? originalIndex : showIndex;
+                    tile.style.setProperty("--tile-i", idx);
+                    tile.classList.remove(
+                        "cb-skill-tile--hidden",
+                        "cb-skill-tile--entering",
+                    );
+                    void tile.offsetWidth; // force reflow to restart animation
+                    tile.classList.add("cb-skill-tile--entering");
+                    setTimeout(
+                        () => tile.classList.remove("cb-skill-tile--entering"),
+                        460,
+                    );
+                    showIndex++;
+                } else if (!shouldHide) {
+                    showIndex++;
+                }
             });
         };
 
