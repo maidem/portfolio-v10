@@ -1,5 +1,6 @@
 @import './TypoScript/'
 @import './TypoScript/content-blocks.typoscript'
+@import './TypoScript/news.typoscript'
 
 # Register the form configuration
 plugin.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Configuration/Yaml/FormSetup.yaml

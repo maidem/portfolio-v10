@@ -1,3 +1,39 @@
+# ─── EXT:news — Frontend Rendering Definitions ────────────────────────────────
+# tt_content.news_* USER objects must be defined explicitly; EXT:news does not
+# provide them via its Site Set TypoScript.
+
+tt_content.news_pi1 = USER
+tt_content.news_pi1 {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = News
+    pluginName = Pi1
+    vendorName = GeorgRinger
+}
+
+tt_content.news_categorylist < tt_content.news_pi1
+tt_content.news_categorylist.pluginName = CategoryList
+
+tt_content.news_newsliststicky < tt_content.news_pi1
+tt_content.news_newsliststicky.pluginName = NewsListSticky
+
+tt_content.news_newsdetail < tt_content.news_pi1
+tt_content.news_newsdetail.pluginName = NewsDetail
+
+tt_content.news_newsselectedlist < tt_content.news_pi1
+tt_content.news_newsselectedlist.pluginName = NewsSelectedList
+
+tt_content.news_newsdatemenu < tt_content.news_pi1
+tt_content.news_newsdatemenu.pluginName = NewsDateMenu
+
+tt_content.news_newssearchform < tt_content.news_pi1
+tt_content.news_newssearchform.pluginName = NewsSearchForm
+
+tt_content.news_newssearchresult < tt_content.news_pi1
+tt_content.news_newssearchresult.pluginName = NewsSearchResult
+
+tt_content.news_taglist < tt_content.news_pi1
+tt_content.news_taglist.pluginName = TagList
+
 # ─── EXT:news — Template Overrides & Plugin Settings ─────────────────────────
 
 plugin.tx_news {
