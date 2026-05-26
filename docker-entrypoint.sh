@@ -9,9 +9,9 @@ chown -R www-data:www-data \
     /var/www/html/public/fileadmin \
     /var/www/html/public/typo3temp 2>/dev/null || true
 
-# Flush TYPO3 page cache on every start to avoid stale assets (e.g. Vite dev
-# server URLs from a previous development build being served in production).
+# Flush ALL TYPO3 caches on every start (including TypoScript/system caches)
+# to ensure config changes (e.g. Site Set dependencies) take effect immediately.
 cd /var/www/html && su -s /bin/bash www-data -c \
-    "php vendor/bin/typo3 cache:flush --group pages 2>/dev/null || true"
+    "php vendor/bin/typo3 cache:flush 2>/dev/null || true"
 
 exec docker-php-entrypoint "$@"
