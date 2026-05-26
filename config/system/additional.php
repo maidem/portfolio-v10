@@ -39,6 +39,12 @@ if (!getenv('IS_DDEV_PROJECT')) {
 }
 
 // 2. PRODUCTION HARDENING & PROXY SETTINGS
+// Disable Vite dev server in all non-DDEV environments (prevent DDEV URL from
+// being embedded in production pages when 'auto' mode is active).
+if (!getenv('IS_DDEV_PROJECT')) {
+    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['vite_asset_collector']['useDevServer'] = '0';
+}
+
 if (getenv('TYPO3_CONTEXT') === 'Production') {
     // Disable detailed error messages for users
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['displayErrors'] = 0;
