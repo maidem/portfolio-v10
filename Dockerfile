@@ -126,14 +126,15 @@ RUN php vendor/bin/typo3 content-blocks:assets:publish \
     && find public/_assets -type l | while read link; do \
         target="$(readlink -f "$link")"; \
         rm "$link"; \
-        if [ -e "$target" ]; then cp -a "$target" "$link"; fi; \
+        if [ -e "$target" ]; then cp -r --dereference "$target" "$link"; fi; \
     done \
     && mkdir -p var public/fileadmin public/uploads \
         public/typo3temp/assets/css public/typo3temp/assets/js \
         public/typo3temp/assets/images public/typo3temp/assets/_processed_ \
         config/system \
     && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 var public/fileadmin public/uploads public/typo3temp config/system
+    && chmod -R 775 var public/fileadmin public/uploads public/typo3temp config/system \
+    && chmod -R a+rX public/_assets
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

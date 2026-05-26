@@ -6,3 +6,4 @@ dependencies:
   - typo3/form
   - denkwerk/mosparo-form
   - gripsraum/pdf-export
+  - georgringer/news
