@@ -22,7 +22,10 @@ cd /var/www/html && su -s /bin/bash www-data -c \
 
 # Run DB schema migrations (adds missing tables/columns from extensions).
 # Safe to run on every start: only adds, never removes.
+# Run as www-data so generated cache files are owned by the web user.
+# stderr is NOT suppressed so failures appear in Docker/Coolify container logs.
 cd /var/www/html && su -s /bin/bash www-data -c \
-    "php vendor/bin/typo3 extension:setup --silent 2>/dev/null || true"
+    "php vendor/bin/typo3 extension:setup 2>&1" || \
+    echo "[docker-entrypoint] WARNING: extension:setup exited non-zero – check output above"
 
 exec docker-php-entrypoint "$@"
