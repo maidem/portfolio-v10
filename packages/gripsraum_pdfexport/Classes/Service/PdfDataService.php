@@ -71,11 +71,11 @@ class PdfDataService
         }
 
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('gripsraum_skills_skill_collections');
+            ->getQueryBuilderForTable('gripsraum_skills_skill_items');
 
         $rows = $qb
-            ->select('skill_name', 'skill_category')
-            ->from('gripsraum_skills_skill_collections')
+            ->select('skill_name', 'filter_group AS skill_category')
+            ->from('gripsraum_skills_skill_items')
             ->where(
                 $qb->expr()->eq('foreign_table_parent_uid', $qb->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
                 $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
@@ -101,46 +101,8 @@ class PdfDataService
 
     public function getWorkflowsContent(): array
     {
-        $parent = $this->getLatestContentRecord('gripsraum_skills');
-        if (!$parent) {
-            return [];
-        }
-
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('gripsraum_skills_skill_workflows');
-
-        $workflows = $qb
-            ->select('uid', 'workflow_name')
-            ->from('gripsraum_skills_skill_workflows')
-            ->where(
-                $qb->expr()->eq('foreign_table_parent_uid', $qb->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
-                $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
-            )
-            ->orderBy('sorting')
-            ->executeQuery()
-            ->fetchAllAssociative();
-
-        foreach ($workflows as &$workflow) {
-            $sq = GeneralUtility::makeInstance(ConnectionPool::class)
-                ->getQueryBuilderForTable('workflow_steps');
-
-            $steps = $sq
-                ->select('step_name')
-                ->from('workflow_steps')
-                ->where(
-                    $sq->expr()->eq('foreign_table_parent_uid', $sq->createNamedParameter((int)$workflow['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
-                    $sq->expr()->eq('deleted', $sq->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
-                    $sq->expr()->neq('step_name', $sq->createNamedParameter(''))
-                )
-                ->orderBy('sorting')
-                ->executeQuery()
-                ->fetchAllAssociative();
-
-            $workflow['steps'] = array_column($steps, 'step_name');
-        }
-        unset($workflow);
-
-        return $workflows;
+        // gripsraum_skills_skill_workflows table no longer exists (ContentBlock removed).
+        return [];
     }
 
     public function getProjectsByUids(array $uids): array
@@ -202,18 +164,9 @@ class PdfDataService
 
     public function getLogbookContent(): array
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-        return $queryBuilder
-            ->select('header', 'gripsraum_newsarticle_teaser_text as teaser_text', 'gripsraum_newsarticle_project_date as project_date', 'bodytext')
-            ->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_newsarticle')),
-                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
-                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
-            )
-            ->orderBy('gripsraum_newsarticle_project_date', 'DESC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+        // gripsraum_newsarticle ContentBlock removed; logbook entries are now EXT:news records.
+        // Use getLogbookByUids() instead.
+        return [];
     }
 
     private function getLatestContentRecord(string $ctype): ?array
