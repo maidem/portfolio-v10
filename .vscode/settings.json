@@ -1,6 +1,10 @@
 {
   "intelephense.environment.phpVersion": "8.4",
   "chat.tools.terminal.autoApprove": {
-    "brew": true
+    "brew": true,
+    "/^python3 -c \"\nimport json\nwith open\\('/Users/maidem/Library/Application Support/Code/User/workspaceStorage/71e1eb130beabd0f0688470a97825a19/GitHub\\.copilot-chat/chat-session-resources/1c5f6381-2306-4361-88c1-b540eb3447a4/toolu_bdrk_013xXyyfa3v2Mrrk3UrCRhA3__vscode-1779892475126/content\\.json'\\) as f:\n    d = json\\.load\\(f\\)\n# Print relevant deployment info\nprint\\('Dockerfile:', d\\.get\\('dockerfile',''\\)\\)\nprint\\('Build pack:', d\\.get\\('build_pack',''\\)\\)\nprint\\('Last deployment:', d\\.get\\('updated_at',''\\)\\)\nprint\\('Created at:', d\\.get\\('created_at',''\\)\\)\nprint\\('Commit:', d\\.get\\('git_commit_sha',''\\)\\)\nprint\\(\\)\nenvs = d\\.get\\('environment_variables', \\[\\]\\)\nprint\\('ENV vars:'\\)\nfor e in envs:\n    key = e\\.get\\('key',''\\)\n    val = str\\(e\\.get\\('value',''\\)\\)\\[:60\\]\n    if key not in \\('TYPO3_DB_PASSWORD', 'TYPO3_INSTALL_TOOL_PASSWORD'\\):\n        print\\(f'  \\{key\\} = \\{val\\}'\\)\nprint\\(\\)\nprint\\('Custom labels:'\\)\nimport base64\nlabels = d\\.get\\('custom_labels',''\\)\nif labels:\n    try:\n        decoded = base64\\.b64decode\\(labels\\)\\.decode\\(\\)\n        print\\(decoded\\[:500\\]\\)\n    except:\n        print\\(labels\\[:200\\]\\)\n\"\n$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
   }
 }
