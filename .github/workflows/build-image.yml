@@ -17,9 +17,6 @@ on:
             - ".github/workflows/build-image.yml"
     workflow_dispatch:
 
-env:
-    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 jobs:
     build-and-push:
         runs-on: ubuntu-latest
@@ -41,14 +38,6 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Set Private Package Permissions
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  # Make the package private (if not already)
-                  echo "📦 Ensuring package is private..."
-                  # Note: Package visibility is typically inherited from repo, but can be adjusted in package settings
-
             - name: Extract metadata
               id: meta
               uses: docker/metadata-action@v5
@@ -57,12 +46,10 @@ jobs:
                   tags: |
                       type=ref,event=branch
                       type=sha,prefix={{branch}}-
-                      type=semver,pattern={{version}}
-                      type=semver,pattern={{major}}.{{minor}}
                       type=raw,value=latest,enable={{is_default_branch}}
 
             - name: Build and push Docker image
-              uses: docker/build-push-action@v5
+              uses: docker/build-push-action@v6
               with:
                   context: .
                   push: true
@@ -70,6 +57,7 @@ jobs:
                   labels: ${{ steps.meta.outputs.labels }}
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
+                  provenance: false
 
     notify-coolify:
         needs: build-and-push
@@ -90,4 +78,4 @@ jobs:
                     --header "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
                     --output /tmp/coolify_response.txt \
                     --write-out "HTTP Status: %{http_code}\n"
-                  echo "✅ Coolify deployment triggered"
+                  echo "Coolify deployment triggered"
