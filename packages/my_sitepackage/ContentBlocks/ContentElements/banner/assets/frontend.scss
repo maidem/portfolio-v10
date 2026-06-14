@@ -1,94 +1,100 @@
-// ─── Banner container ─────────────────────────────────────────────────────────
-// position: relative — stays in normal document flow so content flows below it.
+// ── Banner container ───────────────────────────────────────────────────────────
 .cb-portfolio-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 100%;
-  padding: 2rem 0 3rem; // extra bottom clearance for dimension labels
-  margin-bottom: clamp(
-    2rem,
-    4vw,
-    4rem
-  ); // harmonious gap to first content element
-  background-color: #e7e7e7;
-  overflow: visible; // allow dimension labels to not be clipped on narrow viewports
+  padding: 2rem 0 3rem;
+  min-height: calc(clamp(3rem, 14vw, 16rem) * 0.9 + 5rem);
+  background-color: transparent;
+  overflow: visible;
   user-select: none;
   pointer-events: none;
   z-index: 0;
   isolation: isolate;
 
-  // ─── Millimeter-paper structure: 3-tier horizontal + vertical lines ────────
-  // 4px base (≈1mm) → 20px (≈5mm) → 80px (≈10mm)
+  // Millimeter-paper overlay (fine + coarse grid lines)
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        rgba(80, 80, 80, 0.05) 0,
+        rgba(80, 80, 80, 0.05) 1px,
+        transparent 1px,
+        transparent 8px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(80, 80, 80, 0.05) 0,
+        rgba(80, 80, 80, 0.05) 1px,
+        transparent 1px,
+        transparent 8px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(80, 80, 80, 0.1) 0,
+        rgba(80, 80, 80, 0.1) 1px,
+        transparent 1px,
+        transparent 40px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(80, 80, 80, 0.1) 0,
+        rgba(80, 80, 80, 0.1) 1px,
+        transparent 1px,
+        transparent 40px
+      );
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  // Scattered mosaic — dense centre, sparse edges, faded top/bottom.
+  // Tile is generated at runtime (buildMosaicUrl) so accents re-scatter per page.
   &::before {
     content: "";
     position: absolute;
     inset: 0;
-    // Fine lines (1mm ≈ 4px), medium (5mm ≈ 20px), coarse (10mm ≈ 80px)
-    // All 1px wide so sub-pixel rendering doesn't eliminate them
-    background-image:
-      repeating-linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.03) 0,
-        rgba(0, 0, 0, 0.03) 0.0625rem,
-        transparent 0.0625rem,
-        transparent 0.25rem
-      ),
-      repeating-linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.06) 0,
-        rgba(0, 0, 0, 0.06) 0.0625rem,
-        transparent 0.0625rem,
-        transparent 1.25rem
-      ),
-      repeating-linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.1) 0,
-        rgba(0, 0, 0, 0.1) 0.0625rem,
-        transparent 0.0625rem,
-        transparent 5rem
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.03) 0,
-        rgba(0, 0, 0, 0.03) 0.0625rem,
-        transparent 0.0625rem,
-        transparent 0.25rem
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.06) 0,
-        rgba(0, 0, 0, 0.06) 0.0625rem,
-        transparent 0.0625rem,
-        transparent 1.25rem
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.1) 0,
-        rgba(0, 0, 0, 0.1) 0.0625rem,
-        transparent 0.0625rem,
-        transparent 5rem
-      );
+    background-image: var(--mosaic-bg, none);
+    background-size: 308px 154px;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 28%,
+      black 72%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 28%,
+      black 72%,
+      transparent 100%
+    );
     pointer-events: none;
   }
 }
 
-// ─── Wordmark text ────────────────────────────────────────────────────────────
+// ── Wordmark text ──────────────────────────────────────────────────────────────
 .cb-portfolio-text {
-  display: block;
+  display: inline-block;
   position: relative;
-  width: 100%;
+  margin: 0;
+  padding: 0;
   font-family: "JetBrains Mono", monospace;
-  font-weight: 900;
-  font-size: clamp(4rem, 19vw, 22rem);
+  font-weight: 800;
+  font-size: clamp(3rem, 14vw, 16rem);
   line-height: 0.9;
   letter-spacing: -0.04em;
-  text-align: center;
-  color: #e7e7e7; // matches banner background — only stroke visible
-  -webkit-text-stroke: 1px rgba(100, 100, 100, 0.18);
+  color: rgba(14, 14, 28, 0.88);
+  -webkit-text-stroke: 1px rgba(80, 80, 80, 0.22);
   text-shadow:
-    2px 3px 0 rgba(120, 60, 255, 0.08),
-    4px 6px 0 rgba(120, 60, 255, 0.055),
-    6px 9px 0 rgba(120, 60, 255, 0.032),
-    8px 12px 0 rgba(120, 60, 255, 0.018);
+    2px 3px 0 rgba(80, 80, 80, 0.04),
+    4px 6px 0 rgba(80, 80, 80, 0.02);
+  z-index: 3;
   white-space: nowrap;
   text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
@@ -96,28 +102,9 @@
   text-rendering: geometricPrecision;
 }
 
-// ─── Live dimension annotation ────────────────────────────────────────────────
-// Pfeile per SVG im JS gezeichnet — Spitzen exakt auf x=0 / x=wordWidth
-.cb-banner-dimension {
-  position: absolute;
-  bottom: calc(0.75rem - 0.625rem);
-  height: 1.25rem;
-  pointer-events: none;
-
-  &__label {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #e7e7e7;
-    padding: 1px 0.5rem;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.5625rem; // 9px
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: rgba(120, 60, 255, 0.7);
-    white-space: nowrap;
-    text-transform: uppercase;
-    line-height: 1.6;
-  }
+// ── Gap to first content element ───────────────────────────────────────────────
+// Replaces old margin-bottom on banner; the first frame/container now uses the
+// default section rhythm (padding-top set in Main.entry.scss).
+.cb-portfolio-banner {
+  margin-bottom: 0;
 }

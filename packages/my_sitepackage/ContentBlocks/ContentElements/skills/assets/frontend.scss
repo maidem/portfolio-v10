@@ -42,15 +42,15 @@
   white-space: nowrap;
 
   &:hover {
-    border-color: rgba(120, 60, 255, 0.5);
-    color: rgba(120, 60, 255, 0.85);
-    background-color: rgba(120, 60, 255, 0.06);
+    border-color: rgba(2, 122, 138, 0.5);
+    color: rgba(2, 122, 138, 0.85);
+    background-color: rgba(2, 122, 138, 0.06);
   }
 
   &.active {
-    background-color: rgba(120, 60, 255, 0.12);
-    border-color: rgba(120, 60, 255, 0.6);
-    color: rgb(80, 30, 200);
+    background-color: rgba(2, 122, 138, 0.12);
+    border-color: rgba(2, 122, 138, 0.6);
+    color: rgb(1, 80, 90);
   }
 }
 
@@ -93,7 +93,7 @@
 }
 
 .cb-skill-tile {
-  background-color: rgba(120, 60, 255, 0.1);
+  background-color: rgba(2, 122, 138, 0.1);
   border: 1.5px solid rgba(0, 0, 0, 0.3);
   padding: 0.5625rem 1.125rem;
   display: inline-flex;
@@ -134,7 +134,7 @@
   &:nth-child(5n + 1) {
     font-size: 0.75rem;
     padding: 0.625rem 1.375rem;
-    background-color: rgba(120, 60, 255, 0.15);
+    background-color: rgba(2, 122, 138, 0.15);
   }
   &:nth-child(5n + 3) {
     font-size: 0.625rem;
@@ -144,13 +144,13 @@
 
   &:hover {
     transform: translateY(-8px) scale(1.09);
-    background-color: rgba(120, 60, 255, 0.24);
-    border-color: rgba(120, 60, 255, 0.82);
+    background-color: rgba(2, 122, 138, 0.24);
+    border-color: rgba(2, 122, 138, 0.82);
     box-shadow:
-      0 14px 36px rgba(120, 60, 255, 0.3),
-      0 0 0 3px rgba(120, 60, 255, 0.1),
+      0 14px 36px rgba(2, 122, 138, 0.3),
+      0 0 0 3px rgba(2, 122, 138, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    color: rgb(55, 15, 185);
+    color: rgb(1, 80, 90);
     opacity: 1;
     position: relative;
     z-index: 2;

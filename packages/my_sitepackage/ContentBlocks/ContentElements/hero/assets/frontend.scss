@@ -51,7 +51,7 @@
     line-height: 1;
     text-decoration: none;
     border-radius: 999px;
-    background-color: rgba(120, 60, 255, 0.85);
+    background-color: rgba(2, 122, 138, 0.85);
     color: #fff;
     border: 1.5px solid #111111;
     transition:
@@ -64,12 +64,12 @@
     }
 
     &:hover {
-      background-color: rgba(120, 60, 255, 1);
+      background-color: rgba(2, 122, 138, 1);
       color: #fff;
     }
 
     &--ghost {
-      background-color: rgba(120, 60, 255, 0.15);
+      background-color: rgba(2, 122, 138, 0.15);
       color: #111111;
       border-color: #111111;
 
@@ -79,7 +79,7 @@
       }
 
       &:hover {
-        background-color: rgba(120, 60, 255, 0.28);
+        background-color: rgba(2, 122, 138, 0.28);
         color: #111111;
       }
     }

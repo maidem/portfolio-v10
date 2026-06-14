@@ -1,147 +1,307 @@
 // =============================
-// Form Specific Design Tokens — Flat FAQ style
+// Kontakt-Formular — Profilseite-Stil
 // =============================
-$glass-form-bg: #f5f5f7;
-$glass-form-border: #111111;
 $text-primary: #111111;
-$text-secondary: #555555;
+$text-muted: #71717a;
+$color-secondary: rgb(2, 122, 138);
+$color-border: rgba(17, 17, 17, 0.18);
+$color-error: #b91c1c;
 
 // Hide default FSC header output for the form CE.
-// The page title is handled semantically by the page-header ContentBlock (h1).
 .frame-type-form_formframework > header {
   display: none;
 }
 
-// ─── Remove outer card padding for the form frame ────────────────────────────
+// Remove outer card padding
 .frame-type-form_formframework .cb-card__body {
   padding: 0;
 }
 
 .cb-form {
-  // ─── Input Fields — white cards like FAQ items ─────────────────────────────
-  .form-control {
-    background-color: rgba(120, 60, 255, 0.1) !important;
-    backdrop-filter: blur(6px) saturate(120%);
-    -webkit-backdrop-filter: blur(6px) saturate(120%);
-    border: 2px solid rgba(0, 0, 0, 0.4) !important;
-    border-radius: 1rem !important;
-    color: $text-primary !important;
-    caret-color: $text-primary !important;
-    padding: 0.875rem 1.25rem !important;
-    font-size: 0.9375rem;
-    box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding-top: 0.75rem; // Platz für schwebende Labels des ersten Feldes
 
+  @media (max-width: 767.98px) {
+    margin-top: 2rem;
+  }
+
+  // ─── Two-column name/email row ──────────────────────────────────────────────
+  // Bootstrap row/col handles the grid already
+
+  // ─── Field — floating label on border ──────────────────────────────────────
+  // Nur Text/Email/Textarea-Felder bekommen den Border + schwebendes Label.
+  // Checkbox- und leere Wrapper-Divs explizit ausschließen.
+  .form-group:not(.form-element-check):not(:empty),
+  .mb-3.mb-3:not(.form-element-check):not(.form-check) {
+    position: relative;
+    border: 1px solid $color-border;
+    background: transparent;
+    margin-bottom: 0;
+    transition: border-color 0.25s ease;
+
+    &:focus-within {
+      border-color: $color-secondary;
+    }
+  }
+
+  // Unsichtbare form-group-Wrapper (Mosparo hidden inputs, leere Divs) ausblenden
+  .form-group:empty,
+  .form-group:not(.form-element-check):not(:focus-within):has(> input[type="hidden"]:only-child),
+  .form-group:not(.form-element-check):has(input[aria-hidden="true"]:only-child) {
+    display: none;
+  }
+
+  // Schwebendes Label — nur für Input-Felder, nicht für Checkbox-Labels
+  .form-element-text .form-label,
+  .form-element-email .form-label,
+  .form-element-textarea .form-label,
+  .mb-3:not(.form-element-check):not(.form-check) > label:not(.form-check-wrapping-label):not(.form-check-label) {
+    position: absolute;
+    top: 0;
+    left: 0.5rem;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $text-muted;
+    background: #ffffff;
+    padding: 0 0.5rem;
+    line-height: 1.2;
+    pointer-events: none;
+    margin: 0;
+  }
+
+  .form-control.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.9rem 0.75rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 1rem;
+    color: $text-primary;
+    line-height: 1.5;
+    box-shadow: none;
+    transition: none;
+    resize: vertical;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    transition: border-color 0.2s ease;
 
     &::placeholder {
-      color: #aaaaaa !important;
+      color: transparent;
     }
 
     &:focus {
-      background-color: rgba(120, 60, 255, 0.2) !important;
-      box-shadow: none !important;
       outline: none;
-      color: $text-primary !important;
+      box-shadow: none;
+      background: transparent;
+      color: $text-primary;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 
   textarea.form-control {
-    min-height: 120px;
-    resize: none;
+    min-height: 8rem;
+    resize: vertical;
   }
 
-  label,
-  .form-label {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #888888 !important;
-    margin-bottom: 0.4rem;
-    display: block;
+  // ─── Checkbox ──────────────────────────────────────────────────────────────
+  .form-element-check,
+  .form-check {
+    border: none !important;
+    padding: 0;
+    margin: 0;
+    background: transparent;
   }
 
-  // ─── Field wrapper spacing ────────────────────────────────────────────────
-  .form-group,
-  .mb-3 {
-    margin-bottom: 1.5rem !important;
+  // Checkbox-Label klickbar und pointer-events zurücksetzen
+  .form-check-wrapping-label,
+  .form-check-label {
+    position: static !important;
+    transform: none !important;
+    background: transparent !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: $text-muted;
+    line-height: 1.6;
+    padding: 0;
+    top: unset;
+    left: unset;
   }
 
-  // ─── Submit Button ─────────────────────────────────────────────────────────
+  // Datenschutz-Link muss klickbar sein
+  .cb-privacy-link {
+    pointer-events: auto !important;
+    color: $text-primary;
+    text-decoration: underline;
+    text-decoration-color: $color-secondary;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .form-check-input.form-check-input {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.2rem;
+    background-color: transparent;
+    border: 1px solid rgba(17, 17, 17, 0.3);
+    border-radius: 0;
+    cursor: pointer;
+    accent-color: $color-secondary;
+
+    &:checked {
+      background-color: $text-primary;
+      border-color: $text-primary;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+    }
+  }
+
+  .form-check-label {
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: $text-muted;
+    cursor: pointer;
+    line-height: 1.6;
+    padding-left: 0.5rem;
+    background: transparent;
+    position: static;
+    transform: none;
+
+    a {
+      color: $text-primary;
+      text-decoration: underline;
+      text-decoration-color: $color-secondary;
+      text-underline-offset: 2px;
+    }
+  }
+
+  // Required hint
+  .cb-form-required-hint,
+  p:has(.cb-form-req) {
+    margin: 0;
+    font-size: 0.75rem;
+    color: $text-muted;
+  }
+
+  // ─── Submit Button ──────────────────────────────────────────────────────────
+  nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+    padding-top: 0;
+    border-top: none;
+  }
+
   .cb-form-submit {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    min-height: 2rem;
-    padding: 0.45rem 2rem;
-    background-color: rgba(120, 60, 255, 0.85);
-    border: 1.5px solid rgba(120, 60, 255, 0.85);
-    color: #fff;
+    gap: 0.6rem;
+    padding: 0.85rem 1.5rem;
+    background: $text-primary;
+    color: #ffffff;
+    border: 1px solid $text-primary;
     border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.6875rem;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    transition: all 0.3s ease;
     cursor: pointer;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease;
     white-space: nowrap;
 
     &:hover {
-      background-color: rgba(120, 60, 255, 1);
-      border-color: rgba(120, 60, 255, 1);
-      color: #fff;
-      box-shadow: none;
+      background: transparent;
+      color: $text-primary;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     @media (max-width: 767.98px) {
       width: 100%;
-      min-height: 2rem;
+      justify-content: center;
     }
 
     &:active {
       transform: scale(0.97);
     }
   }
+}
 
-  // ─── Checkbox ──────────────────────────────────────────────────────────────
-  .form-check-input {
-    background-color: transparent;
-    border: 1px solid rgba(17, 17, 17, 0.3);
-    width: 1rem;
-    height: 1rem;
-    cursor: pointer;
-    border-radius: 0 !important;
-
-    &:checked {
-      background-color: #111111 !important;
-      border-color: #111111 !important;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
-    }
+// ─── Kontaktseite: Info-Aside + Formular nebeneinander ─────────────────────────
+// Das Bootstrap-Grid (col-4 / col-8) bleibt, Info-Aside braucht eigene Styles.
+.cb-contact-info {
+  &__name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
   }
 
-  .form-check-label {
+  &__address {
+    font-style: normal;
     font-size: 0.875rem;
-    color: #555555 !important;
-    font-weight: 500;
-    padding-left: 0.5rem;
-
-    a {
-      color: $text-primary;
-      font-weight: 700;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
+    color: $text-muted;
+    line-height: 1.8;
+    margin-bottom: 1.75rem;
   }
 
-  // ─── Navigation (Alignment) ───────────────────────────────────────────────
-  nav {
+  &__list {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 2rem;
-    padding-top: 0;
-    border-top: none;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  &__dt {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $text-muted;
+  }
+
+  &__dd {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  &__link {
+    color: $text-primary;
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $color-secondary;
+    }
   }
 }

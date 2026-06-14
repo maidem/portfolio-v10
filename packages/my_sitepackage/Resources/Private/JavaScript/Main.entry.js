@@ -1,7 +1,9 @@
 console.log("Main JS loaded");
 
-// Bootstrap JS – nur Modal-Komponente
-import "bootstrap/js/dist/modal";
+// Bootstrap JS – Modal global exportieren für inline scripts
+import Modal from "bootstrap/js/dist/modal";
+window.bootstrap = window.bootstrap || {};
+window.bootstrap.Modal = Modal;
 
 // JetBrains Mono — locally hosted via @fontsource (GDPR-compliant, no Google Fonts)
 import "@fontsource/jetbrains-mono/400.css";

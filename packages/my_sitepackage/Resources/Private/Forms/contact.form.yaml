@@ -62,7 +62,7 @@ renderables:
         identifier: privacy
         type: Checkbox
         properties:
-          privacyPageUid: '{$form.contact.privacyPageUid}'
+          privacyPageUid: ''
         validators:
           -
             identifier: NotEmpty

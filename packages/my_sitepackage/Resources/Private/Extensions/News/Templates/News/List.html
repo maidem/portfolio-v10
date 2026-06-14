@@ -6,7 +6,15 @@
     <f:layout name="Default" />
 
     <f:section name="content">
-        <div class="container cb-news-list">
+        <f:if condition="{news}">
+            <div class="container" id="cb-news-filter-bar">
+                <div class="cb-news-filter">
+                    <button type="button" class="cb-news-filter__btn cb-news-filter__btn--active" data-filter="all">Alle</button>
+                </div>
+            </div>
+        </f:if>
+
+        <div class="container cb-news-list" id="cb-news-list">
             <div class="cb-card">
                 <div class="cb-card__body">
                     <f:if condition="{news}">
@@ -27,5 +35,46 @@
                 </div>
             </div>
         </div>
+
+        <f:if condition="{news}">
+            <f:format.raw>
+                <script>
+                (function () {
+                    const bar = document.querySelector('#cb-news-filter-bar .cb-news-filter');
+                    const items = document.querySelectorAll('#cb-news-list .cb-news-item');
+                    if (!bar || !items.length) return;
+
+                    const getCats = item => Array.from(item.querySelectorAll('.cb-news-category-label')).map(s => s.textContent.trim());
+
+                    const seen = new Set();
+                    items.forEach(item => {
+                        getCats(item).forEach(title => {
+                            if (title && !seen.has(title)) {
+                                seen.add(title);
+                                const btn = document.createElement('button');
+                                btn.type = 'button';
+                                btn.className = 'cb-news-filter__btn';
+                                btn.dataset.filter = title;
+                                btn.textContent = title;
+                                bar.appendChild(btn);
+                            }
+                        });
+                    });
+
+                    bar.addEventListener('click', e => {
+                        const btn = e.target.closest('.cb-news-filter__btn');
+                        if (!btn) return;
+                        bar.querySelectorAll('.cb-news-filter__btn').forEach(b => b.classList.remove('cb-news-filter__btn--active'));
+                        btn.classList.add('cb-news-filter__btn--active');
+                        const filter = btn.dataset.filter;
+                        items.forEach(item => {
+                            if (filter === 'all') { item.hidden = false; return; }
+                            item.hidden = !getCats(item).includes(filter);
+                        });
+                    });
+                })();
+                </script>
+            </f:format.raw>
+        </f:if>
     </f:section>
 </html>

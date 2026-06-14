@@ -21,6 +21,7 @@ page {
             # Expose current page uid for active-link detection in Fluid layouts
             pageUid = TEXT
             pageUid.data = page:uid
+
         }
         dataProcessing {
             10 = files
@@ -68,5 +69,6 @@ page {
     includeJSFooter {
         # my_sitepackage_scripts = EXT:my_sitepackage/Resources/Public/JavaScript/main.js
     }
+
 }
 

@@ -90,15 +90,16 @@
                 document.addEventListener("DOMContentLoaded", function () {
                     var modal = document.getElementById("privacyModal");
                     if (!modal) return;
+                    // Move modal to body to escape main's stacking context
+                    document.body.appendChild(modal);
                     var body = modal.querySelector(".modal-body");
                     var loaded = false;
 
                     modal.addEventListener("show.bs.modal", function (event) {
                         if (loaded) return;
-                        var trigger = event.relatedTarget;
-                        var url = trigger
-                            ? trigger.getAttribute("data-privacy-url")
-                            : "";
+                        var url = document.querySelector('.cb-privacy-link')?.getAttribute('data-privacy-url')
+                            || document.querySelector('a[href*="datenschutz"]')?.getAttribute('href')
+                            || "";
                         if (!url) {
                             body.innerHTML =
                                 "<p>Die Datenschutzerkl\u00e4rung wurde noch nicht konfiguriert.</p>";
@@ -115,9 +116,12 @@
                                     "text/html",
                                 );
                                 var main = doc.querySelector("main");
-                                body.innerHTML = main
-                                    ? main.innerHTML
-                                    : doc.body.innerHTML;
+                                var root = main || doc.body;
+                                // Banner und erste leere Container entfernen
+                                root.querySelectorAll(
+                                    ".cb-portfolio-banner, .cb-bg-fill, .cb-perspective-grid"
+                                ).forEach(function (el) { el.remove(); });
+                                body.innerHTML = root.innerHTML;
                                 loaded = true;
                             })
                             .catch(function () {
@@ -130,7 +134,10 @@
                         .querySelectorAll(".cb-privacy-link")
                         .forEach(function (link) {
                             link.addEventListener("click", function (e) {
+                                e.preventDefault();
                                 e.stopPropagation();
+                                var bsModal = bootstrap.Modal.getOrCreateInstance(modal);
+                                bsModal.show(link);
                             });
                         });
                 });
