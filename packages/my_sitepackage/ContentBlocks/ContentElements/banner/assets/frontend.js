@@ -165,8 +165,9 @@
                 "position:absolute;left:50%;bottom:100%;transform:translateX(-50%);" +
                 lblBase;
         } else {
+            // DIN 406: label above the dimension line, 3 px gap
             lbl.style.cssText =
-                "position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);" +
+                `position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-50% - ${LABEL_BOX_H / 2 + 3}px));` +
                 lblBase;
         }
         lbl.textContent = rem + " rem";
@@ -276,14 +277,15 @@
             `letter-spacing:0.2em;color:${labelColor};white-space:nowrap;` +
             "text-transform:uppercase;line-height:1.6;" +
             "-webkit-text-stroke:0;text-shadow:none;";
+        const lblOffsetX = cx - (LABEL_BOX_H / 2 + 3);
         if (labelOnLine) {
+            // DIN 406: label left of the dimension line, 3 px gap, rotated
             lbl.style.cssText =
-                `position:absolute;left:${cx}px;top:${lblMidY}px;transform:translate(-50%,-50%) rotate(-90deg);` +
+                `position:absolute;left:${lblOffsetX}px;top:${lblMidY}px;transform:translate(-50%,-50%) rotate(-90deg);` +
                 vLblBase;
         } else {
-            const lblCx = cx - tickW - 3 - LABEL_BOX_H / 2;
             lbl.style.cssText =
-                `position:absolute;left:${lblCx}px;top:${lblMidY}px;transform:translate(-50%,-50%) rotate(-90deg);` +
+                `position:absolute;left:${lblOffsetX}px;top:${lblMidY}px;transform:translate(-50%,-50%) rotate(-90deg);` +
                 vLblBase;
         }
         lbl.textContent = rem + " rem";
