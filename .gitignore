@@ -17,3 +17,9 @@ dist/
 
 # DB seed - temporary uncompressed SQL (created during docker startup)
 db/seed.sql
+
+# MCP config (lokal, nicht ins Repo)
+.mcp.json
+
+# DB dump
+db.sql.gz
