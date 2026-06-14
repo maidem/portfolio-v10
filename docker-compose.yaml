@@ -3,6 +3,7 @@ version: "3.8"
 services:
   portfolio:
     image: ${DOCKER_REGISTRY_URL:-ghcr.io}/${DOCKER_REGISTRY_USERNAME:-maidem}/portfolio-v1:${DOCKER_REGISTRY_TAG:-latest}
+    pull_policy: always
     container_name: portfolio-app
     restart: always
     expose:
