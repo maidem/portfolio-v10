@@ -389,9 +389,14 @@ main > section:first-of-type > * {
       text-decoration: none;
     }
 
-    &:hover,
+    &:hover {
+      color: $text-primary;
+    }
+
     &--active {
       color: $text-primary;
+      pointer-events: none;
+      cursor: default;
     }
 
     &--active:link,
@@ -404,6 +409,8 @@ main > section:first-of-type > * {
     &.active:visited,
     &.active:hover {
       color: $text-primary;
+      pointer-events: none;
+      cursor: default;
     }
 
     &__desktop &__link.cb-nav__link--active,
@@ -411,6 +418,8 @@ main > section:first-of-type > * {
     &__desktop &__link.cb-nav__link--active:visited,
     &__desktop &__link.active:visited {
       color: $text-primary;
+      pointer-events: none;
+      cursor: default;
     }
     // GitHub icon — SVG aligned to nav text baseline
     &--icon {
@@ -586,6 +595,8 @@ main > section:first-of-type > * {
     &--active {
       color: #111111;
       font-weight: 800;
+      pointer-events: none;
+      cursor: default;
     }
   }
 }
@@ -664,7 +675,7 @@ h6 {
 .cb-news-filter {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.5rem; // 8px
   padding: 0;
   margin-bottom: 2rem; // 32px — spacing to news list
