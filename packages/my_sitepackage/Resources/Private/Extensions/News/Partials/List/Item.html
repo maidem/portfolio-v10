@@ -5,50 +5,53 @@
 >
     <n:excludeDisplayedNews newsItem="{newsItem}" />
 
-    <div class="cb-news-item">
-        <div class="row gx-md-4 align-items-baseline">
-            <!-- Date column -->
-            <div class="col-12 col-md-4">
+    <article class="cb-news-item">
+        <div class="cb-news-item__row">
+            <div class="cb-news-item__date-col">
                 <f:if condition="{newsItem.datetime}">
-                    <span class="cb-news-date text-uppercase font-monospace">
+                    <time
+                        class="cb-news-date"
+                        datetime="{f:format.date(pattern: 'yyyy-MM-dd', date: newsItem.datetime)}"
+                    >
                         <f:format.date pattern="dd. MMMM yyyy" locale="de-DE"
                             >{newsItem.datetime}</f:format.date
                         >
-                    </span>
+                    </time>
                 </f:if>
             </div>
 
-            <!-- Content column -->
-            <div class="col-12 col-md-8">
-                <!-- Category labels -->
-                <f:for each="{newsItem.categories}" as="cat">
-                    <span class="cb-news-category-label">{cat.title}</span>
-                </f:for>
+            <div class="cb-news-item__content-col">
+                <f:if condition="{newsItem.categories}">
+                    <ul class="cb-news-categories">
+                        <f:for each="{newsItem.categories}" as="cat">
+                            <li class="cb-news-category-label">{cat.title}</li>
+                        </f:for>
+                    </ul>
+                </f:if>
 
-                <h3 class="cb-news-title fw-normal mb-1">{newsItem.title}</h3>
+                <h3 class="cb-news-title">{newsItem.title}</h3>
 
                 <f:if condition="{newsItem.teaser}">
-                    <p class="cb-news-teaser text-muted mb-2">
+                    <p class="cb-news-teaser">
                         {newsItem.teaser}
                     </p>
                 </f:if>
 
-                <div class="d-flex align-items-center gap-3 flex-wrap">
+                <div class="cb-news-item__actions">
                     <n:link
                         newsItem="{newsItem}"
                         settings="{settings}"
-                        class="cb-news-link text-uppercase font-monospace text-dark stretched-link"
+                        class="cb-news-link cb-stretched-link"
                     >
                         Weiterlesen →
                     </n:link>
 
-                    <!-- External project URL (only shown for project-type articles) -->
                     <f:if condition="{newsItem.externalurl}">
                         <a
                             href="{newsItem.externalurl}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="cb-news-website-link text-uppercase font-monospace"
+                            class="cb-news-website-link"
                             style="position: relative; z-index: 1"
                         >
                             Website →
@@ -57,5 +60,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </article>
 </html>

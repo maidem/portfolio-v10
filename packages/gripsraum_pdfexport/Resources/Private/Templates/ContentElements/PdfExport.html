@@ -10,23 +10,21 @@
     id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
     class="cb-section-pdfexport"
   >
-    <div class="container">
+    <div class="cb-section-pdfexport__container">
       <div class="cb-pdf-export__block">
         <div class="cb-card cb-card--yellow">
           <f:if condition="{data.header}">
             <div class="cb-card__label-bar">{data.header}</div>
           </f:if>
           <div class="cb-card__body">
-            <div class="row gx-md-4">
-              <!-- Left Column: Content -->
-              <div class="col-12 col-md-4">
+            <div class="cb-pdf-export__layout">
+              <div class="cb-pdf-export__intro">
                 <div class="cb-pdf-export__subline">
                   <f:format.html>{data.bodytext}</f:format.html>
                 </div>
               </div>
 
-              <!-- Right Column: Interactive Grid -->
-              <div class="col-12 col-md-8">
+              <div class="cb-pdf-export__main">
                 <form
                   class="cb-pdf-export__form"
                   action="?type=1711"
@@ -80,6 +78,7 @@
                           type="checkbox"
                           name="sections[]"
                           value="{entry.type}_{entry.uid}"
+                          data-news-uid="{entry.uid}"
                         />
                         <div class="cb-pdf-export__tile-indicator"></div>
                       </label>
@@ -109,6 +108,7 @@
         </div>
       </div>
     </div>
+
   </section>
   <script>
     (function () {

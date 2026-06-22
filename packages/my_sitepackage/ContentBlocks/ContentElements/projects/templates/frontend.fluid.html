@@ -6,7 +6,7 @@
     <section
         id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
     >
-        <div class="container">
+        <div class="cb-section-projects__container">
             <div class="cb-card">
                 <f:if condition="{data.header}">
                     <div class="cb-card__label-bar">{data.header}</div>
@@ -14,51 +14,46 @@
                 <div class="cb-card__body">
                     <f:if condition="{projects}">
                         <f:for each="{projects}" as="item">
-                            <div class="cb-news-item">
-                                <div class="row align-items-baseline">
-                                    <div class="col-md-3">
-                                        <f:if
-                                            condition="{item.data.gripsraum_newsarticle_project_date}"
-                                        >
-                                            <span
-                                                class="cb-news-date text-uppercase font-monospace"
+                            <article class="cb-news-item">
+                                <div class="cb-news-item__row">
+                                    <div class="cb-news-item__date-col">
+                                        <f:if condition="{item.data.gripsraum_newsarticle_project_date}">
+                                            <time
+                                                class="cb-news-date"
+                                                datetime="{f:format.date(format: 'Y-m-d', date: item.data.gripsraum_newsarticle_project_date)}"
                                             >
                                                 <f:format.date
                                                     format="d. M Y"
                                                     date="{item.data.gripsraum_newsarticle_project_date}"
                                                 />
-                                            </span>
+                                            </time>
                                         </f:if>
                                     </div>
-                                    <div class="col-md-9">
-                                        <h3
-                                            class="cb-news-title fw-normal mb-1"
-                                        >
+                                    <div class="cb-news-item__content-col">
+                                        <h3 class="cb-news-title">
                                             {item.data.header}
                                         </h3>
-                                        <f:if
-                                            condition="{item.data.gripsraum_newsarticle_teaser_text}"
-                                        >
-                                            <p
-                                                class="cb-news-teaser text-muted mb-2"
-                                            >
+                                        <f:if condition="{item.data.gripsraum_newsarticle_teaser_text}">
+                                            <p class="cb-news-teaser">
                                                 {item.data.gripsraum_newsarticle_teaser_text}
                                             </p>
                                         </f:if>
-                                        <f:link.page
-                                            pageUid="{item.data.pid}"
-                                            section="c{item.data.uid}"
-                                            class="cb-news-link text-uppercase font-monospace text-dark stretched-link"
-                                        >
-                                            Weiterlesen →
-                                        </f:link.page>
+                                        <div class="cb-news-item__actions">
+                                            <f:link.page
+                                                pageUid="{item.data.pid}"
+                                                section="c{item.data.uid}"
+                                                class="cb-news-link cb-stretched-link"
+                                            >
+                                                Weiterlesen →
+                                            </f:link.page>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </article>
                         </f:for>
                     </f:if>
                     <f:if condition="!{projects}">
-                        <p class="text-muted font-monospace small">
+                        <p class="cb-news-empty">
                             Noch keine Projekte vorhanden.
                         </p>
                     </f:if>

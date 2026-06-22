@@ -27,129 +27,114 @@
                 </f:if>
             </n:format.nothing>
 
-            <div
-                class="container cb-news-detail"
+            <article
+                class="cb-news-detail"
                 id="news-{newsItem.uid}"
                 data-article-uid="{newsItem.uid}"
             >
                 <div class="cb-news-detail__inner">
-                    <!-- ── Header Block ───────────────────────────────────────────── -->
-                    <div class="row mb-4 pb-4 cb-news-detail__header-row">
-                        <div class="col-12">
-                            <!-- Back navigation -->
-                            <a
-                                href="#"
-                                class="cb-news-article-back mb-3 d-inline-block cb-back-to-list"
+                    <header class="cb-news-detail__header">
+                        <a
+                            href="#"
+                            class="cb-news-article-back cb-back-to-list"
+                        >
+                            ← Zurück
+                        </a>
+
+                        <f:if condition="{newsItem.datetime}">
+                            <time
+                                class="cb-news-article-date"
+                                datetime="{f:format.date(pattern: 'yyyy-MM-dd', date: newsItem.datetime)}"
                             >
-                                ← Zurück
-                            </a>
-
-                            <!-- Date -->
-                            <f:if condition="{newsItem.datetime}">
-                                <span class="cb-news-article-date d-block mb-3">
-                                    <f:format.date
-                                        pattern="dd. MMMM yyyy"
-                                        locale="de-DE"
-                                        >{newsItem.datetime}</f:format.date
-                                    >
-                                </span>
-                            </f:if>
-
-                            <!-- Category labels -->
-                            <f:for each="{newsItem.categories}" as="cat">
-                                <span class="cb-news-category-label"
-                                    >{cat.title}</span
+                                <f:format.date
+                                    pattern="dd. MMMM yyyy"
+                                    locale="de-DE"
+                                    >{newsItem.datetime}</f:format.date
                                 >
-                            </f:for>
+                            </time>
+                        </f:if>
 
-                            <!-- Title -->
-                            <h1 class="cb-news-article-title-top mb-3">
-                                {newsItem.title}
-                            </h1>
+                        <f:if condition="{newsItem.categories}">
+                            <ul class="cb-news-categories">
+                                <f:for each="{newsItem.categories}" as="cat">
+                                    <li class="cb-news-category-label">{cat.title}</li>
+                                </f:for>
+                            </ul>
+                        </f:if>
 
-                            <!-- Teaser -->
-                            <f:if condition="{newsItem.teaser}">
-                                <p class="cb-news-article-teaser mb-0">
-                                    {newsItem.teaser}
-                                </p>
-                            </f:if>
+                        <h1 class="cb-news-article-title-top">
+                            {newsItem.title}
+                        </h1>
 
-                            <!-- External project URL -->
-                            <f:if condition="{newsItem.externalurl}">
-                                <div class="mt-3">
-                                    <a
-                                        href="{newsItem.externalurl}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="cb-project-article-website-link"
-                                    >
-                                        Website besuchen →
-                                    </a>
-                                </div>
-                            </f:if>
+                        <f:if condition="{newsItem.teaser}">
+                            <p class="cb-news-article-teaser">
+                                {newsItem.teaser}
+                            </p>
+                        </f:if>
 
-                            <!-- PDF export button -->
-                            <div class="mt-3">
-                                <button
-                                    class="cb-pdf-add-btn"
-                                    type="button"
-                                    data-pdf-section="news_{newsItem.uid}"
-                                    aria-pressed="false"
+                        <f:if condition="{newsItem.externalurl}">
+                            <p class="cb-news-detail__external-link">
+                                <a
+                                    href="{newsItem.externalurl}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="cb-project-article-website-link"
                                 >
-                                    <span class="cb-pdf-add-btn__label"
-                                        >Zu PDF-Export hinzufügen</span
-                                    >
-                                </button>
-                            </div>
+                                    Website besuchen →
+                                </a>
+                            </p>
+                        </f:if>
+
+                        <div class="cb-news-detail__pdf-btn">
+                            <button
+                                class="cb-pdf-add-btn"
+                                type="button"
+                                data-pdf-section="news_{newsItem.uid}"
+                                aria-pressed="false"
+                            >
+                                <span class="cb-pdf-add-btn__label"
+                                    >Zu PDF-Export hinzufügen</span
+                                >
+                            </button>
                         </div>
-                    </div>
+                    </header>
 
-                    <!-- ── Main Content: Sidebar + Body ───────────────────────────── -->
-                    <div class="row g-5">
-                        <!-- Sidebar (sticky TOC, hidden on mobile) -->
-                        <div class="col-md-4 d-none d-md-block">
+                    <div class="cb-news-detail__body">
+                        <aside class="cb-news-detail__sidebar">
                             <div class="cb-sidebar">
                                 <div
                                     class="cb-toc-minimal"
                                     id="cb-news-toc-{newsItem.uid}"
                                 ></div>
                             </div>
-                        </div>
+                        </aside>
 
-                        <!-- Bodytext -->
-                        <div class="col-md-8">
+                        <div class="cb-news-detail__content">
                             <div class="cb-news-article-body">
-                                <!-- Media (images, video) -->
                                 <f:if condition="{newsItem.falMedia}">
-                                    <div class="cb-news-detail__media mb-4">
+                                    <figure class="cb-news-detail__media">
                                         <f:for
                                             each="{newsItem.falMedia}"
                                             as="media"
                                             iteration="mediaIter"
                                         >
-                                            <f:if
-                                                condition="{mediaIter.isFirst}"
-                                            >
+                                            <f:if condition="{mediaIter.isFirst}">
                                                 <f:image
                                                     image="{media}"
                                                     alt="{media.properties.alternative}"
                                                     title="{media.properties.title}"
-                                                    class="img-fluid rounded mb-3"
+                                                    class="cb-img-fluid"
                                                     loading="lazy"
                                                 />
                                             </f:if>
                                         </f:for>
-                                    </div>
+                                    </figure>
                                 </f:if>
 
-                                <!-- HTML bodytext -->
                                 <f:if condition="{newsItem.bodytext}">
-                                    <f:format.html
-                                        >{newsItem.bodytext}</f:format.html
-                                    >
+                                    <f:format.html>{newsItem.bodytext}</f:format.html>
                                 </f:if>
 
-                                <!-- Content elements (if any are attached to the news record) -->
                                 <f:if condition="{newsItem.contentElements}">
                                     <f:cObject
                                         typoscriptObjectPath="lib.tx_news.contentElementRendering"
@@ -161,7 +146,6 @@
                         </div>
                     </div>
 
-                    <!-- ── Prev / Next Navigation ──────────────────────────────────── -->
                     <n:simplePrevNext
                         pidList="{newsItem.pid}"
                         news="{newsItem}"
@@ -173,21 +157,15 @@
                             aria-label="Weitere Artikel"
                         >
                             <div class="cb-article-nav__inner">
-                                <div
-                                    class="cb-article-nav__item cb-article-nav__item--prev"
-                                >
+                                <div class="cb-article-nav__item cb-article-nav__item--prev">
                                     <f:if condition="{prevNext.prev}">
                                         <n:link
                                             newsItem="{prevNext.prev}"
                                             settings="{settings}"
                                             class="cb-article-nav__link"
                                         >
-                                            <span class="cb-article-nav__label"
-                                                >← Vorheriger Artikel</span
-                                            >
-                                            <span class="cb-article-nav__title"
-                                                >{prevNext.prev.title}</span
-                                            >
+                                            <span class="cb-article-nav__label">← Vorheriger Artikel</span>
+                                            <span class="cb-article-nav__title">{prevNext.prev.title}</span>
                                         </n:link>
                                     </f:if>
                                 </div>
@@ -201,21 +179,15 @@
                                     >
                                 </div>
 
-                                <div
-                                    class="cb-article-nav__item cb-article-nav__item--next"
-                                >
+                                <div class="cb-article-nav__item cb-article-nav__item--next">
                                     <f:if condition="{prevNext.next}">
                                         <n:link
                                             newsItem="{prevNext.next}"
                                             settings="{settings}"
                                             class="cb-article-nav__link"
                                         >
-                                            <span class="cb-article-nav__label"
-                                                >Nächster Artikel →</span
-                                            >
-                                            <span class="cb-article-nav__title"
-                                                >{prevNext.next.title}</span
-                                            >
+                                            <span class="cb-article-nav__label">Nächster Artikel →</span>
+                                            <span class="cb-article-nav__title">{prevNext.next.title}</span>
                                         </n:link>
                                     </f:if>
                                 </div>
@@ -240,7 +212,7 @@
                         })();
                     </script>
                 </div>
-            </div>
+            </article>
         </f:if>
     </f:section>
 </html>

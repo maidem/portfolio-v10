@@ -1,43 +1,14 @@
-@import "bootstrap/scss/bootstrap";
+@use "design-system" as *;
+@use "nav";
 
-$grid-unit: 0.5rem; // 8px
-$glass-bg: rgba(255, 255, 255, 0.45);
-$glass-border: rgba(255, 255, 255, 0.5);
-$glass-blur: blur(24px) saturate(160%);
-
-// Typographic Tokens
-$text-primary: #111111;
-$text-secondary: #555555;
-$text-muted: #888888;
-$brand-primary: #e0f7ff;
-$brand-btn: #9bc0cf; // New medium blue for buttons instead of black
-$bg-deep: #f7f7f5;
-$card-bg-gray: rgba(245, 245, 247, 0.92);
-
-// Banner dimension annotation tokens
+// ─── CSS Custom Properties ────────────────────────────────────────────────────
 :root {
-  --color-banner-label-bg: rgb(2, 122, 138);
+  --color-banner-label-bg: #{$brand-teal};
   --color-banner-label-text: #ffffff;
-  --color-dim-label-bg: rgb(214, 236, 240); // soft mosaic accent (light theme)
+  --color-dim-label-bg: #{$brand-teal-dim};
 }
 
-// Scroll offset for sticky navigation
-// Nav height = $grid-unit * 9 = 4.5rem
-section[id] {
-  scroll-margin-top: $grid-unit * 9;
-}
-
-$font-weight-display: 900;
-$font-weight-heading: 300; // Refined light weight
-$font-weight-label: 600;
-$font-weight-light: 300;
-$font-weight-regular: 400;
-
-$letter-spacing-wide: 0.15em;
-$letter-spacing-display: -0.04em;
-
-// Scrollbar-Breite immer reservieren → kein Layout-Shift beim Modal öffnen
-// scrollbar-gutter statt overflow-y:scroll damit Bootstrap-Modal korrekt zentriert
+// ─── Base ─────────────────────────────────────────────────────────────────────
 html {
   scrollbar-gutter: stable;
 }
@@ -45,12 +16,12 @@ html {
 body {
   background-color: transparent;
   color: $text-primary;
-  font-family: "JetBrains Mono", "Courier New", monospace;
-  font-size: 1.125rem; // 18px base for better precision
+  font-family: $font-mono;
+  font-size: 1.125rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: clip; // 'clip' prevents horizontal overflow without creating a scroll context — keeps position:sticky working
+  overflow-x: clip;
   min-height: 100vh;
   position: relative;
   display: flex;
@@ -59,42 +30,55 @@ body {
   > main {
     flex: 1 0 auto;
   }
+
+  // Film grain overlay
+  &::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: $z-noise;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.01;
+  }
 }
 
-// Consistent vertical rhythm for content sections
-// Mobile: 3 × 8px = 24px | Desktop: 4 × 8px = 32px
+// ─── Section scroll offset (sticky nav height = $unit * 9 = 4.5rem) ──────────
+section[id] {
+  scroll-margin-top: $unit * 9;
+}
+
+// ─── Layout rhythm ────────────────────────────────────────────────────────────
 main > .container,
 main > section,
 main > .frame {
-  padding-top: $grid-unit * 3; // 24px — mobile
+  padding-top: $unit * 3;
   padding-bottom: 0;
 
-  @media (min-width: 768px) {
-    padding-top: $grid-unit * 4; // 32px — desktop
+  @include above($bp-md) {
+    padding-top: $unit * 4;
   }
 }
 
-// First element after banner gets standard section rhythm (24px mobile / 32px desktop)
 .cb-portfolio-banner + .container,
 .cb-portfolio-banner + section,
 .cb-portfolio-banner + .frame {
-  padding-top: $grid-unit * 3; // 24px — mobile
+  padding-top: $unit * 3;
 
-  @media (min-width: 768px) {
-    padding-top: $grid-unit * 4; // 32px — desktop
+  @include above($bp-md) {
+    padding-top: $unit * 4;
   }
 }
 
-// Remove internal top padding from first card body directly after banner (PDF-Export, etc.)
 .cb-portfolio-banner + section .cb-card__body {
   padding-top: 0;
 }
 
 main {
-  padding-bottom: $grid-unit * 3; // 24px — mobile
+  padding-bottom: $unit * 3;
 
-  @media (min-width: 768px) {
-    padding-bottom: $grid-unit * 4; // 32px — desktop
+  @include above($bp-md) {
+    padding-bottom: $unit * 4;
   }
 }
 
@@ -102,10 +86,16 @@ main {
   margin-bottom: 0;
 }
 
+// ─── Container utility ────────────────────────────────────────────────────────
+.container {
+  @include container;
+}
+
+// ─── Background decorations ───────────────────────────────────────────────────
 .cb-bg-fill {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: $z-bg;
   background-color: #ffffff;
   pointer-events: none;
 }
@@ -117,38 +107,12 @@ main {
   z-index: 0;
   overflow: hidden;
   -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      transparent 6%,
-      black 16%,
-      rgba(0, 0, 0, 0.18) 55%,
-      transparent 100%
-    );
+    linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, transparent 6%, black 16%, rgba(0, 0, 0, 0.18) 55%, transparent 100%);
   -webkit-mask-composite: destination-in;
   mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      transparent 6%,
-      black 16%,
-      rgba(0, 0, 0, 0.18) 55%,
-      transparent 100%
-    );
+    linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, transparent 6%, black 16%, rgba(0, 0, 0, 0.18) 55%, transparent 100%);
   mask-composite: intersect;
 
   svg {
@@ -157,60 +121,53 @@ main {
     opacity: 0.85;
   }
 
-  @media (max-width: 639px) {
+  @include below($bp-md) {
     display: none;
   }
 }
 
-// ─── Banner styles moved to ContentBlock banner/assets/frontend.scss ─────────
+// ─── z-index stacking ─────────────────────────────────────────────────────────
+main,
+header,
+footer {
+  position: relative;
+  z-index: $z-base;
+}
 
-// Card Layout
+main > section:first-of-type {
+  position: relative;
+  z-index: $z-base;
 
-body {
-  &::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.01;
+  > * {
+    position: relative;
+    z-index: $z-base;
   }
 }
 
+// ─── Animations ───────────────────────────────────────────────────────────────
 @keyframes cbSoftReveal {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
+// ─── Card ─────────────────────────────────────────────────────────────────────
 .cb-card {
   opacity: 0;
   animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-
   position: relative;
-  z-index: 1;
-
+  z-index: $z-base;
   background: transparent;
   border: 0;
   border-radius: 0;
   overflow: hidden;
   padding: 0;
-  margin-bottom: $grid-unit * 4;
-
+  margin-bottom: $unit * 4;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateZ(0);
   backface-visibility: hidden;
 
-  // Article detail page: no label bar, needs direct padding
   &--article {
-    padding: $grid-unit * 4;
+    padding: $unit * 4;
   }
 
   &:last-child {
@@ -222,7 +179,7 @@ body {
     border-bottom: none;
     padding: 0 clamp(1.5rem, 3.5vw, 3rem);
     font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 700;
+    font-weight: $fw-bold;
     letter-spacing: -0.02em;
     line-height: 1.15;
     color: $text-primary;
@@ -231,16 +188,16 @@ body {
   &__body {
     padding: clamp(1.5rem, 3.5vw, 3rem);
 
-    @media (min-width: 768px) {
+    @include above($bp-md) {
       margin-bottom: 0;
     }
   }
 
   &__title {
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: $fw-bold;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: $ls-wide;
     color: $text-primary;
     line-height: 1.2;
     margin: 0;
@@ -254,14 +211,15 @@ body {
   }
 }
 
+// ─── Section heading ──────────────────────────────────────────────────────────
 .cb-section-heading {
-  font-size: 0.8125rem; // Scaled down from 1rem
+  font-size: 0.8125rem;
   text-transform: uppercase;
-  font-weight: $font-weight-label;
+  font-weight: $fw-semibold;
   letter-spacing: 0.2em;
   color: $text-primary;
-  padding-bottom: $grid-unit * 2;
-  margin-bottom: $grid-unit * 5;
+  padding-bottom: $unit * 2;
+  margin-bottom: $unit * 5;
   position: relative;
 
   &::after {
@@ -275,348 +233,20 @@ body {
   }
 }
 
-// Navigation
-
-main,
-header,
-footer {
-  position: relative;
-  z-index: 1; // Above background text
-}
-
-main > section:first-of-type {
-  position: relative;
-  z-index: 1;
-}
-
-main > section:first-of-type > * {
-  position: relative;
-  z-index: 1;
-}
-
-.cb-nav {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1040;
-  background-color: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-
-  // Override Bootstrap link color CSS variables for all links inside nav
-  --bs-link-color-rgb: 136, 136, 136;
-  --bs-link-hover-color-rgb: 17, 17, 17;
-
-  a {
-    text-decoration: none;
-  }
-
-  &__bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    min-height: $grid-unit * 9;
-    position: relative;
-    padding-top: $grid-unit * 2;
-    padding-bottom: $grid-unit * 2;
-  }
-
-  &__logo {
-    font-size: 0.875rem;
-    letter-spacing: 0.04em;
-    font-weight: 600;
-    color: $text-primary;
-    text-decoration: none;
-    line-height: 1;
-    flex-shrink: 0;
-    white-space: nowrap;
-    margin-right: auto;
-    transition: opacity 0.15s ease;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  &__desktop {
-    display: none;
-
-    @media (min-width: 768px) {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
-
-  &__sep {
-    color: $text-muted;
-    font-size: 0.875rem;
-    user-select: none;
-  }
-
-  &__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 0;
-  }
-
-  &__link {
-    font-size: 0.875rem; // 14px
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-    color: $text-muted;
-    font-weight: 500;
-    transition: color 0.15s ease;
-    line-height: 1;
-    padding: 0.5rem 0;
-    white-space: nowrap;
-
-    &:link,
-    &:visited {
-      color: $text-muted;
-      text-decoration: none;
-    }
-
-    &:hover {
-      color: $text-primary;
-    }
-
-    &--active {
-      color: $text-primary;
-      pointer-events: none;
-      cursor: default;
-    }
-
-    &--active:link,
-    &--active:visited {
-      color: $text-primary;
-    }
-
-    &.active,
-    &.active:link,
-    &.active:visited,
-    &.active:hover {
-      color: $text-primary;
-      pointer-events: none;
-      cursor: default;
-    }
-
-    &__desktop &__link.cb-nav__link--active,
-    &__desktop &__link.active,
-    &__desktop &__link.cb-nav__link--active:visited,
-    &__desktop &__link.active:visited {
-      color: $text-primary;
-      pointer-events: none;
-      cursor: default;
-    }
-    // GitHub icon — SVG aligned to nav text baseline
-    &--icon {
-      display: inline-flex;
-      align-items: center;
-      color: $text-muted;
-      padding: 0;
-      line-height: 1;
-      position: relative;
-      top: 0.1875rem; // nudge SVG to visually sit on text baseline
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: $text-primary;
-      }
-    }
-
-  }
-
-  &__toggle {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
-    gap: 5px;
-    width: 2.5rem;
-    height: 2.5rem;
-    background: rgba(255, 255, 255, 0.6);
-    border: 1.5px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1051;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    transition:
-      background 0.2s ease,
-      border-color 0.2s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.9);
-      border-color: rgba(0, 0, 0, 0.18);
-    }
-
-    @media (min-width: 768px) {
-      display: none;
-    }
-  }
-
-  &__toggle-line {
-    display: block;
-    width: 1.125rem;
-    height: 1.5px;
-    background-color: $text-primary;
-    border-radius: 2px;
-    transition:
-      transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.2s ease,
-      width 0.28s ease;
-
-    &:nth-child(3) {
-      width: 0.75rem;
-    }
-  }
-
-  // X animation when open
-  &__toggle[aria-expanded="true"] {
-    .cb-nav__toggle-line:nth-child(1) {
-      transform: translateY(6.5px) rotate(45deg);
-      width: 1.125rem;
-    }
-    .cb-nav__toggle-line:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-    .cb-nav__toggle-line:nth-child(3) {
-      transform: translateY(-6.5px) rotate(-45deg);
-      width: 1.125rem;
-    }
-  }
-
-  // ── Backdrop ──────────────────────────────────────────────────────────────
-  &__backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 1039;
-    background-color: rgba(0, 0, 0, 0);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      background-color 0.35s ease,
-      opacity 0.35s ease,
-      visibility 0.35s ease;
-
-    &--open {
-      background-color: rgba(0, 0, 0, 0.25);
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  // ── Bottom Sheet ──────────────────────────────────────────────────────────
-  &__overlay {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1040;
-    background-color: #fefefe;
-    border-radius: 1.5rem 1.5rem 0 0;
-    box-shadow: 0 -8px 40px -4px rgba(0, 0, 0, 0.12);
-    transform: translateY(100%);
-    visibility: hidden;
-    transition:
-      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-      visibility 0.4s;
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1.5rem);
-
-    &--open {
-      transform: translateY(0);
-      visibility: visible;
-    }
-  }
-
-  &__sheet-handle {
-    width: 2.25rem;
-    height: 4px;
-    background-color: rgba(0, 0, 0, 0.12);
-    border-radius: 2px;
-    margin: 0.875rem auto 0;
-  }
-
-  &__overlay-list {
-    list-style: none;
-    margin: 0;
-    padding: 1rem 0 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0;
-  }
-
-  &__overlay-item {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    opacity: 0;
-    transform: translateY(10px);
-    transition:
-      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &__overlay-link {
-    display: inline-flex;
-    align-items: center;
-    text-align: right;
-    padding: 0.625rem 2rem 0.625rem 1.5rem;
-    color: rgba(0, 0, 0, 0.38);
-    font-size: clamp(1.375rem, 5vw, 1.75rem);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    line-height: 1.2;
-    transition: color 0.2s ease;
-    min-height: 3rem; // touch target
-
-    &:hover {
-      color: rgba(0, 0, 0, 0.65);
-    }
-
-    &--active {
-      color: #111111;
-      font-weight: 800;
-      pointer-events: none;
-      cursor: default;
-    }
-  }
-}
-
-// ─── Global Heading Styles ─────────────────────────────────────────────────
-// h2–h6: gedämpftes Grau
-
+// ─── Typography ───────────────────────────────────────────────────────────────
 h1 {
   color: $text-primary;
   text-decoration: none;
   font-size: clamp(1.375rem, 1.8vw, 1.75rem);
-  font-weight: 700;
+  font-weight: $fw-bold;
   line-height: 1.25;
-  letter-spacing: $letter-spacing-display;
+  letter-spacing: $ls-display;
 }
 
 h2 {
   color: $text-muted;
   font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-  font-weight: 600;
+  font-weight: $fw-semibold;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
@@ -624,45 +254,237 @@ h2 {
 h3 {
   color: $text-muted;
   font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: 600;
+  font-weight: $fw-semibold;
   line-height: 1.25;
 }
 
-h4,
-h5,
-h6 {
+h4, h5, h6 {
   color: $text-muted;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: $fw-semibold;
   line-height: 1.3;
 }
 
+// ─── Footer ───────────────────────────────────────────────────────────────────
+.cb-footer {
+  &__container {
+    @include container;
+  }
 
-.modal-backdrop.show {
-  background-color: rgba(240, 240, 235, 0.65);
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding-block: $unit * 3;
+
+    @include above($bp-md) {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: start;
+    }
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @include above($bp-md) {
+      justify-content: flex-end;
+    }
+  }
+
+  &__link {
+    font-family: $font-mono;
+    font-size: 0.6875rem;
+    font-weight: $fw-bold;
+    text-transform: uppercase;
+    letter-spacing: $ls-wide;
+    text-decoration: none;
+    color: $text-muted;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
 }
 
-.modal {
-  width: 100vw;
-}
-
-.modal-content {
+// ─── Dialog (replaces Bootstrap Modal) ───────────────────────────────────────
+.cb-dialog {
   border: none;
-  border-radius: 1.5rem;
+  border-radius: $radius-modal;
+  padding: 0;
+  max-width: min(56rem, 90vw);
+  width: 100%;
+  max-height: 85vh;
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+
+  &::backdrop {
+    background-color: rgba(240, 240, 235, 0.65);
+    backdrop-filter: blur(2px);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: $fw-semibold;
+    margin: 0;
+    color: $text-primary;
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: $text-muted;
+    padding: 0.25rem 0.5rem;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+
+  &__body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+
+    &::before {
+      content: "";
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-top-color: $text-primary;
+      border-radius: 50%;
+      animation: cbSpin 0.7s linear infinite;
+    }
+  }
 }
 
-.modal-header,
-.modal-footer {
-  border: none;
+@keyframes cbSpin {
+  to { transform: rotate(360deg); }
 }
 
-// ─── EXT:news — Global Styles ─────────────────────────────────────────────────
+.cb-visually-hidden {
+  @include visually-hidden;
+}
 
-// Category label shown above titles in list and detail view
+// ─── Form layout ─────────────────────────────────────────────────────────────
+.cb-form-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+  &__label-col {
+    flex: 1 1 100%;
+
+    @include above($bp-md) {
+      flex: 0 0 calc(33.333% - 0.75rem);
+    }
+  }
+
+  &__input-col {
+    flex: 1 1 100%;
+
+    @include above($bp-md) {
+      flex: 0 0 calc(66.666% - 0.75rem);
+    }
+  }
+}
+
+.cb-form-section {
+  @include container;
+}
+
+// ─── Form submit button ───────────────────────────────────────────────────────
+.cb-form-submit {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+  border: 1.5px solid rgba(17, 17, 17, 0.25);
+  border-radius: $radius-pill;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  background: transparent;
+  color: $text-primary;
+  transition: border-color $transition-base, background-color $transition-base;
+
+  &:hover {
+    border-color: $text-primary;
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+}
+
+// ─── Section containers (replaces .container per context) ────────────────────
+.cb-section-hero__container,
+.cb-section-projects__container,
+.cb-section-skills__container,
+.cb-news-list,
+.cb-news-filter-bar {
+  @include container;
+}
+
+// ─── Skills inner layout (replaces row/col) ───────────────────────────────────
+.cb-skills__inner {
+  max-width: 75%;
+
+  @include below($bp-md) {
+    max-width: 100%;
+  }
+}
+
+// ─── News: Category list reset ────────────────────────────────────────────────
+.cb-news-categories {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+// ─── News: Category label ─────────────────────────────────────────────────────
 .cb-news-category-label {
   font-size: 0.625rem;
-  font-weight: 700;
+  font-weight: $fw-bold;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: rgba(0, 0, 0, 0.45);
@@ -671,37 +493,37 @@ h6 {
   margin-bottom: 0.25rem;
 }
 
-// ── News Category Filter Buttons ──────────────────────────────────────────────
+// ─── News: Category filter ────────────────────────────────────────────────────
 .cb-news-filter {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 0.5rem; // 8px
+  gap: 0.5rem;
   padding: 0;
-  margin-bottom: 2rem; // 32px — spacing to news list
+  margin-bottom: 2rem;
 
-  @media (max-width: 767.98px) {
-    gap: 0.5rem;
-    margin-bottom: 1.5rem; // 24px
+  @include below($bp-md) {
+    margin-bottom: 1.5rem;
   }
 
   &__btn {
     display: inline-block;
-    padding: 0.375rem 1rem; // 6px 16px — visually balanced on 8px grid
+    padding: 0.375rem 1rem;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: $fw-semibold;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-family: $font-family-monospace;
+    font-family: $font-mono;
     text-decoration: none;
     border: 1.5px solid rgba(17, 17, 17, 0.18);
-    border-radius: 999px;
+    border-radius: $radius-pill;
     color: $text-muted;
     line-height: 1;
+    cursor: pointer;
+    background: none;
     transition:
-      background-color 0.15s ease,
-      color 0.15s ease,
-      border-color 0.15s ease;
+      background-color $transition-fast,
+      color $transition-fast,
+      border-color $transition-fast;
 
     &:hover {
       border-color: $text-primary;
@@ -722,9 +544,9 @@ h6 {
   }
 }
 
-// ── News List Item Spacing ──────────────────────────────────────────────────────
+// ─── News: List item ──────────────────────────────────────────────────────────
 .cb-news-item {
-  position: relative; // Required: contains Bootstrap stretched-link ::after overlay
+  position: relative;
   padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
   margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
   border-bottom: 1px solid rgba(17, 17, 17, 0.07);
@@ -734,58 +556,94 @@ h6 {
     margin-bottom: 0;
     padding-bottom: 0;
   }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    align-items: baseline;
+  }
+
+  &__date-col {
+    flex: 1 1 100%;
+
+    @include above($bp-md) {
+      flex: 0 0 calc(33.333% - 0.75rem);
+    }
+  }
+
+  &__content-col {
+    flex: 1 1 100%;
+
+    @include above($bp-md) {
+      flex: 0 0 calc(66.666% - 0.75rem);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
 }
 
-// ── News List Item Typography ─────────────────────────────────────────────────
+// ─── News: Typography ─────────────────────────────────────────────────────────
 .cb-news-date {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-family: $font-family-monospace;
+  @include label-text(0.6875rem, 0.15em);
   color: rgba(0, 0, 0, 0.4);
 }
 
 .cb-news-title {
   font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
-  font-weight: 600;
+  font-weight: $fw-semibold;
   color: $text-primary;
   line-height: 1.3;
   letter-spacing: -0.01em;
   margin-bottom: 0.25rem;
+  margin-top: 0;
 }
 
 .cb-news-teaser {
   font-size: 0.875rem;
   color: $text-muted;
   line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.cb-news-empty {
+  font-family: $font-mono;
+  font-size: 0.875rem;
+  color: $text-muted;
 }
 
 .cb-news-link {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-family: $font-family-monospace;
+  @include label-text(0.6875rem, 0.15em);
   text-decoration: none;
   color: $text-primary;
-  transition: opacity 0.2s ease;
+  transition: opacity $transition-base;
 
   &:hover {
     opacity: 0.6;
   }
 }
 
-// ── News Detail Back Link ─────────────────────────────────────────────────────
+// ponytail: replaces Bootstrap's .stretched-link — parent must be position:relative
+.cb-stretched-link {
+  @include stretched-link;
+}
+
+// ─── News: Detail ─────────────────────────────────────────────────────────────
 .cb-news-article-back {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-family: $font-family-monospace;
+  @include label-text(0.6875rem, 0.15em);
   text-decoration: none;
   color: rgba(0, 0, 0, 0.4);
-  transition: color 0.2s ease;
+  transition: color $transition-base;
+
+  &--block {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
 
   &:hover {
     color: $text-primary;
@@ -793,42 +651,90 @@ h6 {
 }
 
 .cb-news-article-date {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-family: $font-family-monospace;
+  @include label-text(0.6875rem, 0.15em);
   color: rgba(0, 0, 0, 0.4);
+
+  &--block {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .cb-news-article-title-top {
   font-size: clamp(1.375rem, 2.5vw, 2rem);
-  font-weight: 700;
+  font-weight: $fw-bold;
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: $text-primary;
+  margin-bottom: 0.75rem;
 }
 
 .cb-news-article-teaser {
   font-size: 0.9375rem;
   color: $text-muted;
   line-height: 1.6;
+  margin-bottom: 0;
 }
 
-// Detail view wrapper (replaces .cb-news-article / .cb-project-article)
+.cb-img-fluid {
+  @include img-fluid;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
 .cb-news-detail {
+  @include container;
   opacity: 0;
   animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   scroll-margin-top: 100px;
 
-  .cb-news-detail__inner {
+  &__inner {
     padding: clamp(2rem, 5vw, 5rem) 0;
+
+    @include above($bp-md) {
+      padding: clamp(3rem, 6vw, 5rem) 0;
+    }
   }
 
-  .cb-news-detail__header-row {
+  &__header {
     border-bottom: 1px solid rgba(17, 17, 17, 0.1);
-    padding-bottom: 2.5rem !important;
-    margin-bottom: 2.5rem !important;
+    padding-bottom: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  &__external-link {
+    margin-top: 0.75rem;
+  }
+
+  &__pdf-btn {
+    margin-top: 0.75rem;
+  }
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+  }
+
+  &__sidebar {
+    display: none;
+    flex: 0 0 calc(33.333% - 1.5rem);
+
+    @include above($bp-md) {
+      display: block;
+    }
+  }
+
+  &__content {
+    flex: 1 1 100%;
+
+    @include above($bp-md) {
+      flex: 0 0 calc(66.666% - 1.5rem);
+    }
+  }
+
+  &__media {
+    margin-bottom: 1rem;
   }
 
   .cb-sidebar {
@@ -837,42 +743,33 @@ h6 {
     max-height: calc(100vh - 9rem);
     overflow-y: auto;
     scrollbar-width: none;
+
     &::-webkit-scrollbar {
       display: none;
     }
   }
 
-  @media (min-width: 768px) {
-    .cb-news-detail__inner {
-      padding: clamp(3rem, 6vw, 5rem) 0;
-    }
-  }
-
-  @media (max-width: 767.98px) {
-    &.container {
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
-    }
-    .cb-news-detail__inner {
+  @include below($bp-md) {
+    &__inner {
       padding: 2rem 0;
     }
   }
 }
 
-// External project website link (used in news detail + list)
+// ─── News: External link ──────────────────────────────────────────────────────
 .cb-project-article-website-link,
 .cb-news-website-link {
   font-size: 0.6875rem;
-  font-weight: 700;
+  font-weight: $fw-bold;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #111111;
+  letter-spacing: $ls-wide;
+  color: $text-primary;
   text-decoration: none;
   border-bottom: 1.5px solid rgba(17, 17, 17, 0.25);
   padding-bottom: 1px;
   transition:
-    border-color 0.2s ease,
-    opacity 0.2s ease;
+    border-color $transition-base,
+    opacity $transition-base;
 
   &:hover {
     opacity: 0.6;
@@ -880,13 +777,13 @@ h6 {
   }
 }
 
-// Prev / Next Article Navigation
+// ─── News: Prev/Next navigation ───────────────────────────────────────────────
 .cb-article-nav {
   margin-top: 4rem;
   padding-top: 2.5rem;
   border-top: 1px solid rgba(17, 17, 17, 0.1);
 
-  @media (max-width: 575.98px) {
+  @include below($bp-sm) {
     margin-top: 2.5rem;
     padding-top: 1.75rem;
   }
@@ -898,7 +795,7 @@ h6 {
     align-items: center;
     flex-wrap: nowrap;
 
-    @media (max-width: 575.98px) {
+    @include below($bp-sm) {
       gap: 0.75rem;
     }
   }
@@ -920,13 +817,13 @@ h6 {
     max-width: 100%;
 
     &:hover .cb-article-nav__title {
-      color: #111111;
+      color: $text-primary;
     }
   }
 
   &__label {
     font-size: 0.5625rem;
-    font-weight: 700;
+    font-weight: $fw-bold;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: #bbbbbb;
@@ -935,17 +832,17 @@ h6 {
 
   &__title {
     font-size: 0.9375rem;
-    font-weight: 500;
+    font-weight: $fw-medium;
     color: rgba(17, 17, 17, 0.55);
     line-height: 1.4;
-    transition: color 0.2s ease;
+    transition: color $transition-base;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 28ch;
 
-    @media (max-width: 767.98px) {
+    @include below($bp-md) {
       max-width: 18ch;
     }
   }
@@ -960,34 +857,34 @@ h6 {
 
   &__overview-link {
     font-size: 0.5625rem;
-    font-weight: 700;
+    font-weight: $fw-bold;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: #bbbbbb;
     text-decoration: none;
     white-space: nowrap;
-    transition: color 0.2s ease;
+    transition: color $transition-base;
 
     &:hover {
       color: rgba(17, 17, 17, 0.7);
     }
 
-    @media (max-width: 575.98px) {
+    @include below($bp-sm) {
       font-size: 0.5rem;
       letter-spacing: 0.12em;
     }
   }
 }
 
-// ── Hide category filter on news detail pages ───────────────────────────────────
+// ─── Hide category filter on news detail pages ────────────────────────────────
 body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
   display: none;
 }
 
-// ── Skills ContentBlock: Workflows-Heading ────────────────────────────────────
+// ─── Skills ContentBlock ──────────────────────────────────────────────────────
 .cb-workflows__heading {
   font-size: clamp(1.125rem, 2.5vw, 1.5rem) !important;
-  font-weight: 700;
+  font-weight: $fw-bold;
   letter-spacing: -0.01em;
   line-height: 1.25;
 }

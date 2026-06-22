@@ -1,34 +1,31 @@
 <section
     id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
 >
-    <div class="container cb-skills-wrapper">
+    <div class="cb-section-skills__container">
         <f:if condition="{data.skill_items}">
             <div class="cb-card cb-skills-unified-card">
                 <f:if condition="{data.header}">
                     <div class="cb-card__label-bar">{data.header}</div>
                 </f:if>
                 <div class="cb-card__body">
-                    <div class="row">
-                        <div class="col-12 col-md-9 mx-auto">
-                            <!-- Filter-Bar: wird via JS aus data-category-Attributen aufgebaut -->
-                            <div
-                                class="cb-skills-filter-bar"
-                                role="group"
-                                aria-label="Filter nach Kategorie"
-                            ></div>
-                            <div class="cb-skill-tiles-grid" data-skills-filter>
-                                <f:for each="{data.skill_items}" as="skill">
-                                    <f:if condition="{skill.skill_name}">
-                                        <div
-                                            class="cb-skill-tile"
-                                            data-category="{skill.filter_group}"
-                                        >
-                                            {skill.skill_name}
-                                        </div>
-                                    </f:if>
-                                </f:for>
-                            </div>
-                        </div>
+                    <div class="cb-skills__inner">
+                        <div
+                            class="cb-skills-filter-bar"
+                            role="group"
+                            aria-label="Filter nach Kategorie"
+                        ></div>
+                        <ul class="cb-skill-tiles-grid" data-skills-filter>
+                            <f:for each="{data.skill_items}" as="skill">
+                                <f:if condition="{skill.skill_name}">
+                                    <li
+                                        class="cb-skill-tile"
+                                        data-category="{skill.filter_group}"
+                                    >
+                                        {skill.skill_name}
+                                    </li>
+                                </f:if>
+                            </f:for>
+                        </ul>
                     </div>
                 </div>
             </div>

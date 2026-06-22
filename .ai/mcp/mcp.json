@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "coolify": {
+      "command": "/Users/maidem/.volta/bin/npx",
+      "args": [
+        "-y",
+        "@joshuarileydev/coolify-mcp-server"
+      ],
+      "env": {
+        "COOLIFY_API_URL": "http://100.99.227.54:8000",
+        "COOLIFY_API_TOKEN": "28|PejsmGeFsvf1GcItDrtqiF8DwVsPlHfaEZFNiFKu4441bfcb"
+      }
+    }
+  }
+}

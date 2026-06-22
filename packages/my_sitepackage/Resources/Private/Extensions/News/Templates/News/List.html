@@ -7,14 +7,14 @@
 
     <f:section name="content">
         <f:if condition="{news}">
-            <div class="container" id="cb-news-filter-bar">
+            <div class="cb-news-filter-bar" id="cb-news-filter-bar">
                 <div class="cb-news-filter">
                     <button type="button" class="cb-news-filter__btn cb-news-filter__btn--active" data-filter="all">Alle</button>
                 </div>
             </div>
         </f:if>
 
-        <div class="container cb-news-list" id="cb-news-list">
+        <div class="cb-news-list" id="cb-news-list">
             <div class="cb-card">
                 <div class="cb-card__body">
                     <f:if condition="{news}">
@@ -27,7 +27,7 @@
                             </f:for>
                         </f:then>
                         <f:else>
-                            <p class="text-muted font-monospace small">
+                            <p class="cb-news-empty">
                                 Keine Einträge vorhanden.
                             </p>
                         </f:else>

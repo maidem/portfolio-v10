@@ -99,12 +99,6 @@ class PdfDataService
         return $grouped;
     }
 
-    public function getWorkflowsContent(): array
-    {
-        // gripsraum_skills_skill_workflows table no longer exists (ContentBlock removed).
-        return [];
-    }
-
     public function getProjectsByUids(array $uids): array
     {
         if (empty($uids)) {
@@ -145,28 +139,35 @@ class PdfDataService
             ->fetchAllAssociative();
     }
 
-    public function getProjectsContent(): array
+    /**
+     * Returns the pdf-cart key for a news record: "project_{uid}" or "logbook_{uid}".
+     * Classification is based on the parent page title, same logic as PdfExportDataProcessor.
+     */
+    public function classifyNewsUid(int $uid): string
     {
-        $parent = $this->getLatestContentRecord('gripsraum_projects');
-        if (!$parent) {
-            return [];
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('tx_news_domain_model_news');
+
+        $row = $queryBuilder
+            ->select('n.uid')
+            ->addSelectLiteral("COALESCE(p.title, '') AS page_title")
+            ->from('tx_news_domain_model_news', 'n')
+            ->leftJoin('n', 'pages', 'p', $queryBuilder->expr()->eq('p.uid', $queryBuilder->quoteIdentifier('n.pid')))
+            ->where($queryBuilder->expr()->eq('n.uid', $queryBuilder->createNamedParameter($uid, \Doctrine\DBAL\ParameterType::INTEGER)))
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
+
+        if (!$row) {
+            return 'logbook_' . $uid;
         }
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('gripsraum_projects_project_items');
-        return $queryBuilder
-            ->select('title', 'description')
-            ->from('gripsraum_projects_project_items')
-            ->where($queryBuilder->expr()->eq('foreign_table_parent_uid', $queryBuilder->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)))
-            ->orderBy('sorting')
-            ->executeQuery()
-            ->fetchAllAssociative();
-    }
+        $pageTitle = strtolower(trim($row['page_title'] ?? ''));
+        $type = (str_contains($pageTitle, 'projekt') || str_contains($pageTitle, 'project'))
+            ? 'project'
+            : 'logbook';
 
-    public function getLogbookContent(): array
-    {
-        // gripsraum_newsarticle ContentBlock removed; logbook entries are now EXT:news records.
-        // Use getLogbookByUids() instead.
-        return [];
+        return $type . '_' . $uid;
     }
 
     private function getLatestContentRecord(string $ctype): ?array

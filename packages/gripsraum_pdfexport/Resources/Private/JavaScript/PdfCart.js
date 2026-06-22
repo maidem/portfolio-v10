@@ -66,15 +66,15 @@ function updateAllBadges() {
  */
 function injectBadges() {
     const PDF_LINK_SELECTORS = [
-        '.cb-nav__link[title="Pdf-Export"]',
-        '.cb-nav__overlay-link[title="Pdf-Export"]',
+        '.cb-nav__link[title="Dossier"]',
+        '.cb-nav__overlay-link[title="Dossier"]',
     ];
     PDF_LINK_SELECTORS.forEach((selector) => {
         const link = document.querySelector(selector);
         if (!link) return;
         if (!link.querySelector(".cb-pdf-cart-badge")) {
             const badge = document.createElement("span");
-            badge.className = "badge rounded-pill cb-pdf-cart-badge";
+            badge.className = "cb-pdf-cart-badge";
             badge.setAttribute("aria-hidden", "true");
             link.appendChild(badge);
         }
@@ -153,7 +153,11 @@ function syncExportTiles() {
     if (!checkboxes.length) return;
     const cart = getCart();
     checkboxes.forEach((cb) => {
-        cb.checked = cart.includes(cb.value);
+        // Match by exact value (e.g. "info", "tech") or by news uid
+        // when cart contains "news_{uid}" and tile has data-news-uid="{uid}"
+        const newsUid = cb.dataset.newsUid;
+        cb.checked = cart.includes(cb.value) ||
+            (newsUid !== undefined && cart.includes("news_" + newsUid));
     });
 }
 
@@ -173,7 +177,10 @@ function initExportPageSync() {
                     setCart([...cart, cb.value]);
                 }
             } else {
-                setCart(cart.filter((id) => id !== cb.value));
+                // Remove both the typed key (e.g. "project_5") and the generic
+                // "news_5" that may have been stored from the detail-page button
+                const newsKey = cb.dataset.newsUid ? "news_" + cb.dataset.newsUid : null;
+                setCart(cart.filter((id) => id !== cb.value && id !== newsKey));
             }
         });
     });

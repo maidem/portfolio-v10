@@ -1,3 +1,37 @@
+.cb-section-pdfexport__container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+.cb-pdf-export__layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.cb-pdf-export__intro {
+  flex: 1 1 100%;
+
+  @media (min-width: 768px) {
+    flex: 0 0 calc(33.333% - 0.75rem);
+  }
+}
+
+.cb-pdf-export__main {
+  flex: 1 1 100%;
+
+  @media (min-width: 768px) {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
 // PDF Export Block — Wrapper wie .cb-hero: position relative + overflow visible
 .cb-pdf-export__block {
   position: relative;

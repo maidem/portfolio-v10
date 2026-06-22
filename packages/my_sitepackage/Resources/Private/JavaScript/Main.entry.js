@@ -1,10 +1,5 @@
 console.log("Main JS loaded");
 
-// Bootstrap JS – Modal global exportieren für inline scripts
-import Modal from "bootstrap/js/dist/modal";
-window.bootstrap = window.bootstrap || {};
-window.bootstrap.Modal = Modal;
-
 // JetBrains Mono — locally hosted via @fontsource (GDPR-compliant, no Google Fonts)
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
@@ -14,8 +9,8 @@ import "@fontsource/jetbrains-mono/800.css";
 import "../Styles/Main.entry.scss";
 
 // PDF Cart — pre-selection feature for PDF export
-import "./PdfCart.js";
-import "../Styles/PdfCart.scss";
+import "../../../../gripsraum_pdfexport/Resources/Private/JavaScript/PdfCart.js";
+import "../../../../gripsraum_pdfexport/Resources/Private/Scss/PdfCart.scss";
 
 // Vite Collector "Glob-Module" (Best Practice nach Simon Praetorius)
 // Alle frontend.{js,scss,css} Dateien aus den Content-Blöcken automatisch laden

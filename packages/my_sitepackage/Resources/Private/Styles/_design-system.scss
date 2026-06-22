@@ -1,0 +1,133 @@
+// ─── Design System ────────────────────────────────────────────────────────────
+// Single source of truth for all design tokens.
+// Bootstrap is not imported here — this file is the replacement foundation.
+
+// ─── Breakpoints ──────────────────────────────────────────────────────────────
+$bp-md: 768px;
+$bp-sm: 576px;
+$bp-lg: 1024px;
+
+// ─── Spacing ──────────────────────────────────────────────────────────────────
+$unit: 0.5rem; // 8px base grid unit
+
+// ─── Colors ───────────────────────────────────────────────────────────────────
+$text-primary:   #111111;
+$text-secondary: #555555;
+$text-muted:     #888888;
+
+$brand-primary: #e0f7ff;
+$brand-btn:     #9bc0cf;
+$brand-teal:    #027a8a;
+$brand-teal-dim: rgb(214, 236, 240);
+
+$bg-deep:      #f7f7f5;
+$card-bg-gray: rgba(245, 245, 247, 0.92);
+
+// ─── Glass effect ─────────────────────────────────────────────────────────────
+$glass-bg:     rgba(255, 255, 255, 0.45);
+$glass-border: rgba(255, 255, 255, 0.5);
+$glass-blur:   blur(24px) saturate(160%);
+
+// ─── Typography ───────────────────────────────────────────────────────────────
+$font-mono: "JetBrains Mono", "Courier New", monospace;
+
+$fw-light:   300;
+$fw-regular: 400;
+$fw-medium:  500;
+$fw-semibold: 600;
+$fw-bold:    700;
+$fw-display: 900;
+
+$ls-wide:    0.15em;
+$ls-display: -0.04em;
+
+// ─── Border radius ────────────────────────────────────────────────────────────
+$radius-pill:  999px;
+$radius-sheet: 1.5rem;
+$radius-modal: 1.5rem;
+
+// ─── Transitions ──────────────────────────────────────────────────────────────
+$transition-fast:   0.15s ease;
+$transition-base:   0.2s ease;
+$transition-spring: 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+
+// ─── Z-index scale ────────────────────────────────────────────────────────────
+$z-bg:      -1;
+$z-base:     1;
+$z-nav:      1040;
+$z-backdrop: 1039;
+$z-overlay:  1051;
+$z-noise:    9999;
+
+// ─── Mixins ───────────────────────────────────────────────────────────────────
+@mixin above($bp) {
+  @media (min-width: $bp) { @content; }
+}
+
+@mixin below($bp) {
+  @media (max-width: #{$bp - 0.02px}) { @content; }
+}
+
+// Replaces Bootstrap's container — centered, full-width with horizontal padding
+@mixin container($max: 1200px, $px: 1.25rem) {
+  width: 100%;
+  max-width: $max;
+  margin-inline: auto;
+  padding-inline: $px;
+
+  @include above($bp-md) {
+    padding-inline: 2rem;
+  }
+}
+
+// Replaces Bootstrap's row
+@mixin row($gap: 1.5rem) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap;
+}
+
+// Replaces Bootstrap's col utilities
+@mixin col($basis: 100%) {
+  flex: 1 1 $basis;
+  min-width: 0;
+}
+
+// Label / eyebrow text style (replaces text-uppercase + font-monospace combo)
+@mixin label-text($size: 0.75rem, $ls: 0.15em) {
+  font-size: $size;
+  font-weight: $fw-bold;
+  text-transform: uppercase;
+  letter-spacing: $ls;
+  font-family: $font-mono;
+}
+
+// Visually hidden (replaces Bootstrap's .visually-hidden)
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Responsive image (replaces .img-fluid)
+@mixin img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+// Stretched link (replaces Bootstrap's .stretched-link)
+// Apply to the link element; parent must be position: relative
+@mixin stretched-link {
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+  }
+}

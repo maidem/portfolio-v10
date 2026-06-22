@@ -99,43 +99,6 @@
       .skill-list li:last-child::after {
         content: "";
       }
-      .workflows-section {
-        margin-top: 1.2rem;
-        padding-top: 0.8rem;
-        border-top: 1px solid #e7e7e7;
-      }
-      .workflow-section-title {
-        font-size: 8pt;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #aaa;
-        margin-bottom: 0.8rem;
-      }
-      .workflow-chain {
-        display: flex;
-        align-items: baseline;
-        gap: 0.6rem;
-        margin-bottom: 0.6rem;
-        break-inside: avoid;
-      }
-      .workflow-name {
-        font-weight: 700;
-        font-size: 9pt;
-        text-transform: uppercase;
-        color: #888;
-        width: 9.5rem;
-        flex-shrink: 0;
-      }
-      .workflow-steps {
-        font-size: 9pt;
-        color: #444;
-        flex: 1;
-      }
-      .workflow-arrow {
-        color: #999;
-        font-weight: 400;
-      }
       .footer {
         margin-top: 15vh;
         font-size: 8pt;
@@ -225,26 +188,6 @@
                   </ul>
                 </div>
               </div>
-            </f:for>
-          </div>
-        </f:if>
-        <f:if condition="{data.workflows}">
-          <div class="workflows-section">
-            <h3 class="workflow-section-title">WORKFLOWS</h3>
-            <f:for each="{data.workflows}" as="workflow">
-              <f:if condition="{workflow.workflow_name}">
-                <div class="workflow-chain">
-                  <span class="workflow-name">{workflow.workflow_name}</span>
-                  <div class="workflow-steps">
-                    <f:for each="{workflow.steps}" as="step" iteration="iter">
-                      <span class="workflow-step">{step}</span
-                      ><f:if condition="{iter.isLast} == 0"
-                        ><span class="workflow-arrow"> → </span></f:if
-                      >
-                    </f:for>
-                  </div>
-                </div>
-              </f:if>
             </f:for>
           </div>
         </f:if>

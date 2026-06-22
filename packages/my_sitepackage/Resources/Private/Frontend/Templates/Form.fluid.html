@@ -9,16 +9,16 @@
             entry="EXT:my_sitepackage/Resources/Private/Frontend/Form.entry.scss"
         />
         <div
-            class="container"
+            class="cb-form-section"
             id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'contact')}"
         >
             <div class="cb-card">
                 <div class="cb-card__body">
-                    <div class="row gx-md-4">
-                        <div class="col-12 col-md-4">
+                    <div class="cb-form-layout">
+                        <div class="cb-form-layout__label-col">
                             <!-- intentionally empty label column -->
                         </div>
-                        <div class="col-12 col-md-8 cb-form">
+                        <div class="cb-form-layout__input-col cb-form">
                             <formvh:form
                                 object="{form}"
                                 action="{form.renderingOptions.controllerAction}"
@@ -50,74 +50,52 @@
                 </div>
             </div>
 
-            <div
-                class="modal fade"
+            <dialog
                 id="privacyModal"
-                tabindex="-1"
+                class="cb-dialog"
                 aria-labelledby="privacyModalLabel"
-                aria-hidden="true"
             >
-                <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="privacyModalLabel">
-                                Datenschutzerkl&auml;rung
-                            </h5>
-                            <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Schlie&szlig;en"
-                            ></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="text-center py-4">
-                                <div
-                                    class="spinner-border text-dark"
-                                    role="status"
-                                >
-                                    <span class="visually-hidden"
-                                        >Laden...</span
-                                    >
-                                </div>
-                            </div>
+                <div class="cb-dialog__content">
+                    <div class="cb-dialog__header">
+                        <h5 class="cb-dialog__title" id="privacyModalLabel">
+                            Datenschutzerkl&auml;rung
+                        </h5>
+                        <button
+                            type="button"
+                            class="cb-dialog__close"
+                            aria-label="Schlie&szlig;en"
+                        >&times;</button>
+                    </div>
+                    <div class="cb-dialog__body">
+                        <div class="cb-dialog__spinner">
+                            <span class="cb-visually-hidden">Laden...</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </dialog>
 
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
-                    var modal = document.getElementById("privacyModal");
-                    if (!modal) return;
-                    // Move modal to body to escape main's stacking context
-                    document.body.appendChild(modal);
-                    var body = modal.querySelector(".modal-body");
+                    var dialog = document.getElementById("privacyModal");
+                    if (!dialog) return;
+                    var body = dialog.querySelector(".cb-dialog__body");
                     var loaded = false;
 
-                    modal.addEventListener("show.bs.modal", function (event) {
-                        if (loaded) return;
+                    function loadContent() {
                         var url = document.querySelector('.cb-privacy-link')?.getAttribute('data-privacy-url')
                             || document.querySelector('a[href*="datenschutz"]')?.getAttribute('href')
                             || "";
                         if (!url) {
-                            body.innerHTML =
-                                "<p>Die Datenschutzerkl\u00e4rung wurde noch nicht konfiguriert.</p>";
+                            body.innerHTML = "<p>Die Datenschutzerklärung wurde noch nicht konfiguriert.</p>";
                             return;
                         }
                         fetch(url)
-                            .then(function (r) {
-                                return r.text();
-                            })
+                            .then(function (r) { return r.text(); })
                             .then(function (html) {
                                 var parser = new DOMParser();
-                                var doc = parser.parseFromString(
-                                    html,
-                                    "text/html",
-                                );
+                                var doc = parser.parseFromString(html, "text/html");
                                 var main = doc.querySelector("main");
                                 var root = main || doc.body;
-                                // Banner und erste leere Container entfernen
                                 root.querySelectorAll(
                                     ".cb-portfolio-banner, .cb-bg-fill, .cb-perspective-grid"
                                 ).forEach(function (el) { el.remove(); });
@@ -125,21 +103,26 @@
                                 loaded = true;
                             })
                             .catch(function () {
-                                body.innerHTML =
-                                    "<p>Die Datenschutzerkl\u00e4rung konnte nicht geladen werden.</p>";
+                                body.innerHTML = "<p>Die Datenschutzerklärung konnte nicht geladen werden.</p>";
                             });
+                    }
+
+                    dialog.querySelector(".cb-dialog__close").addEventListener("click", function () {
+                        dialog.close();
                     });
 
-                    document
-                        .querySelectorAll(".cb-privacy-link")
-                        .forEach(function (link) {
-                            link.addEventListener("click", function (e) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                var bsModal = bootstrap.Modal.getOrCreateInstance(modal);
-                                bsModal.show(link);
-                            });
+                    dialog.addEventListener("click", function (e) {
+                        if (e.target === dialog) dialog.close();
+                    });
+
+                    document.querySelectorAll(".cb-privacy-link").forEach(function (link) {
+                        link.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (!loaded) loadContent();
+                            dialog.showModal();
                         });
+                    });
                 });
             </script>
         </div>

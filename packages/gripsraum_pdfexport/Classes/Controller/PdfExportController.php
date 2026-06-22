@@ -38,6 +38,14 @@ class PdfExportController extends ActionController
                 $projectUids[] = (int) substr($value, 8);
             } elseif (str_starts_with($value, 'logbook_')) {
                 $logbookUids[] = (int) substr($value, 8);
+            } elseif (str_starts_with($value, 'news_')) {
+                $uid = (int) substr($value, 5);
+                $classified = $this->pdfDataService->classifyNewsUid($uid);
+                if (str_starts_with($classified, 'project_')) {
+                    $projectUids[] = $uid;
+                } else {
+                    $logbookUids[] = $uid;
+                }
             }
         }
 
@@ -56,7 +64,6 @@ class PdfExportController extends ActionController
             'about'     => $activeSections['info']     ? $this->pdfDataService->getAboutContent($rootPid)             : '',
             'faq'       => $activeSections['faq']      ? $this->pdfDataService->getFaqContent()                 : [],
             'tech'      => $activeSections['tech']     ? $this->pdfDataService->getTechContent()                : [],
-            'workflows' => $activeSections['tech']     ? $this->pdfDataService->getWorkflowsContent()           : [],
             'projects'  => $activeSections['projects'] ? $this->pdfDataService->getProjectsByUids($projectUids) : [],
             'logbook'   => $activeSections['logbook']  ? $this->pdfDataService->getLogbookByUids($logbookUids)  : [],
         ];
@@ -86,7 +93,7 @@ class PdfExportController extends ActionController
 
         try {
             $pdf = $browsershot->pdf();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return $this->responseFactory->createResponse(500)
                 ->withHeader('Content-Type', 'application/json')
                 ->withBody($this->streamFactory->createStream(
