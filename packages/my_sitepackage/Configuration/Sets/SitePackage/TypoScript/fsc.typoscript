@@ -1,0 +1,7 @@
+# Override the fluid-styled-content frame layout so content elements
+# expose their section_anchor as id (used by the one-pager navigation).
+lib.contentElement {
+    layoutRootPaths {
+        20 = EXT:my_sitepackage/Resources/Private/Extensions/Fsc/Layouts/
+    }
+}

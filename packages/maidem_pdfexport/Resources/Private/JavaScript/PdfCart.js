@@ -2,114 +2,195 @@
  * PDF Cart — manages user PDF section pre-selections via localStorage.
  *
  * Features:
- *  - "Add to PDF" toggle buttons on content elements (data-pdf-section attribute)
- *  - Badge counter on the nav "Pdf-Export" link (found by title attribute)
- *  - Toast feedback on add/remove
- *  - Pre-selection sync on the PDF Export page
+ *  - "Add to PDF" toggle buttons on content elements (data-pdf-section attribute,
+ *    optional data-pdf-label for a human-readable name)
+ *  - Floating panel (bottom right): shows collected items, allows removal,
+ *    explains the feature and downloads the PDF directly (pageType 1711)
  *  - Cross-tab sync via the storage event
  */
 
-const STORAGE_KEY = "gripsraum_pdf_cart";
+const STORAGE_KEY = "maidem_pdf_cart";
 
 // ── Cart state helpers ───────────────────────────────────────────────────────
+// Cart entries: { id: "news_5", label: "Artikel-Titel" }
+// (legacy entries were plain strings — migrated on read)
 
 function getCart() {
     try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        return raw.map((e) => (typeof e === "string" ? { id: e, label: e } : e));
     } catch {
         return [];
     }
 }
 
 function setCart(items) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...new Set(items)]));
+    const seen = new Set();
+    const unique = items.filter((e) => !seen.has(e.id) && seen.add(e.id));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(unique));
     onCartChange();
 }
 
 function isInCart(sectionId) {
-    return getCart().includes(sectionId);
+    return getCart().some((e) => e.id === sectionId);
+}
+
+function removeFromCart(sectionId) {
+    setCart(getCart().filter((e) => e.id !== sectionId));
+}
+
+function moveInCart(sectionId, delta) {
+    const cart = getCart();
+    const i = cart.findIndex((e) => e.id === sectionId);
+    const j = i + delta;
+    if (i < 0 || j < 0 || j >= cart.length) return;
+    [cart[i], cart[j]] = [cart[j], cart[i]];
+    setCart(cart);
 }
 
 /** Toggle sectionId in cart; returns true if added, false if removed. */
-function toggleInCart(sectionId) {
-    const cart = getCart();
-    if (cart.includes(sectionId)) {
-        setCart(cart.filter((id) => id !== sectionId));
+function toggleInCart(sectionId, label) {
+    if (isInCart(sectionId)) {
+        removeFromCart(sectionId);
         return false;
     }
-    setCart([...cart, sectionId]);
+    setCart([...getCart(), { id: sectionId, label: label || sectionId }]);
     return true;
 }
 
 // ── Internal change dispatcher ───────────────────────────────────────────────
 
 function onCartChange() {
-    updateAllBadges();
     updateAllAddButtons();
-    syncExportTiles();
+    renderPanel();
 }
 
-// ── Nav badge ────────────────────────────────────────────────────────────────
+// ── Floating cart panel ──────────────────────────────────────────────────────
 
-function updateAllBadges() {
-    const count = getCart().length;
-    document.querySelectorAll(".cb-pdf-cart-badge").forEach((badge) => {
-        badge.textContent = count;
-        badge.setAttribute("aria-label", `${count} Einträge im PDF-Export`);
-        badge.classList.toggle("cb-pdf-cart-badge--visible", count > 0);
-    });
+let panelEl = null;
+let fabEl = null;
+let panelOpen = false;
+let autoCloseTimer = null;
+
+/** Human-readable fallback names for well-known section ids. */
+const SECTION_LABELS = {
+    info: "Profil & Vitals",
+    story: "My Story",
+    tech: "Skills & Tech-Stack",
+};
+
+function labelFor(entry) {
+    return SECTION_LABELS[entry.id] || entry.label || entry.id;
 }
 
-/**
- * Inject badge spans into all nav links pointing to the PDF export page.
- * The TYPO3 nav renders <a title="Pdf-Export"> — we locate it by that attribute.
- */
-function injectBadges() {
-    const PDF_LINK_SELECTORS = [
-        '.cb-nav__link[title="Dossier"]',
-        '.cb-nav__overlay-link[title="Dossier"]',
-    ];
-    PDF_LINK_SELECTORS.forEach((selector) => {
-        const link = document.querySelector(selector);
-        if (!link) return;
-        if (!link.querySelector(".cb-pdf-cart-badge")) {
-            const badge = document.createElement("span");
-            badge.className = "cb-pdf-cart-badge";
-            badge.setAttribute("aria-hidden", "true");
-            link.appendChild(badge);
-        }
-    });
-    updateAllBadges();
+/** Direct PDF download form (pageType 1711 expects POSTed sections[]). */
+function pdfDownloadForm(cart) {
+    const inputs = cart
+        .map(
+            (e) =>
+                `<input type="hidden" name="sections[]" value="${escapeHtml(e.id)}">`,
+        )
+        .join("");
+    return `
+        <form method="post" action="?type=1711" class="cb-pdf-panel__form">
+            ${inputs}
+            <button type="submit" class="cb-pdf-panel__cta">PDF-Dossier herunterladen</button>
+        </form>`;
 }
 
-// ── Toast notification ───────────────────────────────────────────────────────
-
-function showToast(message) {
-    let container = document.getElementById("cb-pdf-toast-container");
-    if (!container) {
-        container = document.createElement("div");
-        container.id = "cb-pdf-toast-container";
-        container.setAttribute("aria-live", "polite");
-        container.setAttribute("aria-atomic", "true");
-        document.body.appendChild(container);
-    }
-
-    const toast = document.createElement("div");
-    toast.className = "cb-pdf-toast";
-    toast.textContent = message;
-    container.appendChild(toast);
-
-    // Animate in on next frame
-    requestAnimationFrame(() =>
-        requestAnimationFrame(() => toast.classList.add("cb-pdf-toast--show")),
+function escapeHtml(str) {
+    return String(str).replace(
+        /[&<>"']/g,
+        (c) =>
+            ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
     );
+}
 
-    setTimeout(() => {
-        toast.classList.remove("cb-pdf-toast--show");
-        toast.addEventListener("transitionend", () => toast.remove(), {
-            once: true,
-        });
-    }, 2500);
+function buildPanel() {
+    if (panelEl) return;
+
+    fabEl = document.createElement("button");
+    fabEl.type = "button";
+    fabEl.className = "cb-pdf-panel-fab";
+    fabEl.setAttribute("aria-expanded", "false");
+    fabEl.setAttribute("aria-controls", "cb-pdf-panel");
+    fabEl.innerHTML =
+        '<span class="cb-pdf-panel-fab__text">PDF-Dossier</span>' +
+        '<span class="cb-pdf-panel-fab__count" aria-hidden="true">0</span>';
+    fabEl.addEventListener("click", () => togglePanel());
+
+    panelEl = document.createElement("section");
+    panelEl.id = "cb-pdf-panel";
+    panelEl.className = "cb-pdf-panel";
+    panelEl.setAttribute("aria-label", "PDF-Dossier — gesammelte Inhalte");
+    panelEl.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-pdf-remove]");
+        if (btn) removeFromCart(btn.dataset.pdfRemove);
+        const mv = e.target.closest("[data-pdf-move]");
+        if (mv) moveInCart(mv.dataset.pdfId, mv.dataset.pdfMove === "up" ? -1 : 1);
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && panelOpen) togglePanel(false);
+    });
+
+    document.body.append(panelEl, fabEl);
+    renderPanel();
+}
+
+function renderPanel() {
+    if (!panelEl) return;
+    const cart = getCart();
+
+    fabEl.classList.toggle("cb-pdf-panel-fab--visible", cart.length > 0);
+    fabEl.querySelector(".cb-pdf-panel-fab__count").textContent = cart.length;
+    if (cart.length === 0 && panelOpen) togglePanel(false);
+
+    const items = cart
+        .map(
+            (e, i) => `
+        <li class="cb-pdf-panel__item">
+            <span class="cb-pdf-panel__item-sort">
+                <button type="button" class="cb-pdf-panel__move" data-pdf-move="up" data-pdf-id="${escapeHtml(e.id)}"
+                    aria-label="${escapeHtml(labelFor(e))} nach oben" ${i === 0 ? "disabled" : ""}>&#9650;</button>
+                <button type="button" class="cb-pdf-panel__move" data-pdf-move="down" data-pdf-id="${escapeHtml(e.id)}"
+                    aria-label="${escapeHtml(labelFor(e))} nach unten" ${i === cart.length - 1 ? "disabled" : ""}>&#9660;</button>
+            </span>
+            <span class="cb-pdf-panel__item-label">${escapeHtml(labelFor(e))}</span>
+            <button type="button" class="cb-pdf-panel__remove" data-pdf-remove="${escapeHtml(e.id)}"
+                aria-label="${escapeHtml(labelFor(e))} entfernen">&times;</button>
+        </li>`,
+        )
+        .join("");
+
+    panelEl.innerHTML = `
+        <header class="cb-pdf-panel__header">
+            <h2 class="cb-pdf-panel__title">Dein PDF-Dossier</h2>
+            <button type="button" class="cb-pdf-panel__close" aria-label="Schließen">&times;</button>
+        </header>
+        <p class="cb-pdf-panel__intro">
+            Sammle die Inhalte, die für dein Gespräch mit mir interessant sind,
+            und lade sie gebündelt als PDF herunter.
+        </p>
+        <ul class="cb-pdf-panel__list">${items}</ul>
+        ${pdfDownloadForm(cart)}
+    `;
+    panelEl
+        .querySelector(".cb-pdf-panel__close")
+        .addEventListener("click", () => togglePanel(false));
+}
+
+function togglePanel(open = !panelOpen) {
+    panelOpen = open;
+    clearTimeout(autoCloseTimer);
+    panelEl.classList.toggle("cb-pdf-panel--open", open);
+    fabEl.setAttribute("aria-expanded", String(open));
+}
+
+/** Feedback on add: open the panel briefly, then auto-close. */
+function flashPanel() {
+    togglePanel(true);
+    autoCloseTimer = setTimeout(() => togglePanel(false), 3000);
 }
 
 // ── "Add to PDF" buttons ─────────────────────────────────────────────────────
@@ -120,68 +201,66 @@ function renderAddButton(btn) {
     btn.classList.toggle("cb-pdf-add-btn--active", inCart);
     btn.setAttribute("aria-pressed", String(inCart));
     if (label) {
-        label.textContent = inCart
-            ? "Im PDF-Export"
-            : "Zu PDF-Export hinzufügen";
+        label.textContent = inCart ? "Im PDF-Dossier" : "Zum PDF-Dossier hinzufügen";
     }
 }
 
 function updateAllAddButtons() {
     document.querySelectorAll("[data-pdf-section]").forEach(renderAddButton);
+    document.querySelectorAll("[data-pdf-group]").forEach(renderGroupButton);
+}
+
+// ── Group buttons ("add whole section") ──────────────────────────────────────
+// Collects all [data-pdf-item] elements inside the closest [data-pdf-group-scope].
+
+function groupItemsFor(btn) {
+    const scope = btn.closest("[data-pdf-group-scope]") || document;
+    return [...scope.querySelectorAll("[data-pdf-item]")].map((el) => ({
+        id: el.dataset.pdfItem,
+        label: el.dataset.pdfItemLabel || el.dataset.pdfItem,
+    }));
+}
+
+function renderGroupButton(btn) {
+    const items = groupItemsFor(btn);
+    const allIn = items.length > 0 && items.every((e) => isInCart(e.id));
+    btn.classList.toggle("cb-pdf-add-btn--active", allIn);
+    btn.setAttribute("aria-pressed", String(allIn));
+    const label = btn.querySelector(".cb-pdf-add-btn__label");
+    if (label) {
+        label.textContent = allIn
+            ? "Alle im PDF-Dossier"
+            : "Alle zum PDF-Dossier hinzufügen";
+    }
+}
+
+function initGroupButtons() {
+    document.querySelectorAll("[data-pdf-group]").forEach((btn) => {
+        renderGroupButton(btn);
+        btn.addEventListener("click", () => {
+            const items = groupItemsFor(btn);
+            const allIn =
+                items.length > 0 && items.every((e) => isInCart(e.id));
+            if (allIn) {
+                const ids = new Set(items.map((e) => e.id));
+                setCart(getCart().filter((e) => !ids.has(e.id)));
+            } else {
+                setCart([...getCart(), ...items]);
+                flashPanel();
+            }
+        });
+    });
 }
 
 function initAddButtons() {
     document.querySelectorAll("[data-pdf-section]").forEach((btn) => {
         renderAddButton(btn);
         btn.addEventListener("click", () => {
-            const added = toggleInCart(btn.dataset.pdfSection);
-            showToast(
-                added
-                    ? "Zum PDF-Export hinzugefügt"
-                    : "Aus dem PDF-Export entfernt",
+            const added = toggleInCart(
+                btn.dataset.pdfSection,
+                btn.dataset.pdfLabel || document.title,
             );
-        });
-    });
-}
-
-// ── PDF Export page: tile sync ───────────────────────────────────────────────
-
-function syncExportTiles() {
-    const checkboxes = document.querySelectorAll(
-        ".cb-pdf-export__grid input[type='checkbox']",
-    );
-    if (!checkboxes.length) return;
-    const cart = getCart();
-    checkboxes.forEach((cb) => {
-        // Match by exact value (e.g. "info", "tech") or by news uid
-        // when cart contains "news_{uid}" and tile has data-news-uid="{uid}"
-        const newsUid = cb.dataset.newsUid;
-        cb.checked = cart.includes(cb.value) ||
-            (newsUid !== undefined && cart.includes("news_" + newsUid));
-    });
-}
-
-function initExportPageSync() {
-    const grid = document.querySelector(".cb-pdf-export__grid");
-    if (!grid) return;
-
-    // Pre-check tiles based on cart
-    syncExportTiles();
-
-    // Keep cart in sync when user toggles tiles directly on the export page
-    grid.querySelectorAll("input[type='checkbox']").forEach((cb) => {
-        cb.addEventListener("change", () => {
-            const cart = getCart();
-            if (cb.checked) {
-                if (!cart.includes(cb.value)) {
-                    setCart([...cart, cb.value]);
-                }
-            } else {
-                // Remove both the typed key (e.g. "project_5") and the generic
-                // "news_5" that may have been stored from the detail-page button
-                const newsKey = cb.dataset.newsUid ? "news_" + cb.dataset.newsUid : null;
-                setCart(cart.filter((id) => id !== cb.value && id !== newsKey));
-            }
+            if (added) flashPanel();
         });
     });
 }
@@ -197,9 +276,9 @@ window.addEventListener("storage", (e) => {
 // ── Init ─────────────────────────────────────────────────────────────────────
 
 function init() {
-    injectBadges();
+    buildPanel();
     initAddButtons();
-    initExportPageSync();
+    initGroupButtons();
 }
 
 if (document.readyState === "loading") {

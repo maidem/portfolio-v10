@@ -1,12 +1,12 @@
 # Content element rendering — standard TYPO3 FLUIDTEMPLATE, no ContentBlocks dependency
-tt_content.gripsraum_pdfexport = FLUIDTEMPLATE
-tt_content.gripsraum_pdfexport {
+tt_content.maidem_pdfexport = FLUIDTEMPLATE
+tt_content.maidem_pdfexport {
     templateRootPaths {
-        10 = EXT:gripsraum_pdfexport/Resources/Private/Templates/ContentElements/
+        10 = EXT:maidem_pdfexport/Resources/Private/Templates/ContentElements/
     }
     templateName = PdfExport
     dataProcessing {
-        10 = Gripsraum\PdfExport\DataProcessing\PdfExportDataProcessor
+        10 = Maidem\PdfExport\DataProcessing\PdfExportDataProcessor
     }
 }
 
@@ -26,7 +26,7 @@ pdf_export {
         userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
         extensionName = PdfExport
         pluginName = PdfExport
-        vendorName = Gripsraum
+        vendorName = Maidem
         controller = PdfExport
         action = generate
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gripsraum\PdfExport\DataProcessing;
+namespace Maidem\PdfExport\DataProcessing;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

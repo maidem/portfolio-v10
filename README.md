@@ -10,7 +10,7 @@
 ## Extensions
 
 - friendsoftypo3/content_blocks
-- gripsraum/pdf-export
+- maidem/pdf-export
 - denkwerk/mosparo_form
 - praetorius/vite_asset_collector
 - georgringer/news

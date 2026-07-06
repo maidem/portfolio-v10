@@ -12,12 +12,12 @@ TYPO3 ist ein PHP-Framework. Das bedeutet:
 
 ## Technischer Ablauf
 
-### 1. Auswahlformular (ContentBlock `gripsraum_pdfexport`)
+### 1. Auswahlformular (ContentBlock `maidem_pdfexport`)
 
 Das Auswahlformular wird über die normale TYPO3/ContentBlocks-Pipeline gerendert:
 
 ```
-tt_content.gripsraum_pdfexport
+tt_content.maidem_pdfexport
   └─ dataProcessing.10 = content-blocks          (stellt {data} für das Fluid-Template bereit)
   └─ dataProcessing.20 = PdfExportDataProcessor  (liefert {pdfProjects} und {pdfLogbook})
 ```

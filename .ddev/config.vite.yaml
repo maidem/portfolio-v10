@@ -1,8 +1,8 @@
 #ddev-generated
 additional_hostnames:
-  - vite.portfolio-v1
+  - vite.portfolio-v10
 web_environment:
-  - VITE_SERVER_URI=https://vite.portfolio-v1.ddev.site
+  - VITE_SERVER_URI=https://vite.portfolio-v10.ddev.site
   - VITE_PACKAGE_MANAGER=npm
 
 # Enable these lines if you want to expose the vite port to the host system

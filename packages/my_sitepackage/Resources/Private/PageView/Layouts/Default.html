@@ -17,7 +17,7 @@
             preserveAspectRatio="xMidYMid slice"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <g stroke="rgb(2, 122, 138)" stroke-width="1" stroke-opacity="0.22" fill="none">
+            <g stroke="rgb(90, 90, 90)" stroke-width="1" stroke-opacity="0.18" fill="none">
                 <line x1="720" y1="0" x2="0" y2="900" />
                 <line x1="720" y1="0" x2="120" y2="900" />
                 <line x1="720" y1="0" x2="240" y2="900" />
@@ -39,7 +39,7 @@
                 <line x1="192" y1="660" x2="1248" y2="660" />
                 <line x1="24" y1="870" x2="1416" y2="870" />
             </g>
-            <g stroke="rgb(2, 122, 138)" stroke-width="1" stroke-opacity="0.12" fill="none">
+            <g stroke="rgb(90, 90, 90)" stroke-width="1" stroke-opacity="0.1" fill="none">
                 <line x1="720" y1="0" x2="0" y2="900" />
                 <line x1="720" y1="0" x2="120" y2="900" />
                 <line x1="720" y1="0" x2="240" y2="900" />
@@ -75,27 +75,11 @@
                 </button>
 
                 <nav class="cb-nav__desktop" aria-label="Hauptnavigation">
-                    <f:if condition="{pageUid} == {site.rootPageId}">
-                        <f:then>
-                            <a
-                                href="{f:uri.page(pageUid: site.rootPageId)}"
-                                class="cb-nav__link cb-nav__link--active"
-                                title="{settings.nav.homeTitle}"
-                                >{settings.nav.homeTitle}</a
-                            >
-                        </f:then>
-                        <f:else>
-                            <a
-                                href="{f:uri.page(pageUid: site.rootPageId)}"
-                                class="cb-nav__link"
-                                title="{settings.nav.homeTitle}"
-                                >{settings.nav.homeTitle}</a
-                            >
-                        </f:else>
-                    </f:if>
-                    <f:for each="{mainnavigation}" as="item">
+                    <f:for each="{mainnavigation}" as="item" iteration="i">
                         <f:if condition="{item.uid} != {site.rootPageId}">
-                            <span class="cb-nav__sep" aria-hidden="true">/</span>
+                            <f:if condition="!{i.isFirst}">
+                                <span class="cb-nav__sep" aria-hidden="true">/</span>
+                            </f:if>
                             <a
                                 href="{item.link}"
                                 class="cb-nav__link{f:if(condition: item.active, then: ' cb-nav__link--active active')}"
@@ -122,26 +106,6 @@
         <div class="cb-nav__sheet-handle" aria-hidden="true"></div>
         <nav aria-label="Hauptnavigation">
             <ul class="cb-nav__overlay-list">
-                <li class="cb-nav__overlay-item">
-                    <f:if condition="{pageUid} == {site.rootPageId}">
-                        <f:then>
-                            <a
-                                href="{f:uri.page(pageUid: site.rootPageId)}"
-                                class="cb-nav__overlay-link cb-nav__overlay-link--active"
-                                title="{settings.nav.homeTitle}"
-                                >{settings.nav.homeTitle}</a
-                            >
-                        </f:then>
-                        <f:else>
-                            <a
-                                href="{f:uri.page(pageUid: site.rootPageId)}"
-                                class="cb-nav__overlay-link"
-                                title="{settings.nav.homeTitle}"
-                                >{settings.nav.homeTitle}</a
-                            >
-                        </f:else>
-                    </f:if>
-                </li>
                 <f:for each="{mainnavigation}" as="item">
                     <f:if condition="{item.uid} != {site.rootPageId}">
                         <li class="cb-nav__overlay-item">

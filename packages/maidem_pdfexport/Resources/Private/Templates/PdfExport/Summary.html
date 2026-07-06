@@ -60,6 +60,13 @@
         color: #444;
         margin-bottom: 0.6rem;
       }
+      .item-body {
+        color: #333;
+        font-size: 10pt;
+      }
+      .item-body img {
+        max-width: 100%;
+      }
       .skills-grid {
         display: block;
       }
@@ -132,6 +139,18 @@
       </div>
     </f:if>
 
+    <!-- Section: My Story (from Banner element) -->
+    <f:if condition="{sections.story} && {data.story.bodytext}">
+      <div class="section">
+        <h2 class="section-title">
+          {f:if(condition: data.story.header, then: data.story.header, else: 'MY STORY')}
+        </h2>
+        <div class="content-block">
+          <f:format.html>{data.story.bodytext}</f:format.html>
+        </div>
+      </div>
+    </f:if>
+
     <!-- Section: FAQ -->
     <f:if condition="{sections.faq}">
       <div class="section">
@@ -164,6 +183,11 @@
           <div class="content-block">
             <span class="item-title">{project.title}</span>
             <div class="item-description">{project.description}</div>
+            <f:if condition="{project.bodytext}">
+              <div class="item-body">
+                <f:format.html>{project.bodytext}</f:format.html>
+              </div>
+            </f:if>
           </div>
         </f:for>
       </div>

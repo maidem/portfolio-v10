@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Provides select items for the step_name field in workflow_steps.
  *
- * Reads all active skill names from the gripsraum_skills_skill_items
+ * Reads all active skill names from the gripsraum_skills_skills
  * table so editors can pick an existing skill instead of typing it manually.
  * The value stored is the skill_name string, keeping the frontend template
  * and JS unchanged.
@@ -20,11 +20,11 @@ final class SkillNameItemProvider
     public function getItems(array &$params): void
     {
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('gripsraum_skills_skill_items');
+            ->getQueryBuilderForTable('gripsraum_skills_skills');
 
         $rows = $qb
             ->select('skill_name')
-            ->from('gripsraum_skills_skill_items')
+            ->from('gripsraum_skills_skills')
             ->where(
                 $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\Types\Types::INTEGER)),
                 $qb->expr()->eq('hidden', $qb->createNamedParameter(0, \Doctrine\DBAL\Types\Types::INTEGER)),

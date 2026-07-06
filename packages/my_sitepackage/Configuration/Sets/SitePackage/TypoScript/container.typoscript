@@ -1,0 +1,20 @@
+# b13/container: Kontakt-Split rendering
+tt_content.maidem_contactsplit < lib.contentElement
+tt_content.maidem_contactsplit {
+    templateName = ContactSplit
+    templateRootPaths {
+        20 = EXT:my_sitepackage/Resources/Private/Templates/Container/
+    }
+    dataProcessing {
+        100 = B13\Container\DataProcessing\ContainerProcessor
+        100 {
+            colPos = 200
+            as = leftChildren
+        }
+        110 = B13\Container\DataProcessing\ContainerProcessor
+        110 {
+            colPos = 201
+            as = rightChildren
+        }
+    }
+}

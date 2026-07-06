@@ -15,11 +15,12 @@
   },
   "require": {
     "php": ">=8.4.0",
+    "b13/container": "^4.0",
     "denkwerk/mosparo-form": "^1.1",
     "friendsoftypo3/content-blocks": "^2.1",
     "georgringer/news": "^14.0",
     "gripsraum/my-sitepackage": "@dev",
-    "gripsraum/pdf-export": "@dev",
+    "maidem/pdf-export": "@dev",
     "praetorius/vite-asset-collector": "^1.15",
     "spatie/browsershot": "^5.2",
     "typo3/cms-backend": "^14.0",

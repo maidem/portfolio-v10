@@ -42,3 +42,26 @@ ExtensionManagementUtility::addToAllTCAtypes(
 // Keep header value for custom rendering, but hide default CE header output
 // by default for form content elements (header_layout=100).
 $GLOBALS['TCA']['tt_content']['types']['form_formframework']['columnsOverrides']['header_layout']['config']['default'] = 100;
+
+// ─── b13/container: Kontakt-Split (Adresse links, Formular rechts) ─────────────
+\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\B13\Container\Tca\Registry::class)->configureContainer(
+    new \B13\Container\Tca\ContainerConfiguration(
+        'maidem_contactsplit',
+        'Kontakt: 2 Spalten',
+        'Adresse links, Formular rechts',
+        [
+            [
+                ['name' => 'Links (Adresse)', 'colPos' => 200],
+                ['name' => 'Rechts (Formular)', 'colPos' => 201],
+            ],
+        ]
+    )
+);
+
+// Intro-Text für den Kontakt-Split (schlichtes Textfeld, kein RTE)
+ExtensionManagementUtility::addToAllTCAtypes(
+    'tt_content',
+    'bodytext;Intro-Text',
+    'maidem_contactsplit',
+    'after:header'
+);

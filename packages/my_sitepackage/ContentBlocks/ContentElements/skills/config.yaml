@@ -11,22 +11,31 @@ fields:
     useExistingField: true
     label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
     description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
-  - identifier: skill_items
+  - identifier: skill_categories
     type: Collection
-    label: Skills
-    labelField: skill_name
+    label: Kategorien
+    labelField: category_name
     appearance:
       collapseAll: true
       levelLinksPosition: bottom
     fields:
-      - identifier: skill_name
+      - identifier: category_name
         type: Text
-        label: Skill
+        label: Kategorie
         required: true
-      - identifier: filter_group
-        type: Text
-        label: Filtergruppe(n)
-        description: 'Kommagetrennt für mehrere Gruppen, z. B. "Frontend, Design"'
+      - identifier: skills
+        type: Collection
+        table: gripsraum_skills_skills
+        label: Skills
+        labelField: skill_name
+        appearance:
+          collapseAll: true
+          levelLinksPosition: bottom
+        fields:
+          - identifier: skill_name
+            type: Text
+            label: Skill
+            required: true
   - identifier: show_pdf_export_button
     type: Checkbox
     renderType: checkboxToggle

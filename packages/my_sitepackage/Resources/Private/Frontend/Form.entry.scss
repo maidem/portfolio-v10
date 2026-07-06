@@ -3,7 +3,7 @@
 // =============================
 $text-primary: #111111;
 $text-muted: #71717a;
-$color-secondary: rgb(2, 122, 138);
+$color-secondary: #111111;
 $color-border: rgba(17, 17, 17, 0.18);
 $color-error: #b91c1c;
 
@@ -192,6 +192,11 @@ $color-error: #b91c1c;
     }
   }
 
+  // ─── Mosparo-Captcha-Box ─────────────────────────────────────────────────────
+  .mosparo-captcha {
+    margin: 0.75rem 0 1.5rem;
+  }
+
   // Required hint
   .cb-form-required-hint,
   p:has(.cb-form-req) {
@@ -250,8 +255,71 @@ $color-error: #b91c1c;
   }
 }
 
-// ─── Kontaktseite: Info-Aside + Formular nebeneinander ─────────────────────────
-// Das Bootstrap-Grid (col-4 / col-8) bleibt, Info-Aside braucht eigene Styles.
+// ─── Erfolgs-Toast ──────────────────────────────────────────────────────────────
+.cb-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(90vw, 32rem);
+  padding: 0.9rem 1.5rem;
+  background: $text-primary;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: cbToastIn 0.35s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+
+  svg {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &--hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.75rem);
+  }
+}
+
+@keyframes cbToastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.75rem);
+  }
+}
+
+// ─── Kontakt-Split (b13/container): Intro + 2 Spalten ──────────────────────────
+.cb-contact-intro {
+  max-width: 52ch;
+  color: $text-muted;
+  margin: 0 0 3rem;
+}
+
+.cb-contact-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 3rem 4rem;
+  border-top: 1px solid $color-border;
+  padding-top: 2.5rem;
+
+  @media (max-width: 767.98px) {
+    grid-template-columns: 1fr;
+  }
+
+  // Kein Frame-/Header-Rauschen der Kind-Elemente
+  .frame > header {
+    display: none;
+  }
+}
+
+// ─── Kontaktseite: Info-Aside ───────────────────────────────────────────────────
 .cb-contact-info {
   &__name {
     font-size: 1rem;

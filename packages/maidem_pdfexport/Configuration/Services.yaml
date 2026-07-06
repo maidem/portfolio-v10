@@ -4,9 +4,9 @@ services:
     autoconfigure: true
     public: false
 
-  Gripsraum\PdfExport\:
+  Maidem\PdfExport\:
     resource: "../Classes/*"
     exclude: "../Classes/Domain/Model/*"
 
-  Gripsraum\PdfExport\Controller\PdfExportController:
+  Maidem\PdfExport\Controller\PdfExportController:
     public: true

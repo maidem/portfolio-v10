@@ -1,0 +1,43 @@
+<div class="cb-contact-info">
+    <f:if condition="{data.contact_name}">
+        <p class="cb-contact-info__name">{data.contact_name}</p>
+    </f:if>
+    <f:if condition="{data.address}">
+        <address class="cb-contact-info__address">
+            <f:format.nl2br>{data.address}</f:format.nl2br>
+        </address>
+    </f:if>
+    <ul class="cb-contact-info__list">
+        <f:if condition="{data.email}">
+            <li class="cb-contact-info__row">
+                <span class="cb-contact-info__dt">E-Mail</span>
+                <span class="cb-contact-info__dd">
+                    <a class="cb-contact-info__link" href="mailto:{data.email}"
+                        >{data.email}</a
+                    >
+                </span>
+            </li>
+        </f:if>
+        <f:if condition="{data.phone}">
+            <li class="cb-contact-info__row">
+                <span class="cb-contact-info__dt">Telefon</span>
+                <span class="cb-contact-info__dd">
+                    <a class="cb-contact-info__link" href="tel:{data.phone -> f:replace(search: ' ', replace: '')}"
+                        >{data.phone}</a
+                    >
+                </span>
+            </li>
+        </f:if>
+    </ul>
+    <f:if condition="{data.show_pdf_export_button}">
+        <button
+            class="cb-pdf-add-btn"
+            type="button"
+            data-pdf-section="contact"
+            data-pdf-label="Kontakt"
+            aria-pressed="false"
+        >
+            <span class="cb-pdf-add-btn__label">Zum Dossier hinzufügen</span>
+        </button>
+    </f:if>
+</div>

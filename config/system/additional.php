@@ -67,7 +67,11 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
     $GLOBALS['TYPO3_CONF_VARS']['BE']['lockSSL'] = true; // Force SSL for backend
 }
 
-// 3. MOSPARO CREDENTIALS
+// 3. CACHE HASH
+// "contact=sent" is only a JS toast trigger after form submit, irrelevant for caching.
+$GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'contact';
+
+// 4. MOSPARO CREDENTIALS
 // Loaded at runtime via %env()% placeholders in
 // config/sites/main-site/settings.yaml — handled natively by TYPO3's
 // YamlFileLoader (PROCESS_PLACEHOLDERS). No PHP injection needed here.

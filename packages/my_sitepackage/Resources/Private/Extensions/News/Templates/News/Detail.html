@@ -35,24 +35,11 @@
                 <div class="cb-news-detail__inner">
                     <header class="cb-news-detail__header">
                         <a
-                            href="#"
-                            class="cb-news-article-back cb-back-to-list"
+                            href="/"
+                            class="cb-news-article-back cb-news-article-back--block"
                         >
                             ← Zurück
                         </a>
-
-                        <f:if condition="{newsItem.datetime}">
-                            <time
-                                class="cb-news-article-date"
-                                datetime="{f:format.date(pattern: 'yyyy-MM-dd', date: newsItem.datetime)}"
-                            >
-                                <f:format.date
-                                    pattern="dd. MMMM yyyy"
-                                    locale="de-DE"
-                                    >{newsItem.datetime}</f:format.date
-                                >
-                            </time>
-                        </f:if>
 
                         <f:if condition="{newsItem.categories}">
                             <ul class="cb-news-categories">
@@ -90,10 +77,11 @@
                                 class="cb-pdf-add-btn"
                                 type="button"
                                 data-pdf-section="news_{newsItem.uid}"
+                                data-pdf-label="{newsItem.title}"
                                 aria-pressed="false"
                             >
                                 <span class="cb-pdf-add-btn__label"
-                                    >Zu PDF-Export hinzufügen</span
+                                    >Zum PDF-Dossier hinzufügen</span
                                 >
                             </button>
                         </div>
@@ -146,6 +134,15 @@
                         </div>
                     </div>
 
+                    <!-- ponytail: Projekte liegen im Ordner pid 19, Notes im Logbuch (pid 2) -->
+                    <f:variable
+                        name="prevLabel"
+                        value="{f:if(condition: '{newsItem.pid} == 19', then: '← Vorheriges Projekt', else: '← Vorherige Note')}"
+                    />
+                    <f:variable
+                        name="nextLabel"
+                        value="{f:if(condition: '{newsItem.pid} == 19', then: 'Nächstes Projekt →', else: 'Nächste Note →')}"
+                    />
                     <n:simplePrevNext
                         pidList="{newsItem.pid}"
                         news="{newsItem}"
@@ -164,18 +161,25 @@
                                             settings="{settings}"
                                             class="cb-article-nav__link"
                                         >
-                                            <span class="cb-article-nav__label">← Vorheriger Artikel</span>
+                                            <span class="cb-article-nav__label">{prevLabel}</span>
                                             <span class="cb-article-nav__title">{prevNext.prev.title}</span>
+                                            <f:if condition="{prevNext.prev.teaser}">
+                                                <span class="cb-article-nav__teaser"
+                                                    ><f:format.crop maxCharacters="90"
+                                                        >{prevNext.prev.teaser}</f:format.crop
+                                                    ></span
+                                                >
+                                            </f:if>
                                         </n:link>
                                     </f:if>
                                 </div>
 
                                 <div class="cb-article-nav__overview">
                                     <a
-                                        class="cb-article-nav__overview-link cb-back-to-list"
-                                        href="#"
-                                        aria-label="Zur Übersicht"
-                                        >Übersicht</a
+                                        class="cb-article-nav__overview-link"
+                                        href="/"
+                                        aria-label="Zur Startseite"
+                                        >Startseite</a
                                     >
                                 </div>
 
@@ -186,8 +190,15 @@
                                             settings="{settings}"
                                             class="cb-article-nav__link"
                                         >
-                                            <span class="cb-article-nav__label">Nächster Artikel →</span>
+                                            <span class="cb-article-nav__label">{nextLabel}</span>
                                             <span class="cb-article-nav__title">{prevNext.next.title}</span>
+                                            <f:if condition="{prevNext.next.teaser}">
+                                                <span class="cb-article-nav__teaser"
+                                                    ><f:format.crop maxCharacters="90"
+                                                        >{prevNext.next.teaser}</f:format.crop
+                                                    ></span
+                                                >
+                                            </f:if>
                                         </n:link>
                                     </f:if>
                                 </div>
@@ -195,22 +206,6 @@
                         </nav>
                     </n:simplePrevNext>
 
-                    <script>
-                        (function () {
-                            var parts = location.pathname
-                                .split("/")
-                                .filter(Boolean);
-                            parts.pop();
-                            var listUrl = parts.length
-                                ? "/" + parts.join("/")
-                                : "/";
-                            document
-                                .querySelectorAll(".cb-back-to-list")
-                                .forEach(function (el) {
-                                    el.href = listUrl;
-                                });
-                        })();
-                    </script>
                 </div>
             </article>
         </f:if>

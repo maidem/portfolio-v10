@@ -22,29 +22,29 @@
     background-image:
       repeating-linear-gradient(
         90deg,
-        rgba(80, 80, 80, 0.05) 0,
-        rgba(80, 80, 80, 0.05) 1px,
+        rgba(80, 80, 80, 0.035) 0,
+        rgba(80, 80, 80, 0.035) 1px,
         transparent 1px,
         transparent 8px
       ),
       repeating-linear-gradient(
         0deg,
-        rgba(80, 80, 80, 0.05) 0,
-        rgba(80, 80, 80, 0.05) 1px,
+        rgba(80, 80, 80, 0.035) 0,
+        rgba(80, 80, 80, 0.035) 1px,
         transparent 1px,
         transparent 8px
       ),
       repeating-linear-gradient(
         90deg,
-        rgba(80, 80, 80, 0.1) 0,
-        rgba(80, 80, 80, 0.1) 1px,
+        rgba(80, 80, 80, 0.07) 0,
+        rgba(80, 80, 80, 0.07) 1px,
         transparent 1px,
         transparent 40px
       ),
       repeating-linear-gradient(
         0deg,
-        rgba(80, 80, 80, 0.1) 0,
-        rgba(80, 80, 80, 0.1) 1px,
+        rgba(80, 80, 80, 0.07) 0,
+        rgba(80, 80, 80, 0.07) 1px,
         transparent 1px,
         transparent 40px
       );
@@ -52,30 +52,6 @@
     pointer-events: none;
   }
 
-  // Scattered mosaic — dense centre, sparse edges, faded top/bottom.
-  // Tile is generated at runtime (buildMosaicUrl) so accents re-scatter per page.
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: var(--mosaic-bg, none);
-    background-size: 308px 154px;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 28%,
-      black 72%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 28%,
-      black 72%,
-      transparent 100%
-    );
-    pointer-events: none;
-  }
 }
 
 // ── Wordmark text ──────────────────────────────────────────────────────────────
@@ -100,6 +76,51 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;
+}
+
+// ── Profile mode: rich text instead of wordmark, banner grows with content ────
+.cb-portfolio-banner--profile {
+  box-sizing: border-box;
+  min-height: 0;
+  user-select: text;
+  pointer-events: auto;
+  // Left edge flush with the nav container (max-width 1200px, padding-inline)
+  justify-content: flex-start;
+  // The logo sits at the container edge (max-width 1200px, centered)
+  // 8px grid: 48px above the text, 56px dim band below it, then 48px
+  padding: 3rem 1.25rem 6.5rem max(1.25rem, calc((100% - 1200px) / 2));
+}
+
+.cb-portfolio-text--profile {
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: normal;
+  color: #222;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  // Readable measure; no own padding so the dimension arrows match the text box
+  max-width: 42rem;
+  padding: 0;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.cb-portfolio-text__heading {
+  font-family: "JetBrains Mono", monospace;
+  // h1: eine Stufe über den h2-Section-Überschriften (clamp 1.375–1.75rem)
+  font-size: clamp(1.75rem, 2.2vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #111;
+  margin: 0 0 1.25rem;
 }
 
 // ── Gap to first content element ───────────────────────────────────────────────

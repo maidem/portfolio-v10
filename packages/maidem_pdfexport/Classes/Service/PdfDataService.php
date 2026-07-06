@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gripsraum\PdfExport\Service;
+namespace Maidem\PdfExport\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -41,6 +41,30 @@ class PdfDataService
         return $row['bodytext'] ?? '';
     }
 
+    /**
+     * "My Story" text from the banner element (gripsraum_banner with bodytext).
+     */
+    public function getStoryContent(): array
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $row = $queryBuilder
+            ->select('header', 'bodytext')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_banner')),
+                $queryBuilder->expr()->neq('bodytext', $queryBuilder->createNamedParameter('')),
+                $queryBuilder->expr()->isNotNull('bodytext'),
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+            )
+            ->orderBy('uid', 'DESC')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
+
+        return $row ?: [];
+    }
+
     public function getFaqContent(): array
     {
         $parent = $this->getLatestContentRecord('gripsraum_faq');
@@ -71,17 +95,20 @@ class PdfDataService
         }
 
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('gripsraum_skills_skill_items');
+            ->getQueryBuilderForTable('gripsraum_skills_skills');
 
         $rows = $qb
-            ->select('skill_name', 'filter_group AS skill_category')
-            ->from('gripsraum_skills_skill_items')
+            ->select('s.skill_name', 'c.category_name AS skill_category')
+            ->from('gripsraum_skills_skills', 's')
+            ->join('s', 'gripsraum_skills_skill_categories', 'c', 's.foreign_table_parent_uid = c.uid')
             ->where(
-                $qb->expr()->eq('foreign_table_parent_uid', $qb->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
-                $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
-                $qb->expr()->neq('skill_name', $qb->createNamedParameter(''))
+                $qb->expr()->eq('c.foreign_table_parent_uid', $qb->createNamedParameter($parent['uid'], \Doctrine\DBAL\ParameterType::INTEGER)),
+                $qb->expr()->eq('s.deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $qb->expr()->eq('c.deleted', $qb->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $qb->expr()->neq('s.skill_name', $qb->createNamedParameter(''))
             )
-            ->orderBy('sorting')
+            ->orderBy('c.sorting')
+            ->addOrderBy('s.sorting')
             ->executeQuery()
             ->fetchAllAssociative();
 
@@ -106,17 +133,18 @@ class PdfDataService
         }
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_news_domain_model_news');
-        return $queryBuilder
-            ->select('uid', 'title', 'teaser AS description', 'datetime')
+        $rows = $queryBuilder
+            ->select('uid', 'title', 'teaser AS description', 'bodytext', 'datetime')
             ->from('tx_news_domain_model_news')
             ->where(
                 $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->in('uid', array_map('intval', $uids))
             )
-            ->orderBy('datetime', 'DESC')
             ->executeQuery()
             ->fetchAllAssociative();
+
+        return $this->sortByUidOrder($rows, $uids);
     }
 
     public function getLogbookByUids(array $uids): array
@@ -126,7 +154,7 @@ class PdfDataService
         }
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_news_domain_model_news');
-        return $queryBuilder
+        $rows = $queryBuilder
             ->select('uid', 'title AS header', 'teaser AS teaser_text', 'datetime AS project_date', 'bodytext')
             ->from('tx_news_domain_model_news')
             ->where(
@@ -134,9 +162,18 @@ class PdfDataService
                 $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
                 $queryBuilder->expr()->in('uid', array_map('intval', $uids))
             )
-            ->orderBy('datetime', 'DESC')
             ->executeQuery()
             ->fetchAllAssociative();
+
+        return $this->sortByUidOrder($rows, $uids);
+    }
+
+    /** Sorts rows into the order of the given uid list (= user's cart order). */
+    private function sortByUidOrder(array $rows, array $uids): array
+    {
+        $order = array_flip(array_map('intval', $uids));
+        usort($rows, fn(array $a, array $b) => ($order[$a['uid']] ?? PHP_INT_MAX) <=> ($order[$b['uid']] ?? PHP_INT_MAX));
+        return $rows;
     }
 
     /**

@@ -5,6 +5,10 @@
     const text = document.querySelector(".cb-portfolio-text");
     if (!banner || !text) return;
 
+    // Profile mode: multi-line rich text instead of the single-line wordmark.
+    // Dimensions measure the whole text block; no font scaling / ink trimming.
+    const isProfile = text.classList.contains("cb-portfolio-text--profile");
+
     // ── constants ──────────────────────────────────────────────────────────────
 
     // Rendered thickness of the rotated dimension label box
@@ -49,9 +53,10 @@
         return {
             stroke,
             strokeOpacity,
-            labelBg:
-                cs.getPropertyValue("--color-banner-label-bg").trim() ||
-                "rgb(2, 122, 138)",
+            labelBg: isProfile
+                ? "#111111"
+                : cs.getPropertyValue("--color-banner-label-bg").trim() ||
+                  "#111111",
             labelColor:
                 cs.getPropertyValue("--color-banner-label-text").trim() ||
                 "#ffffff",
@@ -294,53 +299,6 @@
         return el;
     }
 
-    // ── mosaic background ──────────────────────────────────────────────────────
-
-    const MOSAIC_COLS = 14;
-    const MOSAIC_ROWS = 7;
-    const MOSAIC_CELL = 22;
-    const MOSAIC_ROW_DENSITY = [0.22, 0.36, 0.5, 0.86, 0.79, 0.5, 0.29];
-    const MOSAIC_GRAYS = ["#434343", "#555555", "#717171", "#999999"];
-    const MOSAIC_ACCENT_CHANCE = 0.14;
-
-    function buildMosaicUrl() {
-        const accent =
-            getComputedStyle(document.documentElement)
-                .getPropertyValue("--color-dim-label-bg")
-                .trim() || "rgb(214, 236, 240)";
-
-        let rects = "";
-        for (let row = 0; row < MOSAIC_ROWS; row++) {
-            for (let col = 0; col < MOSAIC_COLS; col++) {
-                if (Math.random() >= MOSAIC_ROW_DENSITY[row]) continue;
-                const x = col * MOSAIC_CELL + 1;
-                const y = row * MOSAIC_CELL + 1;
-                let fill, opacity;
-                if (Math.random() < MOSAIC_ACCENT_CHANCE) {
-                    fill = accent;
-                    opacity = 0.9;
-                } else {
-                    fill = MOSAIC_GRAYS[
-                        Math.floor(Math.random() * MOSAIC_GRAYS.length)
-                    ];
-                    opacity = 0.12 + Math.random() * 0.13;
-                }
-                rects += `<rect x='${x}' y='${y}' width='20' height='20' fill='${fill}' fill-opacity='${opacity.toFixed(2)}'/>`;
-            }
-        }
-
-        const svg =
-            `<svg xmlns='http://www.w3.org/2000/svg' ` +
-            `width='${MOSAIC_COLS * MOSAIC_CELL}' height='${MOSAIC_ROWS * MOSAIC_CELL}'>` +
-            rects +
-            "</svg>";
-        return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-    }
-
-    function refreshMosaic() {
-        banner.style.setProperty("--mosaic-bg", buildMosaicUrl());
-    }
-
     // ── state ──────────────────────────────────────────────────────────────────
 
     let dims = [];
@@ -367,7 +325,7 @@
 
         // Scale down only — target 82 % of container width
         text.style.removeProperty("font-size");
-        {
+        if (!isProfile) {
             const w = text.getBoundingClientRect().width;
             const target = banner.clientWidth * 0.82;
             if (w > target && w > 0) {
@@ -381,7 +339,7 @@
         let totalWidth = tRect.width;
 
         // Accurate ink bounds via Range + canvas side-bearing trim
-        {
+        if (!isProfile) {
             const walker = document.createTreeWalker(text, NodeFilter.SHOW_TEXT);
             const node = walker.nextNode();
             if (node && node.length > 0) {
@@ -446,17 +404,41 @@
         }
 
         // Cap-height probe for ink top/height
-        const probe = document.createElement("span");
-        probe.style.cssText =
-            "display:inline-block;width:0;height:1cap;vertical-align:baseline;" +
-            "line-height:0;overflow:visible;pointer-events:none;";
-        text.appendChild(probe);
-        const probeRect = probe.getBoundingClientRect();
-        text.removeChild(probe);
-        const inkTop = probeRect.top - tRect.top;
-        const inkHeight = probeRect.height;
+        const makeProbe = () => {
+            const s = document.createElement("span");
+            s.style.cssText =
+                "display:inline-block;width:0;height:1cap;vertical-align:baseline;" +
+                "line-height:0;overflow:visible;pointer-events:none;";
+            return s;
+        };
+        let inkTop = 0;
+        let inkHeight = tRect.height;
+        if (isProfile) {
+            // Multi-line block: cap top of first line → last-line baseline + descender
+            const first = text.firstElementChild || text;
+            const last = text.lastElementChild || text;
+            const p1 = makeProbe();
+            first.insertBefore(p1, first.firstChild);
+            const r1 = p1.getBoundingClientRect();
+            p1.remove();
+            const p2 = makeProbe();
+            last.appendChild(p2);
+            const r2 = p2.getBoundingClientRect();
+            p2.remove();
+            const fs = parseFloat(getComputedStyle(last).fontSize) || 16;
+            inkTop = r1.top - tRect.top;
+            inkHeight = r2.bottom + fs * 0.22 - tRect.top - inkTop;
+        } else {
+            const probe = makeProbe();
+            text.appendChild(probe);
+            const probeRect = probe.getBoundingClientRect();
+            text.removeChild(probe);
+            inkTop = probeRect.top - tRect.top;
+            inkHeight = probeRect.height;
+        }
         const inkBottom = inkTop + inkHeight;
-        const gap = 26;
+        // ponytail: profile gap tuned so the dim band ends on the 8px grid
+        const gap = isProfile ? 46 : 26;
 
         if (totalWidth > 1) {
             const dim = makeDim(pxToRem(totalWidth).toFixed(2), totalWidth);
@@ -497,14 +479,6 @@
     } else {
         window.addEventListener("resize", scheduleUpdate);
     }
-
-    refreshMosaic();
-
-    // Re-randomize mosaic when theme class changes (dark/light toggle)
-    new MutationObserver(refreshMosaic).observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-    });
 
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(update);
 })();

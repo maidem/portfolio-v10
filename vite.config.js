@@ -9,7 +9,7 @@ export default defineConfig({
       input: [
         "packages/my_sitepackage/Resources/Private/JavaScript/Main.entry.js",
         "packages/my_sitepackage/Resources/Private/Frontend/Form.entry.scss",
-        "packages/gripsraum_pdfexport/Resources/Private/Scss/PdfExport.scss",
+        "packages/maidem_pdfexport/Resources/Private/Scss/PdfExport.scss",
       ],
     },
   },

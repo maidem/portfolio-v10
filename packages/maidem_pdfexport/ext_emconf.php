@@ -1,8 +1,8 @@
 <?php
 
-$EM_CONF['gripsraum_pdfexport'] = [
-    'title' => 'Gripsraum PDF Export',
-    'description' => 'PDF Export for the Gripsraum Portfolio. ContentBlock selection form + Extbase controller generates custom PDF summaries via headless Chromium (spatie/browsershot).',
+$EM_CONF['maidem_pdfexport'] = [
+    'title' => 'Maidem PDF Export',
+    'description' => 'PDF Export for the Portfolio. ContentBlock selection form + Extbase controller generates custom PDF summaries via headless Chromium (spatie/browsershot).',
     'category' => 'fe',
     'author' => 'Maik Demuth',
     'author_email' => '',

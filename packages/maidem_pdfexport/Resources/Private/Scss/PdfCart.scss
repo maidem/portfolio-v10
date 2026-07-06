@@ -1,25 +1,3 @@
-// ── PDF Cart Badge ────────────────────────────────────────────────────────────
-
-.cb-pdf-cart-badge {
-  display: none;
-  width: 1.1rem;
-  height: 1.1rem;
-  padding: 0;
-  font-size: 0.6rem;
-  line-height: 1;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  margin-left: 0.25rem;
-  border-radius: 50%;
-  background-color: rgba(2, 122, 138, 0.15);
-  color: #111111;
-
-  &--visible {
-    display: inline-flex;
-  }
-}
-
 // ── Add to PDF Button ─────────────────────────────────────────────────────────
 
 .cb-pdf-add-btn {
@@ -34,13 +12,15 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #111111;
-  background-color: transparent;
-  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  background-color: rgba(17, 17, 17, 0.04);
+  border: 1.5px solid rgba(0, 0, 0, 0.55);
   border-radius: 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition:
     border-color 0.2s ease,
     background-color 0.2s ease,
+    box-shadow 0.2s ease,
     color 0.2s ease;
   user-select: none;
 
@@ -55,7 +35,8 @@
 
   &:hover {
     border-color: #111111;
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
   }
 
   &:focus-visible {
@@ -65,8 +46,8 @@
 
   // Active / in-cart state
   &--active {
-    background-color: rgba(2, 122, 138, 0.12);
-    border-color: rgba(2, 122, 138, 0.55);
+    background-color: rgba(17, 17, 17, 0.07);
+    border-color: rgba(17, 17, 17, 0.55);
     color: #111111;
 
     &::before {
@@ -74,8 +55,8 @@
     }
 
     &:hover {
-      background-color: rgba(2, 122, 138, 0.2);
-      border-color: rgba(2, 122, 138, 0.85);
+      background-color: rgba(17, 17, 17, 0.12);
+      border-color: rgba(17, 17, 17, 0.85);
     }
   }
 }
@@ -85,50 +66,214 @@
   padding: 1rem 0 0.25rem;
 }
 
-// ── Toast notification ────────────────────────────────────────────────────────
+// Banner (My Story): button below the text
+.cb-banner__pdf-action {
+  padding-top: 1.25rem;
+}
 
-#cb-pdf-toast-container {
+// News list sections: "add all" group button below the items
+.cb-news-list__pdf-action {
+  padding-top: 1.5rem;
+  text-align: right;
+}
+
+// ── Floating cart panel (bottom right) ───────────────────────────────────────
+
+.cb-pdf-panel-fab {
   position: fixed;
   bottom: 1.75rem;
   right: 1.75rem;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
+  z-index: 9998;
+  display: none;
+  align-items: center;
   gap: 0.5rem;
-  pointer-events: none;
+  padding: 0.65rem 1.1rem;
+  font-family: inherit;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  background-color: #111111;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+
+  &--visible {
+    display: inline-flex;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #111111;
+    outline-offset: 2px;
+  }
+
+  &__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.65rem;
+    border-radius: 50%;
+    background-color: #ff3b30; // Apple system red — app badge style
+  }
 
   @media (max-width: 575.98px) {
     right: 1rem;
     bottom: 1rem;
-    left: 1rem;
-    align-items: stretch;
   }
 }
 
-.cb-pdf-toast {
-  padding: 0.6rem 1.25rem;
-  background-color: #111111;
-  color: #ffffff;
-  font-family: "JetBrains Mono", "Courier New", monospace;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  border-radius: 0.25rem;
+.cb-pdf-panel {
+  position: fixed;
+  bottom: 4.5rem;
+  right: 1.75rem;
+  z-index: 9999;
+  width: 20rem;
+  max-width: calc(100vw - 2rem);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 1.25rem;
+  background-color: #ffffff;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   opacity: 0;
-  transform: translateY(0.4rem);
+  transform: translateY(0.5rem);
+  visibility: hidden;
   transition:
     opacity 0.2s ease,
-    transform 0.2s ease;
-  pointer-events: none;
-  white-space: nowrap;
+    transform 0.2s ease,
+    visibility 0.2s;
 
-  &--show {
+  &--open {
     opacity: 1;
     transform: translateY(0);
+    visibility: visible;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #111111;
+  }
+
+  &__close {
+    padding: 0 0.25rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: #111111;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__intro {
+    margin: 0 0 0.85rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  &__list {
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.8125rem;
+    color: #111111;
+  }
+
+  &__item-label {
+    flex: 1;
+  }
+
+  &__item-sort {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  &__move {
+    padding: 0 0.2rem;
+    font-size: 0.5rem;
+    line-height: 1.2;
+    color: rgba(0, 0, 0, 0.45);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      color: #111111;
+    }
+
+    &:disabled {
+      opacity: 0.2;
+      cursor: default;
+    }
+  }
+
+  &__remove {
+    flex-shrink: 0;
+    padding: 0 0.35rem;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.45);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: #b00020;
+    }
+  }
+
+  &__cta {
+    display: block;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0.65rem 1rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    background-color: #111111;
+    border-radius: 2rem;
+
+    &:hover {
+      background-color: rgba(17, 17, 17, 0.85);
+    }
   }
 
   @media (max-width: 575.98px) {
-    white-space: normal;
-    text-align: center;
+    right: 1rem;
+    left: 1rem;
+    bottom: 4rem;
+    width: auto;
   }
 }

@@ -8,7 +8,7 @@ $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
     \TYPO3\CMS\Core\Imaging\IconRegistry::class
 );
 $iconRegistry->registerIcon(
-    'gripsraum-pdfexport',
+    'maidem-pdfexport',
     \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-    ['source' => 'EXT:gripsraum_pdfexport/Resources/Public/Icons/pdfexport.svg']
+    ['source' => 'EXT:maidem_pdfexport/Resources/Public/Icons/pdfexport.svg']
 );

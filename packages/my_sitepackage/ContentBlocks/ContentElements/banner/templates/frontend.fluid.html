@@ -3,9 +3,39 @@
     xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <f:if condition="{data.header}">
-        <div class="cb-portfolio-banner" aria-hidden="true">
-            <div class="cb-portfolio-text">{data.header}</div>
-        </div>
+    <f:if condition="{data.bodytext}">
+        <f:then>
+            <div
+                class="cb-portfolio-banner cb-portfolio-banner--profile"
+                id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+            >
+                <div class="cb-portfolio-text cb-portfolio-text--profile">
+                    <f:if condition="{data.header}">
+                        <h1 class="cb-portfolio-text__heading">{data.header}</h1>
+                    </f:if>
+                    <f:format.html>{data.bodytext}</f:format.html>
+                    <div class="cb-banner__pdf-action">
+                        <button
+                            class="cb-pdf-add-btn"
+                            type="button"
+                            data-pdf-section="story"
+                            data-pdf-label="{data.header}"
+                            aria-pressed="false"
+                        >
+                            <span class="cb-pdf-add-btn__label"
+                                >Zum PDF-Dossier hinzufügen</span
+                            >
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </f:then>
+        <f:else>
+            <f:if condition="{data.header}">
+                <div class="cb-portfolio-banner" aria-hidden="true">
+                    <div class="cb-portfolio-text">{data.header}</div>
+                </div>
+            </f:if>
+        </f:else>
     </f:if>
 </html>

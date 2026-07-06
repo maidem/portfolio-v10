@@ -9,8 +9,8 @@ import "@fontsource/jetbrains-mono/800.css";
 import "../Styles/Main.entry.scss";
 
 // PDF Cart — pre-selection feature for PDF export
-import "../../../../gripsraum_pdfexport/Resources/Private/JavaScript/PdfCart.js";
-import "../../../../gripsraum_pdfexport/Resources/Private/Scss/PdfCart.scss";
+import "../../../../maidem_pdfexport/Resources/Private/JavaScript/PdfCart.js";
+import "../../../../maidem_pdfexport/Resources/Private/Scss/PdfCart.scss";
 
 // Vite Collector "Glob-Module" (Best Practice nach Simon Praetorius)
 // Alle frontend.{js,scss,css} Dateien aus den Content-Blöcken automatisch laden
@@ -127,4 +127,49 @@ if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initNewsFilter);
 } else {
     initNewsFilter();
+}
+
+// =============================
+// Scrollspy — highlight active nav link for the section in view
+// =============================
+const initScrollspy = () => {
+    const navLinks = document.querySelectorAll(
+        ".cb-nav__link[href^='#'], .cb-nav__overlay-link[href^='#']",
+    );
+    if (!navLinks.length) return;
+
+    const sections = Array.from(navLinks)
+        .map((link) => document.getElementById(link.getAttribute("href").slice(1)))
+        .filter(Boolean);
+    if (!sections.length) return;
+
+    const setActive = (id) => {
+        navLinks.forEach((link) => {
+            const isActive = link.getAttribute("href") === `#${id}`;
+            link.classList.toggle("cb-nav__link--active", isActive);
+            link.classList.toggle("cb-nav__overlay-link--active", isActive);
+        });
+    };
+
+    // Active = last section whose top passed the line just below the nav.
+    // At page bottom the last section (Kontakt) wins even if its top never reaches it.
+    const update = () => {
+        const line = scrollY + 100;
+        const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
+        let current = sections[0];
+        for (const section of sections) {
+            if (section.offsetTop <= line) current = section;
+        }
+        if (atBottom) current = sections[sections.length - 1];
+        setActive(current.id);
+    };
+
+    addEventListener("scroll", update, { passive: true });
+    update();
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initScrollspy);
+} else {
+    initScrollspy();
 }

@@ -2,30 +2,25 @@
     id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
 >
     <div class="cb-section-skills__container">
-        <f:if condition="{data.skill_items}">
+        <f:if condition="{data.skill_categories}">
             <div class="cb-card cb-skills-unified-card">
                 <f:if condition="{data.header}">
-                    <div class="cb-card__label-bar">{data.header}</div>
+                    <h2 class="cb-card__label-bar">{data.header}</h2>
                 </f:if>
                 <div class="cb-card__body">
-                    <div class="cb-skills__inner">
-                        <div
-                            class="cb-skills-filter-bar"
-                            role="group"
-                            aria-label="Filter nach Kategorie"
-                        ></div>
-                        <ul class="cb-skill-tiles-grid" data-skills-filter>
-                            <f:for each="{data.skill_items}" as="skill">
-                                <f:if condition="{skill.skill_name}">
-                                    <li
-                                        class="cb-skill-tile"
-                                        data-category="{skill.filter_group}"
-                                    >
-                                        {skill.skill_name}
-                                    </li>
-                                </f:if>
-                            </f:for>
-                        </ul>
+                    <div class="cb-skills-groups">
+                        <f:for each="{data.skill_categories}" as="category">
+                            <section class="cb-skills-group">
+                                <h3 class="cb-skills-group__title">{category.category_name}</h3>
+                                <ul class="cb-skills-chips">
+                                    <f:for each="{category.skills}" as="skill">
+                                        <li>
+                                            <button type="button" class="cb-skill-chip">{skill.skill_name}</button>
+                                        </li>
+                                    </f:for>
+                                </ul>
+                            </section>
+                        </f:for>
                     </div>
                 </div>
             </div>
@@ -37,10 +32,11 @@
                     class="cb-pdf-add-btn"
                     type="button"
                     data-pdf-section="tech"
+                    data-pdf-label="Skills &amp; Tech-Stack"
                     aria-pressed="false"
                 >
                     <span class="cb-pdf-add-btn__label"
-                        >Zu PDF-Export hinzufügen</span
+                        >Zum PDF-Dossier hinzufügen</span
                     >
                 </button>
             </div>

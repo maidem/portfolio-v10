@@ -5,20 +5,22 @@
 >
     <n:excludeDisplayedNews newsItem="{newsItem}" />
 
-    <article class="cb-news-item">
+    <article
+        class="cb-news-item"
+        data-pdf-item="news_{newsItem.uid}"
+        data-pdf-item-label="{newsItem.title}"
+    >
         <div class="cb-news-item__row">
-            <div class="cb-news-item__date-col">
-                <f:if condition="{newsItem.datetime}">
-                    <time
-                        class="cb-news-date"
-                        datetime="{f:format.date(pattern: 'yyyy-MM-dd', date: newsItem.datetime)}"
-                    >
-                        <f:format.date pattern="dd. MMMM yyyy" locale="de-DE"
-                            >{newsItem.datetime}</f:format.date
-                        >
-                    </time>
-                </f:if>
-            </div>
+            <f:if condition="{newsItem.falMedia}">
+                <div class="cb-news-item__media">
+                    <f:image
+                        image="{newsItem.falMedia.0}"
+                        maxWidth="320"
+                        class="cb-news-item__img"
+                        alt="{newsItem.title}"
+                    />
+                </div>
+            </f:if>
 
             <div class="cb-news-item__content-col">
                 <f:if condition="{newsItem.categories}">

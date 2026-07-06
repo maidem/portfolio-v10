@@ -1,4 +1,4 @@
-name: portfolio-v1
+name: portfolio-v10
 type: typo3
 docroot: public
 php_version: "8.4"

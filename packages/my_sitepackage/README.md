@@ -27,7 +27,7 @@ Content-Elemente können im TYPO3-Backend über ein Toggle **„PDF-Export Butto
 
 Die gesamte Logik läuft im Frontend ohne Server-State:
 
-- `Resources/Private/JavaScript/PdfCart.js` — Warenkorb via `localStorage` (`gripsraum_pdf_cart`), Badge-Injektion in die Navigation, Toast-Feedback, Kachel-Synchronisation auf der PDF-Export-Seite
+- `Resources/Private/JavaScript/PdfCart.js` — Warenkorb via `localStorage` (`maidem_pdf_cart`), Badge-Injektion in die Navigation, Toast-Feedback, Kachel-Synchronisation auf der PDF-Export-Seite
 - `Resources/Private/Styles/PdfCart.scss` — Styles für den roten Bootstrap-Badge, den Add-Button und die Toast-Notification
 
 ## Assets & Build
@@ -50,4 +50,4 @@ npm run build   # Produktions-Build via Vite + vite-plugin-typo3
 ## Voraussetzungen
 
 - TYPO3 14.1+, PHP 8.4+
-- Extension `gripsraum/pdf-export` für den PDF-Export-Seitentyp
+- Extension `maidem/pdf-export` für den PDF-Export-Seitentyp

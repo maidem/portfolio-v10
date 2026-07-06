@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gripsraum\PdfExport\Controller;
+namespace Maidem\PdfExport\Controller;
 
-use Gripsraum\PdfExport\Service\PdfDataService;
+use Maidem\PdfExport\Service\PdfDataService;
 use Psr\Http\Message\ResponseInterface;
 use Spatie\Browsershot\Browsershot;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -51,6 +51,7 @@ class PdfExportController extends ActionController
 
         $activeSections = [
             'info'     => in_array('info', $sectionsInput),
+            'story'    => in_array('story', $sectionsInput),
             'faq'      => in_array('faq', $sectionsInput),
             'tech'     => in_array('tech', $sectionsInput),
             'projects' => !empty($projectUids),
@@ -62,6 +63,7 @@ class PdfExportController extends ActionController
 
         $data = [
             'about'     => $activeSections['info']     ? $this->pdfDataService->getAboutContent($rootPid)             : '',
+            'story'     => $activeSections['story']    ? $this->pdfDataService->getStoryContent()               : [],
             'faq'       => $activeSections['faq']      ? $this->pdfDataService->getFaqContent()                 : [],
             'tech'      => $activeSections['tech']     ? $this->pdfDataService->getTechContent()                : [],
             'projects'  => $activeSections['projects'] ? $this->pdfDataService->getProjectsByUids($projectUids) : [],
@@ -70,7 +72,7 @@ class PdfExportController extends ActionController
 
         $viewData = new ViewFactoryData(
             templatePathAndFilename: GeneralUtility::getFileAbsFileName(
-                'EXT:gripsraum_pdfexport/Resources/Private/Templates/PdfExport/Summary.html'
+                'EXT:maidem_pdfexport/Resources/Private/Templates/PdfExport/Summary.html'
             ),
             request: $this->request
         );

@@ -5,8 +5,21 @@ description: "LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/banner/langua
 prefixFields: true
 prefixType: full
 fields:
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
   - identifier: header
     useExistingField: true
+    label: "Überschrift"
+    description: "Ohne Text unten: große dekorative Wordmark. Mit Text: Überschrift über dem Kurzprofil."
+    required: true
+  - identifier: bodytext
+    useExistingField: true
+    enableRichtext: true
+    label: "Text (optional)"
+    description: "Wenn gefüllt, zeigt das Banner diesen Text mit Maßpfeilen statt der großen Wordmark."
 assets:
   css:
     - assets/frontend.scss

@@ -7,7 +7,7 @@
   // Large display heading — matches reference "FAQ."
   // Class specificity (0,1,0) beats global h2 element rule (0,0,1)
   &__title {
-    margin: 0 0 1rem;
+    margin: 0 0 1.25rem;
     color: #111;
     font-size: clamp(3rem, 10vw, 5.5rem);
     font-weight: 800;

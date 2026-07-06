@@ -8,17 +8,8 @@
         <vite:asset
             entry="EXT:my_sitepackage/Resources/Private/Frontend/Form.entry.scss"
         />
-        <div
-            class="cb-form-section"
-            id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'contact')}"
-        >
-            <div class="cb-card">
-                <div class="cb-card__body">
-                    <div class="cb-form-layout">
-                        <div class="cb-form-layout__label-col">
-                            <!-- intentionally empty label column -->
-                        </div>
-                        <div class="cb-form-layout__input-col cb-form">
+        <div class="cb-form-wrap">
+            <div class="cb-form">
                             <formvh:form
                                 object="{form}"
                                 action="{form.renderingOptions.controllerAction}"
@@ -45,9 +36,6 @@
                                     />
                                 </div>
                             </formvh:form>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <dialog
@@ -75,7 +63,30 @@
             </dialog>
 
             <script>
-                document.addEventListener("DOMContentLoaded", function () {
+                // Erfolgs-Toast nach Redirect vom Formular-Submit.
+                // Läuft direkt beim Parsen (Formular steht im DOM darüber), damit
+                // der Sprung zum Formular vor dem ersten Paint passiert — ohne
+                // sichtbare Smooth-Scroll-Fahrt von oben.
+                (function () {
+                    var params = new URLSearchParams(location.search);
+                    if (params.get("contact") === "sent") {
+                        document.getElementById("contact-13")?.scrollIntoView({ behavior: "instant", block: "start" });
+                        var toast = document.createElement("div");
+                        toast.className = "cb-toast";
+                        toast.setAttribute("role", "status");
+                        toast.innerHTML =
+                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' +
+                            "Danke für deine Nachricht! Ich melde mich so schnell wie möglich bei dir.";
+                        document.body.appendChild(toast);
+                        setTimeout(function () {
+                            toast.classList.add("cb-toast--hide");
+                            setTimeout(function () { toast.remove(); }, 400);
+                        }, 5000);
+                        params.delete("contact");
+                        var clean = location.pathname + (params.toString() ? "?" + params : "") + location.hash;
+                        history.replaceState(null, "", clean);
+                    }
+
                     var dialog = document.getElementById("privacyModal");
                     if (!dialog) return;
                     var body = dialog.querySelector(".cb-dialog__body");
@@ -123,7 +134,7 @@
                             dialog.showModal();
                         });
                     });
-                });
+                })();
             </script>
         </div>
     </formvh:renderRenderable>

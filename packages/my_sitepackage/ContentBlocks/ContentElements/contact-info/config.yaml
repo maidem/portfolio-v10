@@ -1,0 +1,25 @@
+name: gripsraum/contact-info
+typeName: gripsraum_contactinfo
+group: portfolio
+prefixFields: true
+prefixType: full
+fields:
+  - identifier: contact_name
+    type: Text
+    label: Name
+    required: true
+  - identifier: address
+    type: Textarea
+    label: Adresse
+    rows: 3
+  - identifier: email
+    type: Email
+    label: E-Mail
+  - identifier: phone
+    type: Text
+    label: Telefon
+  - identifier: show_pdf_export_button
+    type: Checkbox
+    renderType: checkboxToggle
+    label: PDF-Dossier-Button anzeigen
+    default: 1

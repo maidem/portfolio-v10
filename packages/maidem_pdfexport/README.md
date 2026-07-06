@@ -1,4 +1,4 @@
-# gripsraum/pdf-export
+# maidem/pdf-export
 
 TYPO3-Extension zur Erzeugung individueller PDF-Zusammenfassungen aus Website-Inhalten. Besucher wählen Abschnitte aus und erhalten ein druckfertiges PDF-Dokument.
 
@@ -16,7 +16,7 @@ Die Auswahl erfolgt über eine Kachel-Oberfläche im Frontend. Vorgemerkte Inhal
 
 ## Installation
 
-`composer install gripsraum/pdf-export`
+`composer install maidem/pdf-export`
 
 ## PDF-Warenkorb
 

@@ -8,7 +8,22 @@ renderingOptions:
   translation:
     translationFiles:
       - 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
-finishers: {  }
+finishers:
+  -
+    identifier: EmailToReceiver
+    options:
+      subject: 'Neue Kontaktanfrage von {name}'
+      recipients:
+        connect@maidem.de: Maik
+      senderAddress: connect@maidem.de
+      senderName: 'Portfolio Kontaktformular'
+      replyToRecipients:
+        - '{email}'
+  -
+    identifier: Redirect
+    options:
+      pageUid: 1
+      additionalParameters: 'contact=sent'
 renderables:
   -
     renderingOptions:

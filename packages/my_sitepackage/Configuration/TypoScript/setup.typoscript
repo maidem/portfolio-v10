@@ -1,3 +1,3 @@
-# PDF Export is now handled by EXT:gripsraum_pdfexport
-# See packages/gripsraum_pdfexport/Configuration/Sets/PdfExport/setup.typoscript
+# PDF Export is now handled by EXT:maidem_pdfexport
+# See packages/maidem_pdfexport/Configuration/Sets/PdfExport/setup.typoscript
 

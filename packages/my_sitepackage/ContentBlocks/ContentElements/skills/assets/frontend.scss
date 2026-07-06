@@ -1,184 +1,56 @@
-/* Minimal specific styling for the skills element besides Bootstrap */
-.cb-skills-item {
-  transition: transform 0.2s ease-in-out;
+// ── Skills: themed groups, mobile-first ──────────────────────────────────────
+
+// Groups: single column on mobile, auto grid from tablet up
+.cb-skills-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem 2.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  }
 }
 
-.cb-skills-item:hover {
-  transform: translateY(-2px);
-  cursor: default;
+.cb-skills-group__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(17, 17, 17, 0.5);
 }
 
-// Keep links aligned with surrounding text and use black text color.
-.cb-skills-wrapper a {
-  color: #000;
-  display: inline-flex;
-  align-items: center;
-}
-
-// ── Filter-Bar ────────────────────────────────────────────────────────────────
-.cb-skills-filter-bar {
+.cb-skills-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: center;
-  margin-bottom: 1.75rem;
 }
 
-.cb-skills-filter-btn {
-  background: transparent;
-  border: 1.5px solid rgba(0, 0, 0, 0.18);
-  border-radius: 2rem;
-  padding: 0.35rem 1rem;
-  font-size: 0.625rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(17, 17, 17, 0.45);
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-  white-space: nowrap;
-
-  &:hover {
-    border-color: rgba(2, 122, 138, 0.5);
-    color: rgba(2, 122, 138, 0.85);
-    background-color: rgba(2, 122, 138, 0.06);
-  }
-
-  &.active {
-    background-color: rgba(2, 122, 138, 0.12);
-    border-color: rgba(2, 122, 138, 0.6);
-    color: rgb(1, 80, 90);
-  }
-}
-
-// ── Animations ────────────────────────────────────────────────────────────────
-@keyframes cb-tile-appear {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.68);
-    filter: blur(4px);
-  }
-  60% {
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes cb-tile-exit {
-  from {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.72) translateY(8px);
-    filter: blur(3px);
-  }
-}
-
-// Skill tile cloud — centered flex-wrap, tiles size to content naturally
-.cb-skill-tiles-grid {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.cb-skill-tile {
-  background-color: rgba(2, 122, 138, 0.1);
-  border: 1.5px solid rgba(0, 0, 0, 0.3);
-  padding: 0.5625rem 1.125rem;
+.cb-skill-chip {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-weight: 700;
+  padding: 0.4rem 0.85rem;
+  font-family: inherit;
   font-size: 0.6875rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: #111111;
+  background-color: rgba(17, 17, 17, 0.04);
+  border: 1px solid rgba(17, 17, 17, 0.2);
+  border-radius: 2rem;
+  cursor: default;
   white-space: nowrap;
-  will-change: transform;
-
-  // Staggered entrance animation
-  animation: cb-tile-appear 0.52s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: calc(var(--tile-i, 0) * 38ms);
-
   transition:
-    transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 0.2s ease,
     border-color 0.2s ease,
-    box-shadow 0.25s ease,
-    opacity 0.22s ease;
-
-  // Organic shape: each nth-child gets its own border-radius rhythm
-  &:nth-child(3n) {
-    border-radius: 0.5rem 1.5rem 0.5rem 1.5rem;
-  }
-  &:nth-child(3n + 1) {
-    border-radius: 1.5rem 0.5rem 1.5rem 0.5rem;
-  }
-  &:nth-child(3n + 2) {
-    border-radius: 1.25rem;
-  }
-
-  // Word-cloud size variation — core skills slightly larger, supporting slightly smaller
-  &:nth-child(5n + 1) {
-    font-size: 0.75rem;
-    padding: 0.625rem 1.375rem;
-    background-color: rgba(2, 122, 138, 0.15);
-  }
-  &:nth-child(5n + 3) {
-    font-size: 0.625rem;
-    padding: 0.4375rem 0.9rem;
-    opacity: 0.82;
-  }
+    background-color 0.2s ease;
 
   &:hover {
-    transform: translateY(-8px) scale(1.09);
-    background-color: rgba(2, 122, 138, 0.24);
-    border-color: rgba(2, 122, 138, 0.82);
-    box-shadow:
-      0 14px 36px rgba(2, 122, 138, 0.3),
-      0 0 0 3px rgba(2, 122, 138, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    color: rgb(1, 80, 90);
-    opacity: 1;
-    position: relative;
-    z-index: 2;
-  }
-
-  // Smooth filter states
-  &--exiting {
-    animation-name: cb-tile-exit;
-    animation-duration: 0.17s;
-    animation-timing-function: ease;
-    animation-delay: 0s;
-    animation-fill-mode: both;
-    pointer-events: none;
-  }
-
-  &--entering {
-    animation-name: cb-tile-appear;
-    animation-duration: 0.44s;
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-    animation-delay: calc(var(--tile-i, 0) * 40ms);
-    animation-fill-mode: both;
-  }
-
-  &--hidden {
-    display: none;
+    border-color: #111111;
+    background-color: rgba(17, 17, 17, 0.08);
   }
 }
 
