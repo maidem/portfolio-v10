@@ -604,6 +604,7 @@ h4, h5, h6 {
   position: relative;
   display: flex; // stretcht die Row auf gleiche Höhe (align-items: stretch im Wrapper)
   flex: 1 1 100%;
+  min-width: 0; // verhindert Overflow durch lange Titel/Teaser im Flex-Layout
 
   @include above($bp-md) {
     flex: 0 0 calc(50% - 1rem); // 2-up, half the 32px gap
@@ -614,6 +615,7 @@ h4, h5, h6 {
     align-items: flex-start;
     gap: 1rem; // 16px
     flex: 1 1 auto;
+    min-width: 0;
   }
 
   &__media {
