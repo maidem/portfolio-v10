@@ -14,6 +14,7 @@ on:
             - "package-lock.json"
             - "vite.config.js"
             - "packages/**"
+            - "config/**"
             - ".github/workflows/build-image.yml"
     workflow_dispatch:
 
