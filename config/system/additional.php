@@ -65,6 +65,14 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
     // Security: Only send Cookies over HTTPS
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] = 2; // Always secure
     $GLOBALS['TYPO3_CONF_VARS']['BE']['lockSSL'] = true; // Force SSL for backend
+
+    // MAIL: settings.php hardcodes DDEV's mailpit sendmail shim, which doesn't
+    // exist in production. Override with real SMTP creds from env vars.
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'smtp';
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = getenv('TYPO3_SMTP_SERVER') ?: '';
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_username'] = getenv('TYPO3_SMTP_USER') ?: '';
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_password'] = getenv('TYPO3_SMTP_PASSWORD') ?: '';
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_encrypt'] = getenv('TYPO3_SMTP_ENCRYPT') ?: 'tls';
 }
 
 // 3. CACHE HASH
