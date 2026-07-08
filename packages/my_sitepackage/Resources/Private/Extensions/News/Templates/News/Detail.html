@@ -42,7 +42,7 @@
                         </a>
 
                         <f:if condition="{newsItem.categories}">
-                            <ul class="cb-news-categories">
+                            <ul class="cb-news-categories cb-news-categories--detail">
                                 <f:for each="{newsItem.categories}" as="cat">
                                     <li class="cb-news-category-label">{cat.title}</li>
                                 </f:for>
@@ -59,16 +59,31 @@
                             </p>
                         </f:if>
 
-                        <f:if condition="{newsItem.externalurl}">
+                        <f:if condition="{newsItem.externalurl} || {newsItem.relatedLinks}">
                             <p class="cb-news-detail__external-link">
-                                <a
-                                    href="{newsItem.externalurl}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="cb-project-article-website-link"
-                                >
-                                    Website besuchen →
-                                </a>
+                                <f:if condition="{newsItem.externalurl}">
+                                    <a
+                                        href="{newsItem.externalurl}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="cb-project-article-website-link"
+                                    >
+                                        Live-Ansicht →
+                                    </a>
+                                </f:if>
+                                <f:for each="{newsItem.relatedLinks}" as="relatedLink">
+                                    <a
+                                        href="{relatedLink.uri}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="cb-project-article-website-link"
+                                    >
+                                        <f:if condition="{relatedLink.title}">
+                                            <f:then>{relatedLink.title} →</f:then>
+                                            <f:else>Quellcode →</f:else>
+                                        </f:if>
+                                    </a>
+                                </f:for>
                             </p>
                         </f:if>
 
@@ -143,6 +158,11 @@
                         name="nextLabel"
                         value="{f:if(condition: '{newsItem.pid} == 19', then: 'Nächstes Projekt →', else: 'Nächste Note →')}"
                     />
+                    <!-- ponytail: Detailseiten – Projekte=30, Notes=31 -->
+                    <f:variable
+                        name="detailPid"
+                        value="{f:if(condition: '{newsItem.pid} == 19', then: 30, else: 31)}"
+                    />
                     <n:simplePrevNext
                         pidList="{newsItem.pid}"
                         news="{newsItem}"
@@ -156,9 +176,9 @@
                             <div class="cb-article-nav__inner">
                                 <div class="cb-article-nav__item cb-article-nav__item--prev">
                                     <f:if condition="{prevNext.prev}">
-                                        <n:link
-                                            newsItem="{prevNext.prev}"
-                                            settings="{settings}"
+                                        <f:link.page
+                                            pageUid="{detailPid}"
+                                            additionalParams="{tx_news_pi1: {controller: 'News', action: 'detail', news: prevNext.prev.uid}}"
                                             class="cb-article-nav__link"
                                         >
                                             <span class="cb-article-nav__label">{prevLabel}</span>
@@ -170,7 +190,7 @@
                                                     ></span
                                                 >
                                             </f:if>
-                                        </n:link>
+                                        </f:link.page>
                                     </f:if>
                                 </div>
 
@@ -185,9 +205,9 @@
 
                                 <div class="cb-article-nav__item cb-article-nav__item--next">
                                     <f:if condition="{prevNext.next}">
-                                        <n:link
-                                            newsItem="{prevNext.next}"
-                                            settings="{settings}"
+                                        <f:link.page
+                                            pageUid="{detailPid}"
+                                            additionalParams="{tx_news_pi1: {controller: 'News', action: 'detail', news: prevNext.next.uid}}"
                                             class="cb-article-nav__link"
                                         >
                                             <span class="cb-article-nav__label">{nextLabel}</span>
@@ -199,7 +219,7 @@
                                                     ></span
                                                 >
                                             </f:if>
-                                        </n:link>
+                                        </f:link.page>
                                     </f:if>
                                 </div>
                             </div>

@@ -8,6 +8,63 @@ import "@fontsource/jetbrains-mono/800.css";
 
 import "../Styles/Main.entry.scss";
 
+// Code highlighting for CKEditor codeBlock output (RTE Default.yaml codeBlock.languages)
+import Prism from "prismjs";
+import "prismjs/themes/prism-tomorrow.css";
+import "prismjs/components/prism-php";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-markup"; // html
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-yaml";
+import "prismjs/components/prism-markup-templating"; // required by typoscript
+import "prismjs/components/prism-typoscript";
+import "prismjs/components/prism-twig"; // closest highlighting match for Fluid
+import "prismjs/components/prism-docker";
+Prism.highlightAll();
+
+// Leere <p>&nbsp;</p>, die CKEditor vor/nach einem Codeblock einfügt,
+// bekommen margin:0, damit sie keinen zusätzlichen Abstand neben dem
+// pre-margin erzeugen (siehe Main.entry.scss .cb-empty-around-code)
+const markEmptyParagraphsAroundCode = () => {
+    document.querySelectorAll(".cb-news-article-body pre").forEach((pre) => {
+        [pre.previousElementSibling, pre.nextElementSibling].forEach((p) => {
+            if (p && p.tagName === "P" && p.textContent.trim() === "") {
+                p.classList.add("cb-empty-around-code");
+            }
+        });
+    });
+};
+
+// Copy-Button für Code-Blöcke im Artikeltext
+const initCodeCopy = () => {
+    markEmptyParagraphsAroundCode();
+    document.querySelectorAll(".cb-news-article-body pre").forEach((pre) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "cb-code-copy";
+        btn.textContent = "Kopieren";
+
+        const code = pre.querySelector("code");
+
+        btn.addEventListener("click", async () => {
+            await navigator.clipboard.writeText(code ? code.textContent : pre.textContent);
+            btn.textContent = "Kopiert!";
+            setTimeout(() => (btn.textContent = "Kopieren"), 1500);
+        });
+
+        pre.appendChild(btn);
+    });
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCodeCopy);
+} else {
+    initCodeCopy();
+}
+
 // PDF Cart — pre-selection feature for PDF export
 import "../../../../maidem_pdfexport/Resources/Private/JavaScript/PdfCart.js";
 import "../../../../maidem_pdfexport/Resources/Private/Scss/PdfCart.scss";

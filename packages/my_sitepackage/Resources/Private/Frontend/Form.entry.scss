@@ -4,7 +4,7 @@
 $text-primary: #111111;
 $text-muted: #71717a;
 $color-secondary: #111111;
-$color-border: rgba(17, 17, 17, 0.18);
+$color-border: #222222;
 $color-error: #b91c1c;
 
 // Hide default FSC header output for the form CE.
@@ -38,16 +38,18 @@ $color-error: #b91c1c;
     position: relative;
     border: 1px solid $color-border;
     background: transparent;
-    margin-bottom: 0;
+    margin: -1px 0 0;
     transition: border-color 0.25s ease;
 
     &:focus-within {
       border-color: $color-secondary;
+      box-shadow: 0 -1px 0 0 $color-secondary, 0 1px 0 0 $color-secondary;
     }
   }
 
   // Unsichtbare form-group-Wrapper (Mosparo hidden inputs, leere Divs) ausblenden
   .form-group:empty,
+  .form-group:not(.form-element-check):not(:has(*)),
   .form-group:not(.form-element-check):not(:focus-within):has(> input[type="hidden"]:only-child),
   .form-group:not(.form-element-check):has(input[aria-hidden="true"]:only-child) {
     display: none;
@@ -117,7 +119,7 @@ $color-error: #b91c1c;
   .form-check {
     border: none !important;
     padding: 0;
-    margin: 0;
+    margin: 1.5rem 0 0;
     background: transparent;
   }
 
@@ -194,7 +196,7 @@ $color-error: #b91c1c;
 
   // ─── Mosparo-Captcha-Box ─────────────────────────────────────────────────────
   .mosparo-captcha {
-    margin: 0.75rem 0 1.5rem;
+    margin: 1.5rem 0;
   }
 
   // Required hint
@@ -206,10 +208,11 @@ $color-error: #b91c1c;
   }
 
   // ─── Submit Button ──────────────────────────────────────────────────────────
+  .actions,
   nav {
     display: flex;
     justify-content: flex-end;
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
     padding-top: 0;
     border-top: none;
   }
@@ -306,8 +309,6 @@ $color-error: #b91c1c;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: 3rem 4rem;
-  border-top: 1px solid $color-border;
-  padding-top: 2.5rem;
 
   @media (max-width: 767.98px) {
     grid-template-columns: 1fr;

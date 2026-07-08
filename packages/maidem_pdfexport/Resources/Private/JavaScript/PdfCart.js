@@ -39,12 +39,15 @@ function removeFromCart(sectionId) {
     setCart(getCart().filter((e) => e.id !== sectionId));
 }
 
-function moveInCart(sectionId, delta) {
+/** Move dragId to the position of targetId (reorder). */
+function reorderCart(dragId, targetId) {
+    if (dragId === targetId) return;
     const cart = getCart();
-    const i = cart.findIndex((e) => e.id === sectionId);
-    const j = i + delta;
-    if (i < 0 || j < 0 || j >= cart.length) return;
-    [cart[i], cart[j]] = [cart[j], cart[i]];
+    const from = cart.findIndex((e) => e.id === dragId);
+    const to = cart.findIndex((e) => e.id === targetId);
+    if (from < 0 || to < 0) return;
+    const [moved] = cart.splice(from, 1);
+    cart.splice(to, 0, moved);
     setCart(cart);
 }
 
@@ -126,9 +129,66 @@ function buildPanel() {
     panelEl.addEventListener("click", (e) => {
         const btn = e.target.closest("[data-pdf-remove]");
         if (btn) removeFromCart(btn.dataset.pdfRemove);
-        const mv = e.target.closest("[data-pdf-move]");
-        if (mv) moveInCart(mv.dataset.pdfId, mv.dataset.pdfMove === "up" ? -1 : 1);
     });
+
+    // Native drag & drop reordering
+    let dragId = null;
+    let touchDragId = null;
+    panelEl.addEventListener("dragstart", (e) => {
+        const li = e.target.closest("[data-pdf-id]");
+        if (!li) return;
+        dragId = li.dataset.pdfId;
+        e.dataTransfer.effectAllowed = "move";
+        li.classList.add("cb-pdf-panel__item--dragging");
+    });
+    panelEl.addEventListener("dragover", (e) => {
+        if (!dragId) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+    });
+    panelEl.addEventListener("drop", (e) => {
+        const li = e.target.closest("[data-pdf-id]");
+        if (!li || !dragId) return;
+        e.preventDefault();
+        reorderCart(dragId, li.dataset.pdfId);
+        dragId = null;
+    });
+    panelEl.addEventListener("dragend", () => {
+        dragId = null;
+        panelEl
+            .querySelector(".cb-pdf-panel__item--dragging")
+            ?.classList.remove("cb-pdf-panel__item--dragging");
+    });
+
+    // Touch fallback: drag by the handle via pointer events
+    panelEl.addEventListener("pointerdown", (e) => {
+        if (e.pointerType === "mouse") return; // mouse uses native DnD
+        const handle = e.target.closest(".cb-pdf-panel__drag");
+        if (!handle) return;
+        const li = handle.closest("[data-pdf-id]");
+        if (!li) return;
+        e.preventDefault();
+        touchDragId = li.dataset.pdfId;
+        li.classList.add("cb-pdf-panel__item--dragging");
+    });
+    panelEl.addEventListener("pointermove", (e) => {
+        if (!touchDragId) return;
+        e.preventDefault();
+        const over = document
+            .elementFromPoint(e.clientX, e.clientY)
+            ?.closest("[data-pdf-id]");
+        if (over && over.dataset.pdfId !== touchDragId) {
+            reorderCart(touchDragId, over.dataset.pdfId);
+        }
+    });
+    const endTouch = () => {
+        touchDragId = null;
+        panelEl
+            .querySelector(".cb-pdf-panel__item--dragging")
+            ?.classList.remove("cb-pdf-panel__item--dragging");
+    };
+    panelEl.addEventListener("pointerup", endTouch);
+    panelEl.addEventListener("pointercancel", endTouch);
 
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && panelOpen) togglePanel(false);
@@ -148,14 +208,9 @@ function renderPanel() {
 
     const items = cart
         .map(
-            (e, i) => `
-        <li class="cb-pdf-panel__item">
-            <span class="cb-pdf-panel__item-sort">
-                <button type="button" class="cb-pdf-panel__move" data-pdf-move="up" data-pdf-id="${escapeHtml(e.id)}"
-                    aria-label="${escapeHtml(labelFor(e))} nach oben" ${i === 0 ? "disabled" : ""}>&#9650;</button>
-                <button type="button" class="cb-pdf-panel__move" data-pdf-move="down" data-pdf-id="${escapeHtml(e.id)}"
-                    aria-label="${escapeHtml(labelFor(e))} nach unten" ${i === cart.length - 1 ? "disabled" : ""}>&#9660;</button>
-            </span>
+            (e) => `
+        <li class="cb-pdf-panel__item" draggable="true" data-pdf-id="${escapeHtml(e.id)}">
+            <span class="cb-pdf-panel__drag" aria-hidden="true">&#8942;&#8942;</span>
             <span class="cb-pdf-panel__item-label">${escapeHtml(labelFor(e))}</span>
             <button type="button" class="cb-pdf-panel__remove" data-pdf-remove="${escapeHtml(e.id)}"
                 aria-label="${escapeHtml(labelFor(e))} entfernen">&times;</button>

@@ -10,7 +10,6 @@ renderingOptions:
       - 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
 finishers:
   -
-    identifier: EmailToReceiver
     options:
       subject: 'Neue Kontaktanfrage von {name}'
       recipients:
@@ -19,11 +18,12 @@ finishers:
       senderName: 'Portfolio Kontaktformular'
       replyToRecipients:
         - '{email}'
+    identifier: EmailToReceiver
   -
-    identifier: Redirect
     options:
       pageUid: 1
-      additionalParameters: 'contact=sent'
+      additionalParameters: contact=sent
+    identifier: Redirect
 renderables:
   -
     renderingOptions:
@@ -36,7 +36,7 @@ renderables:
       -
         defaultValue: ''
         identifier: name
-        label: Firma
+        label: Name
         type: Text
         properties:
           fluidAdditionalAttributes:
@@ -85,10 +85,10 @@ renderables:
         defaultValue: ''
         properties:
           selectedProject: Default
-        validators:
-          -
-            identifier: MosparoCaptchaValidator
         type: MosparoCaptcha
         identifier: mosparocaptcha-1
         label: 'Mosparo Captcha'
+        validators:
+          -
+            identifier: MosparoCaptchaValidator
 variants: {  }

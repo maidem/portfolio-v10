@@ -42,6 +42,33 @@ class PdfDataService
     }
 
     /**
+     * Contact data from the latest gripsraum_contactinfo element.
+     */
+    public function getContactContent(): array
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $row = $queryBuilder
+            ->select(
+                'gripsraum_contactinfo_contact_name AS contact_name',
+                'gripsraum_contactinfo_address AS address',
+                'gripsraum_contactinfo_email AS email',
+                'gripsraum_contactinfo_phone AS phone'
+            )
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('gripsraum_contactinfo')),
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER)),
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0, \Doctrine\DBAL\ParameterType::INTEGER))
+            )
+            ->orderBy('uid', 'DESC')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
+
+        return $row ?: [];
+    }
+
+    /**
      * "My Story" text from the banner element (gripsraum_banner with bodytext).
      */
     public function getStoryContent(): array

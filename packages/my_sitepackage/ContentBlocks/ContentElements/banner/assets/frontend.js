@@ -282,7 +282,7 @@
             `letter-spacing:0.2em;color:${labelColor};white-space:nowrap;` +
             "text-transform:uppercase;line-height:1.6;" +
             "-webkit-text-stroke:0;text-shadow:none;";
-        const lblOffsetX = cx - (LABEL_BOX_H / 2 + 3);
+        const lblOffsetX = cx - (LABEL_BOX_H / 2 + 6);
         if (labelOnLine) {
             // DIN 406: label left of the dimension line, 3 px gap, rotated
             lbl.style.cssText =
@@ -319,18 +319,48 @@
         });
     }
 
+    // Round the banner's rendered height up to the next 40px mm-grid cell so
+    // the coarse grid never gets cut off mid-square at the bottom edge.
+    let snappingHeight = false;
+    function snapHeightToGrid() {
+        if (!isProfile || snappingHeight) return;
+        snappingHeight = true;
+        banner.style.paddingBottom = "";
+        const GRID = 40;
+        const rect = banner.getBoundingClientRect();
+        const remainder = rect.height % GRID;
+        banner.style.paddingBottom =
+            remainder > 0.5 ? (GRID - remainder) + "px" : "";
+        requestAnimationFrame(function () { snappingHeight = false; });
+    }
+
     function update() {
         dims.forEach(function (d) { d.remove(); });
         dims = [];
 
-        // Scale down only — target 82 % of container width
+        // All wordmark banners share one font-size: whatever the longest
+        // known title ("Datenschutzerklärung") needs to fit 82 % of the
+        // container. Shorter titles (e.g. "Impressum") render at that same
+        // size instead of blowing up to their own clamp() size.
         text.style.removeProperty("font-size");
         if (!isProfile) {
-            const w = text.getBoundingClientRect().width;
+            const REFERENCE_TITLE = "Datenschutzerklärung";
+            const baseFs = parseFloat(window.getComputedStyle(text).fontSize);
             const target = banner.clientWidth * 0.82;
-            if (w > target && w > 0) {
-                const fs = parseFloat(window.getComputedStyle(text).fontSize);
-                text.style.fontSize = (fs * (target / w)).toFixed(2) + "px";
+
+            const probe = document.createElement("span");
+            probe.style.cssText =
+                "position:absolute;visibility:hidden;white-space:nowrap;" +
+                `font:${baseFs}px "JetBrains Mono", monospace;font-weight:800;` +
+                "letter-spacing:-0.04em;text-transform:uppercase;";
+            probe.textContent = REFERENCE_TITLE;
+            document.body.appendChild(probe);
+            const refWidth = probe.getBoundingClientRect().width;
+            probe.remove();
+
+            if (refWidth > 0 && target > 0) {
+                const sharedFs = baseFs * Math.min(1, target / refWidth);
+                text.style.fontSize = sharedFs.toFixed(2) + "px";
             }
         }
 
@@ -414,9 +444,13 @@
         let inkTop = 0;
         let inkHeight = tRect.height;
         if (isProfile) {
-            // Multi-line block: cap top of first line → last-line baseline + descender
-            const first = text.firstElementChild || text;
-            const last = text.lastElementChild || text;
+            // Multi-line block: cap top of first line → last-line baseline + descender.
+            // Excludes the PDF-action button — only heading + body text are measured.
+            const measurable = Array.from(text.children).filter(
+                (el) => !el.classList.contains("cb-banner__pdf-action"),
+            );
+            const first = measurable[0] || text;
+            const last = measurable[measurable.length - 1] || text;
             const p1 = makeProbe();
             first.insertBefore(p1, first.firstChild);
             const r1 = p1.getBoundingClientRect();
@@ -439,20 +473,22 @@
         const inkBottom = inkTop + inkHeight;
         // ponytail: profile gap tuned so the dim band ends on the 8px grid
         const gap = isProfile ? 46 : 26;
+        // Same 8px-grid distance from the text on both sides (horizontal + vertical)
+        const textGap = isProfile ? 40 : gap - 10;
 
         if (totalWidth > 1) {
             const dim = makeDim(pxToRem(totalWidth).toFixed(2), totalWidth);
             dim.style.left = startX + "px";
             dim.style.width = totalWidth + "px";
-            dim.style.top = inkBottom + gap - 10 + "px";
+            dim.style.top = inkBottom + textGap + "px";
             text.appendChild(dim);
             dims.push(dim);
         }
 
         if (inkHeight > 1) {
             const remH = pxToRem(inkHeight).toFixed(2);
-            const standardOffset = gap + 20;
-            const compactOffset = 12 + 10;
+            const standardOffset = textGap + 20;
+            const compactOffset = textGap + 20;
             const besideExtra = labelFitsOnLine(inkHeight, remH)
                 ? 0
                 : LABEL_BOX_H + 4;
@@ -470,6 +506,8 @@
                 dims.push(vdim);
             }
         }
+
+        snapHeightToGrid();
     }
 
     // ── init ───────────────────────────────────────────────────────────────────

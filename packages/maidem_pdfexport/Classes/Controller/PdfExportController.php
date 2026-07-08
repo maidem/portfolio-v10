@@ -31,44 +31,52 @@ class PdfExportController extends ActionController
             ? $this->request->getArgument('sections')
             : ($this->request->getParsedBody()['sections'] ?? []);
 
-        $projectUids = [];
-        $logbookUids = [];
-        foreach ($sectionsInput as $value) {
-            if (str_starts_with($value, 'project_')) {
-                $projectUids[] = (int) substr($value, 8);
-            } elseif (str_starts_with($value, 'logbook_')) {
-                $logbookUids[] = (int) substr($value, 8);
-            } elseif (str_starts_with($value, 'news_')) {
-                $uid = (int) substr($value, 5);
-                $classified = $this->pdfDataService->classifyNewsUid($uid);
-                if (str_starts_with($classified, 'project_')) {
-                    $projectUids[] = $uid;
-                } else {
-                    $logbookUids[] = $uid;
-                }
-            }
-        }
-
-        $activeSections = [
-            'info'     => in_array('info', $sectionsInput),
-            'story'    => in_array('story', $sectionsInput),
-            'faq'      => in_array('faq', $sectionsInput),
-            'tech'     => in_array('tech', $sectionsInput),
-            'projects' => !empty($projectUids),
-            'logbook'  => !empty($logbookUids),
-        ];
-
         $site = $this->request->getAttribute('site');
         $rootPid = $site !== null ? $site->getRootPageId() : 0;
 
-        $data = [
-            'about'     => $activeSections['info']     ? $this->pdfDataService->getAboutContent($rootPid)             : '',
-            'story'     => $activeSections['story']    ? $this->pdfDataService->getStoryContent()               : [],
-            'faq'       => $activeSections['faq']      ? $this->pdfDataService->getFaqContent()                 : [],
-            'tech'      => $activeSections['tech']     ? $this->pdfDataService->getTechContent()                : [],
-            'projects'  => $activeSections['projects'] ? $this->pdfDataService->getProjectsByUids($projectUids) : [],
-            'logbook'   => $activeSections['logbook']  ? $this->pdfDataService->getLogbookByUids($logbookUids)  : [],
-        ];
+        // Build one block per cart entry, in the exact selection order.
+        $blocks = [];
+        foreach ($sectionsInput as $value) {
+            if ($value === 'info') {
+                $blocks[] = ['type' => 'info', 'data' => $this->pdfDataService->getAboutContent($rootPid)];
+            } elseif ($value === 'contact') {
+                $blocks[] = ['type' => 'contact', 'data' => $this->pdfDataService->getContactContent()];
+            } elseif ($value === 'story') {
+                $blocks[] = ['type' => 'story', 'data' => $this->pdfDataService->getStoryContent()];
+            } elseif ($value === 'faq') {
+                $blocks[] = ['type' => 'faq', 'data' => $this->pdfDataService->getFaqContent()];
+            } elseif ($value === 'tech') {
+                $blocks[] = ['type' => 'tech', 'data' => $this->pdfDataService->getTechContent()];
+            } else {
+                // News-based entries: project_/logbook_/news_ → single record block
+                $uid = 0;
+                $kind = '';
+                if (str_starts_with($value, 'project_')) {
+                    $uid = (int) substr($value, 8);
+                    $kind = 'project';
+                } elseif (str_starts_with($value, 'logbook_')) {
+                    $uid = (int) substr($value, 8);
+                    $kind = 'logbook';
+                } elseif (str_starts_with($value, 'news_')) {
+                    $uid = (int) substr($value, 5);
+                    $kind = str_starts_with($this->pdfDataService->classifyNewsUid($uid), 'project_') ? 'project' : 'logbook';
+                }
+                if ($uid <= 0) {
+                    continue;
+                }
+                if ($kind === 'project') {
+                    $rows = $this->pdfDataService->getProjectsByUids([$uid]);
+                    if (!empty($rows[0])) {
+                        $blocks[] = ['type' => 'project', 'data' => $rows[0]];
+                    }
+                } else {
+                    $rows = $this->pdfDataService->getLogbookByUids([$uid]);
+                    if (!empty($rows[0])) {
+                        $blocks[] = ['type' => 'logbook', 'data' => $rows[0]];
+                    }
+                }
+            }
+        }
 
         $viewData = new ViewFactoryData(
             templatePathAndFilename: GeneralUtility::getFileAbsFileName(
@@ -76,9 +84,15 @@ class PdfExportController extends ActionController
             ),
             request: $this->request
         );
+        // Show a section heading only on the first block of each consecutive type run.
+        $prevType = null;
+        foreach ($blocks as $i => $block) {
+            $blocks[$i]['showHeading'] = $block['type'] !== $prevType;
+            $prevType = $block['type'];
+        }
+
         $view = $this->viewFactory->create($viewData);
-        $view->assign('sections', $activeSections);
-        $view->assign('data', $data);
+        $view->assign('blocks', $blocks);
         $html = $view->render();
 
         $chromePath = (string)(getenv('PDF_CHROMIUM_PATH') ?: '/usr/bin/chromium');

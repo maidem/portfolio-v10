@@ -14,11 +14,16 @@
   z-index: 0;
   isolation: isolate;
 
-  // Millimeter-paper overlay (fine + coarse grid lines)
+  // Millimeter-paper overlay (fine + coarse grid lines) — breaks out of the
+  // container to span the full viewport width regardless of banner max-width.
   &::after {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
     background-image:
       repeating-linear-gradient(
         90deg,
@@ -55,6 +60,11 @@
 }
 
 // ── Wordmark text ──────────────────────────────────────────────────────────────
+.cb-portfolio-banner:not(.cb-portfolio-banner--profile) {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
 .cb-portfolio-text {
   display: inline-block;
   position: relative;
@@ -109,6 +119,11 @@
   > *:last-child {
     margin-bottom: 0;
   }
+}
+
+.cb-banner__pdf-action {
+  // 8px grid; matches the dimension arrow's gap below the text (see frontend.js)
+  margin-top: 2.5rem;
 }
 
 .cb-portfolio-text__heading {

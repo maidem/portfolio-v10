@@ -6,66 +6,105 @@
     <meta charset="UTF-8" />
     <style>
       @page {
-        margin: 2cm;
+        margin: 1.4cm;
         size: A4;
       }
       body {
         font-family: "JetBrains Mono", "Courier New", monospace;
-        color: #111;
-        line-height: 1.5;
-        font-size: 11pt;
+        color: #1a1a1a;
+        line-height: 1.35;
+        font-size: 10pt;
         margin: 0;
         padding: 0;
       }
       .header {
-        margin-bottom: 2cm;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #1a1a1a;
       }
       .portfolio-label {
-        font-weight: 900;
-        font-size: 10pt;
-        letter-spacing: 0.1em;
+        font-weight: 800;
+        font-size: 8.5pt;
+        letter-spacing: 0.25em;
         text-transform: uppercase;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.4rem;
         display: block;
-        color: #888;
+        color: #999;
       }
       .name-label {
-        font-weight: 500;
-        font-size: 16pt;
+        font-weight: 600;
+        font-size: 22pt;
+        letter-spacing: -0.01em;
         color: #000;
       }
       .section {
-        margin-bottom: 2.5rem;
+        margin-bottom: 1.6rem;
       }
       .section-title {
-        font-size: 10pt;
+        font-size: 9pt;
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.25rem;
-        color: #666;
-        border-bottom: 1px solid #e7e7e7;
+        letter-spacing: 0.18em;
+        padding-bottom: 0.3rem;
+        margin-bottom: 0.8rem;
+        color: #000;
+        border-bottom: 1px solid #d4d4d4;
+        /* Heading never orphaned at the bottom of a page */
+        break-after: avoid;
       }
       .content-block {
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
       }
       .item-title {
         font-weight: 700;
         font-size: 12pt;
-        margin-bottom: 0.3rem;
+        letter-spacing: -0.005em;
+        margin-bottom: 0.25rem;
         display: block;
+        color: #000;
+        break-after: avoid;
       }
       .item-description {
-        color: #444;
-        margin-bottom: 0.6rem;
+        color: #555;
+        margin-bottom: 0.4rem;
       }
       .item-body {
-        color: #333;
+        color: #2a2a2a;
         font-size: 10pt;
       }
       .item-body img {
         max-width: 100%;
+      }
+      /* Neutralize colored links/headings coming from website bodytext */
+      .item-body a {
+        color: #000;
+        text-decoration: none;
+      }
+      .item-body h1,
+      .item-body h2,
+      .item-body h3,
+      .item-body h4 {
+        color: #000;
+        font-size: 10.5pt;
+        font-weight: 700;
+        text-decoration: none;
+        margin: 0.9rem 0 0.3rem;
+        break-after: avoid;
+      }
+      .item-body p {
+        margin: 0 0 0.5rem;
+        orphans: 3;
+        widows: 3;
+      }
+      .item-body ul,
+      .item-body ol {
+        margin: 0 0 0.5rem;
+      }
+      .item-body > :first-child {
+        margin-top: 0;
+      }
+      .item-body p:empty {
+        display: none;
       }
       .skills-grid {
         display: block;
@@ -81,7 +120,8 @@
         font-weight: 700;
         font-size: 9pt;
         text-transform: uppercase;
-        color: #888;
+        letter-spacing: 0.08em;
+        color: #000;
         margin-bottom: 0;
         display: inline-block;
         width: 9.5rem;
@@ -106,14 +146,6 @@
       .skill-list li:last-child::after {
         content: "";
       }
-      .footer {
-        margin-top: 15vh;
-        font-size: 8pt;
-        color: #aaa;
-        text-align: right;
-        padding-top: 0.5rem;
-        padding-bottom: 0.2cm;
-      }
       ul {
         padding-left: 1.2rem;
         margin: 0;
@@ -129,121 +161,93 @@
       <div class="name-label">Maik Demuth</div>
     </div>
 
-    <!-- Section: About / Info (from Hero element) -->
-    <f:if condition="{sections.info}">
-      <div class="section">
-        <h2 class="section-title">INFORMATIONEN</h2>
-        <div class="content-block">
-          <f:format.html>{data.about}</f:format.html>
-        </div>
-      </div>
-    </f:if>
 
-    <!-- Section: My Story (from Banner element) -->
-    <f:if condition="{sections.story} && {data.story.bodytext}">
-      <div class="section">
-        <h2 class="section-title">
-          {f:if(condition: data.story.header, then: data.story.header, else: 'MY STORY')}
-        </h2>
-        <div class="content-block">
-          <f:format.html>{data.story.bodytext}</f:format.html>
-        </div>
-      </div>
-    </f:if>
+    <f:for each="{blocks}" as="block">
+      <f:switch expression="{block.type}">
 
-    <!-- Section: FAQ -->
-    <f:if condition="{sections.faq}">
-      <div class="section">
-        <h2 class="section-title">
-          <f:if condition="{data.faq.header}">
-            <f:then>{data.faq.header}</f:then>
-            <f:else>
-              <f:translate
-                key="LLL:EXT:my_sitepackage/Resources/Private/Language/locallang_pdf.xlf:pdf.section.faq"
-              />
-            </f:else>
-          </f:if>
-        </h2>
-        <f:for each="{data.faq.items}" as="item">
-          <div class="content-block">
-            <span class="item-title">{item.question}</span>
-            <div class="item-description">
-              <f:format.html>{item.answer}</f:format.html>
+        <f:case value="info">
+          <div class="section">
+            <f:if condition="{block.showHeading}"><h2 class="section-title">INFORMATIONEN</h2></f:if>
+            <div class="content-block"><f:format.html>{block.data}</f:format.html></div>
+          </div>
+        </f:case>
+
+        <f:case value="contact">
+          <div class="section">
+            <f:if condition="{block.showHeading}"><h2 class="section-title">KONTAKT</h2></f:if>
+            <div class="content-block">
+              <f:if condition="{block.data.contact_name}"><span class="item-title">{block.data.contact_name}</span></f:if>
+              <f:if condition="{block.data.address}"><div class="item-description"><f:format.nl2br>{block.data.address}</f:format.nl2br></div></f:if>
+              <div class="item-body">
+                <f:if condition="{block.data.email}"><div>E-Mail: {block.data.email}</div></f:if>
+                <f:if condition="{block.data.phone}"><div>Telefon: {block.data.phone}</div></f:if>
+              </div>
             </div>
           </div>
-        </f:for>
-      </div>
-    </f:if>
+        </f:case>
 
-    <!-- Section: Projects -->
-    <f:if condition="{sections.projects}">
-      <div class="section">
-        <h2 class="section-title">PROJEKTE</h2>
-        <f:for each="{data.projects}" as="project">
-          <div class="content-block">
-            <span class="item-title">{project.title}</span>
-            <div class="item-description">{project.description}</div>
-            <f:if condition="{project.bodytext}">
-              <div class="item-body">
-                <f:format.html>{project.bodytext}</f:format.html>
-              </div>
-            </f:if>
-          </div>
-        </f:for>
-      </div>
-    </f:if>
+        <f:case value="story">
+          <f:if condition="{block.data.bodytext}">
+            <div class="section">
+              <f:if condition="{block.showHeading}"><h2 class="section-title">{f:if(condition: block.data.header, then: block.data.header, else: 'MY STORY')}</h2></f:if>
+              <div class="content-block"><f:format.html>{block.data.bodytext}</f:format.html></div>
+            </div>
+          </f:if>
+        </f:case>
 
-    <!-- Section: Skills + Workflows -->
-    <f:if condition="{sections.tech}">
-      <div class="section">
-        <h2 class="section-title">SKILLS</h2>
-        <f:if condition="{data.tech}">
-          <div class="skills-grid">
-            <f:for each="{data.tech}" as="names" key="category">
-              <div class="skill-group">
-                <f:if condition="{category}">
-                  <span class="skill-group-title">{category}</span>
-                </f:if>
-                <div class="item-description">
-                  <ul class="skill-list">
-                    <f:for each="{names}" as="skill">
-                      <li>{skill}</li>
-                    </f:for>
-                  </ul>
-                </div>
+        <f:case value="faq">
+          <div class="section">
+            <f:if condition="{block.showHeading}"><h2 class="section-title">{f:if(condition: block.data.header, then: block.data.header, else: 'FAQ')}</h2></f:if>
+            <f:for each="{block.data.items}" as="item">
+              <div class="content-block">
+                <span class="item-title">{item.question}</span>
+                <div class="item-description"><f:format.html>{item.answer}</f:format.html></div>
               </div>
             </f:for>
           </div>
-        </f:if>
-      </div>
-    </f:if>
+        </f:case>
 
-    <!-- Section: Logbook -->
-    <f:if condition="{sections.logbook}">
-      <div class="section">
-        <h2 class="section-title">LOGBUCH</h2>
-        <f:for each="{data.logbook}" as="entry">
-          <div class="content-block">
-            <span class="item-title">
-              <f:if condition="{entry.project_date}">
-                <f:format.date format="d.m.Y"
-                  >{entry.project_date}</f:format.date
-                >
-                -
-              </f:if>
-              {entry.header}
-            </span>
-            <div class="item-description">
-              <f:format.html>{entry.teaser_text}</f:format.html>
+        <f:case value="tech">
+          <div class="section">
+            <f:if condition="{block.showHeading}"><h2 class="section-title">SKILLS</h2></f:if>
+            <div class="skills-grid">
+              <f:for each="{block.data}" as="names" key="category">
+                <div class="skill-group">
+                  <f:if condition="{category}"><span class="skill-group-title">{category}</span></f:if>
+                  <div class="item-description">
+                    <ul class="skill-list"><f:for each="{names}" as="skill"><li>{skill}</li></f:for></ul>
+                  </div>
+                </div>
+              </f:for>
             </div>
           </div>
-        </f:for>
-      </div>
-    </f:if>
+        </f:case>
 
-    <div class="footer">
-      Generated via maidem.de —
-      <f:format.date format="d.m.Y">now</f:format.date>
-    </div>
+        <f:case value="project">
+          <div class="section">
+            <f:if condition="{block.showHeading}"><h2 class="section-title">PROJEKTE</h2></f:if>
+            <div class="content-block">
+              <span class="item-title">{block.data.title}</span>
+              <div class="item-description">{block.data.description}</div>
+              <f:if condition="{block.data.bodytext}"><div class="item-body"><f:format.html>{block.data.bodytext}</f:format.html></div></f:if>
+            </div>
+          </div>
+        </f:case>
+
+        <f:case value="logbook">
+          <div class="section">
+            <f:if condition="{block.showHeading}"><h2 class="section-title">NOTES</h2></f:if>
+            <div class="content-block">
+              <span class="item-title">
+                <f:if condition="{block.data.project_date}"><f:format.date format="d.m.Y">{block.data.project_date}</f:format.date> - </f:if>
+                {block.data.header}
+              </span>
+              <div class="item-description"><f:format.html>{block.data.teaser_text}</f:format.html></div>
+            </div>
+          </div>
+        </f:case>
+
+      </f:switch>
+    </f:for>
   </body>
 </html>

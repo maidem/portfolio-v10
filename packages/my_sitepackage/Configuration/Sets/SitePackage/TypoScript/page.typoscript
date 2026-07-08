@@ -59,7 +59,7 @@ page {
     }
 
     includeCSS {
-        critical-nav = EXT:my_sitepackage/Resources/Public/Css/critical-nav.css
+
     }
 
     includeJS {

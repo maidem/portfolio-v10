@@ -99,6 +99,7 @@
     line-height: 1.6;
     margin-top: 0;
     padding-top: 0;
+    max-width: 672px; // gleiche Textbreite wie "My Story" (.cb-portfolio-text)
 
     > *:first-child {
       margin-top: 0;

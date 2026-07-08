@@ -45,21 +45,40 @@
                         settings="{settings}"
                         class="cb-news-link cb-stretched-link"
                     >
-                        Weiterlesen →
+                        Weiterlesen
                     </n:link>
-
-                    <f:if condition="{newsItem.externalurl}">
-                        <a
-                            href="{newsItem.externalurl}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="cb-news-website-link"
-                            style="position: relative; z-index: 1"
-                        >
-                            Website →
-                        </a>
-                    </f:if>
                 </div>
+
+                <f:if condition="{newsItem.externalurl} || {newsItem.relatedLinks}">
+                    <div class="cb-news-item__links">
+                        <f:if condition="{newsItem.externalurl}">
+                            <a
+                                href="{newsItem.externalurl}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="cb-news-website-link"
+                                style="position: relative; z-index: 1"
+                            >
+                                Live-Ansicht
+                            </a>
+                        </f:if>
+
+                        <f:for each="{newsItem.relatedLinks}" as="relatedLink">
+                            <a
+                                href="{relatedLink.uri}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="cb-news-website-link"
+                                style="position: relative; z-index: 1"
+                            >
+                                <f:if condition="{relatedLink.title}">
+                                    <f:then>{relatedLink.title}</f:then>
+                                    <f:else>Quellcode</f:else>
+                                </f:if>
+                            </a>
+                        </f:for>
+                    </div>
+                </f:if>
             </div>
         </div>
     </article>

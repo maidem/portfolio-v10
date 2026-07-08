@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.2.8",
+    "prismjs": "^1.30.0",
     "puppeteer": "^24.40.0"
   }
 }

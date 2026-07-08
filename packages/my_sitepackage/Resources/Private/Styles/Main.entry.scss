@@ -492,19 +492,23 @@ h4, h5, h6 {
 .cb-news-filter-bar,
 .cb-section-hero__container,
 .cb-section-projects__container,
-.cb-section-skills__container {
+.cb-section-skills__container,
+.cb-form-section {
   @media (min-width: 1200px) {
     padding-inline: 0;
   }
 }
 
-// Section-Überschrift des News-Frames: bündig mit dem Logo, 8px-Raster
-.frame-type-maidem_contactsplit > header,
-[class*="frame-type-news"] > header {
+// Section-Überschrift des Kontakt-Frames: bündig mit dem Content darunter
+.frame-type-maidem_contactsplit > header {
   width: 100%;
   max-width: 1200px;
   margin-inline: auto;
   padding-inline: 1.25rem;
+
+  @include above($bp-md) {
+    padding-inline: 2rem;
+  }
 
   @media (min-width: 1200px) {
     padding-inline: 0;
@@ -520,14 +524,53 @@ h4, h5, h6 {
   }
 }
 
+// Section-Überschrift des News-Frames: bündig mit dem Logo, 8px-Raster
+[class*="frame-type-news"] > header {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @include above($bp-md) {
+    padding-inline: 2rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding-inline: 0;
+  }
+
+  h2 {
+    font-family: $font-mono;
+    font-size: clamp(1.375rem, 1.8vw, 1.75rem);
+    font-weight: $fw-bold;
+    line-height: 1.25;
+    color: $text-primary;
+    margin: 0 0 2rem; // 32px unter der Überschrift
+  }
+}
+
+.frame-type-maidem_contactsplit > header h2::after {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-inline-start: -0.3em;
+  border-radius: 50%;
+  background: #ED1C24;
+}
+
 // ─── News: Category list reset ────────────────────────────────────────────────
 .cb-news-categories {
   list-style: none;
-  margin: 0;
+  margin: 0 0 0.5rem;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0;
+
+  &--detail {
+    margin-top: 1rem;
+  }
 }
 
 // ─── News: Category label ─────────────────────────────────────────────────────
@@ -618,7 +661,7 @@ h4, h5, h6 {
 
   &__row {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch; // Karten (Bild + Content) gleich hoch
     gap: 1rem; // 16px
     flex: 1 1 auto;
     min-width: 0;
@@ -631,7 +674,8 @@ h4, h5, h6 {
   &__img {
     display: block;
     width: 100%;
-    height: 5rem;
+    height: 100%;
+    min-height: 5rem;
     object-fit: cover;
     border-radius: 0.5rem;
   }
@@ -791,6 +835,7 @@ h4, h5, h6 {
 
   &__content {
     flex: 1 1 100%;
+    min-width: 0;
 
     @include above($bp-md) {
       flex: 0 0 calc(66.666% - 1.5rem);
@@ -835,6 +880,46 @@ h4, h5, h6 {
       text-decoration: none;
     }
   }
+
+  // Leere Absätze direkt vor/nach einem Codeblock (CKEditor fügt oft
+  // <p>&nbsp;</p> ein) sollen keinen zusätzlichen Abstand neben dem
+  // pre-margin erzeugen — Klasse wird per JS gesetzt (nbsp ist kein :empty)
+  p.cb-empty-around-code {
+    display: none;
+  }
+
+  // Code-Blöcke (CKEditor codeBlock + Prism): umbrechen statt horizontal
+  // scrollen, damit immer der ganze Code sichtbar ist
+  pre {
+    position: relative;
+    max-width: 100%;
+    margin: 1rem 0;
+    padding: 1rem 1.5rem;
+
+    code {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
+
+  .cb-code-copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.625rem;
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background $transition-base;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
 }
 
 // ─── News: External link ──────────────────────────────────────────────────────
@@ -855,6 +940,43 @@ h4, h5, h6 {
   &:hover {
     opacity: 0.6;
     border-color: transparent;
+  }
+}
+
+// sekundäre Projekt-Links (Quellcode/Live) als Pills, optisch abgesetzt von "Weiterlesen"
+.cb-news-item__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  .cb-news-website-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    font-size: 0.5625rem;
+    font-weight: $fw-semibold;
+    padding: 0.25rem 0.55rem;
+    border: none;
+    background-color: #111111;
+    color: #fff;
+    border-radius: $radius-pill;
+    transition: background-color $transition-fast;
+
+    &::after {
+      content: '';
+      width: 0.45em;
+      height: 0.45em;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background-color: #ed1c24;
+    }
+
+    &:hover {
+      opacity: 1;
+      background-color: #000;
+      color: #fff;
+    }
   }
 }
 
