@@ -306,7 +306,7 @@ h4, h5, h6 {
 
     @include above($bp-md) {
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: center;
       text-align: start;
     }
   }
@@ -322,10 +322,6 @@ h4, h5, h6 {
     gap: 1.5rem;
     flex-wrap: wrap;
     justify-content: center;
-
-    @include above($bp-md) {
-      justify-content: flex-end;
-    }
   }
 
   &__link {
@@ -569,7 +565,12 @@ h4, h5, h6 {
   gap: 0;
 
   &--detail {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0;
+
+    .cb-news-category-label {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -579,7 +580,7 @@ h4, h5, h6 {
   font-weight: $fw-bold;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: rgba(0, 0, 0, 0.45);
+  color: $text-primary;
   display: inline-block;
   margin-right: 0.5rem;
   margin-bottom: 0.25rem;
@@ -727,7 +728,7 @@ h4, h5, h6 {
 
 .cb-news-link {
   @include label-text(0.6875rem, 0.15em);
-  text-decoration: none;
+  text-decoration: underline;
   color: $text-primary;
   transition: opacity $transition-base;
 
@@ -774,6 +775,7 @@ h4, h5, h6 {
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: $text-primary;
+  margin-top: 0;
   margin-bottom: 0.75rem;
 }
 
@@ -923,7 +925,6 @@ h4, h5, h6 {
 }
 
 // ─── News: External link ──────────────────────────────────────────────────────
-.cb-project-article-website-link,
 .cb-news-website-link {
   font-size: 0.6875rem;
   font-weight: $fw-bold;

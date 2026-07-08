@@ -35,10 +35,10 @@
                 <div class="cb-news-detail__inner">
                     <header class="cb-news-detail__header">
                         <a
-                            href="/"
+                            href="/#projekte"
                             class="cb-news-article-back cb-news-article-back--block"
                         >
-                            ← Zurück
+                            Zurück
                         </a>
 
                         <f:if condition="{newsItem.categories}">
@@ -60,15 +60,15 @@
                         </f:if>
 
                         <f:if condition="{newsItem.externalurl} || {newsItem.relatedLinks}">
-                            <p class="cb-news-detail__external-link">
+                            <div class="cb-news-item__links">
                                 <f:if condition="{newsItem.externalurl}">
                                     <a
                                         href="{newsItem.externalurl}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="cb-project-article-website-link"
+                                        class="cb-news-website-link"
                                     >
-                                        Live-Ansicht →
+                                        Live-Ansicht
                                     </a>
                                 </f:if>
                                 <f:for each="{newsItem.relatedLinks}" as="relatedLink">
@@ -76,15 +76,15 @@
                                         href="{relatedLink.uri}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="cb-project-article-website-link"
+                                        class="cb-news-website-link"
                                     >
                                         <f:if condition="{relatedLink.title}">
-                                            <f:then>{relatedLink.title} →</f:then>
-                                            <f:else>Quellcode →</f:else>
+                                            <f:then>{relatedLink.title}</f:then>
+                                            <f:else>Quellcode</f:else>
                                         </f:if>
                                     </a>
                                 </f:for>
-                            </p>
+                            </div>
                         </f:if>
 
                         <div class="cb-news-detail__pdf-btn">
