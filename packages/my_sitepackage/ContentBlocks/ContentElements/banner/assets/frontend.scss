@@ -11,8 +11,25 @@
   overflow: visible;
   user-select: none;
   pointer-events: none;
-  z-index: 0;
-  isolation: isolate;
+
+  // No isolation/z-index on the container itself: the tint below and the
+  // millimeter grid above must stack against the page-wide
+  // .cb-perspective-grid (fixed, z-index 0) as plain siblings, not inside
+  // an isolated context that would always paint over it.
+
+  // Solid tint — sits below the page-wide perspective-grid background.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    background-color: #d1d4d3;
+    z-index: -1;
+    pointer-events: none;
+  }
 
   // Millimeter-paper overlay (fine + coarse grid lines) — breaks out of the
   // container to span the full viewport width regardless of banner max-width.

@@ -1,4 +1,7 @@
-<div class="cb-contact-info">
+<div
+    id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
+    class="cb-contact-info"
+>
     <f:if condition="{data.contact_name}">
         <p class="cb-contact-info__name">{data.contact_name}</p>
     </f:if>

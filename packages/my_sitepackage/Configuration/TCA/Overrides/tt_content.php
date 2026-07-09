@@ -57,11 +57,3 @@ $GLOBALS['TCA']['tt_content']['types']['form_formframework']['columnsOverrides']
         ]
     )
 );
-
-// Intro-Text für den Kontakt-Split (schlichtes Textfeld, kein RTE)
-ExtensionManagementUtility::addToAllTCAtypes(
-    'tt_content',
-    'bodytext;Intro-Text',
-    'maidem_contactsplit',
-    'after:header'
-);

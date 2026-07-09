@@ -298,13 +298,7 @@ $color-error: #b91c1c;
   }
 }
 
-// ─── Kontakt-Split (b13/container): Intro + 2 Spalten ──────────────────────────
-.cb-contact-intro {
-  max-width: 52ch;
-  color: $text-muted;
-  margin: 0 0 3rem;
-}
-
+// ─── Kontakt-Split (b13/container): 2 Spalten ──────────────────────────────────
 .cb-contact-split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);

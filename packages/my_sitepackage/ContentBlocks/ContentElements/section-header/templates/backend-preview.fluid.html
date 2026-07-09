@@ -7,14 +7,13 @@
 
     <f:section name="Header">
         <cb:link.editRecord uid="{data.uid}" table="{data.mainType}">
-            <strong>{data.contact_name}</strong>
+            <strong>{data.header}</strong>
         </cb:link.editRecord>
     </f:section>
 
     <f:section name="Content">
-        <div>
-            <f:format.nl2br>{data.address}</f:format.nl2br><br />
-            {data.email} · {data.phone}
-        </div>
+        <f:if condition="{data.bodytext}">
+            <div><em>{data.bodytext}</em></div>
+        </f:if>
     </f:section>
 </html>

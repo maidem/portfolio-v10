@@ -1,0 +1,21 @@
+name: gripsraum/section-header
+typeName: gripsraum_sectionheader
+title: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/section-header/language/labels.xlf:title
+group: portfolio
+description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/section-header/language/labels.xlf:description
+prefixFields: true
+prefixType: full
+basics:
+  - TYPO3/Appearance
+fields:
+  - identifier: header
+    useExistingField: true
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: bodytext
+    useExistingField: true
+    label: "Subtext"
+    enableRichtext: true

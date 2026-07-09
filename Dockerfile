@@ -13,7 +13,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-gd --ignore-platform-req=ext-pdo_mysql --ignore-platform-req=ext-mysqli
 
 # Stage 2: Build Frontend assets with Node/Vite
-FROM node:22-bookworm-slim AS vite-builder
+FROM node:24-bookworm-slim AS vite-builder
 WORKDIR /app
 COPY package.json package-lock.json composer.json composer.lock ./
 COPY packages ./packages
@@ -49,13 +49,13 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 #
 # Includes:
 #   - base utilities (curl, git, zip, unzip, locales, gnupg)
-#   - Node.js 22 (via NodeSource)
+#   - Node.js 24 (via NodeSource)
 #   - Chromium + all required runtime libraries for headless PDF rendering
 #     (Browsershot drives /usr/bin/chromium directly; no remote service)
 # ─────────────────────────────────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl git zip unzip locales gnupg ca-certificates \
-    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y --no-install-recommends \
         nodejs \
         chromium \

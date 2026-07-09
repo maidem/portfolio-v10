@@ -103,6 +103,19 @@ main > .frame.frame-default {
   }
 }
 
+// section-header gehört inhaltlich zum direkt folgenden Element (z. B. dem
+// Kontakt-Container) und braucht daher nur 8er-Raster-Abstand statt des
+// vollen Section-Abstands.
+main > .cb-section-header {
+  margin-bottom: $unit * 4; // 32px
+}
+
+.cb-section-header + .container,
+.cb-section-header + section,
+.cb-section-header + .frame {
+  padding-top: 0;
+}
+
 // Kind-Elemente im Kontakt-Split brauchen keinen Section-Abstand
 .cb-contact-split .frame {
   margin-bottom: 0;
@@ -126,7 +139,9 @@ main > .frame.frame-default {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
+  // Above $z-base (main) so it stays visible over section-level stacking
+  // contexts, e.g. the banner's tinted background layer.
+  z-index: $z-base + 1;
   overflow: hidden;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
@@ -489,34 +504,10 @@ h4, h5, h6 {
 .cb-section-hero__container,
 .cb-section-projects__container,
 .cb-section-skills__container,
-.cb-form-section {
+.cb-form-section,
+.cb-section-header {
   @media (min-width: 1200px) {
     padding-inline: 0;
-  }
-}
-
-// Section-Überschrift des Kontakt-Frames: bündig mit dem Content darunter
-.frame-type-maidem_contactsplit > header {
-  width: 100%;
-  max-width: 1200px;
-  margin-inline: auto;
-  padding-inline: 1.25rem;
-
-  @include above($bp-md) {
-    padding-inline: 2rem;
-  }
-
-  @media (min-width: 1200px) {
-    padding-inline: 0;
-  }
-
-  h2 {
-    font-family: $font-mono;
-    font-size: clamp(1.375rem, 1.8vw, 1.75rem);
-    font-weight: $fw-bold;
-    line-height: 1.25;
-    color: $text-primary;
-    margin: 0 0 2rem; // 32px unter der Überschrift
   }
 }
 
@@ -545,14 +536,39 @@ h4, h5, h6 {
   }
 }
 
-.frame-type-maidem_contactsplit > header h2::after {
-  content: "";
-  display: inline-block;
-  width: 0.5em;
-  height: 0.5em;
-  margin-inline-start: -0.3em;
-  border-radius: 50%;
-  background: #ED1C24;
+.cb-section-header {
+  padding-top: 0;
+}
+
+.cb-section-header__title {
+  font-family: $font-mono;
+  font-size: clamp(1.375rem, 1.8vw, 1.75rem);
+  font-weight: $fw-bold;
+  line-height: 1.25;
+  color: $text-primary;
+  margin: 0 0 1rem; // 16px unter der Überschrift
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-inline-start: 0.35em;
+    border-radius: 50%;
+    background: #ED1C24;
+  }
+}
+
+.cb-section-header__intro {
+  margin-bottom: 0;
+  color: #222;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 672px; // gleiche Textbreite wie "My Story" (.cb-portfolio-text)
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 // ─── News: Category list reset ────────────────────────────────────────────────
