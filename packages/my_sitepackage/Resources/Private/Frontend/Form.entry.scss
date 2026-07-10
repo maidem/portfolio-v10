@@ -143,6 +143,10 @@ $color-error: #b91c1c;
     padding: 0;
     top: unset;
     left: unset;
+
+    span {
+      min-width: 0;
+    }
   }
 
   // Datenschutz-Link muss klickbar sein

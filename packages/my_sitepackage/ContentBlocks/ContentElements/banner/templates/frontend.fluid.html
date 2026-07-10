@@ -5,7 +5,7 @@
 >
     <f:if condition="{data.bodytext}">
         <f:then>
-            <div
+            <section
                 class="cb-portfolio-banner cb-portfolio-banner--profile"
                 id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
             >
@@ -28,13 +28,13 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </section>
         </f:then>
         <f:else>
             <f:if condition="{data.header}">
-                <div class="cb-portfolio-banner" aria-hidden="true">
+                <section class="cb-portfolio-banner" aria-hidden="true">
                     <div class="cb-portfolio-text">{data.header}</div>
-                </div>
+                </section>
             </f:if>
         </f:else>
     </f:if>

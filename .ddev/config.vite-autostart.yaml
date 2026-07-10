@@ -1,0 +1,4 @@
+web_extra_daemons:
+  - name: vite
+    command: "node_modules/.bin/vite dev --host --port 5173 --strictPort"
+    directory: /var/www/html

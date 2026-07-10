@@ -48,19 +48,19 @@
     padding-block: $unit;
   }
 
-  &__logo {
+  &__logo.cb-nav__logo {
     font-size: 0.875rem;
     letter-spacing: 0.04em;
     font-weight: $fw-semibold;
-    color: $text-primary;
+    color: #0a0a0a;
     text-decoration: none;
     line-height: 1;
     flex-shrink: 0;
     white-space: nowrap;
-    transition: opacity $transition-fast;
+    transition: color $transition-fast;
 
     &:hover {
-      opacity: 0.7;
+      color: #000000;
     }
   }
 
