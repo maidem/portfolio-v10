@@ -30,11 +30,13 @@ FROM php:8.4-apache-bookworm
 # Set working directory
 WORKDIR /var/www/html
 
-# FORCE SEQUENTIAL BUILD: Copy from builders first. 
+# FORCE SEQUENTIAL BUILD: Copy from builders first.
 # This forces Docker to finish the heavy composer/vite stages before starting the heavy system-installs in this stage.
+# node_modules is NOT copied: it's only needed inside vite-builder. In production the
+# vite-asset-collector reads the prebuilt public/_assets/vite manifest (useDevServer=0),
+# and PDF export drives system chromium (/usr/bin/chromium), not Puppeteer.
 COPY --from=composer-builder /app/vendor ./vendor/
 COPY --from=vite-builder /app/public/_assets ./public/_assets/
-COPY --from=vite-builder /app/node_modules ./node_modules/
 
 # Configure Apache
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
@@ -114,10 +116,9 @@ RUN { \
 # Copy the rest of the application
 COPY --chown=www-data:www-data . .
 
-# Overwrite vendor/ and node_modules/ with built versions (the COPY . . above contained
-# broken symlinks from .dockerignore'd vendor/ and node_modules/).
+# Overwrite vendor/ with built version (the COPY . . above contained
+# broken symlinks from .dockerignore'd vendor/).
 COPY --from=composer-builder --chown=www-data:www-data /app/vendor ./vendor
-COPY --from=vite-builder --chown=www-data:www-data /app/node_modules ./node_modules
 COPY --from=vite-builder --chown=www-data:www-data /app/public/_assets/vite ./public/_assets/vite
 
 # Publish ContentBlock assets, resolve symlinks, create runtime dirs and fix
