@@ -131,9 +131,6 @@ $color-error: #b91c1c;
     background: transparent !important;
     pointer-events: auto !important;
     cursor: pointer;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
     font-size: 0.875rem;
     font-weight: 400;
     letter-spacing: 0;
@@ -143,10 +140,20 @@ $color-error: #b91c1c;
     padding: 0;
     top: unset;
     left: unset;
+  }
 
-    span {
-      min-width: 0;
-    }
+  // Nur das äußere Label ist Flex-Container: Checkbox neben dem Textblock.
+  .form-check-wrapping-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  // Der Text-Span selbst muss normal fließen — als Flex-Container würden Text,
+  // Datenschutz-Link und "*" zu eigenen Flex-Items und falsch umbrechen.
+  .form-check-label {
+    display: block;
+    min-width: 0;
   }
 
   // Datenschutz-Link muss klickbar sein
@@ -371,4 +378,22 @@ $color-error: #b91c1c;
       color: $color-secondary;
     }
   }
+}
+
+// ─── Formular: CSS-first Bemaßung (measure-block.js) ──────────────────────────
+// Der Feld-Block inkl. Checkbox wird bemaßt (Höhe bis .form-element-check via
+// data-measure-until). Elternelement (.cb-form-wrap) rückt für die vertikale
+// Linie ein; mobil keine vertikale Bemaßung.
+.cb-form-wrap {
+  padding-left: 3rem;
+
+  @media (max-width: 767.98px) {
+    padding-left: 0;
+  }
+}
+
+.cb-form__measure {
+  --measure: on;
+  position: relative;
+  margin-bottom: 2.75rem; // Reserve für die horizontale Maßlinie
 }

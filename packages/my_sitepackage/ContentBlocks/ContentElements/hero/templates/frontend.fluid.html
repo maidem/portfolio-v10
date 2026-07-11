@@ -12,16 +12,18 @@
                 <div class="cb-hero__card">
                     <div class="cb-hero__body">
                         <div class="cb-hero__content">
-                            <f:if condition="{data.header}">
-                                <h1 class="cb-hero__heading">
-                                    {data.header}
-                                </h1>
-                            </f:if>
-                            <f:if condition="{data.bodytext}">
-                                <div class="cb-hero__text">
-                                    <f:format.html>{data.bodytext}</f:format.html>
-                                </div>
-                            </f:if>
+                            <div class="js-measure cb-hero__measure" data-measure-h="edges">
+                                <f:if condition="{data.header}">
+                                    <h1 class="cb-hero__heading">
+                                        {data.header}
+                                    </h1>
+                                </f:if>
+                                <f:if condition="{data.bodytext}">
+                                    <div class="cb-hero__text">
+                                        <f:format.html>{data.bodytext}</f:format.html>
+                                    </div>
+                                </f:if>
+                            </div>
                             <f:if condition="{data.cta_1_label} || {data.gripsraum_hero_show_pdf_export_button}">
                                 <div class="cb-hero__actions">
                                     <f:if condition="{data.cta_1_label}">

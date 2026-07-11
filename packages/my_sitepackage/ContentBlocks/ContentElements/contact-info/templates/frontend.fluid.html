@@ -2,36 +2,38 @@
     id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
     class="cb-contact-info"
 >
-    <f:if condition="{data.contact_name}">
-        <p class="cb-contact-info__name">{data.contact_name}</p>
-    </f:if>
-    <f:if condition="{data.address}">
-        <address class="cb-contact-info__address">
-            <f:format.nl2br>{data.address}</f:format.nl2br>
-        </address>
-    </f:if>
-    <ul class="cb-contact-info__list">
-        <f:if condition="{data.email}">
-            <li class="cb-contact-info__row">
-                <span class="cb-contact-info__dt">E-Mail</span>
-                <span class="cb-contact-info__dd">
-                    <a class="cb-contact-info__link" href="mailto:{data.email}"
-                        >{data.email}</a
-                    >
-                </span>
-            </li>
+    <div class="js-measure cb-contact-info__measure" data-measure-h="edges">
+        <f:if condition="{data.contact_name}">
+            <p class="cb-contact-info__name">{data.contact_name}</p>
         </f:if>
-        <f:if condition="{data.phone}">
-            <li class="cb-contact-info__row">
-                <span class="cb-contact-info__dt">Telefon</span>
-                <span class="cb-contact-info__dd">
-                    <a class="cb-contact-info__link" href="tel:{data.phone -> f:replace(search: ' ', replace: '')}"
-                        >{data.phone}</a
-                    >
-                </span>
-            </li>
+        <f:if condition="{data.address}">
+            <address class="cb-contact-info__address">
+                <f:format.nl2br>{data.address}</f:format.nl2br>
+            </address>
         </f:if>
-    </ul>
+        <ul class="cb-contact-info__list">
+            <f:if condition="{data.email}">
+                <li class="cb-contact-info__row">
+                    <span class="cb-contact-info__dt">E-Mail</span>
+                    <span class="cb-contact-info__dd">
+                        <a class="cb-contact-info__link" href="mailto:{data.email}"
+                            >{data.email}</a
+                        >
+                    </span>
+                </li>
+            </f:if>
+            <f:if condition="{data.phone}">
+                <li class="cb-contact-info__row">
+                    <span class="cb-contact-info__dt">Telefon</span>
+                    <span class="cb-contact-info__dd">
+                        <a class="cb-contact-info__link" href="tel:{data.phone -> f:replace(search: ' ', replace: '')}"
+                            >{data.phone}</a
+                        >
+                    </span>
+                </li>
+            </f:if>
+        </ul>
+    </div>
     <f:if condition="{data.show_pdf_export_button}">
         <button
             class="cb-pdf-add-btn"

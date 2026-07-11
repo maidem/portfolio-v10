@@ -3,12 +3,13 @@ import {
     makeVerticalDim,
     pxToRem,
     getDimColors,
+    inkBounds,
 } from "../../../../Resources/Private/JavaScript/dimension.js";
 
 // ── Profile-Banner (»My Story«) ──────────────────────────────────────────────
 // Die Bemaßung sitzt an einem fit-content-Wrapper (.cb-portfolio-measure), der
-// automatisch exakt so breit/hoch ist wie Überschrift + Text. JS misst nur noch
-// dessen offset-Maße (kein Ink-/Range-Messen mehr) und hängt die SVG-Linien an.
+// automatisch exakt so breit/hoch ist wie Überschrift + Text. Gemessen werden die
+// echten Glyphenkanten (inkBounds), nicht die Element-Box.
 (function () {
     "use strict";
 
@@ -31,17 +32,25 @@ function initProfile(measure) {
         dims.forEach((d) => d.remove());
         dims = [];
 
-        const width = measure.clientWidth;
-        const height = measure.clientHeight - dimBottomPadding(measure);
+        // Echte Glyphenkanten statt der Element-Box: die Zeilen-Box ist durch
+        // line-height höher/breiter als der sichtbare Text.
+        const box = measure.getBoundingClientRect();
+        const ink = inkBounds(measure);
+        if (!ink) return;
+        const left = ink.left - box.left;
+        const top = ink.top - box.top;
+        const width = ink.right - ink.left;
+        const height = ink.bottom - ink.top;
         if (width < 1 || height < 1) return;
 
         const colors = getDimColors(text, "#111111");
+        const gap = dimBottomPadding(measure);
 
         // ── horizontal (Breite) — Linie unter dem Text, Label mittig ──────────
         const hdim = makeDim(pxToRem(width).toFixed(2), width, colors);
-        hdim.style.left = "0px";
+        hdim.style.left = left + "px";
         hdim.style.width = width + "px";
-        hdim.style.bottom = "0px";
+        hdim.style.top = top + height + gap / 2 + "px";
         measure.appendChild(hdim);
         dims.push(hdim);
 
@@ -53,14 +62,13 @@ function initProfile(measure) {
         if (padLeft > 0) {
             const vdim = makeVerticalDim(
                 pxToRem(height).toFixed(2),
-                0,
+                top,
                 height,
                 "standard",
                 colors,
                 "leftOutside",
             );
             vdim.style.left = -padLeft + "px";
-            vdim.style.top = "0px";
             measure.appendChild(vdim);
             dims.push(vdim);
         }

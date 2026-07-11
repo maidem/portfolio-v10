@@ -11,14 +11,16 @@
                     <div class="cb-skills-groups">
                         <f:for each="{data.skill_categories}" as="category">
                             <section class="cb-skills-group">
-                                <h3 class="cb-skills-group__title">{category.category_name}</h3>
-                                <ul class="cb-skills-chips">
-                                    <f:for each="{category.skills}" as="skill">
-                                        <li>
-                                            <button type="button" class="cb-skill-chip">{skill.skill_name}</button>
-                                        </li>
-                                    </f:for>
-                                </ul>
+                                <div class="cb-skills-measure">
+                                    <h3 class="cb-skills-group__title">{category.category_name}</h3>
+                                    <ul class="cb-skills-chips">
+                                        <f:for each="{category.skills}" as="skill">
+                                            <li>
+                                                <button type="button" class="cb-skill-chip">{skill.skill_name}</button>
+                                            </li>
+                                        </f:for>
+                                    </ul>
+                                </div>
                             </section>
                         </f:for>
                     </div>

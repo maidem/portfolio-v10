@@ -169,19 +169,8 @@ $dim-line-offset: 1.5rem; // vertikaler Abstand der horizontalen Maßlinie zum T
     margin-bottom: 0;
   }
 
-  // Den line-height-Überschuss oben (erste Zeile) und unten (letzte Zeile)
-  // wegschneiden, damit die vertikale Bemaßung exakt die echte Texthöhe misst
-  // (Cap-Height oben → Alphabetic-Baseline unten) statt der Box inkl. Leading.
-  @supports (text-box-trim: trim-both) {
-    > :first-child {
-      text-box-trim: trim-start;
-      text-box-edge: cap alphabetic;
-    }
-    > :last-child {
-      text-box-trim: trim-end;
-      text-box-edge: cap alphabetic;
-    }
-  }
+  // Kein text-box-trim: frontend.js misst die echten Glyphenkanten (inkBounds)
+  // — trim würde die Box verschieben und die Range-Messung verfälschen.
 }
 
 .cb-banner__pdf-action {

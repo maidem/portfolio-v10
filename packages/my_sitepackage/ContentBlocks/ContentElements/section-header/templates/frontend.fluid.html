@@ -2,12 +2,14 @@
     id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
     class="cb-section-header container"
 >
-    <f:if condition="{data.header}">
-        <h2 class="cb-section-header__title">{data.header}</h2>
-    </f:if>
-    <f:if condition="{data.bodytext}">
-        <div class="cb-section-header__intro">
-            <f:format.html>{data.bodytext}</f:format.html>
-        </div>
-    </f:if>
+    <div class="js-measure cb-section-header__measure" data-measure-h="edges">
+        <f:if condition="{data.header}">
+            <h2 class="cb-section-header__title">{data.header}</h2>
+        </f:if>
+        <f:if condition="{data.bodytext}">
+            <div class="cb-section-header__intro">
+                <f:format.html>{data.bodytext}</f:format.html>
+            </div>
+        </f:if>
+    </div>
 </section>

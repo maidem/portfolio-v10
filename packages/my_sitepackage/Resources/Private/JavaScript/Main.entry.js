@@ -79,6 +79,10 @@ import.meta.glob(
 // Technical-drawing dimensioning for each news list item (see news-dimension.js)
 import "./news-dimension.js";
 
+// Generische Bemaßung für .js-measure-Blöcke (Kontakt: section-header,
+// contact-info, Formular) — siehe measure-block.js
+import "./measure-block.js";
+
 // =============================
 // Mobile Navigation — Bottom Sheet
 // =============================

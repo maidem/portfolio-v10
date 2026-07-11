@@ -4,11 +4,30 @@
 .cb-skills-groups {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.75rem 2.5rem;
+  gap: 3.5rem 2.5rem; // mehr Zeilenabstand für die horizontale Bemaßung unter jeder Gruppe
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   }
+}
+
+// Platz links für die vertikale Bemaßung (rückt Titel + Chips einheitlich ein,
+// Abstand Linie↔Text wie bei Banner/News). Mobil: keine vertikale Bemaßung.
+.cb-skills-group {
+  padding-left: 3rem;
+
+  @media (max-width: 767.98px) {
+    padding-left: 0;
+  }
+}
+
+// fit-content-Wrapper um Titel + Chips: automatisch so breit/hoch wie der Inhalt.
+// JS hängt die SVG-Maßlinien an (siehe assets/frontend.js).
+.cb-skills-measure {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 2.5rem; // Abstand für die horizontale Maßlinie darunter
 }
 
 .cb-skills-group__title {

@@ -24,6 +24,64 @@ export function pxToRem(px) {
     return px / (Number.isFinite(rootSize) && rootSize > 0 ? rootSize : 16);
 }
 
+const inkCtx = document.createElement("canvas").getContext("2d");
+
+// Echte Glyphen-Kanten allen Textes im Container (Maßlinien-Labels ausgenommen).
+// Die Range-Rects einer Zeile umfassen die volle Font-Box (ascent+descent), nicht
+// die tatsächlichen Glyphen — Ziffern/Versalien ohne Unterlängen enden z.B. auf
+// der Baseline. Deshalb pro Zeile die Baseline aus der Font-Box ableiten und die
+// reale Ober-/Unterkante über actualBoundingBox bestimmen.
+// Absolute Viewport-Koordinaten; null wenn kein Text gefunden.
+export function inkBounds(container) {
+    let left = Infinity;
+    let right = -Infinity;
+    let top = Infinity;
+    let bottom = -Infinity;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+        acceptNode: (n) => {
+            if (!n.textContent.trim()) return NodeFilter.FILTER_REJECT;
+            // Text in den angehängten Maßlinien-Labels ignorieren.
+            if (
+                n.parentElement &&
+                n.parentElement.closest(
+                    ".js-measure-dim, .cb-news-item__dim, .cb-skills-dim, [aria-hidden='true']",
+                )
+            )
+                return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+        },
+    });
+    let node;
+    const range = document.createRange();
+    while ((node = walker.nextNode())) {
+        const cs = node.parentElement && getComputedStyle(node.parentElement);
+        if (inkCtx && cs) {
+            inkCtx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+        }
+        range.selectNodeContents(node);
+        for (const r of range.getClientRects()) {
+            if (r.width < 1) continue;
+            if (r.left < left) left = r.left;
+            if (r.right > right) right = r.right;
+
+            let lineTop = r.top;
+            let lineBottom = r.bottom;
+            if (inkCtx && cs) {
+                const m = inkCtx.measureText(node.textContent);
+                const baseline = r.top + m.fontBoundingBoxAscent;
+                if (Number.isFinite(m.actualBoundingBoxAscent))
+                    lineTop = baseline - m.actualBoundingBoxAscent;
+                if (Number.isFinite(m.actualBoundingBoxDescent))
+                    lineBottom = baseline + m.actualBoundingBoxDescent;
+            }
+            if (lineTop < top) top = lineTop;
+            if (lineBottom > bottom) bottom = lineBottom;
+        }
+    }
+    if (!Number.isFinite(left) || !Number.isFinite(bottom)) return null;
+    return { left, right, top, bottom };
+}
+
 // Split an rgb(a) color into its opaque base and alpha. Painting the SVG
 // with the OPAQUE color and setting opacity on the <svg> avoids dark seams
 // where arrows, ticks and the dim line overlap.
@@ -228,7 +286,9 @@ export function makeVerticalDim(rem, topPx, heightPx, mode, colors, labelAlign) 
     svg.setAttribute("height", String(totalH));
     svg.setAttribute("opacity", String(strokeOpacity));
     svg.setAttribute("shape-rendering", "geometricPrecision");
-    svg.style.cssText = "position:absolute;left:0;top:0;display:block;";
+    // overflow:visible wie beim horizontalen Pendant — sonst werden die End-Ticks
+    // (stroke-width 1.5) auf y=0 / y=totalH je zur Hälfte an der SVG-Kante geclippt.
+    svg.style.cssText = "position:absolute;left:0;top:0;display:block;overflow:visible;";
 
     const line = document.createElementNS(ns, "line");
     line.setAttribute("x1", String(cx));
@@ -285,7 +345,6 @@ export function makeVerticalDim(rem, topPx, heightPx, mode, colors, labelAlign) 
     svg.appendChild(ba);
     el.appendChild(svg);
 
-    const lblMidY = (y1 + y2) / 2;
     const lbl = document.createElement("span");
     const vLblBase = `background-color:${labelBg};padding:1px 0.5rem;color:${labelColor};${LBL_BASE}`;
     // "center": Label mittig um die Linie (Standard, z.B. News-Boxen — die Linie
@@ -296,9 +355,21 @@ export function makeVerticalDim(rem, topPx, heightPx, mode, colors, labelAlign) 
         labelAlign === "leftOutside"
             ? LABEL_BOX_H / 2
             : cx - (LABEL_BOX_H / 2 + 6);
-    lbl.style.cssText =
-        `position:absolute;left:${lblOffsetX}px;top:${lblMidY}px;transform:translate(-50%,-50%) rotate(-90deg);` +
-        vLblBase;
+
+    // Passt das rotierte Label nicht zwischen die Maßhilfslinien (zu geringe
+    // Höhe, DIN-406-Kompaktfall), sitzt es über der oberen Pfeilspitze statt
+    // mittig auf der (zu kurzen) Linie.
+    if (mode === "compactLeft" && !labelFitsOnLine(heightPx, rem)) {
+        lbl.style.cssText =
+            `position:absolute;left:${lblOffsetX}px;top:${y1 - aw - over}px;` +
+            "transform:translate(-50%,-100%) rotate(-90deg);transform-origin:center;" +
+            vLblBase;
+    } else {
+        const lblMidY = (y1 + y2) / 2;
+        lbl.style.cssText =
+            `position:absolute;left:${lblOffsetX}px;top:${lblMidY}px;transform:translate(-50%,-50%) rotate(-90deg);` +
+            vLblBase;
+    }
     lbl.textContent = rem + " rem";
     el.appendChild(lbl);
 

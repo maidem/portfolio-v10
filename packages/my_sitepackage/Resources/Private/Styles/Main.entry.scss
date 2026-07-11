@@ -466,6 +466,73 @@ h4, h5, h6 {
   @include container;
 }
 
+// ─── CSS-first Bemaßung (measure-block.js) ────────────────────────────────────
+// Geteilte Wrapper-Basis; die Formular-Variante liegt in Form.entry.scss.
+// fit-content + Reserve unten für die horizontale Maßlinie. Das Opt-in
+// (--measure: on) und die vertikale Reserve (padding-left am Elternelement)
+// werden je Kontext gesetzt.
+// Kein text-box-trim hier: measure-block.js misst die echten Glyphenkanten
+// (inkBounds) — trim würde die Box verschieben und die Range-Messung verfälschen.
+.cb-section-header__measure,
+.cb-contact-info__measure,
+.cb-news-detail__measure,
+.cb-news-article-body.js-measure,
+.cb-hero__measure {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 2.75rem;
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Gemeinsame Einrück-Reserve links für die vertikale Bemaßung; mobil kein Platz.
+%measure-indent {
+  padding-left: 3rem;
+
+  @media (max-width: 767.98px) {
+    padding-left: 0;
+  }
+}
+
+// contact-info: immer bemaßt (Name … Telefon). Elternelement (.cb-contact-info)
+// rückt den Block für die vertikale Linie ein.
+.cb-contact-info {
+  @extend %measure-indent;
+}
+.cb-contact-info__measure {
+  --measure: on;
+}
+
+// section-header: NUR beim Kontakt (direkt vor dem ContactSplit-Frame).
+.cb-section-header:has(+ .frame-type-maidem_contactsplit) {
+  @extend %measure-indent;
+
+  .cb-section-header__measure {
+    --measure: on;
+  }
+}
+
+// News-Detail: Header (Titel + Teaser) und Artikel-Body je eigene Bemaßung.
+.cb-news-detail__header,
+.cb-news-detail__content {
+  @extend %measure-indent;
+}
+.cb-news-detail__measure,
+.cb-news-article-body.js-measure {
+  --measure: on;
+}
+
+// Hero (Impressum/Datenschutz): Überschrift + Fließtext.
+.cb-hero__content {
+  @extend %measure-indent;
+}
+.cb-hero__measure {
+  --measure: on;
+}
+
 // ─── Form submit button ───────────────────────────────────────────────────────
 .cb-form-submit {
   display: inline-flex;
@@ -759,17 +826,8 @@ h4, h5, h6 {
   // die Linie sitzt mittig in diesem Zwischenraum – gesetzt per JS).
   margin-bottom: 2.75rem;
 
-  // line-height-Überschuss oben/unten wegschneiden → exakte Texthöhe.
-  @supports (text-box-trim: trim-both) {
-    > :first-child {
-      text-box-trim: trim-start;
-      text-box-edge: cap alphabetic;
-    }
-    > :last-child {
-      text-box-trim: trim-end;
-      text-box-edge: cap alphabetic;
-    }
-  }
+  // Kein text-box-trim: news-dimension.js misst die echten Glyphenkanten
+  // (inkBounds) — trim würde die Box verschieben und die Messung verfälschen.
 
   // Titel/Teaser innerhalb des Wrappers ohne den zusätzlichen unteren Abstand,
   // damit die gemessene Höhe exakt am letzten Textrand endet.
@@ -999,6 +1057,23 @@ h4, h5, h6 {
   &:hover {
     opacity: 0.6;
     border-color: transparent;
+  }
+}
+
+// Titelzeile im Listen-Item: h3 links, Projekt-Links (Live/Quellcode) rechts daneben
+.cb-news-item__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+
+  .cb-news-title {
+    margin-bottom: 0;
+  }
+
+  .cb-news-item__links {
+    margin-top: 0;
   }
 }
 

@@ -32,7 +32,40 @@
                 </f:if>
 
                 <div class="cb-news-measure">
-                    <h3 class="cb-news-title">{newsItem.title}</h3>
+                    <div class="cb-news-item__title-row">
+                        <h3 class="cb-news-title">{newsItem.title}</h3>
+
+                        <f:if condition="{newsItem.externalurl} || {newsItem.relatedLinks}">
+                            <div class="cb-news-item__links">
+                                <f:if condition="{newsItem.externalurl}">
+                                    <a
+                                        href="{newsItem.externalurl}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="cb-news-website-link"
+                                        style="position: relative; z-index: 1"
+                                    >
+                                        Live-Ansicht
+                                    </a>
+                                </f:if>
+
+                                <f:for each="{newsItem.relatedLinks}" as="relatedLink">
+                                    <a
+                                        href="{relatedLink.uri}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="cb-news-website-link"
+                                        style="position: relative; z-index: 1"
+                                    >
+                                        <f:if condition="{relatedLink.title}">
+                                            <f:then>{relatedLink.title}</f:then>
+                                            <f:else>Quellcode</f:else>
+                                        </f:if>
+                                    </a>
+                                </f:for>
+                            </div>
+                        </f:if>
+                    </div>
 
                     <f:if condition="{newsItem.teaser}">
                         <p class="cb-news-teaser">
@@ -50,37 +83,6 @@
                         Weiterlesen
                     </n:link>
                 </div>
-
-                <f:if condition="{newsItem.externalurl} || {newsItem.relatedLinks}">
-                    <div class="cb-news-item__links">
-                        <f:if condition="{newsItem.externalurl}">
-                            <a
-                                href="{newsItem.externalurl}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="cb-news-website-link"
-                                style="position: relative; z-index: 1"
-                            >
-                                Live-Ansicht
-                            </a>
-                        </f:if>
-
-                        <f:for each="{newsItem.relatedLinks}" as="relatedLink">
-                            <a
-                                href="{relatedLink.uri}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="cb-news-website-link"
-                                style="position: relative; z-index: 1"
-                            >
-                                <f:if condition="{relatedLink.title}">
-                                    <f:then>{relatedLink.title}</f:then>
-                                    <f:else>Quellcode</f:else>
-                                </f:if>
-                            </a>
-                        </f:for>
-                    </div>
-                </f:if>
             </div>
         </div>
     </article>
