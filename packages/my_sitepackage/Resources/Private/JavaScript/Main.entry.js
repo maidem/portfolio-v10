@@ -76,6 +76,9 @@ import.meta.glob(
     { eager: true },
 );
 
+// Technical-drawing dimensioning for each news list item (see news-dimension.js)
+import "./news-dimension.js";
+
 // =============================
 // Mobile Navigation — Bottom Sheet
 // =============================

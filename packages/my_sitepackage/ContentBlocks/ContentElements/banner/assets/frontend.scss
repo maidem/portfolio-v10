@@ -111,11 +111,20 @@
   min-height: 0;
   user-select: text;
   pointer-events: auto;
-  // Left edge flush with the nav container (max-width 1200px, padding-inline)
   justify-content: flex-start;
-  // The logo sits at the container edge (max-width 1200px, centered)
-  // 8px grid: 48px above the text, 56px dim band below it, then 48px
-  padding: 3rem 1.25rem 6.5rem max(1.25rem, calc((100% - 1200px) / 2));
+  // Linke Kante exakt an der Logo-/Nav-Container-Kante, damit das vertikale
+  // Bemaßungs-Label (sitzt an dieser Kante) mit »Maik Demuth« fluchtet.
+  // Spiegelt das Padding-Schema des Nav-Containers (_nav.scss):
+  //   < 768px: 1.25rem · ≥ 768px: 2rem · ≥ 1200px: zentriert bei max-width 1200
+  padding: 3rem 1.25rem 6.5rem 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-left: 2rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding-left: max(2rem, calc((100% - 1200px) / 2));
+  }
 }
 
 .cb-portfolio-text--profile {
@@ -129,12 +138,49 @@
   color: #222;
   -webkit-text-stroke: 0;
   text-shadow: none;
-  // Readable measure; no own padding so the dimension arrows match the text box
-  max-width: 42rem;
-  padding: 0;
+  // Platz für die vertikale Bemaßung links: Label an der Container-/Logo-Kante,
+  // Linie rechts daneben, dann der Text.
+  padding: 0 0 0 3rem;
 
   > *:last-child {
     margin-bottom: 0;
+  }
+
+  // Mobil: keine vertikale Bemaßung (kein Platz) → Text nutzt die volle Breite.
+  @media (max-width: 767.98px) {
+    padding-left: 0;
+  }
+}
+
+// ── CSS-first Bemaßung ────────────────────────────────────────────────────────
+// Ein fit-content-Wrapper um Überschrift + Text: automatisch exakt so breit/hoch
+// wie der Inhalt. Er ist der Positionierungs-Kontext (position:relative) für die
+// Maßlinien. JS liest nur seine offset-Maße (kein Ink-Messen) und hängt die
+// SVG-Linien + Labels als Kinder ein — siehe frontend.js.
+$dim-line-offset: 1.5rem; // vertikaler Abstand der horizontalen Maßlinie zum Text
+
+.cb-portfolio-measure {
+  position: relative;
+  width: fit-content;
+  max-width: 39rem; // 42rem − 3rem padding-left des Elternelements
+  padding-bottom: $dim-line-offset;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Den line-height-Überschuss oben (erste Zeile) und unten (letzte Zeile)
+  // wegschneiden, damit die vertikale Bemaßung exakt die echte Texthöhe misst
+  // (Cap-Height oben → Alphabetic-Baseline unten) statt der Box inkl. Leading.
+  @supports (text-box-trim: trim-both) {
+    > :first-child {
+      text-box-trim: trim-start;
+      text-box-edge: cap alphabetic;
+    }
+    > :last-child {
+      text-box-trim: trim-end;
+      text-box-edge: cap alphabetic;
+    }
   }
 }
 

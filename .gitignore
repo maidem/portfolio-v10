@@ -15,9 +15,6 @@ node_modules/
 dist/
 .env
 
-# DB seed - temporary uncompressed SQL (created during docker startup)
-db/seed.sql
-
 # MCP config (lokal, nicht ins Repo)
 .mcp.json
 

@@ -10,10 +10,12 @@
                 id="{f:if(condition: data.section_anchor, then: data.section_anchor, else: 'c{data.uid}')}"
             >
                 <div class="cb-portfolio-text cb-portfolio-text--profile">
-                    <f:if condition="{data.header}">
-                        <h1 class="cb-portfolio-text__heading">{data.header}</h1>
-                    </f:if>
-                    <f:format.html>{data.bodytext}</f:format.html>
+                    <div class="cb-portfolio-measure">
+                        <f:if condition="{data.header}">
+                            <h1 class="cb-portfolio-text__heading">{data.header}</h1>
+                        </f:if>
+                        <f:format.html>{data.bodytext}</f:format.html>
+                    </div>
                     <div class="cb-banner__pdf-action">
                         <button
                             class="cb-pdf-add-btn"

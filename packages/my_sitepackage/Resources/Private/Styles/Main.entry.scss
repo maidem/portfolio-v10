@@ -657,8 +657,9 @@ h4, h5, h6 {
 .cb-news-list .cb-card__body {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem; // 32px
-  padding: 0; // bündig mit Section-Überschrift und Logo
+  column-gap: 2rem; // 32px
+  row-gap: 4.5rem; // Platz für die horizontale Bemaßungslinie unter jedem Item
+  padding: 0 0 2.25rem; // Platz für die horizontale Bemaßungslinie unter der letzten Reihe
 
   > .cb-news-empty {
     flex: 1 1 100%;
@@ -677,6 +678,7 @@ h4, h5, h6 {
   }
 
   &__row {
+    position: relative;
     display: flex;
     align-items: stretch; // Karten (Bild + Content) gleich hoch
     gap: 1rem; // 16px
@@ -702,6 +704,14 @@ h4, h5, h6 {
     min-width: 0;
     display: flex;
     flex-direction: column;
+    // Platz links für die vertikale Bemaßung – rückt den ganzen Textblock
+    // (Kategorie, Titel, Teaser, Weiterlesen) einheitlich ein, sodass alles
+    // fluchtet. 3rem = gleicher Linie↔Text-Abstand wie beim Banner.
+    padding-left: 3rem;
+
+    @include below($bp-md) {
+      padding-left: 0;
+    }
   }
 
   &__actions {
@@ -734,6 +744,38 @@ h4, h5, h6 {
   color: $text-muted;
   line-height: 1.55;
   margin-bottom: 0.5rem;
+}
+
+// ─── News: CSS-first Bemaßung ─────────────────────────────────────────────────
+// fit-content-Wrapper um Titel + Teaser (analog Banner .cb-portfolio-measure):
+// automatisch exakt so breit/hoch wie der Text. JS liest nur clientWidth/Height
+// und hängt die SVG-Maßlinien an (siehe news-dimension.js).
+.cb-news-measure {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start; // nicht auf die Flex-Spaltenbreite strecken → fit-content greift
+  // Abstand nach unten für die horizontale Maßlinie (schiebt »Weiterlesen« weg,
+  // die Linie sitzt mittig in diesem Zwischenraum – gesetzt per JS).
+  margin-bottom: 2.75rem;
+
+  // line-height-Überschuss oben/unten wegschneiden → exakte Texthöhe.
+  @supports (text-box-trim: trim-both) {
+    > :first-child {
+      text-box-trim: trim-start;
+      text-box-edge: cap alphabetic;
+    }
+    > :last-child {
+      text-box-trim: trim-end;
+      text-box-edge: cap alphabetic;
+    }
+  }
+
+  // Titel/Teaser innerhalb des Wrappers ohne den zusätzlichen unteren Abstand,
+  // damit die gemessene Höhe exakt am letzten Textrand endet.
+  > :last-child {
+    margin-bottom: 0;
+  }
 }
 
 .cb-news-empty {

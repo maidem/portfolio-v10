@@ -31,13 +31,15 @@
                     </ul>
                 </f:if>
 
-                <h3 class="cb-news-title">{newsItem.title}</h3>
+                <div class="cb-news-measure">
+                    <h3 class="cb-news-title">{newsItem.title}</h3>
 
-                <f:if condition="{newsItem.teaser}">
-                    <p class="cb-news-teaser">
-                        {newsItem.teaser}
-                    </p>
-                </f:if>
+                    <f:if condition="{newsItem.teaser}">
+                        <p class="cb-news-teaser">
+                            {newsItem.teaser}
+                        </p>
+                    </f:if>
+                </div>
 
                 <div class="cb-news-item__actions">
                     <n:link
