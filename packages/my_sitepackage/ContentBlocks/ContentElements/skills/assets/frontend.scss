@@ -1,5 +1,15 @@
 // ── Skills: themed groups, mobile-first ──────────────────────────────────────
 
+// Section-Überschrift »Skills« fluchtet mit den Gruppen darunter, die für die
+// vertikale Bemaßung eingerückt sind. Mobil keine Einrückung.
+.cb-skills-unified-card > .cb-card__label-bar {
+  padding-left: 3rem;
+
+  @media (max-width: 767.98px) {
+    padding-left: 0;
+  }
+}
+
 // Groups: single column on mobile, auto grid from tablet up
 .cb-skills-groups {
   display: grid;

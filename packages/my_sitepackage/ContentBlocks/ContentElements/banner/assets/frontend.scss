@@ -157,7 +157,7 @@
 // wie der Inhalt. Er ist der Positionierungs-Kontext (position:relative) für die
 // Maßlinien. JS liest nur seine offset-Maße (kein Ink-Messen) und hängt die
 // SVG-Linien + Labels als Kinder ein — siehe frontend.js.
-$dim-line-offset: 1.5rem; // vertikaler Abstand der horizontalen Maßlinie zum Text
+$dim-line-offset: 2.75rem; // vertikaler Abstand der horizontalen Maßlinie zum Text (wie .cb-news-measure)
 
 .cb-portfolio-measure {
   position: relative;
