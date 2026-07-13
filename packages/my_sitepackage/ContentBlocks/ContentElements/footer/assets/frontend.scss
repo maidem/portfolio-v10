@@ -37,4 +37,22 @@
       color: rgba(0, 0, 0, 0.9);
     }
   }
+
+  &__made {
+    margin: 1.5rem 0 0;
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  &__heart {
+    width: 1em;
+    height: 1em;
+    margin-left: 0.25rem;
+    color: #e0245e;
+    vertical-align: -0.1em;
+  }
 }

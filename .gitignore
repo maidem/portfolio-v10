@@ -20,3 +20,4 @@ dist/
 
 # DB dump
 db.sql.gz
+.playwright-mcp/
