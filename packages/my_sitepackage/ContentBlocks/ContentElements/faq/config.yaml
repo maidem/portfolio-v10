@@ -38,6 +38,11 @@ fields:
         label: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/faq/language/labels.xlf:answer.label
         enableRichtext: true
         required: true
+  - identifier: show_pdf_export_button
+    type: Checkbox
+    renderType: checkboxToggle
+    label: "PDF-Export Button anzeigen"
+    default: false
 assets:
   css:
     - assets/frontend.scss

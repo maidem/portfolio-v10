@@ -120,7 +120,12 @@ function init() {
         });
     };
 
-    new ResizeObserver(scheduleUpdate).observe(document.body);
+    // Jeden Wrapper selbst beobachten: Höhenänderungen im Block (z.B. FAQ-
+    // <details> klappt auf) triggern die Neuvermessung direkt — der Body-
+    // Observer allein greift nicht zuverlässig.
+    const ro = new ResizeObserver(scheduleUpdate);
+    ro.observe(document.body);
+    document.querySelectorAll(".js-measure").forEach((m) => ro.observe(m));
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(dimensionAll);
 }
 

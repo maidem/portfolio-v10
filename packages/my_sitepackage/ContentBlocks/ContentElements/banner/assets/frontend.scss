@@ -236,8 +236,9 @@ $dim-line-offset: 2.5rem; // 40px, 8px-Raster; vertikaler Abstand der horizontal
 }
 
 .cb-banner__pdf-action {
-  // 8px grid; matches the dimension arrow's gap below the text (see frontend.js)
-  margin-top: 2.5rem;
+  // Einheitlicher PDF-Button-Abstand aller Sektionen: 84px (5.25rem) sichtbarer
+  // Abstand zum Inhalt darüber (wie FAQ/Kontakt/Skills/News).
+  margin-top: 4rem;
 }
 
 .cb-portfolio-text__heading {

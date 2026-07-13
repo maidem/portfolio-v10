@@ -169,7 +169,10 @@ main,
 header,
 footer {
   position: relative;
-  z-index: $z-perspective-grid + 1;
+  // Unter dem Perspektiv-Grid, damit die Linien über der grauen Banner-Fläche
+  // sichtbar bleiben. Das Grid hat pointer-events: none und blendet nach unten
+  // aus — Klickbarkeit und Lesbarkeit der Inhalte sind nicht betroffen.
+  z-index: $z-base;
 }
 
 main > section:first-of-type {
@@ -479,7 +482,8 @@ h4, h5, h6 {
 .cb-news-detail__measure,
 .cb-news-article-body.js-measure,
 .cb-news-detail__media.js-measure,
-.cb-hero__measure {
+.cb-hero__measure,
+.cb-faq-simple__measure {
   position: relative;
   width: fit-content;
   max-width: 100%;
@@ -510,17 +514,29 @@ h4, h5, h6 {
   @extend %measure-indent;
   flex: 1 1 100%; // immer volle Breite, unabhängig von Spaltenzahl darüber
 }
+// Einheitlicher sichtbarer Button-Abstand aller Sektionen: 84px (5.25rem).
+// News: 96px aus dem 72px-Flex-Gap + Kartenreserve → 12px zurücknehmen.
+// Skills: nur 33px Grundabstand unter der Karte → 51px ergänzen.
+.cb-news-list__pdf-action {
+  margin-top: -0.75rem;
+}
+.cb-skills__pdf-action {
+  // padding statt margin (margin würde mit der Skills-Karte kollabieren).
+  // Sichtbar zählt die unterste Maßlinie: 33px Grundabstand + 48px
+  // padding-bottom des card__body + 3px = 84px wie alle anderen Buttons.
+  padding-top: 0.1875rem;
+}
 
 // contact-info: immer bemaßt (Name … Telefon). Elternelement (.cb-contact-info)
 // rückt den Block für die vertikale Linie ein.
 .cb-contact-info {
   @extend %measure-indent;
 
-  // Abstand des PDF-Buttons zur Maßlinie darüber — wie .cb-banner__pdf-action.
-  // Der 2.75rem-margin-bottom des __measure-Wrappers ist die Reserve für die
-  // Maßlinie selbst; die 2.5rem kommen zusätzlich darunter (collapsing).
+  // Abstand des PDF-Buttons: 2.5rem unter der Maßlinien-Reserve (2.75rem
+  // margin-bottom des __measure) — hier kollabieren die Margins nicht,
+  // daher NUR die 2.5rem. Gleicher Gesamtabstand (5.25rem) wie beim FAQ-Button.
   > .cb-pdf-add-btn {
-    margin-top: calc(2.75rem + 2.5rem);
+    margin-top: 2.5rem;
   }
 }
 .cb-contact-info__measure {
@@ -553,6 +569,29 @@ h4, h5, h6 {
 }
 .cb-hero__measure {
   --measure: on;
+}
+
+// FAQ: Überschrift, Intro und die ganze Liste (inkl. aufgeklappter Antwort) in
+// einem Wrapper bemaßt — die vertikale Linie wächst beim Aufklappen mit
+// (ResizeObserver auf document.body in measure-block.js).
+.cb-faq-simple {
+  @extend %measure-indent;
+  // Der Container-Rand kommt mobil schon vom .container-Elternelement —
+  // die geerbte Variable würde ihn sonst links verdoppeln.
+  --measure-indent-mobile: 0;
+}
+.cb-faq-simple__measure {
+  --measure: on;
+}
+// Button erbt die Einrückung vom Elternelement (.cb-faq-simple); Abstand wie
+// beim Kontakt-Button: 2.75rem Maßlinien-Reserve + 2.5rem extra. Das calc ist
+// nötig, weil das margin-top mit dem margin-bottom des __measure kollabiert.
+.cb-faq-simple__pdf-action {
+  margin-top: calc(2.75rem + 2.5rem);
+}
+// Volle Breite, damit die Ink-Messung (edges) die ganze Liste erfassen kann.
+.cb-faq-simple__measure {
+  width: 100%;
 }
 
 // ─── Form submit button ───────────────────────────────────────────────────────
@@ -594,7 +633,8 @@ h4, h5, h6 {
 .cb-section-projects__container,
 .cb-section-skills__container,
 .cb-form-section,
-.cb-section-header {
+.cb-section-header,
+.cb-faq-section > .container {
   @media (min-width: 1200px) {
     padding-inline: 0;
   }

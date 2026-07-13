@@ -48,6 +48,14 @@ export function inkBounds(container) {
                 )
             )
                 return NodeFilter.FILTER_REJECT;
+            // Versteckten Inhalt geschlossener <details> ignorieren (FAQ):
+            // dessen Ranges liefern sonst Geister-Rects und blähen die Messung auf.
+            if (
+                n.parentElement &&
+                n.parentElement.closest("details:not([open])") &&
+                !n.parentElement.closest("summary")
+            )
+                return NodeFilter.FILTER_REJECT;
             return NodeFilter.FILTER_ACCEPT;
         },
     });

@@ -4,17 +4,15 @@
   border-radius: 0;
   padding: 0;
 
-  // Large display heading — matches reference "FAQ."
-  // Class specificity (0,1,0) beats global h2 element rule (0,0,1)
+  // Gleiche H2-Gestaltung wie section-header/card-Überschriften (Main.entry.scss).
   &__title {
     margin: 0 0 1.25rem;
-    color: #111;
-    font-size: clamp(3rem, 10vw, 5.5rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 0.9;
-    text-transform: none;
-    text-decoration: none;
+    font-family: "JetBrains Mono", "Courier New", monospace;
+    font-size: clamp(1.375rem, 1.8vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: #111111;
   }
 
   &__intro {
@@ -43,17 +41,32 @@
     border: none;
     overflow: hidden;
 
+    // Sanftes Auf-/Zuklappen (natives CSS für <details>; Browser ohne
+    // ::details-content/interpolate-size klappen einfach ohne Animation).
+    interpolate-size: allow-keywords;
+
+    &::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height 0.3s ease,
+        content-visibility 0.3s allow-discrete;
+    }
+
+    &[open]::details-content {
+      height: auto;
+    }
+
     summary {
       list-style: none;
       cursor: pointer;
-      padding: 1rem 1rem 1rem 1.25rem;
+      padding: 1rem 1.25rem 1rem 1rem;
       color: #111;
       font-size: 0.9375rem;
       line-height: 1.4;
       font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 1rem;
       user-select: none;
     }
@@ -62,31 +75,19 @@
       display: none;
     }
 
-    // Muted green circle with "+"
-    summary::after {
+    // Schlichtes Plus/Minus links von der Frage, ohne Button-Optik
+    summary::before {
       content: "+";
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       flex-shrink: 0;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      background: rgba(1, 255, 208, 0.18);
       color: #111;
       font-size: 1.1rem;
       font-weight: 400;
       line-height: 1;
-      box-shadow: none;
-      border: 1.5px solid #111;
-      transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &[open] {
-      summary::after {
+      summary::before {
         content: "−";
-        background: rgba(1, 255, 208, 0.3);
-        color: #111;
       }
     }
   }
@@ -96,6 +97,17 @@
     color: #666;
     font-size: 0.875rem;
     line-height: 1.65;
+
+    // Roter Punkt vor der Antwort, erscheint nur bei aufgeklappter Frage.
+    &::before {
+      content: "";
+      display: block;
+      width: 0.375rem;
+      height: 0.375rem;
+      margin: 0 0 0.75rem;
+      border-radius: 50%;
+      background: #ED1C24;
+    }
 
     p:last-child {
       margin-bottom: 0;

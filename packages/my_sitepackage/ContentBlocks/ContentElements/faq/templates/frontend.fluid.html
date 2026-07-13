@@ -9,26 +9,44 @@
     >
         <div class="container">
             <div class="cb-faq-simple">
-                <f:if condition="{data.header}">
-                    <h2 class="cb-faq-simple__title">{data.header}</h2>
-                </f:if>
+                <div class="js-measure cb-faq-simple__measure" data-measure-h="edges">
+                    <f:if condition="{data.header}">
+                        <h2 class="cb-faq-simple__title">{data.header}</h2>
+                    </f:if>
 
-                <f:if condition="{data.bodytext}">
-                    <div class="cb-faq-simple__intro">
-                        <f:format.html>{data.bodytext}</f:format.html>
+                    <f:if condition="{data.bodytext}">
+                        <div class="cb-faq-simple__intro">
+                            <f:format.html>{data.bodytext}</f:format.html>
+                        </div>
+                    </f:if>
+
+                    <div class="cb-faq-simple__list">
+                        <f:for each="{data.faq_items}" as="faqItem">
+                            <details class="cb-faq-simple__item">
+                                <summary>{faqItem.question}</summary>
+                                <div class="cb-faq-simple__answer">
+                                    <f:format.html>{faqItem.answer}</f:format.html>
+                                </div>
+                            </details>
+                        </f:for>
+                    </div>
+                </div>
+
+                <f:if condition="{data.show_pdf_export_button}">
+                    <div class="cb-faq-simple__pdf-action">
+                        <button
+                            class="cb-pdf-add-btn"
+                            type="button"
+                            data-pdf-section="faq"
+                            data-pdf-label="Häufig gestellte Fragen"
+                            aria-pressed="false"
+                        >
+                            <span class="cb-pdf-add-btn__label"
+                                >Zum PDF-Dossier hinzufügen</span
+                            >
+                        </button>
                     </div>
                 </f:if>
-
-                <div class="cb-faq-simple__list">
-                    <f:for each="{data.faq_items}" as="faqItem">
-                        <details class="cb-faq-simple__item">
-                            <summary>{faqItem.question}</summary>
-                            <div class="cb-faq-simple__answer">
-                                <f:format.html>{faqItem.answer}</f:format.html>
-                            </div>
-                        </details>
-                    </f:for>
-                </div>
             </div>
         </div>
     </section>
