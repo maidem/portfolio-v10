@@ -1064,6 +1064,8 @@ h4, h5, h6 {
 
 // ─── News: External link ──────────────────────────────────────────────────────
 .cb-news-website-link {
+  position: relative;
+  z-index: 2; // über dem .cb-stretched-link Overlay (z-index: 1), sonst schluckt der den Klick
   font-size: 0.6875rem;
   font-weight: $fw-bold;
   text-transform: uppercase;
