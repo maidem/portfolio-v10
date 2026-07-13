@@ -1,0 +1,8 @@
+<f:spaceless xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers" data-namespace-typo3-fluid="true">
+{form.label}
+
+<f:for each="{form.elements}" as="element"><f:if condition="{element.type} != 'Honeypot'"><f:translate key="{element.uniqueIdentifier}.label" extensionName="{form.renderingOptions.translation.extensionName}" default="{element.label}"/>: <formvh:renderFormValue renderable="{element}" as="formValue"><f:for each="{formValue.processedValue}" as="value">{value} </f:for></formvh:renderFormValue>
+</f:if></f:for>
+--
+Gesendet über das Kontaktformular auf maidem.de
+</f:spaceless>
