@@ -33,8 +33,9 @@ WORKDIR /var/www/html
 # FORCE SEQUENTIAL BUILD: Copy from builders first.
 # This forces Docker to finish the heavy composer/vite stages before starting the heavy system-installs in this stage.
 # node_modules is NOT copied: it's only needed inside vite-builder. In production the
-# vite-asset-collector reads the prebuilt public/_assets/vite manifest (useDevServer=0),
-# and PDF export drives system chromium (/usr/bin/chromium), not Puppeteer.
+# vite-asset-collector reads the prebuilt public/_assets/vite manifest (useDevServer=0).
+# Puppeteer IS needed at runtime though: browsershot's browser.cjs does require('puppeteer').
+# It is installed standalone below (see "PDF runtime"), driving the system chromium.
 COPY --from=composer-builder /app/vendor ./vendor/
 COPY --from=vite-builder /app/public/_assets ./public/_assets/
 
@@ -81,6 +82,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && locale-gen \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# PDF runtime: browsershot's browser.cjs does require('puppeteer'), so the package
+# must resolve from /var/www/html. No Chrome download — it drives system chromium.
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+RUN npm install --no-save --no-package-lock puppeteer@^24
 
 ENV LANG=de_DE.UTF-8
 ENV LANGUAGE=de_DE:de

@@ -69,10 +69,18 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
     // MAIL: settings.php hardcodes DDEV's mailpit sendmail shim, which doesn't
     // exist in production. Override with real SMTP creds from env vars.
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'smtp';
-    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = getenv('TYPO3_SMTP_SERVER') ?: '';
+    // ponytail: Port muss mit rein — ohne ihn nimmt Symfony 25, und mit encrypt
+    // wird daraus ssl://host:25, was bei Hetzner ins Timeout läuft (587 = STARTTLS).
+    $smtpServer = getenv('TYPO3_SMTP_SERVER') ?: '';
+    if ($smtpServer !== '' && !str_contains($smtpServer, ':')) {
+        $smtpServer .= ':' . (getenv('TYPO3_SMTP_PORT') ?: '587');
+    }
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = $smtpServer;
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_username'] = getenv('TYPO3_SMTP_USER') ?: '';
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_password'] = getenv('TYPO3_SMTP_PASSWORD') ?: '';
-    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_encrypt'] = getenv('TYPO3_SMTP_ENCRYPT') ?: 'tls';
+    // ponytail: leer lassen — auf 587 handelt Symfony STARTTLS selbst aus.
+    // 'tls' würde ssl:// erzwingen, das geht nur auf 465 (bei Hetzner geblockt).
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_encrypt'] = getenv('TYPO3_SMTP_ENCRYPT') ?: '';
 }
 
 // MOSPARO DASHBOARD: read host/keys from env vars (Coolify in production,

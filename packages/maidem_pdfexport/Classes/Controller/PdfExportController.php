@@ -6,6 +6,8 @@ namespace Maidem\PdfExport\Controller;
 
 use Maidem\PdfExport\Service\PdfDataService;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Spatie\Browsershot\Browsershot;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
@@ -15,8 +17,10 @@ use TYPO3\CMS\Fluid\View\FluidViewFactory;
 /**
  * Controller to handle PDF generation requests.
  */
-class PdfExportController extends ActionController
+class PdfExportController extends ActionController implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     public function __construct(
         private PdfDataService $pdfDataService,
         private FluidViewFactory $viewFactory
@@ -96,7 +100,12 @@ class PdfExportController extends ActionController
         $html = $view->render();
 
         $chromePath = (string)(getenv('PDF_CHROMIUM_PATH') ?: '/usr/bin/chromium');
-        $noSandbox = filter_var(getenv('PDF_CHROMIUM_NO_SANDBOX') ?: false, FILTER_VALIDATE_BOOLEAN);
+        // Default an: im Container läuft Chromium als root, dort startet es ohne
+        // --no-sandbox nicht. PDF_CHROMIUM_NO_SANDBOX=false schaltet es bewusst ab.
+        $env = getenv('PDF_CHROMIUM_NO_SANDBOX');
+        $noSandbox = $env === false || $env === ''
+            ? true
+            : filter_var($env, FILTER_VALIDATE_BOOLEAN);
 
         $browsershot = Browsershot::html($html)
             ->setChromePath($chromePath)
@@ -109,7 +118,11 @@ class PdfExportController extends ActionController
 
         try {
             $pdf = $browsershot->pdf();
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            // ponytail: ohne das war der fehlende puppeteer-Node-Modul im Container
+            // unsichtbar — der Frontend-Request bekam nur ein stummes 500-JSON.
+            $this->logger?->error('PDF generation failed: ' . $e->getMessage(), ['exception' => $e]);
+
             return $this->responseFactory->createResponse(500)
                 ->withHeader('Content-Type', 'application/json')
                 ->withBody($this->streamFactory->createStream(

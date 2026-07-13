@@ -73,6 +73,9 @@ $z-noise:    9999;
   max-width: $max;
   margin-inline: auto;
   padding-inline: $px;
+  // Damit %measure-indent seinen 3rem-Einzug mobil auf den Container-Rand
+  // zurücknehmen kann statt auf 0 (sonst klebt der Text am Displayrand).
+  --measure-indent-mobile: #{$px};
 
   @include above($bp-md) {
     padding-inline: 2rem;

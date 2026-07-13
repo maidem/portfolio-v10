@@ -490,11 +490,16 @@ h4, h5, h6 {
 }
 
 // Gemeinsame Einrück-Reserve links für die vertikale Bemaßung; mobil kein Platz.
+// ponytail: mobil auf den Container-Rand zurücksetzen statt hart auf 0.
+// .cb-section-header ist selbst ein .container und verlor durch das alte
+// padding-left:0 seinen linken 1.25rem-Rand — die Kontakt-Überschrift klebte am
+// Displayrand, während der Block darunter (kein Container) eingerückt blieb.
+// Nicht-Container haben die Variable nicht und landen über den Default bei 0.
 %measure-indent {
   padding-left: 3rem;
 
   @media (max-width: 767.98px) {
-    padding-left: 0;
+    padding-left: var(--measure-indent-mobile, 0);
   }
 }
 
