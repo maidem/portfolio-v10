@@ -16,6 +16,24 @@
                         </f:if>
                         <f:format.html>{data.bodytext}</f:format.html>
                     </div>
+                    <f:if condition="{data.cta_1_label}">
+                        <div class="cb-portfolio-banner__actions">
+                            <f:if condition="{data.cta_1_link}">
+                                <f:link.typolink
+                                    parameter="{data.cta_1_link}"
+                                    class="cb-portfolio-banner__cta-btn"
+                                    >{data.cta_1_label}</f:link.typolink
+                                >
+                            </f:if>
+                            <f:if condition="{data.cta_2_label} && {data.cta_2_link}">
+                                <f:link.typolink
+                                    parameter="{data.cta_2_link}"
+                                    class="cb-portfolio-banner__cta-btn cb-portfolio-banner__cta-btn--outline"
+                                    >{data.cta_2_label}</f:link.typolink
+                                >
+                            </f:if>
+                        </div>
+                    </f:if>
                     <div class="cb-banner__pdf-action">
                         <button
                             class="cb-pdf-add-btn"

@@ -141,7 +141,7 @@ main > .cb-section-header {
   pointer-events: none;
   // Above $z-base (main) so it stays visible over section-level stacking
   // contexts, e.g. the banner's tinted background layer.
-  z-index: $z-base + 1;
+  z-index: $z-perspective-grid;
   overflow: hidden;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
@@ -168,7 +168,7 @@ main,
 header,
 footer {
   position: relative;
-  z-index: $z-base;
+  z-index: $z-perspective-grid + 1;
 }
 
 main > section:first-of-type {
@@ -477,6 +477,7 @@ h4, h5, h6 {
 .cb-contact-info__measure,
 .cb-news-detail__measure,
 .cb-news-article-body.js-measure,
+.cb-news-detail__media.js-measure,
 .cb-hero__measure {
   position: relative;
   width: fit-content;
@@ -501,6 +502,7 @@ h4, h5, h6 {
 .cb-news-list__pdf-action,
 .cb-skills__pdf-action {
   @extend %measure-indent;
+  flex: 1 1 100%; // immer volle Breite, unabhängig von Spaltenzahl darüber
 }
 
 // contact-info: immer bemaßt (Name … Telefon). Elternelement (.cb-contact-info)
@@ -534,7 +536,8 @@ h4, h5, h6 {
   @extend %measure-indent;
 }
 .cb-news-detail__measure,
-.cb-news-article-body.js-measure {
+.cb-news-article-body.js-measure,
+.cb-news-detail__media.js-measure {
   --measure: on;
 }
 
@@ -683,10 +686,13 @@ h4, h5, h6 {
   font-weight: $fw-bold;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: $text-primary;
+  color: rgba(17, 17, 17, 0.5);
   display: inline-block;
-  margin-right: 0.5rem;
   margin-bottom: 0.25rem;
+
+  &:not(:last-child)::after {
+    content: ", ";
+  }
 }
 
 // ─── News: Category filter ────────────────────────────────────────────────────
@@ -767,23 +773,9 @@ h4, h5, h6 {
   &__row {
     position: relative;
     display: flex;
-    align-items: stretch; // Karten (Bild + Content) gleich hoch
     gap: 1rem; // 16px
     flex: 1 1 auto;
     min-width: 0;
-  }
-
-  &__media {
-    flex: 0 0 5rem; // 80px = 10 × 8px
-  }
-
-  &__img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 5rem;
-    object-fit: cover;
-    border-radius: 0.5rem;
   }
 
   &__content-col {
@@ -924,7 +916,9 @@ h4, h5, h6 {
 
 .cb-img-fluid {
   @include img-fluid;
+  display: block; // sonst Baseline-Lücke unterhalb (inline-Default) → verfälscht js-measure-Höhe
   border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   margin-bottom: 0.75rem;
 }
 
@@ -943,7 +937,6 @@ h4, h5, h6 {
   }
 
   &__header {
-    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
     padding-bottom: 2.5rem;
     margin-bottom: 2.5rem;
   }
@@ -980,8 +973,17 @@ h4, h5, h6 {
     }
   }
 
-  &__media {
-    margin-bottom: 1rem;
+  &__media.js-measure {
+    position: relative;
+    z-index: $z-base;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+
+    .cb-img-fluid {
+      width: 100%;
+      border-radius: 0;
+    }
   }
 
   .cb-sidebar {
@@ -1087,6 +1089,12 @@ h4, h5, h6 {
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
+  // Ohne width:fit-content beansprucht dieses Flex-Kind die volle verfügbare
+  // Breite (auch ohne Links-Pills), wodurch der fit-content-Wrapper
+  // .cb-news-measure (news-dimension.js) breiter wird als der tatsächliche
+  // Text — die horizontale Maßlinie zeigt dann zu viel Breite an.
+  width: fit-content;
+  max-width: 100%;
 
   .cb-news-title {
     margin-bottom: 0;
@@ -1138,7 +1146,6 @@ h4, h5, h6 {
 .cb-article-nav {
   margin-top: 4rem;
   padding-top: 2.5rem;
-  border-top: 1px solid rgba(17, 17, 17, 0.1);
 
   @include below($bp-sm) {
     margin-top: 2.5rem;

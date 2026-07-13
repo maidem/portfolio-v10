@@ -20,6 +20,18 @@ fields:
     enableRichtext: true
     label: "Text (optional)"
     description: "Wenn gefüllt, zeigt das Banner diesen Text mit Maßpfeilen statt der großen Wordmark."
+  - identifier: cta_1_label
+    type: Text
+    label: "CTA Button 1 – Beschriftung"
+  - identifier: cta_1_link
+    type: Link
+    label: "CTA Button 1 – Link"
+  - identifier: cta_2_label
+    type: Text
+    label: "CTA Button 2 – Beschriftung"
+  - identifier: cta_2_link
+    type: Link
+    label: "CTA Button 2 – Link"
 assets:
   css:
     - assets/frontend.scss

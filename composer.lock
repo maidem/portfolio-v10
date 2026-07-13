@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01031741ac2cf444ae75ec5ffe3ed3a5",
+    "content-hash": "78cce4154334cb20fc4f5baf4b6db46f",
     "packages": [
         {
             "name": "b13/container",
@@ -1628,6 +1628,45 @@
                 "source": "https://github.com/lolli42/FineDiff/tree/1.1.2"
             },
             "time": "2025-10-31T12:28:27+00:00"
+        },
+        {
+            "name": "maidem/mosparo-dashboard",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/maidem_mosparo_dashboard",
+                "reference": "389b2494b7d4768e8059a2bad5883bed76d1abb1"
+            },
+            "require": {
+                "mosparo/php-api-client": "^1.0",
+                "php": ">=8.4.0",
+                "typo3/cms-core": "^14.1",
+                "typo3/cms-dashboard": "^14.1"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "maidem_mosparo_dashboard"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maidem\\MosparoDashboard\\": "Classes/"
+                }
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "TYPO3 dashboard widgets showing mosparo spam-protection statistics (valid/spam submissions) via the mosparo API.",
+            "homepage": "https://maidem.de",
+            "keywords": [
+                "TYPO3 CMS",
+                "dashboard",
+                "mosparo"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "maidem/pdf-export",
@@ -8407,6 +8446,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "gripsraum/my-sitepackage": 20,
+        "maidem/mosparo-dashboard": 20,
         "maidem/pdf-export": 20
     },
     "prefer-stable": false,

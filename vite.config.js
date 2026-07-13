@@ -1,8 +1,13 @@
 import { defineConfig } from "vite";
-import typo3 from "vite-plugin-typo3";
+import typo3, { getDefaultAllowedOrigins } from "vite-plugin-typo3";
 
 export default defineConfig({
   plugins: [typo3()],
+  server: {
+    cors: {
+      origin: getDefaultAllowedOrigins(),
+    },
+  },
   build: {
     manifest: true,
     rollupOptions: {

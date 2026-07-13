@@ -1,0 +1,5 @@
+[     152ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://vite.portfolio-v10.ddev.site/vendor/gripsraum/my-sitepackage/Resources/Private/Frontend/Form.entry.scss:0
+[     159ms] [ERROR] Access to script at 'https://vite.portfolio-v10.ddev.site/vendor/gripsraum/my-sitepackage/Resources/Private/JavaScript/Main.entry.js' from origin 'https://portfolio-v10.ddev.site' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://portfolio-v10.ddev.site/:1602
+[     159ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://vite.portfolio-v10.ddev.site/vendor/gripsraum/my-sitepackage/Resources/Private/JavaScript/Main.entry.js:0
+[     160ms] [ERROR] Access to script at 'https://vite.portfolio-v10.ddev.site/@vite/client' from origin 'https://portfolio-v10.ddev.site' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://portfolio-v10.ddev.site/:1699
+[     160ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://vite.portfolio-v10.ddev.site/@vite/client:0

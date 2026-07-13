@@ -20,6 +20,7 @@
     "friendsoftypo3/content-blocks": "^2.1",
     "georgringer/news": "^14.0",
     "gripsraum/my-sitepackage": "@dev",
+    "maidem/mosparo-dashboard": "@dev",
     "maidem/pdf-export": "@dev",
     "praetorius/vite-asset-collector": "^1.15",
     "spatie/browsershot": "^5.2",

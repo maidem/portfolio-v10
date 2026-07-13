@@ -11,13 +11,31 @@
 </f:section>
 
 <f:section name="Content">
-    Preview for Content Block: gripsraum/skills
+    <style>
+        .skills-preview-badge {
+            display: inline-block;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            background: color-mix(in srgb, currentColor 12%, transparent);
+        }
+    </style>
+    <f:if condition="{data.skill_categories}">
+        <f:then>
+            <f:for each="{data.skill_categories}" as="category">
+                <div style="margin-bottom: 6px">
+                    <strong>{category.category_name}</strong>
+                    <f:for each="{category.skills}" as="skill">
+                        <span class="skills-preview-badge">{skill.skill_name}</span>
+                    </f:for>
+                </div>
+            </f:for>
+        </f:then>
+        <f:else>
+            <em>Keine Kategorien angelegt</em>
+        </f:else>
+    </f:if>
 </f:section>
-
-<f:comment>
-<!-- Uncomment to override preview footer -->
-<f:section name="Footer">
-    My custom Footer
-</f:section>
-</f:comment>
 </html>

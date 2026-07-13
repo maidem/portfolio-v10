@@ -1,7 +1,7 @@
 form.contact.recipientEmail: connect@maidem.de
 form.contact.privacyPageUid: 15
-plugin.tx_mosparoform.settings.projects.default.publicServer: 'https://protect.maik-demuth.de'
-plugin.tx_mosparoform.settings.projects.default.verifyServer: 'https://protect.maik-demuth.de'
+plugin.tx_mosparoform.settings.projects.default.publicServer: 'https://protect.maidem.de'
+plugin.tx_mosparoform.settings.projects.default.verifyServer: 'https://protect.maidem.de'
 plugin.tx_mosparoform.settings.projects.default.uuid: 357545bf-63e3-448e-9951-224eabd74e9c
 plugin.tx_mosparoform.settings.projects.default.publicKey: DSYi2QY9aLjEEwFsGxqQcD5JL740cMuRnzof0S4oJfA
 plugin.tx_mosparoform.settings.projects.default.privateKey: qIixk2Lwmkg-glPFhNJJi4lWz10HJi-2H2JV2A3zMYs

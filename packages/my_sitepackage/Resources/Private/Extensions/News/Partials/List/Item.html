@@ -11,17 +11,6 @@
         data-pdf-item-label="{newsItem.title}"
     >
         <div class="cb-news-item__row">
-            <f:if condition="{newsItem.falMedia}">
-                <div class="cb-news-item__media">
-                    <f:image
-                        image="{newsItem.falMedia.0}"
-                        maxWidth="320"
-                        class="cb-news-item__img"
-                        alt="{newsItem.title}"
-                    />
-                </div>
-            </f:if>
-
             <div class="cb-news-item__content-col">
                 <f:if condition="{newsItem.categories}">
                     <ul class="cb-news-categories">

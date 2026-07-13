@@ -4,26 +4,28 @@ TYPO3-v14-Sitepackage für das Portfolio von Maik Demuth. Enthält alle Content 
 
 ## Content Blocks
 
-| Name                     | CType                   | Beschreibung                                          |
-| ------------------------ | ----------------------- | ----------------------------------------------------- |
-| `gripsraum/hero`         | `gripsraum_hero`        | About-me-Sektion mit zwei Textspalten                 |
-| `gripsraum/banner`       | `gripsraum_banner`      | Vollbild-Banner-Element                               |
-| `gripsraum/faq`          | `gripsraum_faq`         | Akkordeon-FAQ mit Kindtabelle                         |
-| `gripsraum/skills`       | `gripsraum_skills`      | Tech-Stack-Übersicht mit Kategorien                   |
-| `gripsraum/projects`     | `gripsraum_projects`    | Projektliste (verweist auf news-article-Detailseiten) |
-| `gripsraum/news-article` | `gripsraum_newsarticle` | Detailseite für Projekte und Logbuch-Einträge         |
-| `gripsraum/news-list`    | `gripsraum_newslist`    | Listenansicht für Logbuch-Einträge                    |
-| `gripsraum/page-header`  | `gripsraum_pageheader`  | Seitenüberschrift                                     |
-| `gripsraum/footer`       | `gripsraum_footer`      | Footer-Element                                        |
+| Name | CType | Beschreibung |
+| --- | --- | --- |
+| `gripsraum/hero` | `gripsraum_hero` | Intro-Bereich mit zwei Textspalten |
+| `gripsraum/banner` | `gripsraum_banner` | Vollbild-Banner mit Wordmark oder Kurzprofil + CTA-Buttons |
+| `gripsraum/section-header` | `gripsraum_sectionheader` | Eigenständige Abschnittsüberschrift mit Subtext |
+| `gripsraum/faq` | `gripsraum_faq` | Akkordeon-FAQ mit Kindtabelle |
+| `gripsraum/skills` | `gripsraum_skills` | Tech-Stack-Übersicht mit Kategorien und Skills (verschachtelte Collections) |
+| `gripsraum/projects` | `gripsraum_projects` | Projekt-/News-Liste inkl. optionaler Detailansicht |
+| `gripsraum/contact-info` | `gripsraum_contactinfo` | Kontaktinformationen |
+| `gripsraum/footer` | `gripsraum_footer` | Footer-Element |
 
-Jeder Block liegt unter `ContentBlocks/ContentElements/<name>/` mit `config.yaml`, `templates/frontend.fluid.html` und optionalen Assets in `assets/`.
+Jeder Block liegt unter `ContentBlocks/ContentElements/<name>/` mit `config.yaml`, `templates/frontend.fluid.html`, `templates/backend-preview.fluid.html` und optionalen Assets in `assets/`.
+
+Backend-Vorschauen verzichten bewusst auf feste Hex-Farben (Badges nutzen `color-mix(in srgb, currentColor …)`), damit sie in TYPO3s hellem und dunklem Backend-Theme gleichermaßen lesbar bleiben.
+
+## Sprungmarken (`section_anchor`)
+
+Mehrere Blöcke (banner, faq, hero, projects, skills, section-header) bieten das Feld **Anker-ID**, um Content-Elemente per Inhaltsverzeichnis oder Navigationslink direkt anspringbar zu machen.
 
 ## PDF-Warenkorb
 
-Content-Elemente können im TYPO3-Backend über ein Toggle **„PDF-Export Button anzeigen"** einen Vormerken-Button im Frontend aktivieren. Unterstützte Blöcke:
-
-- **hero** → merkt Abschnitt `info` vor (About me)
-- **news-article** → merkt `logbook_{uid}` vor (Projekte / Logbuch)
+Content-Elemente können im TYPO3-Backend über ein Toggle **„PDF-Export Button anzeigen"** einen Vormerken-Button im Frontend aktivieren. Unterstützte Blöcke: **hero**, **skills**, **contact-info**.
 
 Die gesamte Logik läuft im Frontend ohne Server-State:
 

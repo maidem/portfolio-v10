@@ -73,6 +73,17 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_username'] = getenv('TYPO3_SMTP_USER') ?: '';
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_password'] = getenv('TYPO3_SMTP_PASSWORD') ?: '';
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_encrypt'] = getenv('TYPO3_SMTP_ENCRYPT') ?: 'tls';
+
+    // MOSPARO DASHBOARD: read host/keys from Coolify env vars instead of hardcoding them
+    if (getenv('MOSPARO_HOST')) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['maidem_mosparo_dashboard']['host'] = getenv('MOSPARO_HOST');
+    }
+    if (getenv('MOSPARO_PUBLIC_KEY')) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['maidem_mosparo_dashboard']['publicKey'] = getenv('MOSPARO_PUBLIC_KEY');
+    }
+    if (getenv('MOSPARO_PRIVATE_KEY')) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['maidem_mosparo_dashboard']['privateKey'] = getenv('MOSPARO_PRIVATE_KEY');
+    }
 }
 
 // 3. CACHE HASH

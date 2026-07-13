@@ -13,7 +13,13 @@
 
     <f:section name="Content">
         <f:if condition="{data.bodytext}">
-            <div><em>{data.bodytext}</em></div>
+            <div>
+                <f:format.crop maxCharacters="220"
+                    ><f:format.stripTags
+                        >{data.bodytext}</f:format.stripTags
+                    ></f:format.crop
+                >
+            </div>
         </f:if>
     </f:section>
 </html>

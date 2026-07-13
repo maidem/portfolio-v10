@@ -115,27 +115,28 @@
                         </aside>
 
                         <div class="cb-news-detail__content">
-                            <div class="cb-news-article-body js-measure" data-measure-h="edges">
-                                <f:if condition="{newsItem.falMedia}">
-                                    <figure class="cb-news-detail__media">
-                                        <f:for
-                                            each="{newsItem.falMedia}"
-                                            as="media"
-                                            iteration="mediaIter"
-                                        >
-                                            <f:if condition="{mediaIter.isFirst}">
-                                                <f:image
-                                                    image="{media}"
-                                                    alt="{media.properties.alternative}"
-                                                    title="{media.properties.title}"
-                                                    class="cb-img-fluid"
-                                                    loading="lazy"
-                                                />
-                                            </f:if>
-                                        </f:for>
-                                    </figure>
-                                </f:if>
+                            <f:if condition="{newsItem.falMedia}">
+                                <figure class="cb-news-detail__media js-measure">
+                                    <f:for
+                                        each="{newsItem.falMedia}"
+                                        as="media"
+                                        iteration="mediaIter"
+                                    >
+                                        <f:if condition="{mediaIter.isFirst}">
+                                            <f:image
+                                                image="{media}"
+                                                width="1600"
+                                                alt="{media.properties.alternative}"
+                                                title="{media.properties.title}"
+                                                class="cb-img-fluid"
+                                                loading="lazy"
+                                            />
+                                        </f:if>
+                                    </f:for>
+                                </figure>
+                            </f:if>
 
+                            <div class="cb-news-article-body js-measure" data-measure-h="edges">
                                 <f:if condition="{newsItem.bodytext}">
                                     <f:format.html>{newsItem.bodytext}</f:format.html>
                                 </f:if>

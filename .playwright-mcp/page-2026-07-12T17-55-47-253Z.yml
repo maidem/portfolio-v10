@@ -1,0 +1,311 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Maik Demuth" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - navigation "Hauptnavigation" [ref=e6]:
+        - link "My Story":
+          - /url: "#my-story"
+        - generic [ref=e7]: /
+        - link "Projekte" [ref=e8] [cursor=pointer]:
+          - /url: "#projekte"
+        - generic [ref=e9]: /
+        - link "Skills" [ref=e10] [cursor=pointer]:
+          - /url: "#skills"
+        - generic [ref=e11]: /
+        - link "Notes" [ref=e12] [cursor=pointer]:
+          - /url: "#notes"
+        - generic [ref=e13]: /
+        - link "Kontakt" [ref=e14] [cursor=pointer]:
+          - /url: "#contact"
+  - dialog [ref=e16]:
+    - navigation [ref=e18]:
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link:
+            - /url: "#my-story"
+            - text: My Story
+        - listitem [ref=e21]:
+          - link [ref=e22] [cursor=pointer]:
+            - /url: "#projekte"
+            - text: Projekte
+        - listitem [ref=e23]:
+          - link [ref=e24] [cursor=pointer]:
+            - /url: "#skills"
+            - text: Skills
+        - listitem [ref=e25]:
+          - link [ref=e26] [cursor=pointer]:
+            - /url: "#notes"
+            - text: Notes
+        - listitem [ref=e27]:
+          - link [ref=e28] [cursor=pointer]:
+            - /url: "#contact"
+            - text: Kontakt
+  - main [ref=e29]:
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - heading "My Story" [level=1] [ref=e33]
+        - paragraph [ref=e34]: Im Jahr 2009 übernahm ich mein erstes Projekt für Terre des Hommes bei einer Kampagne gegen Kindersoldaten in Thailand mit TYPO3 4.3. Schon damals trieb mich die Frage um, wie Probleme für alle Stakeholder einfach und intuitiv gelöst werden können.
+        - paragraph [ref=e35]: Ich probiere ständig Neues aus, baue Prototypen, mache Bedienkonzepte zum Testen kaputt und beobachte Zielgruppen im Back- und Frontend. Für meine Live Projekte machen dabei häufig TYPO3, Storyblok und Nuxt das Rennen.
+        - paragraph [ref=e36]: Wenn du jemanden suchst, der digitale Erlebnisse hinterfragt, sie zum Testen auch mal bewusst herausfordert und dein Team mit frischen Perspektiven bereichern kann, dann lass uns herausfinden, ob wir zusammenpassen.
+        - generic: 37.81 rem
+        - generic: 24.33 rem
+      - button "+ Zum PDF-Dossier hinzufügen" [ref=e38] [cursor=pointer]:
+        - text: +
+        - generic [ref=e39]: Zum PDF-Dossier hinzufügen
+    - generic [ref=e40]:
+      - heading "Projekte" [level=2] [ref=e42]
+      - generic [ref=e45]:
+        - article [ref=e46]:
+          - generic [ref=e47]:
+            - img "Coachmanager" [ref=e49]
+            - generic [ref=e50]:
+              - list [ref=e51]:
+                - listitem [ref=e52]: PostgreSQL,
+                - listitem [ref=e53]: Nuxt
+              - generic [ref=e54]:
+                - generic [ref=e55]:
+                  - heading "Coachmanager" [level=3] [ref=e56]
+                  - generic [ref=e57]:
+                    - link "Quellcode" [ref=e58] [cursor=pointer]:
+                      - /url: https://github.com/maidem/demo-coach _blank
+                    - link "Live" [ref=e59] [cursor=pointer]:
+                      - /url: https://demo-coach.maidem.de _blank
+                - paragraph [ref=e60]: Umfassendes Athleten- und Wettkampfmanagementsystem für Trainer von Profilen über Gewichtsklassen bis zur vollständigen Wettkampfplanung.
+                - generic: 13.13 rem
+                - generic: 19.14 rem
+              - link "Weiterlesen" [ref=e62] [cursor=pointer]:
+                - /url: /detail-projekte/coachmanager
+        - article [ref=e63]:
+          - generic [ref=e65]:
+            - list [ref=e66]:
+              - listitem [ref=e67]: PostgreSQL,
+              - listitem [ref=e68]: Nuxt
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - heading "Trainermanager" [level=3] [ref=e71]
+                - generic [ref=e72]:
+                  - link "Quellcode" [ref=e73] [cursor=pointer]:
+                    - /url: https://github.com/maidem/demo-trainerbelegungsplan _blank
+                  - link "Live" [ref=e74] [cursor=pointer]:
+                    - /url: https://trainer.maidem.de/
+              - paragraph [ref=e75]: Rollenbasiertes Planungssystem für Trainereinsätze mit Self-Service-Check-in per PIN, Echtzeit-Synchronisation und mehrstufigem Berechtigungsmodell.
+              - generic: 32.50 rem
+              - generic: 5.90 rem
+            - link "Weiterlesen" [ref=e77] [cursor=pointer]:
+              - /url: /detail-projekte/trainermanager
+        - article [ref=e78]:
+          - generic [ref=e80]:
+            - list [ref=e81]:
+              - listitem [ref=e82]: Typo3
+            - generic [ref=e83]:
+              - generic [ref=e84]:
+                - heading "Trainingsplan" [level=3] [ref=e85]
+                - generic [ref=e86]:
+                  - link "Quellcode" [ref=e87] [cursor=pointer]:
+                    - /url: https://github.com/maidem/demo-trainerbelegungsplan _blank
+                  - link "Live" [ref=e88] [cursor=pointer]:
+                    - /url: https://demo-trainingsplan-frontend.maidem.de _blank
+              - paragraph [ref=e89]: Eine Multidomain TYPO3 v14 Webseite die über eine eine Api in Echtzeit einen Trainingsplan im Frontend darstellt.
+              - generic: 32.50 rem
+              - generic: 4.54 rem
+            - link "Weiterlesen" [ref=e91] [cursor=pointer]:
+              - /url: /detail-projekte/trainingsplan
+        - article [ref=e92]:
+          - generic [ref=e94]:
+            - list [ref=e95]:
+              - listitem [ref=e96]: PostgreSQL,
+              - listitem [ref=e97]: Nuxt
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - heading "Prüfungsmanager" [level=3] [ref=e100]
+                - generic [ref=e101]:
+                  - link "Quellcode" [ref=e102] [cursor=pointer]:
+                    - /url: https://github.com/maidem/demo-grad-manager _blank
+                  - link "Live" [ref=e103] [cursor=pointer]:
+                    - /url: https://demo-grad-manager.maidem.de _blank
+              - paragraph [ref=e104]: Digitales Prüfungsmanagement für Gürtelprüfungen im Taekwondo. Von der Anmeldung über die Gebührenverwaltung bis zur Ergebniserfassung.
+              - generic: 32.55 rem
+              - generic: 5.90 rem
+            - link "Weiterlesen" [ref=e106] [cursor=pointer]:
+              - /url: /detail-projekte/pruefungsmanager
+        - button "+ Alle zum PDF-Dossier hinzufügen" [ref=e108] [cursor=pointer]:
+          - text: +
+          - generic [ref=e109]: Alle zum PDF-Dossier hinzufügen
+    - generic [ref=e111]:
+      - generic [ref=e112]:
+        - heading "Skills" [level=2] [ref=e113]
+        - generic [ref=e115]:
+          - generic [ref=e117]:
+            - heading "Sprachen" [level=3] [ref=e118]
+            - list [ref=e119]:
+              - listitem [ref=e120]:
+                - button "Html" [ref=e121]
+              - listitem [ref=e122]:
+                - button "Css" [ref=e123]
+              - listitem [ref=e124]:
+                - button "Scss" [ref=e125]
+              - listitem [ref=e126]:
+                - button "JavaScript" [ref=e127]
+              - listitem [ref=e128]:
+                - button "TypeScript" [ref=e129]
+              - listitem [ref=e130]:
+                - button "PHP" [ref=e131]
+              - listitem [ref=e132]:
+                - button "SQL" [ref=e133]
+              - listitem [ref=e134]:
+                - button "TypoScript" [ref=e135]
+            - generic: 13.50 rem
+            - generic: 10.33 rem
+          - generic [ref=e137]:
+            - heading "Content Management Systeme" [level=3] [ref=e138]
+            - list [ref=e139]:
+              - listitem [ref=e140]:
+                - button "TYPO3 v4.3 bis v14" [ref=e141]
+              - listitem [ref=e142]:
+                - button "Typo3 Headless" [ref=e143]
+              - listitem [ref=e144]:
+                - button "Storyblok" [ref=e145]
+              - listitem [ref=e146]:
+                - button "Strapi" [ref=e147]
+              - listitem [ref=e148]:
+                - button "Contao" [ref=e149]
+            - generic: 13.23 rem
+            - generic: 10.31 rem
+          - generic [ref=e151]:
+            - heading "Frameworks & Libraries" [level=3] [ref=e152]
+            - list [ref=e153]:
+              - listitem [ref=e154]:
+                - button "Bootstrap" [ref=e155]
+              - listitem [ref=e156]:
+                - button "Tailwindcss" [ref=e157]
+              - listitem [ref=e158]:
+                - button "Vue.js" [ref=e159]
+              - listitem [ref=e160]:
+                - button "Nuxt" [ref=e161]
+              - listitem [ref=e162]:
+                - button "Fluid" [ref=e163]
+            - generic: 13.50 rem
+            - generic: 5.66 rem
+          - generic [ref=e165]:
+            - heading "DevOps & lokale Entwicklung" [level=3] [ref=e166]
+            - list [ref=e167]:
+              - listitem [ref=e168]:
+                - button "DDEV" [ref=e169]
+              - listitem [ref=e170]:
+                - button "Docker" [ref=e171]
+              - listitem [ref=e172]:
+                - button "Vite" [ref=e173]
+              - listitem [ref=e174]:
+                - button "GitHub Actions" [ref=e175]
+              - listitem [ref=e176]:
+                - button "Linux" [ref=e177]
+            - generic: 13.74 rem
+            - generic: 5.66 rem
+          - generic [ref=e179]:
+            - heading "Datenbanken" [level=3] [ref=e180]
+            - list [ref=e181]:
+              - listitem [ref=e182]:
+                - button "MySql" [ref=e183]
+              - listitem [ref=e184]:
+                - button "Postgresql" [ref=e185]
+              - listitem [ref=e186]:
+                - button "Sqlite" [ref=e187]
+            - generic: 11.16 rem
+            - generic: 5.66 rem
+          - generic [ref=e189]:
+            - heading "Weitere" [level=3] [ref=e190]
+            - list [ref=e191]:
+              - listitem [ref=e192]:
+                - button "Jira" [ref=e193]
+              - listitem [ref=e194]:
+                - button "Figma" [ref=e195]
+            - generic: 8.36 rem
+            - generic: 3.32 rem
+      - button "+ Zum PDF-Dossier hinzufügen" [ref=e197] [cursor=pointer]:
+        - text: +
+        - generic [ref=e198]: Zum PDF-Dossier hinzufügen
+    - generic [ref=e199]:
+      - heading "Notes" [level=2] [ref=e201]
+      - generic [ref=e204]:
+        - article [ref=e205]:
+          - generic [ref=e207]:
+            - generic [ref=e208]:
+              - heading "Mein TYPO3-Workflow 2026, Vite, Content Blocks und DDEV bei Mittwald" [level=3] [ref=e210]
+              - paragraph [ref=e211]: Wie ich heute TYPO3-Projekte baue. Mit v14 LTS, dem Vite Asset Collector von Simon Praetorius, Content Blocks, SCSS, DDEV lokal, GitHub Actions im CI und Mittwald als Docker-Host.
+              - generic: 33.19 rem
+              - generic: 7.36 rem
+            - link "Weiterlesen" [ref=e213] [cursor=pointer]:
+              - /url: /notes/detail/mein-typo3-workflow-2026-vite-content-blocks-und-ddev-bei-mittwald
+        - article [ref=e214]:
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - heading "TYPO3 v14 mit DDEV aufsetzen und über Coolify deployen" [level=3] [ref=e219]
+              - paragraph [ref=e220]: Schritt-für-Schritt-Anleitung zum Setup einer TYPO3-v14-Website mit PHP 8.4, Vite und Bootstrap 5 lokal in DDEV und Deployment über GitHub Actions, Tailscale und einen Coolify-Server. Inklusive optimiertes Multi-Stage-Dockerfile.
+              - generic: 33.08 rem
+              - generic: 8.72 rem
+            - link "Weiterlesen" [ref=e222] [cursor=pointer]:
+              - /url: /notes/detail/typo3-v14-mit-ddev-aufsetzen-und-ueber-coolify-deployen
+        - button "+ Alle zum PDF-Dossier hinzufügen" [ref=e224] [cursor=pointer]:
+          - text: +
+          - generic [ref=e225]: Alle zum PDF-Dossier hinzufügen
+    - generic [ref=e227]:
+      - heading "Kontakt" [level=2] [ref=e228]
+      - paragraph [ref=e230]: Du meinst, dass wir gut zusammenarbeiten könnten? Dann schreibe mir oder rufe mich an und lass uns darüber sprechen.
+      - generic: 40.20 rem
+      - generic: 5.62 rem
+    - generic [ref=e233]:
+      - complementary [ref=e234]:
+        - generic [ref=e235]:
+          - generic [ref=e236]:
+            - paragraph [ref=e237]: Maik Demuth
+            - generic [ref=e238]: Gebrüder-Grimm-Str. 5 65520 Bad Camberg
+            - list [ref=e239]:
+              - listitem [ref=e240]:
+                - generic [ref=e241]: E-Mail
+                - link "maik.demuth@gripsraum.de" [ref=e243] [cursor=pointer]:
+                  - /url: mailto:maik.demuth@gripsraum.de
+              - listitem [ref=e244]:
+                - generic [ref=e245]: Telefon
+                - link "+49 151 64 89 85 15" [ref=e247] [cursor=pointer]:
+                  - /url: tel:+4915164898515
+            - generic: 12.60 rem
+            - generic: 12.53 rem
+          - button "+ Zum PDF-Dossier hinzufügen" [ref=e248] [cursor=pointer]:
+            - text: +
+            - generic [ref=e249]: Zum PDF-Dossier hinzufügen
+      - generic [ref=e253]:
+        - generic [ref=e254]:
+          - textbox [ref=e255]
+          - generic [ref=e256]:
+            - generic: Name *
+            - textbox "Name *" [ref=e257]:
+              - /placeholder: Name
+          - generic [ref=e258]:
+            - generic: E-Mail *
+            - textbox "E-Mail *" [ref=e259]:
+              - /placeholder: E-Mail-Adresse
+          - generic [ref=e260]:
+            - generic: Nachricht *
+            - textbox "Nachricht *" [ref=e261]:
+              - /placeholder: Deine Nachricht...
+          - generic [ref=e263] [cursor=pointer]:
+            - checkbox "Ich habe die Datenschutzerklärung gelesen *" [ref=e264]
+            - generic [ref=e265]:
+              - text: Ich habe die
+              - link "Datenschutzerklärung" [ref=e266]:
+                - /url: "#"
+              - text: gelesen *
+          - checkbox [ref=e270]
+          - navigation "Form Navigation" [ref=e272]:
+            - button "Absenden" [disabled] [ref=e273]
+        - generic: 44.31 rem
+        - generic: 17.25 rem
+  - contentinfo [ref=e274]:
+    - navigation "Footer Navigation" [ref=e278]:
+      - link "Datenschutzerklärung" [ref=e279] [cursor=pointer]:
+        - /url: /datenschutzerklaerung
+      - link "Impressum" [ref=e280] [cursor=pointer]:
+        - /url: /impressum
+      - link "GitHub" [ref=e281] [cursor=pointer]:
+        - /url: https://github.com/maidem

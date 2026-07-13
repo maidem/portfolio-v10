@@ -35,6 +35,11 @@ return [
             'loginLogo' => '',
             'loginLogoAlt' => '',
         ],
+        'maidem_mosparo_dashboard' => [
+            'host' => '',
+            'privateKey' => '',
+            'publicKey' => '',
+        ],
         'news' => [
             'advancedMediaPreview' => '1',
             'archiveDate' => 'date',

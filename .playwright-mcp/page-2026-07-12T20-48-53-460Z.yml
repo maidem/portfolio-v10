@@ -1,0 +1,115 @@
+- generic [active] [ref=f13e1]:
+  - banner [ref=f13e2]:
+    - generic [ref=f13e4]:
+      - link "Maik Demuth" [ref=f13e5] [cursor=pointer]:
+        - /url: /
+      - navigation "Hauptnavigation" [ref=f13e6]:
+        - link "My Story" [ref=f13e7] [cursor=pointer]:
+          - /url: /#my-story
+        - generic [ref=f13e8]: /
+        - link "Projekte" [ref=f13e9] [cursor=pointer]:
+          - /url: /#projekte
+        - generic [ref=f13e10]: /
+        - link "Skills" [ref=f13e11] [cursor=pointer]:
+          - /url: /#skills
+        - generic [ref=f13e12]: /
+        - link "Notes" [ref=f13e13] [cursor=pointer]:
+          - /url: /#notes
+        - generic [ref=f13e14]: /
+        - link "Kontakt" [ref=f13e15] [cursor=pointer]:
+          - /url: /#contact
+  - dialog [ref=f13e17]:
+    - navigation [ref=f13e19]:
+      - list [ref=f13e20]:
+        - listitem [ref=f13e21]:
+          - link [ref=f13e22] [cursor=pointer]:
+            - /url: /#my-story
+            - text: My Story
+        - listitem [ref=f13e23]:
+          - link [ref=f13e24] [cursor=pointer]:
+            - /url: /#projekte
+            - text: Projekte
+        - listitem [ref=f13e25]:
+          - link [ref=f13e26] [cursor=pointer]:
+            - /url: /#skills
+            - text: Skills
+        - listitem [ref=f13e27]:
+          - link [ref=f13e28] [cursor=pointer]:
+            - /url: /#notes
+            - text: Notes
+        - listitem [ref=f13e29]:
+          - link [ref=f13e30] [cursor=pointer]:
+            - /url: /#contact
+            - text: Kontakt
+  - main [ref=f13e31]:
+    - article [ref=f13e33]:
+      - generic [ref=f13e34]:
+        - generic [ref=f13e35]:
+          - link "Zurück" [ref=f13e36] [cursor=pointer]:
+            - /url: /#projekte
+          - list [ref=f13e37]:
+            - listitem [ref=f13e38]: Typo3 Extension
+          - generic [ref=f13e39]:
+            - heading "Pdf Dossier" [level=1] [ref=f13e40]
+            - paragraph [ref=f13e41]: TYPO3-Extension zur Erzeugung individueller PDF-Zusammenfassungen aus Website-Inhalten. Besucher wählen Abschnitte aus und erhalten ein druckfertiges PDF-Dokument.
+            - generic: 66.38 rem
+            - generic: 6.03 rem
+          - button "+ Zum PDF-Dossier hinzufügen" [ref=f13e43] [cursor=pointer]:
+            - text: +
+            - generic [ref=f13e44]: Zum PDF-Dossier hinzufügen
+        - generic [ref=f13e45]:
+          - complementary [ref=f13e46]
+          - generic [ref=f13e47]:
+            - figure [ref=f13e48]:
+              - img "pdf dossier abbildung" [ref=f13e49]
+              - generic: 42.81 rem
+              - generic: 24.64 rem
+            - generic [ref=f13e50]:
+              - heading "Überblick" [level=2] [ref=f13e51]
+              - paragraph [ref=f13e52]: "Die Extension stellt einen konfigurierbaren PDF-Export bereit, der Inhalte aus verschiedenen Seitenbereichen zusammenführt:"
+              - paragraph [ref=f13e53]: Die Auswahl erfolgt über eine Kachel-Oberfläche im Frontend. Vorgemerkte Inhalte werden seitenübergreifend im localStorage gespeichert und beim Aufrufen der Export-Seite automatisch vorausgewählt.
+              - heading "Voraussetzungen" [level=2] [ref=f13e54]
+              - paragraph [ref=f13e55]: "- TYPO3 14+- PHP 8.4+- Chromium"
+              - heading "Installation" [level=2] [ref=f13e56]
+              - generic [ref=f13e57]:
+                - code [ref=f13e58]: composer install maidem/pdf-export
+                - button "Kopieren" [ref=f13e59] [cursor=pointer]
+              - heading "PDF-Warenkorb" [level=2] [ref=f13e60]
+              - paragraph [ref=f13e61]: "Besucher können Inhalte seitenübergreifend vormerken, ganz ohne eigene Export-Seite:"
+              - list [ref=f13e62]:
+                - listitem [ref=f13e63]: Content-Elemente bieten im Backend ein Toggle „PDF-Export Button anzeigen" (data-pdf-section); es gibt auch Gruppen-Buttons, die alle Items eines Bereichs auf einmal hinzufügen (data-pdf-group).
+                - listitem [ref=f13e64]: "Ein Klick im Frontend speichert { id, label } im localStorage (Key maidem_pdf_cart)."
+                - listitem [ref=f13e65]: Ein schwebender Button unten rechts zeigt einen Badge-Zähler und öffnet bei Klick (bzw. kurz automatisch nach dem Hinzufügen) ein Panel mit allen vorgemerkten Einträgen.
+                - listitem [ref=f13e66]: Im Panel lassen sich Einträge per Drag & Drop (Maus und Touch) neu sortieren und einzeln per × entfernen.
+                - listitem [ref=f13e67]: „PDF-Dossier herunterladen" postet die gesammelten IDs in genau dieser Reihenfolge als sections[] an ?type=1711, das PDF wird direkt heruntergeladen.
+                - listitem [ref=f13e68]: Der Warenkorb ist über localStorage seitenübergreifend und synchronisiert sich per storage-Event live zwischen offenen Tabs.
+              - heading "Technische Details" [level=2] [ref=f13e69]
+              - list [ref=f13e70]:
+                - listitem [ref=f13e71]: PageType 1711 rendert ausschließlich den PDF-Inhalt ohne Seiten-Layout
+                - listitem [ref=f13e72]: PdfExportDataProcessor bereitet die Kachel-Auswahl im Frontend vor
+                - listitem [ref=f13e73]: "PdfDataService liest Inhalte aus der Datenbank (QueryBuilder, parametrisiert): About, Kontakt, Story, FAQ, Skills sowie News-Datensätze (Projekte/Logbuch)"
+                - listitem [ref=f13e74]: PdfExportController baut aus der Auswahl (sections-Parameter) die Blöcke, rendert sie per Fluid-Template und erzeugt das PDF via spatie/browsershot (Chromium) als Download
+              - heading "Umgebungsvariablen" [level=2] [ref=f13e75]
+              - list [ref=f13e76]:
+                - listitem [ref=f13e77]: "PDF_CHROMIUM_PATH Pfad zur Chromium-Binary (Default: `/usr/bin/chromium`)"
+                - listitem [ref=f13e78]: "PDF_CHROMIUM_NO_SANDBOX Chromium ohne Sandbox starten, z. B. in Docker-Containern (Default: aus)"
+              - generic: 42.53 rem
+              - generic: 107.75 rem
+        - navigation "Weitere Artikel" [ref=f13e79]:
+          - generic [ref=f13e80]:
+            - link "← Vorheriges Projekt Coachmanager Umfassendes Athleten- und Wettkampfmanagementsystem für Trainer von Profilen über…" [ref=f13e82] [cursor=pointer]:
+              - /url: /detail-projekte/coachmanager
+              - generic [ref=f13e83]: ← Vorheriges Projekt
+              - generic [ref=f13e84]: Coachmanager
+              - generic [ref=f13e85]: Umfassendes Athleten- und Wettkampfmanagementsystem für Trainer von Profilen über…
+            - link "Zur Startseite" [ref=f13e87] [cursor=pointer]:
+              - /url: /
+              - text: Startseite
+  - contentinfo [ref=f13e88]:
+    - navigation "Footer Navigation" [ref=f13e92]:
+      - link "Datenschutzerklärung" [ref=f13e93] [cursor=pointer]:
+        - /url: /datenschutzerklaerung
+      - link "Impressum" [ref=f13e94] [cursor=pointer]:
+        - /url: /impressum
+      - link "GitHub" [ref=f13e95] [cursor=pointer]:
+        - /url: https://github.com/maidem
