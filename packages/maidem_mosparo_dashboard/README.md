@@ -28,11 +28,11 @@ Host, Public Key und Private Key werden über die Erweiterungskonfiguration gese
 
 ### Umgebungsvariablen
 
-- `MOSPARO_HOST` — Basis-URL der mosparo-Instanz (z. B. `https://protect.example.com`)
+- `MOSPARO_HOST` (oder `MOSPARO_PUBLIC_SERVER`) — Basis-URL der mosparo-Instanz (z. B. `https://protect.example.com`)
 - `MOSPARO_PUBLIC_KEY` — Public Key des mosparo-Projekts
 - `MOSPARO_PRIVATE_KEY` — Private Key des mosparo-Projekts
 
-Diese Variablen werden nur im Kontext `Production` ausgelesen (siehe `config/system/additional.php` im Hauptprojekt) und überschreiben dort die Erweiterungskonfiguration.
+Diese Variablen werden unabhängig vom `TYPO3_CONTEXT` ausgelesen (siehe `config/system/additional.php` im Hauptprojekt) und überschreiben dort die Erweiterungskonfiguration — funktioniert also sowohl in Production (Coolify) als auch lokal in DDEV (`.ddev/config.local.yaml`).
 
 ## Technische Details
 
