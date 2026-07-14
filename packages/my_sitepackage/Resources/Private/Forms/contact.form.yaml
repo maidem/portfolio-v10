@@ -94,6 +94,9 @@ renderables:
         validators:
           -
             identifier: NotEmpty
+            options:
+              nullMessage: 'Dieses Feld ist erforderlich.'
+              emptyMessage: 'Dieses Feld ist erforderlich.'
       -
         defaultValue: ''
         properties:
