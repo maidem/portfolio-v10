@@ -2,9 +2,11 @@ Portfolio
 
 Hallo {form.name},
 
-Vielen Dank für deine Nachricht. Ich werde mich schnellstmöglich bei dir melden.
+vielen Dank für deine Nachricht über mein Portfolio. Ich habe deine Anfrage erhalten und melde mich zeitnah persönlich bei dir zurück.
 
-Gruß
+Für Rückfragen erreichst du mich auch direkt unter den unten stehenden Kontaktdaten.
+
+Beste Grüße
 {contactName}
 {contactPhone}
 {contactEmail}

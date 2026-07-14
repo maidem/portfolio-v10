@@ -18,10 +18,11 @@ finishers:
       senderName: 'Portfolio Kontaktformular'
       replyToRecipients:
         - '{email}'
+      format: plaintext
     identifier: EmailToReceiver
   -
     options:
-      subject: 'Deine Nachricht ist angekommen'
+      subject: 'Bestätigung deiner Kontaktanfrage an Maik Demuth'
       recipients:
         '{email}': '{name}'
       senderAddress: connect@maidem.de

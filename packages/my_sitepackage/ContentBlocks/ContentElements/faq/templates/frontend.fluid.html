@@ -21,8 +21,8 @@
                     </f:if>
 
                     <div class="cb-faq-simple__list">
-                        <f:for each="{data.faq_items}" as="faqItem">
-                            <details class="cb-faq-simple__item">
+                        <f:for each="{data.faq_items}" as="faqItem" iteration="faqIterator">
+                            <details class="cb-faq-simple__item" {f:if(condition: faqIterator.isFirst, then: 'open')}>
                                 <summary>{faqItem.question}</summary>
                                 <div class="cb-faq-simple__answer">
                                     <f:format.html>{faqItem.answer}</f:format.html>
