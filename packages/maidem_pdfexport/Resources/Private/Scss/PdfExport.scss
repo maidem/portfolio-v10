@@ -32,13 +32,13 @@
   }
 }
 
-// PDF Export Block — Wrapper wie .cb-hero: position relative + overflow visible
+// wrapper like .cb-hero: position relative + overflow visible
 .cb-pdf-export__block {
   position: relative;
   overflow: visible;
 }
 
-// SVG Decoration — 1:1 identisch mit .cb-hero__decoration
+// same as .cb-hero__decoration
 .cb-pdf-export__decoration {
   position: absolute;
   top: -4.4rem;
@@ -58,15 +58,13 @@
     display: none;
   }
 }
-// --- PDF Card — keep tiles on white background ---
+// keep tiles on white background
 .cb-card--yellow {
-  // base card design applies; no override needed
+  // base card style is fine as-is, nothing to override
 }
 
-// --- Specific PDF Export Section Spacing ---
 .cb-pdf-export-section {
-  // No extra margin here, the inner .cb-card already has margin-bottom: 2rem;
-  // This avoids double-spacing.
+  // no margin here, .cb-card already has margin-bottom: 2rem — avoids double spacing
   margin-bottom: 0;
 }
 
@@ -179,10 +177,9 @@
     }
   }
 
-  // --- Button Layout Wrapper ---
   &__actions {
     display: flex;
-    justify-content: flex-end; // Right align as requested
+    justify-content: flex-end; // right-aligned
   }
 
   &__submit {
@@ -227,7 +224,7 @@
   }
 }
 
-// Ensure the checkbox hack works across all browsers correctly
+// duplicate selector to make the checkbox hack work in all browsers
 input:checked ~ .cb-pdf-export__tile-indicator::after {
   opacity: 1;
   transform: scale(1);

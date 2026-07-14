@@ -1,6 +1,6 @@
-// Shared technical-drawing dimension-line renderer (DIN 406).
-// Used by the hero banner (frontend.js) and the news list dimensioning.
-// One calculation, multiple call sites — see frontend.js / news-dimension.js.
+// Shared DIN 406 dimension-line renderer, used by the hero banner (frontend.js)
+// and the news list. One calculation, multiple call sites — see
+// frontend.js / news-dimension.js.
 
 const LABEL_BOX_H = 17;
 
@@ -26,12 +26,12 @@ export function pxToRem(px) {
 
 const inkCtx = document.createElement("canvas").getContext("2d");
 
-// Echte Glyphen-Kanten allen Textes im Container (Maßlinien-Labels ausgenommen).
-// Die Range-Rects einer Zeile umfassen die volle Font-Box (ascent+descent), nicht
-// die tatsächlichen Glyphen — Ziffern/Versalien ohne Unterlängen enden z.B. auf
-// der Baseline. Deshalb pro Zeile die Baseline aus der Font-Box ableiten und die
-// reale Ober-/Unterkante über actualBoundingBox bestimmen.
-// Absolute Viewport-Koordinaten; null wenn kein Text gefunden.
+// Real glyph edges of all text in the container (dimension-line labels excluded).
+// Range rects cover the full font box (ascent+descent), not the actual glyphs —
+// digits/capitals without descenders end at the baseline, for example. So per
+// line we derive the baseline from the font box and get the real top/bottom
+// via actualBoundingBox.
+// Returns absolute viewport coords, or null if no text found.
 export function inkBounds(container) {
     let left = Infinity;
     let right = -Infinity;
@@ -40,7 +40,7 @@ export function inkBounds(container) {
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
         acceptNode: (n) => {
             if (!n.textContent.trim()) return NodeFilter.FILTER_REJECT;
-            // Text in den angehängten Maßlinien-Labels ignorieren.
+            // skip text inside the dimension-line labels we appended
             if (
                 n.parentElement &&
                 n.parentElement.closest(
@@ -48,8 +48,8 @@ export function inkBounds(container) {
                 )
             )
                 return NodeFilter.FILTER_REJECT;
-            // Versteckten Inhalt geschlossener <details> ignorieren (FAQ):
-            // dessen Ranges liefern sonst Geister-Rects und blähen die Messung auf.
+            // skip hidden content of closed <details> (FAQ) — their ranges
+            // produce ghost rects and throw off the measurement
             if (
                 n.parentElement &&
                 n.parentElement.closest("details:not([open])") &&
@@ -90,9 +90,9 @@ export function inkBounds(container) {
     return { left, right, top, bottom };
 }
 
-// Split an rgb(a) color into its opaque base and alpha. Painting the SVG
-// with the OPAQUE color and setting opacity on the <svg> avoids dark seams
-// where arrows, ticks and the dim line overlap.
+// Split an rgb(a) color into opaque base + alpha. Painting the SVG with the
+// opaque color and setting opacity on the <svg> itself avoids dark seams where
+// arrows, ticks and the dim line overlap.
 function splitColorAlpha(c) {
     const m = c.match(/^rgba?\(([^)]+)\)$/);
     if (!m) return { color: c, alpha: 1 };
@@ -234,10 +234,10 @@ export function makeDim(rem, widthPx, colors, labelAlign) {
     const lbl = document.createElement("span");
     const lblBase = `background-color:${labelBg};padding:1px 0.5rem;color:${labelColor};${LBL_BASE}`;
     if (labelAlign === "outward") {
-        // Label linksbündig über der Linie (3px Gap), NICHT zentriert. Die
-        // horizontale Position kommt aus der CSS-Variable --dim-label-left, die
-        // der Aufrufer setzt (z.B. um mit einer Container-/Logo-Kante zu
-        // fluchten statt mit dem Linienanfang x1). Fallback: Linienanfang.
+        // Label sits left-aligned above the line (3px gap), not centered.
+        // Horizontal position comes from --dim-label-left, set by the caller
+        // (e.g. to align with a container/logo edge instead of the line's
+        // start x1). Falls back to the line start.
         lbl.style.cssText =
             `position:absolute;left:var(--dim-label-left, ${x1}px);top:${cy - tickH - 3}px;transform:translateY(-100%);` +
             lblBase;
@@ -267,9 +267,9 @@ export function makeVerticalDim(rem, topPx, heightPx, mode, colors, labelAlign) 
     const ah = 4;
     const aw = 7;
     const gap = 3;
-    // "leftOutside": Label sitzt linksbündig an der Wrapper-Kante (x=0), die
-    // Linie rückt nach rechts (Label-Breite + Gap), damit das Label links davor
-    // steht statt darauf. Sonst liegt die Linie bei der 20px-Standardmitte.
+    // "leftOutside": label flush left at the wrapper edge (x=0), line shifts
+    // right by label width + gap so it doesn't sit on top of the label.
+    // otherwise the line sits at the 20px standard center.
     const cx =
         labelAlign === "leftOutside" ? LABEL_BOX_H + gap + tickW : 10;
     const svgW = cx + tickW + 1;
@@ -294,8 +294,8 @@ export function makeVerticalDim(rem, topPx, heightPx, mode, colors, labelAlign) 
     svg.setAttribute("height", String(totalH));
     svg.setAttribute("opacity", String(strokeOpacity));
     svg.setAttribute("shape-rendering", "geometricPrecision");
-    // overflow:visible wie beim horizontalen Pendant — sonst werden die End-Ticks
-    // (stroke-width 1.5) auf y=0 / y=totalH je zur Hälfte an der SVG-Kante geclippt.
+    // overflow:visible like the horizontal version — otherwise the end ticks
+    // (stroke-width 1.5) at y=0 / y=totalH get half-clipped at the SVG edge.
     svg.style.cssText = "position:absolute;left:0;top:0;display:block;overflow:visible;";
 
     const line = document.createElementNS(ns, "line");
@@ -355,18 +355,18 @@ export function makeVerticalDim(rem, topPx, heightPx, mode, colors, labelAlign) 
 
     const lbl = document.createElement("span");
     const vLblBase = `background-color:${labelBg};padding:1px 0.5rem;color:${labelColor};${LBL_BASE}`;
-    // "center": Label mittig um die Linie (Standard, z.B. News-Boxen — die Linie
-    // selbst hängt außerhalb der Box, da spielt die Label-Außenkante keine Rolle).
-    // "leftOutside": Label linksbündig an der Wrapper-Kante (linke Außenkante
-    // bei x=0, fluchtet z.B. mit der Logo-Kante), die Linie steht rechts davon.
+    // "center": label centered on the line (default — e.g. news boxes, where the
+    // line sits outside the box so the label's outer edge doesn't matter).
+    // "leftOutside": label flush left at the wrapper edge (x=0, e.g. aligned
+    // with the logo edge), line sits to the right of it.
     const lblOffsetX =
         labelAlign === "leftOutside"
             ? LABEL_BOX_H / 2
             : cx - (LABEL_BOX_H / 2 + 6);
 
-    // Passt das rotierte Label nicht zwischen die Maßhilfslinien (zu geringe
-    // Höhe, DIN-406-Kompaktfall), sitzt es über der oberen Pfeilspitze statt
-    // mittig auf der (zu kurzen) Linie.
+    // if the rotated label doesn't fit between the extension lines (height too
+    // small, DIN 406 compact case), put it above the upper arrowhead instead
+    // of centering it on a line that's too short
     if (mode === "compactLeft" && !labelFitsOnLine(heightPx, rem)) {
         lbl.style.cssText =
             `position:absolute;left:${lblOffsetX}px;top:${y1 - aw - over}px;` +

@@ -1,7 +1,8 @@
-// Technische Bemaßung (DIN 406) für jede News-Box. Wie beim Banner sitzt die
-// Bemaßung an einem fit-content-Wrapper (.cb-news-measure) um Titel + Teaser:
-// er ist automatisch exakt so breit/hoch wie der Text. JS misst nur dessen
-// offset-Maße und hängt die SVG-Linien an — siehe banner/assets/frontend.js.
+// Technical dimensioning (DIN 406) for each news box. Same as the banner:
+// dimensioning attaches to a fit-content wrapper (.cb-news-measure) around
+// title + teaser, so it's automatically exactly as wide/tall as the text. JS
+// just measures the offset dimensions and appends the SVG lines — see
+// banner/assets/frontend.js.
 
 import { makeDim, makeVerticalDim, pxToRem, getDimColors, inkBounds } from "./dimension.js";
 
@@ -11,14 +12,14 @@ function dimensionItem(item) {
 
     measure.querySelectorAll(":scope > .cb-news-item__dim").forEach((el) => el.remove());
 
-    // Der eingerückte Platz für die vertikale Bemaßung liegt als padding-left
-    // an der content-col (rückt den ganzen Textblock ein); mobil ist er 0.
+    // Space for the vertical dimensioning is padding-left on content-col
+    // (indents the whole text block); 0 on mobile.
     const col = item.querySelector(".cb-news-item__content-col");
     const padLeft = col ? parseFloat(getComputedStyle(col).paddingLeft) || 0 : 0;
     const marginBottom = parseFloat(getComputedStyle(measure).marginBottom) || 0;
 
-    // Echte Glyphenkanten (links/rechts/oben/unten) statt der Element-Box: die
-    // Zeilen-Box ist durch line-height höher als der sichtbare Text.
+    // Use real glyph edges (left/right/top/bottom), not the element box —
+    // line-height makes the line box taller than the visible text.
     const box = measure.getBoundingClientRect();
     const ink = inkBounds(measure);
     if (!ink) return;
@@ -30,7 +31,7 @@ function dimensionItem(item) {
 
     const colors = getDimColors(measure);
 
-    // ── horizontal (Breite) — Linie exakt von linker bis rechter Textkante ────
+    // ── horizontal (width) — line exactly from left to right text edge ───────
     const hDim = makeDim(pxToRem(width).toFixed(2), width, colors);
     hDim.classList.add("cb-news-item__dim");
     hDim.style.left = left + "px";
@@ -38,10 +39,9 @@ function dimensionItem(item) {
     hDim.style.top = top + height + marginBottom / 2 + "px";
     measure.appendChild(hDim);
 
-    // ── vertikal (Höhe) — Linie links neben dem Textblock ─────────────────────
-    // content-col reserviert links padding-left; die Linie sitzt an dessen Kante
-    // (= -padLeft relativ zum eingerückten measure). Mobil ist padLeft 0 → keine
-    // vertikale Bemaßung.
+    // ── vertical (height) — line to the left of the text block ───────────────
+    // content-col reserves padding-left, line sits at its edge (= -padLeft
+    // relative to the indented measure). padLeft is 0 on mobile → no vertical line.
     if (padLeft > 0) {
         const vDim = makeVerticalDim(
             pxToRem(height).toFixed(2),

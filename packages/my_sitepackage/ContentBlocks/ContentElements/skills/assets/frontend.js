@@ -1,6 +1,6 @@
-// Technische Bemaßung (DIN 406) für jede Skill-Kategorie-Gruppe. Wie bei Banner
-// und News sitzt die Bemaßung an einem fit-content-Wrapper (.cb-skills-measure)
-// um Titel + Chips. JS misst dessen offset-Maße und hängt die SVG-Linien an.
+// DIN 406 dimension lines for each skill category group. Same approach as
+// banner/news list: attaches to a fit-content wrapper (.cb-skills-measure)
+// around title + chips, JS measures it and appends the SVG lines.
 
 import {
     makeDim,
@@ -19,9 +19,8 @@ function dimensionGroup(group) {
     const padLeft = parseFloat(getComputedStyle(group).paddingLeft) || 0;
     const marginBottom = parseFloat(getComputedStyle(measure).marginBottom) || 0;
 
-    // Oben: echte Glyphenkante des Gruppentitels (die Zeilen-Box ist durch
-    // line-height höher). Unten/seitlich: die Chip-Boxen (Pill-Rahmen) sind der
-    // visuelle Bezug, nicht deren Text.
+    // Top: real glyph edge of the title, not the line box (line-height inflates it).
+    // Bottom/sides: chip pill borders, not the chip text.
     const box = measure.getBoundingClientRect();
     const title = measure.querySelector(".cb-skills-group__title");
     const chips = measure.querySelectorAll(".cb-skill-chip");
@@ -39,7 +38,7 @@ function dimensionGroup(group) {
         if (r.right > rightAbs) rightAbs = r.right;
         if (r.bottom > bottomAbs) bottomAbs = r.bottom;
     });
-    // Der Titel kann breiter sein als die Chip-Reihen.
+    // title can stick out wider than the chip rows
     if (titleInk) {
         if (titleInk.left < leftAbs) leftAbs = titleInk.left;
         if (titleInk.right > rightAbs) rightAbs = titleInk.right;
@@ -53,7 +52,7 @@ function dimensionGroup(group) {
 
     const colors = getDimColors(measure);
 
-    // ── horizontal (Breite) — Linie mittig unter der Gruppe ───────────────────
+    // ── horizontal (width): line centered below the group ──────────────────────
     const hDim = makeDim(pxToRem(width).toFixed(2), width, colors);
     hDim.classList.add("cb-skills-dim");
     hDim.style.left = left + "px";
@@ -61,7 +60,7 @@ function dimensionGroup(group) {
     hDim.style.top = top + height + marginBottom / 2 + "px";
     measure.appendChild(hDim);
 
-    // ── vertikal (Höhe) — Label links, Linie rechts (immer Standard) ──────────
+    // ── vertical (height): label left, line right (always standard mode) ───────
     if (padLeft > 0) {
         const vDim = makeVerticalDim(pxToRem(height).toFixed(2), top, height, "standard", colors, "leftOutside");
         vDim.classList.add("cb-skills-dim");

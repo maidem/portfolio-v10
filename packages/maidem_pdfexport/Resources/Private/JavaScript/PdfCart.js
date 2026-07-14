@@ -12,8 +12,8 @@
 const STORAGE_KEY = "maidem_pdf_cart";
 
 // ── Cart state helpers ───────────────────────────────────────────────────────
-// Cart entries: { id: "news_5", label: "Artikel-Titel" }
-// (legacy entries were plain strings — migrated on read)
+// entries: { id: "news_5", label: "Article title" }
+// old entries were plain strings, migrate on read
 
 function getCart() {
     try {
@@ -39,7 +39,7 @@ function removeFromCart(sectionId) {
     setCart(getCart().filter((e) => e.id !== sectionId));
 }
 
-/** Move dragId to the position of targetId (reorder). */
+/** move dragId to targetId's position */
 function reorderCart(dragId, targetId) {
     if (dragId === targetId) return;
     const cart = getCart();
@@ -51,7 +51,7 @@ function reorderCart(dragId, targetId) {
     setCart(cart);
 }
 
-/** Toggle sectionId in cart; returns true if added, false if removed. */
+/** toggle sectionId, returns true if added */
 function toggleInCart(sectionId, label) {
     if (isInCart(sectionId)) {
         removeFromCart(sectionId);
@@ -75,7 +75,7 @@ let fabEl = null;
 let panelOpen = false;
 let autoCloseTimer = null;
 
-/** Human-readable fallback names for well-known section ids. */
+/** fallback labels for known section ids */
 const SECTION_LABELS = {
     info: "Profil & Vitals",
     story: "My Story",
@@ -86,7 +86,7 @@ function labelFor(entry) {
     return SECTION_LABELS[entry.id] || entry.label || entry.id;
 }
 
-/** Direct PDF download form (pageType 1711 expects POSTed sections[]). */
+/** pageType 1711 expects sections[] as POST data */
 function pdfDownloadForm(cart) {
     const inputs = cart
         .map(
@@ -99,6 +99,24 @@ function pdfDownloadForm(cart) {
             ${inputs}
             <button type="submit" class="cb-pdf-panel__cta">PDF-Dossier herunterladen</button>
         </form>`;
+}
+
+/** fetch instead of normal submit, so no new tab opens */
+async function submitPdfForm(form) {
+    const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+    });
+    if (!response.ok) throw new Error("PDF generation failed");
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "Maik_Demuth_Portfolio_Export.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
 }
 
 function escapeHtml(str) {
@@ -131,7 +149,7 @@ function buildPanel() {
         if (btn) removeFromCart(btn.dataset.pdfRemove);
     });
 
-    // Native drag & drop reordering
+    // drag & drop reordering (native)
     let dragId = null;
     let touchDragId = null;
     panelEl.addEventListener("dragstart", (e) => {
@@ -160,9 +178,9 @@ function buildPanel() {
             ?.classList.remove("cb-pdf-panel__item--dragging");
     });
 
-    // Touch fallback: drag by the handle via pointer events
+    // touch devices don't get native DnD, so drag via the handle with pointer events
     panelEl.addEventListener("pointerdown", (e) => {
-        if (e.pointerType === "mouse") return; // mouse uses native DnD
+        if (e.pointerType === "mouse") return; // mouse already handled by native DnD above
         const handle = e.target.closest(".cb-pdf-panel__drag");
         if (!handle) return;
         const li = handle.closest("[data-pdf-id]");
@@ -233,6 +251,31 @@ function renderPanel() {
     panelEl
         .querySelector(".cb-pdf-panel__close")
         .addEventListener("click", () => togglePanel(false));
+    panelEl.querySelector(".cb-pdf-panel__form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        togglePanel(false);
+        showExportToast();
+        submitPdfForm(e.target)
+            .catch(() => showExportToast("Die PDF-Erstellung ist fehlgeschlagen. Bitte versuche es erneut."))
+            .finally(() => setCart([]));
+    });
+}
+
+/** same look as the contact form's .cb-toast */
+function showExportToast(
+    message = "Dein PDF-Dossier wird erstellt und heruntergeladen.",
+) {
+    const toast = document.createElement("div");
+    toast.className = "cb-pdf-toast";
+    toast.setAttribute("role", "status");
+    toast.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' +
+        message;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add("cb-pdf-toast--hide");
+        setTimeout(() => toast.remove(), 400);
+    }, 4000);
 }
 
 function togglePanel(open = !panelOpen) {
@@ -242,10 +285,10 @@ function togglePanel(open = !panelOpen) {
     fabEl.setAttribute("aria-expanded", String(open));
 }
 
-/** Feedback on add: open the panel briefly, then auto-close. */
+/** open panel briefly as feedback, then auto-close */
 function flashPanel() {
     togglePanel(true);
-    autoCloseTimer = setTimeout(() => togglePanel(false), 3000);
+    autoCloseTimer = setTimeout(() => togglePanel(false), 6000);
 }
 
 // ── "Add to PDF" buttons ─────────────────────────────────────────────────────
@@ -266,7 +309,7 @@ function updateAllAddButtons() {
 }
 
 // ── Group buttons ("add whole section") ──────────────────────────────────────
-// Collects all [data-pdf-item] elements inside the closest [data-pdf-group-scope].
+// grabs all [data-pdf-item] elements inside the closest [data-pdf-group-scope]
 
 function groupItemsFor(btn) {
     const scope = btn.closest("[data-pdf-group-scope]") || document;

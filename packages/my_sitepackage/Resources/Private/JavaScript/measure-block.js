@@ -1,49 +1,49 @@
-// Generische technische Bemaßung (DIN 406) für beliebige Blöcke. Wie bei
-// Banner/News/Skills sitzt die Bemaßung an einem fit-content-Wrapper mit der
-// Klasse .js-measure; JS misst dessen offset-Maße und hängt die SVG-Linien an.
+// Generic technical dimensioning (DIN 406) for arbitrary blocks. Same idea as
+// banner/news/skills: attach to a fit-content wrapper (.js-measure), measure
+// its offset dimensions, append the SVG lines.
 //
-// CSS-Konvention (siehe Main.entry.scss):
-//   .js-measure          → position:relative; width:fit-content; margin-bottom (Platz H-Linie)
-//   Elternelement        → padding-left (Platz vertikale Linie); mobil 0 → keine vertikale
+// CSS convention (see Main.entry.scss):
+//   .js-measure     → position:relative; width:fit-content; margin-bottom (space for H line)
+//   parent element  → padding-left (space for vertical line); 0 on mobile → no vertical line
 //
-// data-measure-h="edges" misst die echte linke/rechte Textkante statt clientWidth
-// (für umbrechenden Fließtext, wo fit-content zu breit bleibt).
+// data-measure-h="edges": use the real left/right text edge instead of
+// clientWidth — needed for wrapping text, where fit-content stays too wide.
 
 import { makeDim, makeVerticalDim, pxToRem, getDimColors, inkBounds } from "./dimension.js";
 
 function dimensionMeasure(measure) {
     measure.querySelectorAll(":scope > .js-measure-dim").forEach((el) => el.remove());
 
-    // Opt-in per CSS: nur zeichnen, wenn --measure: on gesetzt ist. So kann ein
-    // :has()-Kontext (z.B. section-header nur im Kontakt) die Bemaßung steuern,
-    // ohne die Klasse im Template kontextabhängig setzen zu müssen.
+    // Opt-in via CSS: only draw when --measure: on is set. Lets a :has()
+    // context (e.g. section-header only in the contact section) control this
+    // without conditional classes in the template.
     if (getComputedStyle(measure).getPropertyValue("--measure").trim() !== "on")
         return;
 
-    // Platz für die vertikale Linie liegt als padding-left am Elternelement
-    // (rückt den Inhalt ein); mobil 0 → keine vertikale Bemaßung.
+    // Space for the vertical line = padding-left on the parent (indents the
+    // content); 0 on mobile → no vertical dimensioning.
     const parent = measure.parentElement;
     const padLeft = parent ? parseFloat(getComputedStyle(parent).paddingLeft) || 0 : 0;
     const marginBottom = parseFloat(getComputedStyle(measure).marginBottom) || 0;
 
-    // Vertikaler Messbereich relativ zur Wrapper-Oberkante. Standard: ganzer
-    // Wrapper. data-measure-from/-until="<selector>" grenzen ihn auf die Ober-
-    // kante des einen bis zur Unterkante des anderen Elements ein (z.B. Formular
-    // vom ersten Feld bis zur Checkbox, ohne padding-top/Captcha/Button).
-    // Absolut positionierte Dim-Kinder (top:0) hängen an der Border-Box-Oberkante
-    // des Wrappers, also ist das der Nullpunkt für den vertikalen Messbereich.
+    // Vertical measuring range relative to the wrapper's top edge. Default is
+    // the whole wrapper. data-measure-from/-until="<selector>" restricts it
+    // from one element's top edge to another's bottom edge (e.g. form: from
+    // the first field to the checkbox, skipping padding-top/captcha/button).
+    // Origin is the wrapper's border-box top edge since dim children are
+    // absolutely positioned (top:0) against it.
     const originTop = measure.getBoundingClientRect().top;
     let top = 0;
     let bottom = measure.clientHeight;
     const fromEl = measure.dataset.measureFrom && measure.querySelector(measure.dataset.measureFrom);
     const untilEl = measure.dataset.measureUntil && measure.querySelector(measure.dataset.measureUntil);
 
-    // Für Text: an der echten Ink-Kante ausrichten, nicht an der Zeilen-Box (die
-    // durch line-height höher ist als die Glyphen) — CSS text-box-trim greift
-    // nur auf direkte Kinder, nicht auf verschachtelten Text.
-    // data-measure-v="box": Element-Boxen nutzen — für Formulare, wo der
-    // visuelle Bezug der Feldrahmen bzw. das Checkbox-Kästchen ist, nicht der
-    // (schwebende) Label-Text.
+    // For text: align to the real ink edge, not the line box — line-height
+    // makes the box taller than the glyphs, and text-box-trim only works on
+    // direct children, not nested text.
+    // data-measure-v="box": use element boxes instead — needed for forms,
+    // where the visual reference is the field border or checkbox, not the
+    // (floating) label text.
     const useBox = measure.dataset.measureV === "box";
     const topEl = fromEl || measure;
     const bottomEl = untilEl || measure;
@@ -58,7 +58,7 @@ function dimensionMeasure(measure) {
 
     const colors = getDimColors(measure);
 
-    // ── horizontal (Breite) — Linie unter dem Block, Label mittig ─────────────
+    // ── horizontal (width) — line below the block, label centered ────────────
     let left, width;
     if (measure.dataset.measureH === "edges") {
         const bounds = inkBounds(measure);
@@ -72,10 +72,10 @@ function dimensionMeasure(measure) {
     }
     if (width < 1) return;
 
-    // Die H-Linie liegt normalerweise unter dem gemessenen Bereich. Mit
-    // data-measure-hbelow="<selector>" rutscht sie unter die Unterkante dieses
-    // Elements — z.B. beim Formular unter den ganzen Checkbox-Block, wenn dessen
-    // Text mehrzeilig unter das (bemasste) Kästchen läuft.
+    // H line normally sits below the measured range. data-measure-hbelow=
+    // "<selector>" moves it below that element's bottom edge instead — e.g.
+    // below the whole checkbox block in a form when its text wraps across
+    // multiple lines.
     let hBase = bottom;
     const hBelowEl =
         measure.dataset.measureHbelow && measure.querySelector(measure.dataset.measureHbelow);
@@ -93,10 +93,10 @@ function dimensionMeasure(measure) {
     hDim.style.top = hBase + marginBottom / 2 + "px";
     measure.appendChild(hDim);
 
-    // ── vertikal (Höhe) — Label links an der eingerückten Kante, Linie rechts ──
+    // ── vertical (height) — label at the indented edge, line on the right ────
     if (padLeft > 0) {
-        // makeVerticalDim setzt die vertikale Position selbst aus dem topPx-Offset
-        // (top:topPx-pad); style.top NICHT überschreiben, sonst geht er verloren.
+        // makeVerticalDim already sets the vertical position from topPx
+        // (top:topPx-pad) — don't overwrite style.top here, it'd wipe that out.
         const vDim = makeVerticalDim(pxToRem(height).toFixed(2), top, height, "standard", colors, "leftOutside");
         vDim.classList.add("js-measure-dim");
         vDim.style.left = -padLeft + "px";
@@ -120,13 +120,20 @@ function init() {
         });
     };
 
-    // Jeden Wrapper selbst beobachten: Höhenänderungen im Block (z.B. FAQ-
-    // <details> klappt auf) triggern die Neuvermessung direkt — der Body-
-    // Observer allein greift nicht zuverlässig.
+    // Observe each wrapper individually too — height changes within a block
+    // (e.g. a FAQ <details> expanding) need to trigger re-measurement right
+    // away, the body observer alone isn't reliable enough for that.
     const ro = new ResizeObserver(scheduleUpdate);
     ro.observe(document.body);
     document.querySelectorAll(".js-measure").forEach((m) => ro.observe(m));
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(dimensionAll);
+
+    // picks up .js-measure blocks swapped in later (e.g. contact-form.js
+    // replacing .cb-form-wrap after an ajax submit)
+    new MutationObserver(() => {
+        document.querySelectorAll(".js-measure").forEach((m) => ro.observe(m));
+        scheduleUpdate();
+    }).observe(document.body, { childList: true, subtree: true });
 }
 
 if (document.readyState === "loading") {

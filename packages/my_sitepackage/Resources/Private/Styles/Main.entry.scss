@@ -1,7 +1,7 @@
 @use "design-system" as *;
 @use "nav";
 
-// ─── CSS Custom Properties ────────────────────────────────────────────────────
+// ─── CSS custom properties ─────────────────────────────────────────────────────
 :root {
   --color-banner-label-bg: #{$brand-teal};
   --color-banner-label-text: #ffffff;
@@ -55,7 +55,7 @@ body {
   }
 }
 
-// ─── Section scroll offset (sticky nav height = $unit * 9 = 4.5rem) ──────────
+// ─── Section scroll offset (sticky nav height = $unit * 9 = 4.5rem) ────────────
 [id] {
   scroll-margin-top: $unit * 9;
 }
@@ -94,7 +94,7 @@ main {
   margin-bottom: 0;
 }
 
-// ─── Vertikaler Rhythmus: Luft zwischen den Sections ──────────────────────────
+// ─── Vertical rhythm: spacing between sections ──────────────────────────────────
 main > *,
 main > .frame.frame-default {
   margin-bottom: clamp(5rem, 12vh, 9rem);
@@ -104,9 +104,8 @@ main > .frame.frame-default {
   }
 }
 
-// section-header gehört inhaltlich zum direkt folgenden Element (z. B. dem
-// Kontakt-Container) und braucht daher nur 8er-Raster-Abstand statt des
-// vollen Section-Abstands.
+// section-header belongs to the element right after it, so it only needs the
+// 8px-grid gap instead of the full section spacing.
 main > .cb-section-header {
   margin-bottom: $unit * 4; // 32px
 }
@@ -117,7 +116,7 @@ main > .cb-section-header {
   padding-top: 0;
 }
 
-// Kind-Elemente im Kontakt-Split brauchen keinen Section-Abstand
+// Child elements inside the contact split need no section spacing
 .cb-contact-split .frame {
   margin-bottom: 0;
 }
@@ -140,8 +139,6 @@ main > .cb-section-header {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  // Above $z-base (main) so it stays visible over section-level stacking
-  // contexts, e.g. the banner's tinted background layer.
   z-index: $z-perspective-grid;
   overflow: hidden;
   -webkit-mask-image:
@@ -169,9 +166,7 @@ main,
 header,
 footer {
   position: relative;
-  // Unter dem Perspektiv-Grid, damit die Linien über der grauen Banner-Fläche
-  // sichtbar bleiben. Das Grid hat pointer-events: none und blendet nach unten
-  // aus — Klickbarkeit und Lesbarkeit der Inhalte sind nicht betroffen.
+  // Below the perspective grid, otherwise its lines disappear behind the banner background.
   z-index: $z-base;
 }
 
@@ -215,7 +210,6 @@ main > section:first-of-type {
     margin-bottom: 0;
   }
 
-  // Section heading — matches the news frame h2 (same font, size, spacing)
   &__label-bar {
     background-color: transparent;
     border-bottom: none;
@@ -357,9 +351,28 @@ h4, h5, h6 {
       color: $text-primary;
     }
   }
+
+  &__made {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: $font-mono;
+    font-size: 0.6875rem;
+    font-weight: $fw-bold;
+    text-transform: uppercase;
+    letter-spacing: $ls-wide;
+    color: $text-muted;
+  }
+
+  &__heart {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #ed1e25;
+  }
 }
 
-// ─── Dialog (replaces Bootstrap Modal) ───────────────────────────────────────
+// ─── Dialog ──────────────────────────────────────────────────────────────────
 .cb-dialog {
   border: none;
   border-radius: $radius-modal;
@@ -470,13 +483,12 @@ h4, h5, h6 {
   @include container;
 }
 
-// ─── CSS-first Bemaßung (measure-block.js) ────────────────────────────────────
-// Geteilte Wrapper-Basis; die Formular-Variante liegt in Form.entry.scss.
-// fit-content + Reserve unten für die horizontale Maßlinie. Das Opt-in
-// (--measure: on) und die vertikale Reserve (padding-left am Elternelement)
-// werden je Kontext gesetzt.
-// Kein text-box-trim hier: measure-block.js misst die echten Glyphenkanten
-// (inkBounds) — trim würde die Box verschieben und die Range-Messung verfälschen.
+// ─── CSS-first dimension lines (measure-block.js) ───────────────────────────────
+// Shared wrapper base; form variant lives in Form.entry.scss.
+// fit-content plus bottom reserve for the horizontal dimension line. Opt-in
+// (--measure: on) and left reserve for the vertical line are set per context.
+// No text-box-trim: measure-block.js reads the actual glyph edges (inkBounds),
+// trim would shift the box and mess up that measurement.
 .cb-section-header__measure,
 .cb-contact-info__measure,
 .cb-news-detail__measure,
@@ -494,12 +506,10 @@ h4, h5, h6 {
   }
 }
 
-// Gemeinsame Einrück-Reserve links für die vertikale Bemaßung; mobil kein Platz.
-// ponytail: mobil auf den Container-Rand zurücksetzen statt hart auf 0.
-// .cb-section-header ist selbst ein .container und verlor durch das alte
-// padding-left:0 seinen linken 1.25rem-Rand — die Kontakt-Überschrift klebte am
-// Displayrand, während der Block darunter (kein Container) eingerückt blieb.
-// Nicht-Container haben die Variable nicht und landen über den Default bei 0.
+// Shared left indent reserved for the vertical dimension line; none on mobile.
+// Falls back to the container edge on mobile instead of a hard 0, since
+// .cb-section-header is itself a .container. Non-container elements don't
+// set the variable and just get the 0 default.
 %measure-indent {
   padding-left: 3rem;
 
@@ -508,51 +518,68 @@ h4, h5, h6 {
   }
 }
 
-// PDF-Dossier-Buttons der Sektionen fluchten mit Überschrift und Inhalt darüber.
+// PDF export buttons: consistent visible gap to whatever comes before them
+// (dimension line or button). margin-top is tuned per section since each has
+// a different predecessor/spacing.
 .cb-news-list__pdf-action,
 .cb-skills__pdf-action {
   @extend %measure-indent;
-  flex: 1 1 100%; // immer volle Breite, unabhängig von Spaltenzahl darüber
+  flex: 1 1 100%; // always full width regardless of column count above
 }
-// Einheitlicher sichtbarer Button-Abstand aller Sektionen: 84px (5.25rem).
-// News: 96px aus dem 72px-Flex-Gap + Kartenreserve → 12px zurücknehmen.
-// Skills: nur 33px Grundabstand unter der Karte → 51px ergänzen.
 .cb-news-list__pdf-action {
-  margin-top: -0.75rem;
+  margin-top: -1.875rem;
 }
 .cb-skills__pdf-action {
-  // padding statt margin (margin würde mit der Skills-Karte kollabieren).
-  // Sichtbar zählt die unterste Maßlinie: 33px Grundabstand + 48px
-  // padding-bottom des card__body + 3px = 84px wie alle anderen Buttons.
-  padding-top: 0.1875rem;
+  margin-top: 2.875rem;
+}
+// Card above isn't :last-child here (button still follows) — kill its own
+// bottom spacing so only the margin-top above counts.
+.cb-skills-unified-card {
+  margin-bottom: 0;
+
+  .cb-card__body {
+    padding-bottom: 0;
+  }
+}
+.cb-faq-simple__pdf-action {
+  margin-top: 3.875rem;
+}
+.cb-banner__pdf-action {
+  margin-top: 2.625rem;
 }
 
-// contact-info: immer bemaßt (Name … Telefon). Elternelement (.cb-contact-info)
-// rückt den Block für die vertikale Linie ein.
+// Contact info: always dimensioned (name … phone). Parent element opts the
+// block in for the vertical line.
 .cb-contact-info {
   @extend %measure-indent;
+  // Nested inside .cb-form-section (a .container) which would otherwise
+  // inherit --measure-indent-mobile: 1.25rem and draw a bogus mobile line.
+  --measure-indent-mobile: 0;
 
-  // Abstand des PDF-Buttons: 2.5rem unter der Maßlinien-Reserve (2.75rem
-  // margin-bottom des __measure) — hier kollabieren die Margins nicht,
-  // daher NUR die 2.5rem. Gleicher Gesamtabstand (5.25rem) wie beim FAQ-Button.
+  // PDF button gap tuned to match the same visible gap as News/Skills/FAQ
+  // (~42px to the last dimension line).
   > .cb-pdf-add-btn {
-    margin-top: 2.5rem;
+    margin-top: 2.125rem;
   }
 }
 .cb-contact-info__measure {
   --measure: on;
 }
 
-// section-header: NUR beim Kontakt (direkt vor dem ContactSplit-Frame).
+// section-header: only for contact (directly before the ContactSplit frame).
 .cb-section-header:has(+ .frame-type-maidem_contactsplit) {
   @extend %measure-indent;
+  // .cb-section-header is itself a .container and sets
+  // --measure-indent-mobile: 1.25rem globally — reset to 0 here, otherwise
+  // measure-block.js draws a bogus vertical line on mobile (padLeft > 0).
+  --measure-indent-mobile: 0;
 
   .cb-section-header__measure {
     --measure: on;
   }
 }
 
-// News-Detail: Header (Titel + Teaser) und Artikel-Body je eigene Bemaßung.
+// News detail: header (title + teaser) and article body each get their own dimensioning.
 .cb-news-detail__header,
 .cb-news-detail__content {
   @extend %measure-indent;
@@ -563,7 +590,7 @@ h4, h5, h6 {
   --measure: on;
 }
 
-// Hero (Impressum/Datenschutz): Überschrift + Fließtext.
+// Hero (imprint/privacy): heading + body text.
 .cb-hero__content {
   @extend %measure-indent;
 }
@@ -571,25 +598,20 @@ h4, h5, h6 {
   --measure: on;
 }
 
-// FAQ: Überschrift, Intro und die ganze Liste (inkl. aufgeklappter Antwort) in
-// einem Wrapper bemaßt — die vertikale Linie wächst beim Aufklappen mit
-// (ResizeObserver auf document.body in measure-block.js).
+// FAQ: heading, intro, and the whole list (including an expanded answer) are
+// dimensioned as one wrapper — the vertical line grows with the expansion
+// (ResizeObserver on document.body in measure-block.js).
 .cb-faq-simple {
   @extend %measure-indent;
-  // Der Container-Rand kommt mobil schon vom .container-Elternelement —
-  // die geerbte Variable würde ihn sonst links verdoppeln.
+  // Container edge already comes from the .container parent on mobile —
+  // the inherited variable would double it up on the left otherwise.
   --measure-indent-mobile: 0;
 }
 .cb-faq-simple__measure {
   --measure: on;
 }
-// Button erbt die Einrückung vom Elternelement (.cb-faq-simple); Abstand wie
-// beim Kontakt-Button: 2.75rem Maßlinien-Reserve + 2.5rem extra. Das calc ist
-// nötig, weil das margin-top mit dem margin-bottom des __measure kollabiert.
-.cb-faq-simple__pdf-action {
-  margin-top: calc(2.75rem + 2.5rem);
-}
-// Volle Breite, damit die Ink-Messung (edges) die ganze Liste erfassen kann.
+// Spacing comes from the generic rule above (5.25rem margin-top). Full width
+// so the ink measurement (edges) covers the whole list.
 .cb-faq-simple__measure {
   width: 100%;
 }
@@ -617,7 +639,7 @@ h4, h5, h6 {
   }
 }
 
-// ─── Section containers (replaces .container per context) ────────────────────
+// ─── Section containers ──────────────────────────────────────────────────────
 .cb-section-hero__container,
 .cb-section-projects__container,
 .cb-section-skills__container,
@@ -626,7 +648,7 @@ h4, h5, h6 {
   @include container;
 }
 
-// ─── Sektionen bündig mit dem Logo (Container-Außenkante ab 1200px) ───────────
+// ─── Sections flush with the logo (container edge from 1200px) ─────────────────
 .cb-news-list,
 .cb-news-filter-bar,
 .cb-section-hero__container,
@@ -640,7 +662,7 @@ h4, h5, h6 {
   }
 }
 
-// Section-Überschrift des News-Frames: bündig mit dem Logo, 8px-Raster
+// News frame section heading: flush with the logo, 8px grid
 [class*="frame-type-news"] > header {
   width: 100%;
   max-width: 1200px;
@@ -661,9 +683,9 @@ h4, h5, h6 {
     font-weight: $fw-bold;
     line-height: 1.25;
     color: $text-primary;
-    margin: 0 0 2rem; // 32px unter der Überschrift
-    // Fluchtet mit dem Inhalt darunter, der für die vertikale Bemaßung
-    // eingerückt ist (siehe %measure-indent). Mobil keine Einrückung.
+    margin: 0 0 2rem; // 32px below the heading
+    // Aligns with the content below, which is indented for the vertical
+    // dimension line (see %measure-indent). No indent on mobile.
     padding-left: 3rem;
 
     @media (max-width: 767.98px) {
@@ -682,7 +704,7 @@ h4, h5, h6 {
   font-weight: $fw-bold;
   line-height: 1.25;
   color: $text-primary;
-  margin: 0 0 1rem; // 16px unter der Überschrift
+  margin: 0 0 1rem; // 16px below the heading
 
   &::after {
     content: "";
@@ -792,13 +814,13 @@ h4, h5, h6 {
   }
 }
 
-// ─── News: List (flexbox, 2 Projekte nebeneinander, 8px-Raster) ───────────────
+// ─── News: List (flexbox, 2 items side by side, 8px grid) ──────────────────────
 .cb-news-list .cb-card__body {
   display: flex;
   flex-wrap: wrap;
   column-gap: 2rem; // 32px
-  row-gap: 4.5rem; // Platz für die horizontale Bemaßungslinie unter jedem Item
-  padding: 0 0 2.25rem; // Platz für die horizontale Bemaßungslinie unter der letzten Reihe
+  row-gap: 4.5rem; // room for the horizontal dimension line under each item
+  padding: 0;
 
   > .cb-news-empty {
     flex: 1 1 100%;
@@ -808,9 +830,9 @@ h4, h5, h6 {
 // ─── News: List item ──────────────────────────────────────────────────────────
 .cb-news-item {
   position: relative;
-  display: flex; // stretcht die Row auf gleiche Höhe (align-items: stretch im Wrapper)
+  display: flex; // stretches the row to equal height (align-items: stretch on the wrapper)
   flex: 1 1 100%;
-  min-width: 0; // verhindert Overflow durch lange Titel/Teaser im Flex-Layout
+  min-width: 0; // prevents overflow from long titles/teasers in the flex layout
 
   @include above($bp-md) {
     flex: 0 0 calc(50% - 1rem); // 2-up, half the 32px gap
@@ -829,9 +851,9 @@ h4, h5, h6 {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    // Platz links für die vertikale Bemaßung – rückt den ganzen Textblock
-    // (Kategorie, Titel, Teaser, Weiterlesen) einheitlich ein, sodass alles
-    // fluchtet. 3rem = gleicher Linie↔Text-Abstand wie beim Banner.
+    // Left space for the vertical dimension line — indents the whole text
+    // block (category, title, teaser, read-more) so it all lines up. 3rem
+    // matches the line-to-text gap the banner uses.
     padding-left: 3rem;
 
     @include below($bp-md) {
@@ -844,7 +866,7 @@ h4, h5, h6 {
     align-items: center;
     gap: 0.75rem;
     flex-wrap: wrap;
-    margin-top: auto; // Weiterlesen-Link bündig am unteren Rand beider Karten
+    margin-top: auto; // aligns the read-more link to the bottom of both cards
   }
 }
 
@@ -871,24 +893,24 @@ h4, h5, h6 {
   margin-bottom: 0.5rem;
 }
 
-// ─── News: CSS-first Bemaßung ─────────────────────────────────────────────────
-// fit-content-Wrapper um Titel + Teaser (analog Banner .cb-portfolio-measure):
-// automatisch exakt so breit/hoch wie der Text. JS liest nur clientWidth/Height
-// und hängt die SVG-Maßlinien an (siehe news-dimension.js).
+// ─── News: CSS-first dimension lines ────────────────────────────────────────────
+// fit-content wrapper around title + teaser (mirrors the banner's
+// .cb-portfolio-measure): automatically as wide/tall as the text. JS just
+// reads clientWidth/Height and attaches the SVG dimension lines (see news-dimension.js).
 .cb-news-measure {
   position: relative;
   width: fit-content;
   max-width: 100%;
-  align-self: flex-start; // nicht auf die Flex-Spaltenbreite strecken → fit-content greift
-  // Abstand nach unten für die horizontale Maßlinie (schiebt »Weiterlesen« weg,
-  // die Linie sitzt mittig in diesem Zwischenraum – gesetzt per JS).
+  align-self: flex-start; // don't stretch to the flex column width, so fit-content applies
+  // Bottom space for the horizontal dimension line (pushes "read more" down;
+  // line itself sits centered in this gap, positioned via JS).
   margin-bottom: 2.75rem;
 
-  // Kein text-box-trim: news-dimension.js misst die echten Glyphenkanten
-  // (inkBounds) — trim würde die Box verschieben und die Messung verfälschen.
+  // No text-box-trim: news-dimension.js reads the actual glyph edges
+  // (inkBounds) — trim would shift the box and mess up the measurement.
 
-  // Titel/Teaser innerhalb des Wrappers ohne den zusätzlichen unteren Abstand,
-  // damit die gemessene Höhe exakt am letzten Textrand endet.
+  // Title/teaser skip the extra bottom margin so the measured height ends
+  // exactly at the last text edge.
   > :last-child {
     margin-bottom: 0;
   }
@@ -911,7 +933,7 @@ h4, h5, h6 {
   }
 }
 
-// ponytail: replaces Bootstrap's .stretched-link — parent must be position:relative
+// Parent must be position: relative for this to work
 .cb-stretched-link {
   @include stretched-link;
 }
@@ -962,7 +984,7 @@ h4, h5, h6 {
 
 .cb-img-fluid {
   @include img-fluid;
-  display: block; // sonst Baseline-Lücke unterhalb (inline-Default) → verfälscht js-measure-Höhe
+  display: block; // otherwise a baseline gap below (inline default) throws off js-measure height
   border-radius: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.12);
   margin-bottom: 0.75rem;
@@ -1051,7 +1073,7 @@ h4, h5, h6 {
   }
 }
 
-// Überschriften im Artikeltext: keine Link-Blaufärbung (TOC-Anker)
+// Headings in article body: no link-blue coloring (TOC anchors)
 .cb-news-article-body {
   h1,
   h2,
@@ -1067,15 +1089,15 @@ h4, h5, h6 {
     }
   }
 
-  // Leere Absätze direkt vor/nach einem Codeblock (CKEditor fügt oft
-  // <p>&nbsp;</p> ein) sollen keinen zusätzlichen Abstand neben dem
-  // pre-margin erzeugen — Klasse wird per JS gesetzt (nbsp ist kein :empty)
+  // Empty paragraphs right before/after a code block (CKEditor loves to
+  // insert <p>&nbsp;</p>) shouldn't add extra space next to the pre margin —
+  // class gets set via JS since &nbsp; isn't :empty
   p.cb-empty-around-code {
     display: none;
   }
 
-  // Code-Blöcke (CKEditor codeBlock + Prism): umbrechen statt horizontal
-  // scrollen, damit immer der ganze Code sichtbar ist
+  // Code blocks (CKEditor codeBlock + Prism): wrap instead of horizontal
+  // scroll so the full code stays visible
   pre {
     position: relative;
     max-width: 100%;
@@ -1111,7 +1133,7 @@ h4, h5, h6 {
 // ─── News: External link ──────────────────────────────────────────────────────
 .cb-news-website-link {
   position: relative;
-  z-index: 2; // über dem .cb-stretched-link Overlay (z-index: 1), sonst schluckt der den Klick
+  z-index: 2; // above the .cb-stretched-link overlay (z-index: 1), otherwise it swallows the click
   font-size: 0.6875rem;
   font-weight: $fw-bold;
   text-transform: uppercase;
@@ -1130,17 +1152,17 @@ h4, h5, h6 {
   }
 }
 
-// Titelzeile im Listen-Item: h3 links, Projekt-Links (Live/Quellcode) rechts daneben
+// List item title row: h3 on the left, project links (live/source) next to it
 .cb-news-item__title-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  // Ohne width:fit-content beansprucht dieses Flex-Kind die volle verfügbare
-  // Breite (auch ohne Links-Pills), wodurch der fit-content-Wrapper
-  // .cb-news-measure (news-dimension.js) breiter wird als der tatsächliche
-  // Text — die horizontale Maßlinie zeigt dann zu viel Breite an.
+  // Without width: fit-content this flex child claims the full available
+  // width (even without link pills), which makes .cb-news-measure
+  // (news-dimension.js) wider than the actual text — the horizontal
+  // dimension line would then show too much width.
   width: fit-content;
   max-width: 100%;
 
@@ -1153,7 +1175,7 @@ h4, h5, h6 {
   }
 }
 
-// sekundäre Projekt-Links (Quellcode/Live) als Pills, optisch abgesetzt von "Weiterlesen"
+// Secondary project links (source/live) as pills, visually distinct from "read more"
 .cb-news-item__links {
   display: flex;
   flex-wrap: wrap;
@@ -1303,7 +1325,7 @@ h4, h5, h6 {
   }
 }
 
-// ─── Hide category filter on news detail pages ────────────────────────────────
+// ─── Hide category filter on news detail pages ──────────────────────────────────
 body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
   display: none;
 }

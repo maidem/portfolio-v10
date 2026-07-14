@@ -6,10 +6,10 @@ import {
     inkBounds,
 } from "../../../../Resources/Private/JavaScript/dimension.js";
 
-// ── Profile-Banner (»My Story«) ──────────────────────────────────────────────
-// Die Bemaßung sitzt an einem fit-content-Wrapper (.cb-portfolio-measure), der
-// automatisch exakt so breit/hoch ist wie Überschrift + Text. Gemessen werden die
-// echten Glyphenkanten (inkBounds), nicht die Element-Box.
+// ── Profile banner ("My Story") ──────────────────────────────────────────────
+// dimension lines attach to a fit-content wrapper (.cb-portfolio-measure) that's
+// always exactly as wide/tall as heading + text. Measures real glyph edges
+// (inkBounds), not the element box.
 (function () {
     "use strict";
 
@@ -19,7 +19,7 @@ import {
         return;
     }
 
-    // Wordmark-Variante (Impressum/Datenschutz) – unverändertes Alt-Verhalten.
+    // wordmark variant (imprint/privacy pages) — old behavior, untouched
     initWordmark();
 })();
 
@@ -32,8 +32,8 @@ function initProfile(measure) {
         dims.forEach((d) => d.remove());
         dims = [];
 
-        // Echte Glyphenkanten statt der Element-Box: die Zeilen-Box ist durch
-        // line-height höher/breiter als der sichtbare Text.
+        // need real glyph edges, not the element box — line-height makes the
+        // line box taller than the visible text
         const box = measure.getBoundingClientRect();
         const ink = inkBounds(measure);
         if (!ink) return;
@@ -46,7 +46,7 @@ function initProfile(measure) {
         const colors = getDimColors(text, "#111111");
         const gap = dimBottomPadding(measure);
 
-        // ── horizontal (Breite) — Linie unter dem Text, Label mittig ──────────
+        // horizontal (width): line below the text, label centered
         const hdim = makeDim(pxToRem(width).toFixed(2), width, colors);
         hdim.style.left = left + "px";
         hdim.style.width = width + "px";
@@ -54,10 +54,9 @@ function initProfile(measure) {
         measure.appendChild(hdim);
         dims.push(hdim);
 
-        // ── vertikal (Höhe) — Label linksbündig an der Container-/Logo-Kante,
-        //    Linie rechts daneben ───────────────────────────────────────────────
-        // Reservierter Platz links = padding-left des Textelements. Mobil ist das
-        // per CSS 0 (kein Platz) → dann keine vertikale Bemaßung zeichnen.
+        // vertical (height): label aligned to the container/logo edge, line
+        // next to it on the right. Left space = padding-left of the text
+        // element — 0 on mobile via CSS, so skip the vertical dimension there.
         const padLeft = parseFloat(getComputedStyle(text).paddingLeft) || 0;
         if (padLeft > 0) {
             const vdim = makeVerticalDim(
@@ -90,13 +89,13 @@ function initProfile(measure) {
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(draw);
 }
 
-// padding-bottom des measure-Wrappers (Reserve für die horizontale Maßlinie)
-// nicht in die gemessene Texthöhe einrechnen.
+// padding-bottom of the measure wrapper is reserved for the horizontal
+// dimension line, don't count it into the measured text height
 function dimBottomPadding(measure) {
     return parseFloat(getComputedStyle(measure).paddingBottom) || 0;
 }
 
-// ── Wordmark-Variante (unverändert) ──────────────────────────────────────────
+// ── Wordmark variant (unchanged) ──────────────────────────────────────────────
 function initWordmark() {
     const banner = document.querySelector(".cb-portfolio-banner");
     const text = document.querySelector(".cb-portfolio-text");
@@ -139,7 +138,7 @@ function initWordmark() {
         let startX = 0;
         let totalWidth = tRect.width;
 
-        // Accurate ink bounds via Range + canvas side-bearing trim
+        // get precise ink bounds via Range + canvas side-bearing trim
         const walker = document.createTreeWalker(text, NodeFilter.SHOW_TEXT);
         const node = walker.nextNode();
         if (node && node.length > 0) {

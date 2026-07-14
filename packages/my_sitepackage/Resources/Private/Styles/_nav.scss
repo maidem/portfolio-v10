@@ -10,9 +10,9 @@
   background-color: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  // box-shadow statt border: kein Layout-Einfluss, damit die Nav-Höhe exakt
-  // beim 8px-Raster bleibt ($unit * 7 = 56px) und Inhalte darunter (z.B. das
-  // Banner-mm-Grid) bündig am Raster anfangen.
+  // box-shadow instead of border: doesn't affect layout, so nav height stays
+  // exactly on the 8px grid ($unit * 7 = 56px) and content below (e.g. the
+  // banner mm grid) starts flush.
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   transition: all $transition-base;
 

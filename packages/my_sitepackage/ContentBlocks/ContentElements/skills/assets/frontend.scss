@@ -1,7 +1,7 @@
 // ── Skills: themed groups, mobile-first ──────────────────────────────────────
 
-// Section-Überschrift »Skills« fluchtet mit den Gruppen darunter, die für die
-// vertikale Bemaßung eingerückt sind. Mobil keine Einrückung.
+// heading aligns with the groups below, which get indented for the vertical
+// dimension line. No indent on mobile.
 .cb-skills-unified-card > .cb-card__label-bar {
   padding-left: 3rem;
 
@@ -14,15 +14,15 @@
 .cb-skills-groups {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3.5rem 2.5rem; // mehr Zeilenabstand für die horizontale Bemaßung unter jeder Gruppe
+  gap: 3.5rem 2.5rem; // extra row gap for the dimension line below each group
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   }
 }
 
-// Platz links für die vertikale Bemaßung (rückt Titel + Chips einheitlich ein,
-// Abstand Linie↔Text wie bei Banner/News). Mobil: keine vertikale Bemaßung.
+// left space for the vertical dimension line (same line-to-text gap as
+// banner/news). No vertical line on mobile.
 .cb-skills-group {
   padding-left: 3rem;
 
@@ -31,13 +31,13 @@
   }
 }
 
-// fit-content-Wrapper um Titel + Chips: automatisch so breit/hoch wie der Inhalt.
-// JS hängt die SVG-Maßlinien an (siehe assets/frontend.js).
+// fit-content wrapper around title + chips, sizes itself to the content.
+// JS appends the SVG dimension lines (assets/frontend.js).
 .cb-skills-measure {
   position: relative;
   width: fit-content;
   max-width: 100%;
-  margin-bottom: 2.5rem; // Abstand für die horizontale Maßlinie darunter
+  margin-bottom: 2.5rem; // room for the dimension line below
 }
 
 .cb-skills-group__title {
@@ -83,7 +83,7 @@
   }
 }
 
-// ── Workflows section ──────────────────────────────────────────────────────────
+// ── Workflows section ─────────────────────────────────────────────────────────
 .cb-workflows-card {
   margin-top: 1.5rem;
 }

@@ -4,7 +4,7 @@
   border-radius: 0;
   padding: 0;
 
-  // Gleiche H2-Gestaltung wie section-header/card-Überschriften (Main.entry.scss).
+  // same H2 style as section-header/card headings (Main.entry.scss)
   &__title {
     margin: 0 0 1.25rem;
     font-family: "JetBrains Mono", "Courier New", monospace;
@@ -41,8 +41,8 @@
     border: none;
     overflow: hidden;
 
-    // Sanftes Auf-/Zuklappen (natives CSS für <details>; Browser ohne
-    // ::details-content/interpolate-size klappen einfach ohne Animation).
+    // smooth expand/collapse via native <details> CSS; browsers without
+    // ::details-content/interpolate-size just toggle instantly, no animation
     interpolate-size: allow-keywords;
 
     &::details-content {
@@ -75,7 +75,7 @@
       display: none;
     }
 
-    // Schlichtes Plus/Minus links von der Frage, ohne Button-Optik
+    // plain plus/minus left of the question, no button styling
     summary::before {
       content: "+";
       flex-shrink: 0;
@@ -97,8 +97,9 @@
     color: #666;
     font-size: 0.875rem;
     line-height: 1.65;
+    max-width: 38rem;
 
-    // Roter Punkt vor der Antwort, erscheint nur bei aufgeklappter Frage.
+    // red dot before the answer, only visible when expanded
     &::before {
       content: "";
       display: block;

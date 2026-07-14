@@ -12,12 +12,11 @@
   user-select: none;
   pointer-events: none;
 
-  // No isolation/z-index on the container itself: the tint below and the
-  // millimeter grid above must stack against the page-wide
-  // .cb-perspective-grid (fixed, z-index 0) as plain siblings, not inside
-  // an isolated context that would always paint over it.
+  // no isolation/z-index on the container itself — tint and grid need to
+  // stack as plain siblings against the page-wide .cb-perspective-grid
+  // (fixed, z-index 0), an isolated context would always paint over it
 
-  // Solid tint — sits below the page-wide perspective-grid background.
+  // solid tint, sits below the page-wide perspective-grid background
   &::before {
     content: "";
     position: absolute;
@@ -31,8 +30,8 @@
     pointer-events: none;
   }
 
-  // Millimeter-paper overlay (fine + coarse grid lines) — breaks out of the
-  // container to span the full viewport width regardless of banner max-width.
+  // millimeter-paper overlay (fine + coarse grid lines), breaks out of the
+  // container so it spans the full viewport width regardless of banner max-width
   &::after {
     content: "";
     position: absolute;
@@ -112,11 +111,11 @@
   user-select: text;
   pointer-events: auto;
   justify-content: flex-start;
-  // Linke Kante exakt an der Logo-/Nav-Container-Kante, damit das vertikale
-  // Bemaßungs-Label (sitzt an dieser Kante) mit »Maik Demuth« fluchtet.
-  // Spiegelt das Padding-Schema des Nav-Containers (_nav.scss):
-  //   < 768px: 1.25rem · ≥ 768px: 2rem · ≥ 1200px: zentriert bei max-width 1200
-  padding: 2.5rem 1.25rem 6.5rem 1.25rem; // 40px = eine volle Coarse-Grid-Zelle (5×8px) vor der Überschrift
+  // left edge aligns with the logo/nav container edge, so the vertical
+  // dimension label (anchored there) lines up with "Maik Demuth". Mirrors
+  // the nav container's padding scheme (_nav.scss):
+  //   < 768px: 1.25rem · ≥ 768px: 2rem · ≥ 1200px: centered at max-width 1200
+  padding: 2.5rem 1.25rem 6.5rem 1.25rem; // 40px = one coarse-grid cell (5×8px) before the heading
 
   @media (min-width: 768px) {
     padding-left: 2rem;
@@ -138,42 +137,42 @@
   color: #222;
   -webkit-text-stroke: 0;
   text-shadow: none;
-  // Platz für die vertikale Bemaßung links: Label an der Container-/Logo-Kante,
-  // Linie rechts daneben, dann der Text.
+  // space for the vertical dimension on the left: label at container/logo
+  // edge, line next to it, then the text
   padding: 0 0 0 3rem;
 
   > *:last-child {
     margin-bottom: 0;
   }
 
-  // Mobil: keine vertikale Bemaßung (kein Platz) → Text nutzt die volle Breite.
+  // mobile: no room for the vertical dimension, text gets the full width
   @media (max-width: 767.98px) {
     padding-left: 0;
   }
 }
 
-// ── CSS-first Bemaßung ────────────────────────────────────────────────────────
-// Ein fit-content-Wrapper um Überschrift + Text: automatisch exakt so breit/hoch
-// wie der Inhalt. Er ist der Positionierungs-Kontext (position:relative) für die
-// Maßlinien. JS liest nur seine offset-Maße (kein Ink-Messen) und hängt die
-// SVG-Linien + Labels als Kinder ein — siehe frontend.js.
-$dim-line-offset: 2.5rem; // 40px, 8px-Raster; vertikaler Abstand der horizontalen Maßlinie zum Text
+// ── CSS-first dimension lines ─────────────────────────────────────────────────
+// fit-content wrapper around heading + text, so it's always exactly as
+// wide/tall as the content. Also the positioning context (position: relative)
+// for the dimension lines — JS just reads offsets here and appends the SVG
+// lines + labels as children, see frontend.js.
+$dim-line-offset: 2.5rem; // 40px, 8px grid — vertical gap between horizontal dimension line and text
 
 .cb-portfolio-measure {
   position: relative;
   width: fit-content;
-  max-width: 39rem; // 42rem − 3rem padding-left des Elternelements
-  padding-bottom: $dim-line-offset; // Abstand zur horizontalen Maßlinie; frontend.js liest paddingBottom
+  max-width: 39rem; // 42rem − 3rem padding-left of the parent element
+  padding-bottom: $dim-line-offset; // gap to the horizontal dimension line; frontend.js reads paddingBottom
 
   > *:last-child {
     margin-bottom: 0;
   }
 
-  // Kein text-box-trim: frontend.js misst die echten Glyphenkanten (inkBounds)
-  // — trim würde die Box verschieben und die Range-Messung verfälschen.
+  // no text-box-trim here — frontend.js measures real glyph edges (inkBounds),
+  // trim would shift the box and throw off the range measurement
 }
 
-// ── CTA-Buttons (analog cb-news-website-link Pills) ───────────────────────────
+// ── CTA buttons (analogous to cb-news-website-link pills) ────────────────────
 .cb-portfolio-banner__actions {
   display: flex;
   flex-direction: row;
@@ -218,7 +217,7 @@ $dim-line-offset: 2.5rem; // 40px, 8px-Raster; vertikaler Abstand der horizontal
     background-color: #000;
   }
 
-  // Sekundäre Aktion: outline statt gefüllt, gleiche Pill-Form
+  // secondary action: outline instead of filled, same pill shape
   &--outline {
     background-color: transparent;
     color: #111;
@@ -236,26 +235,25 @@ $dim-line-offset: 2.5rem; // 40px, 8px-Raster; vertikaler Abstand der horizontal
 }
 
 .cb-banner__pdf-action {
-  // Einheitlicher PDF-Button-Abstand aller Sektionen: 84px (5.25rem) sichtbarer
-  // Abstand zum Inhalt darüber (wie FAQ/Kontakt/Skills/News).
+  // same gap as other PDF buttons (FAQ/contact/skills/news): 84px (5.25rem) visible
   margin-top: 4rem;
 }
 
 .cb-portfolio-text__heading {
   font-family: "JetBrains Mono", monospace;
-  // h1: eine Stufe über den h2-Section-Überschriften (clamp 1.375–1.75rem)
+  // h1, one step bigger than the h2 section headings (clamp 1.375–1.75rem)
   font-size: clamp(1.75rem, 2.2vw, 2.25rem);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: normal;
   text-transform: none;
   color: #111;
-  margin: 0 0 1.5rem; // 24px, 8px-Raster
+  margin: 0 0 1.5rem; // 24px, 8px grid
 }
 
 // ── Gap to first content element ───────────────────────────────────────────────
-// Replaces old margin-bottom on banner; the first frame/container now uses the
-// default section rhythm (padding-top set in Main.entry.scss).
+// used to be margin-bottom on the banner, now the first frame/container just
+// uses the default section rhythm (padding-top in Main.entry.scss)
 .cb-portfolio-banner {
   margin-bottom: 0;
 }

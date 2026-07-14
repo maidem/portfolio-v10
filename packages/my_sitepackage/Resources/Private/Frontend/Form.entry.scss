@@ -1,5 +1,5 @@
 // =============================
-// Kontakt-Formular — Profilseite-Stil
+// Contact form — profile page style
 // =============================
 $text-primary: #111111;
 $text-muted: #71717a;
@@ -7,12 +7,12 @@ $color-secondary: #111111;
 $color-border: #222222;
 $color-error: #b91c1c;
 
-// Hide default FSC header output for the form CE.
+// hide the default FSC header on the form CE
 .frame-type-form_formframework > header {
   display: none;
 }
 
-// Remove outer card padding
+// kill the outer card padding
 .frame-type-form_formframework .cb-card__body {
   padding: 0;
 }
@@ -21,18 +21,15 @@ $color-error: #b91c1c;
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
-  padding-top: 0.75rem; // Platz für schwebende Labels des ersten Feldes
+  padding-top: 0.75rem; // room for the first field's floating label
 
   @media (max-width: 767.98px) {
     margin-top: 2rem;
   }
 
-  // ─── Two-column name/email row ──────────────────────────────────────────────
-  // Bootstrap row/col handles the grid already
-
   // ─── Field — floating label on border ──────────────────────────────────────
-  // Nur Text/Email/Textarea-Felder bekommen den Border + schwebendes Label.
-  // Checkbox- und leere Wrapper-Divs explizit ausschließen.
+  // border + floating label only for text/email/textarea fields.
+  // Checkbox and empty wrapper divs excluded explicitly.
   .form-group:not(.form-element-check):not(:empty),
   .mb-3.mb-3:not(.form-element-check):not(.form-check) {
     position: relative;
@@ -47,7 +44,7 @@ $color-error: #b91c1c;
     }
   }
 
-  // Unsichtbare form-group-Wrapper (Mosparo hidden inputs, leere Divs) ausblenden
+  // hide invisible form-group wrappers (Mosparo hidden inputs, empty divs)
   .form-group:empty,
   .form-group:not(.form-element-check):not(:has(*)),
   .form-group:not(.form-element-check):not(:focus-within):has(> input[type="hidden"]:only-child),
@@ -55,7 +52,7 @@ $color-error: #b91c1c;
     display: none;
   }
 
-  // Schwebendes Label — nur für Input-Felder, nicht für Checkbox-Labels
+  // floating label for input fields only, not checkbox labels
   .form-element-text .form-label,
   .form-element-email .form-label,
   .form-element-textarea .form-label,
@@ -123,7 +120,7 @@ $color-error: #b91c1c;
     background: transparent;
   }
 
-  // Checkbox-Label klickbar und pointer-events zurücksetzen
+  // make checkbox label clickable, reset pointer-events
   .form-check-wrapping-label,
   .form-check-label {
     position: static !important;
@@ -142,21 +139,21 @@ $color-error: #b91c1c;
     left: unset;
   }
 
-  // Nur das äußere Label ist Flex-Container: Checkbox neben dem Textblock.
+  // only the outer label is flex — puts checkbox next to the text block
   .form-check-wrapping-label {
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
   }
 
-  // Der Text-Span selbst muss normal fließen — als Flex-Container würden Text,
-  // Datenschutz-Link und "*" zu eigenen Flex-Items und falsch umbrechen.
+  // text span needs normal flow — as flex, text/privacy-link/"*" would become
+  // separate flex items and wrap wrong
   .form-check-label {
     display: block;
     min-width: 0;
   }
 
-  // Datenschutz-Link muss klickbar sein
+  // privacy link must stay clickable
   .cb-privacy-link {
     pointer-events: auto !important;
     color: $text-primary;
@@ -205,12 +202,12 @@ $color-error: #b91c1c;
     }
   }
 
-  // ─── Mosparo-Captcha-Box ─────────────────────────────────────────────────────
+  // ─── Mosparo captcha box ────────────────────────────────────────────────────
   .mosparo-captcha {
     margin: 1.5rem 0;
   }
 
-  // Required hint
+  // required hint
   .cb-form-required-hint,
   p:has(.cb-form-req) {
     margin: 0;
@@ -269,21 +266,21 @@ $color-error: #b91c1c;
   }
 }
 
-// ─── Erfolgs-Toast ──────────────────────────────────────────────────────────────
+// ─── Success toast ──────────────────────────────────────────────────────────────
 .cb-toast {
   position: fixed;
-  bottom: 1.5rem;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   z-index: 1000;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   max-width: min(90vw, 32rem);
-  padding: 0.9rem 1.5rem;
+  padding: 1rem 1.5rem;
   background: $text-primary;
   color: #ffffff;
-  border-radius: 999px;
+  border-radius: 0.75rem;
   font-size: 0.875rem;
   line-height: 1.4;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -298,18 +295,18 @@ $color-error: #b91c1c;
 
   &--hide {
     opacity: 0;
-    transform: translateX(-50%) translateY(0.75rem);
+    transform: translate(-50%, -50%) scale(0.96);
   }
 }
 
 @keyframes cbToastIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(0.75rem);
+    transform: translate(-50%, -50%) scale(0.96);
   }
 }
 
-// ─── Kontakt-Split (b13/container): 2 Spalten ──────────────────────────────────
+// ─── Contact split (b13/container): 2 columns ──────────────────────────────────
 .cb-contact-split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
@@ -319,13 +316,13 @@ $color-error: #b91c1c;
     grid-template-columns: 1fr;
   }
 
-  // Kein Frame-/Header-Rauschen der Kind-Elemente
+  // no frame/header noise from child elements
   .frame > header {
     display: none;
   }
 }
 
-// ─── Kontaktseite: Info-Aside ───────────────────────────────────────────────────
+// ─── Contact page: info aside ───────────────────────────────────────────────────
 .cb-contact-info {
   &__name {
     font-size: 1rem;
@@ -380,10 +377,10 @@ $color-error: #b91c1c;
   }
 }
 
-// ─── Formular: CSS-first Bemaßung (measure-block.js) ──────────────────────────
-// Der Feld-Block inkl. Checkbox wird bemaßt (Höhe bis .form-element-check via
-// data-measure-until). Elternelement (.cb-form-wrap) rückt für die vertikale
-// Linie ein; mobil keine vertikale Bemaßung.
+// ─── Form: CSS-first dimension annotation (measure-block.js) ──────────────────
+// dimensions the field block including the checkbox (height goes up to
+// .form-element-check via data-measure-until). .cb-form-wrap gets indented
+// for the vertical line; no line on mobile.
 .cb-form-wrap {
   padding-left: 3rem;
 
@@ -395,5 +392,5 @@ $color-error: #b91c1c;
 .cb-form__measure {
   --measure: on;
   position: relative;
-  margin-bottom: 2.75rem; // Reserve für die horizontale Maßlinie
+  margin-bottom: 2.75rem; // room for the dimension line below
 }

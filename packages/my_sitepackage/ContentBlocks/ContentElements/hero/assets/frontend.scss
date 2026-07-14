@@ -11,7 +11,7 @@
   }
 }
 
-// Hero Section Styles
+// hero section styles
 .cb-hero {
   position: relative;
   overflow: visible;
@@ -99,14 +99,14 @@
     line-height: 1.6;
     margin-top: 0;
     padding-top: 0;
-    max-width: 672px; // gleiche Textbreite wie "My Story" (.cb-portfolio-text)
+    max-width: 672px; // same text width as "My Story" (.cb-portfolio-text)
 
     > *:first-child {
       margin-top: 0;
       padding-top: 0;
     }
 
-    // Reset Bootstrap link color inside richtext
+    // reset link color inside richtext
     a {
       color: inherit;
       text-decoration: underline;
@@ -129,17 +129,17 @@
   }
 }
 
-// ── Technical dimension annotation around & characters (»Bemaßung«) ────────────
+// ── Technical dimension annotation around & characters ──────────────────────
 //
-// Outward dimension-line style (ISO/DIN): when a measurement is too narrow
-// to fit arrows inside, they flip outward. The & character is always a single
-// glyph, so arrows always point away from it.
-// Vertical end marks (Maßhilfslinien) delimit the character on each side.
+// outward dimension-line style (ISO/DIN): arrows flip outward when a
+// measurement is too narrow to fit them inside. The & is always a single
+// glyph, so arrows always point away from it. Vertical extension lines
+// mark the character on each side.
 //
 .cb-dim-amp {
   display: inline-block;
   position: relative;
-  // Vertical end marks (Maßhilfslinien) on both sides
+  // vertical extension lines on both sides
   border-left: 1.5px solid currentColor;
   border-right: 1.5px solid currentColor;
   padding: 0 0.25em;
@@ -147,7 +147,7 @@
   margin: 0 0.9em;
   opacity: 0.9;
 
-  // Left: dimension line extending outward (to the left)
+  // left: dimension line extending outward
   &::before {
     content: "";
     position: absolute;
@@ -160,7 +160,7 @@
     opacity: 0.5;
   }
 
-  // Right: dimension line extending outward (to the right)
+  // right: dimension line extending outward
   &::after {
     content: "";
     position: absolute;

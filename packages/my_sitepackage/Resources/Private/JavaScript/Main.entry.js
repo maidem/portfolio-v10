@@ -1,6 +1,6 @@
 console.log("Main JS loaded");
 
-// JetBrains Mono — locally hosted via @fontsource (GDPR-compliant, no Google Fonts)
+// JetBrains Mono, self-hosted via @fontsource — no Google Fonts, GDPR happy
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import "@fontsource/jetbrains-mono/600.css";
@@ -8,7 +8,7 @@ import "@fontsource/jetbrains-mono/800.css";
 
 import "../Styles/Main.entry.scss";
 
-// Code highlighting for CKEditor codeBlock output (RTE Default.yaml codeBlock.languages)
+// syntax highlighting for CKEditor codeBlock output (RTE Default.yaml codeBlock.languages)
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-php";
@@ -19,15 +19,15 @@ import "prismjs/components/prism-markup"; // html
 import "prismjs/components/prism-bash";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-yaml";
-import "prismjs/components/prism-markup-templating"; // required by typoscript
+import "prismjs/components/prism-markup-templating"; // typoscript needs this
 import "prismjs/components/prism-typoscript";
-import "prismjs/components/prism-twig"; // closest highlighting match for Fluid
+import "prismjs/components/prism-twig"; // closest thing to Fluid highlighting
 import "prismjs/components/prism-docker";
 Prism.highlightAll();
 
-// Leere <p>&nbsp;</p>, die CKEditor vor/nach einem Codeblock einfügt,
-// bekommen margin:0, damit sie keinen zusätzlichen Abstand neben dem
-// pre-margin erzeugen (siehe Main.entry.scss .cb-empty-around-code)
+// CKEditor drops empty <p>&nbsp;</p> before/after code blocks — margin:0 on
+// them so they don't stack extra spacing on top of the pre-margin
+// (see Main.entry.scss .cb-empty-around-code)
 const markEmptyParagraphsAroundCode = () => {
     document.querySelectorAll(".cb-news-article-body pre").forEach((pre) => {
         [pre.previousElementSibling, pre.nextElementSibling].forEach((p) => {
@@ -38,7 +38,7 @@ const markEmptyParagraphsAroundCode = () => {
     });
 };
 
-// Copy-Button für Code-Blöcke im Artikeltext
+// copy button for code blocks in the article body
 const initCodeCopy = () => {
     markEmptyParagraphsAroundCode();
     document.querySelectorAll(".cb-news-article-body pre").forEach((pre) => {
@@ -65,23 +65,26 @@ if (document.readyState === "loading") {
     initCodeCopy();
 }
 
-// PDF Cart — pre-selection feature for PDF export
+// PDF cart — lets you pre-select items for PDF export
 import "../../../../maidem_pdfexport/Resources/Private/JavaScript/PdfCart.js";
 import "../../../../maidem_pdfexport/Resources/Private/Scss/PdfCart.scss";
 
-// Vite Collector "Glob-Module" (Best Practice nach Simon Praetorius)
-// Alle frontend.{js,scss,css} Dateien aus den Content-Blöcken automatisch laden
+// glob import: pulls in every frontend.{js,scss,css} from the content blocks
+// automatically
 import.meta.glob(
     "../../../ContentBlocks/ContentElements/*/assets/frontend.{js,scss,css}",
     { eager: true },
 );
 
-// Technical-drawing dimensioning for each news list item (see news-dimension.js)
+// dimension lines for each news list item (see news-dimension.js)
 import "./news-dimension.js";
 
-// Generische Bemaßung für .js-measure-Blöcke (Kontakt: section-header,
-// contact-info, Formular) — siehe measure-block.js
+// generic dimensioning for .js-measure blocks (contact section: section-header,
+// contact-info, form) — see measure-block.js
 import "./measure-block.js";
+
+// Kontaktformular per fetch absenden statt normalem Submit — kein Seiten-Reload
+import "./contact-form.js";
 
 // =============================
 // Mobile Navigation — Bottom Sheet
@@ -104,7 +107,7 @@ const initNav = () => {
         document.body.classList.add("cb-nav--open");
         if (backdrop) backdrop.classList.add("cb-nav__backdrop--open");
 
-        // Staggered fade-in for items
+        // stagger the fade-in per item
         items.forEach((item, i) => {
             item.style.transitionDelay = `${(i + 1) * 55}ms`;
             item.style.opacity = "1";
@@ -131,17 +134,17 @@ const initNav = () => {
         isOpen ? close() : open();
     });
 
-    // Close on link click
+    // close on link click
     overlay.querySelectorAll(".cb-nav__overlay-link").forEach((link) => {
         link.addEventListener("click", close);
     });
 
-    // Close on backdrop click
+    // close on backdrop click
     if (backdrop) {
         backdrop.addEventListener("click", close);
     }
 
-    // Close on Escape
+    // close on Escape
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && isOpen) {
             close();
@@ -215,9 +218,9 @@ const initScrollspy = () => {
         });
     };
 
-    // Active = last section whose top passed the line just below the nav.
-    // At page bottom the last section (Kontakt) wins even if its top never reaches it.
-    const update = () => {
+    // active = last section whose top passed the line just below the nav.
+    // at page bottom, the last section (contact) wins even if it never reaches the line
+    const update = (updateHash) => {
         const line = scrollY + 100;
         const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
         let current = sections[0];
@@ -226,10 +229,13 @@ const initScrollspy = () => {
         }
         if (atBottom) current = sections[sections.length - 1];
         setActive(current.id);
+        if (updateHash && location.hash.slice(1) !== current.id) {
+            history.replaceState(null, "", `#${current.id}`);
+        }
     };
 
-    addEventListener("scroll", update, { passive: true });
-    update();
+    addEventListener("scroll", () => update(true), { passive: true });
+    update(false);
 };
 
 if (document.readyState === "loading") {
