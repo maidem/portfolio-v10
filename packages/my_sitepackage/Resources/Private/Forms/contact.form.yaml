@@ -21,6 +21,19 @@ finishers:
     identifier: EmailToReceiver
   -
     options:
+      subject: 'Deine Nachricht ist angekommen'
+      recipients:
+        '{email}': '{name}'
+      senderAddress: connect@maidem.de
+      senderName: 'Portfolio Kontaktformular'
+      templateName: Confirmation
+      variables:
+        contactName: Maik Demuth
+        contactEmail: maik.demuth@gripsraum.de
+        contactPhone: '+49 151 64 89 85 15'
+    identifier: EmailToSender
+  -
+    options:
       pageUid: 1
       additionalParameters: contact=sent
     identifier: Redirect

@@ -1,0 +1,12 @@
+<f:spaceless xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+Portfolio
+
+Hallo {form.name},
+
+Vielen Dank für deine Nachricht. Ich werde mich schnellstmöglich bei dir melden.
+
+Gruß
+{contactName}
+{contactPhone}
+{contactEmail}
+</f:spaceless>
