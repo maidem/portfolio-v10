@@ -207,10 +207,12 @@ $color-error: #b91c1c;
     margin: 1.5rem 0;
   }
 
-  // required hint
+  // required hint — pulled up close under the checkbox (default 1.75rem
+  // flex gap is too much space), sits just above the dimension (H) line
+  // reserved in .cb-form__measure's margin-bottom.
   .cb-form-required-hint,
   p:has(.cb-form-req) {
-    margin: 0;
+    margin: -1.1rem 0 0;
     font-size: 0.75rem;
     color: $text-muted;
   }
