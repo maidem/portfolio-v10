@@ -6,12 +6,15 @@
     <div id="{form.identifier}" class="cb-form-confirmation">
         <p>Hallo {form.name},</p>
         <p>vielen Dank für deine Nachricht über mein Portfolio. Ich habe deine Anfrage erhalten und melde mich zeitnah persönlich bei dir zurück.</p>
-        <p>Für Rückfragen erreichst du mich auch direkt unter den unten stehenden Kontaktdaten.</p>
         <p>
             Beste Grüße<br />
             {contactName}<br />
-            {contactPhone}<br />
-            {contactEmail}
+            {contactStreet}<br />
+            {contactCity}
+        </p>
+        <p>
+            E-Mail: {contactEmail}<br />
+            Telefon: {contactPhone}
         </p>
     </div>
 </html>

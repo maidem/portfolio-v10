@@ -19,6 +19,9 @@ finishers:
       replyToRecipients:
         - '{email}'
       addHtmlPart: false
+      templateName: Receiver
+      templateRootPaths:
+        20: 'EXT:my_sitepackage/Resources/Private/Email/Templates/'
     identifier: EmailToReceiver
   -
     options:
@@ -30,7 +33,9 @@ finishers:
       templateName: Confirmation
       variables:
         contactName: Maik Demuth
-        contactEmail: maik.demuth@gripsraum.de
+        contactStreet: 'Gebrüder-Grimm-Str. 5'
+        contactCity: '65520 Bad Camberg'
+        contactEmail: connect@maidem.de
         contactPhone: '+49 151 64 89 85 15'
     identifier: EmailToSender
   -

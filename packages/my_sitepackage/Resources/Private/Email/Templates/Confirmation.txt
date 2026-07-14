@@ -4,9 +4,10 @@ Hallo {form.name},
 
 vielen Dank für deine Nachricht über mein Portfolio. Ich habe deine Anfrage erhalten und melde mich zeitnah persönlich bei dir zurück.
 
-Für Rückfragen erreichst du mich auch direkt unter den unten stehenden Kontaktdaten.
-
 Beste Grüße
 {contactName}
-{contactPhone}
-{contactEmail}
+{contactStreet}
+{contactCity}
+
+E-Mail: {contactEmail}
+Telefon: {contactPhone}
