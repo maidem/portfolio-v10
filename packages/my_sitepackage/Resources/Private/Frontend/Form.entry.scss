@@ -279,6 +279,7 @@ $color-error: #b91c1c;
   align-items: center;
   gap: 0.75rem;
   max-width: min(90vw, 32rem);
+  white-space: nowrap;
   padding: 1rem 1.5rem;
   background: $text-primary;
   color: #ffffff;

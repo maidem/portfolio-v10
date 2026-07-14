@@ -556,6 +556,10 @@ h4, h5, h6 {
   // inherit --measure-indent-mobile: 1.25rem and draw a bogus mobile line.
   --measure-indent-mobile: 0;
 
+  @media (max-width: 767.98px) {
+    padding-left: 0;
+  }
+
   // PDF button gap tuned to match the same visible gap as News/Skills/FAQ
   // (~42px to the last dimension line).
   > .cb-pdf-add-btn {
@@ -569,13 +573,19 @@ h4, h5, h6 {
 // section-header: only for contact (directly before the ContactSplit frame).
 .cb-section-header:has(+ .frame-type-maidem_contactsplit) {
   @extend %measure-indent;
-  // .cb-section-header is itself a .container and sets
-  // --measure-indent-mobile: 1.25rem globally — reset to 0 here, otherwise
-  // measure-block.js draws a bogus vertical line on mobile (padLeft > 0).
+  // measure-block.js reads the parent's padding-left to size the vertical
+  // line — must stay 0 on mobile so it doesn't draw a bogus line there.
+  // That would also strip the header's normal .container edge padding, so
+  // it's restored below via margin-left on the content instead (invisible
+  // to the JS, which only inspects padding).
   --measure-indent-mobile: 0;
 
   .cb-section-header__measure {
     --measure: on;
+
+    @media (max-width: 767.98px) {
+      margin-left: 1.25rem;
+    }
   }
 }
 
