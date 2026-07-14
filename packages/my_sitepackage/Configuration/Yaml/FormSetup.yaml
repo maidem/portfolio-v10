@@ -17,6 +17,14 @@ TYPO3:
                   20: "EXT:my_sitepackage/Resources/Private/Email/Partials/"
                 layoutRootPaths:
                   20: "EXT:my_sitepackage/Resources/Private/Email/Layouts/"
+            EmailToSender:
+              options:
+                templateRootPaths:
+                  20: "EXT:my_sitepackage/Resources/Private/Email/Templates/"
+                partialRootPaths:
+                  20: "EXT:my_sitepackage/Resources/Private/Email/Partials/"
+                layoutRootPaths:
+                  20: "EXT:my_sitepackage/Resources/Private/Email/Layouts/"
           formElementsDefinition:
             Form:
               renderingOptions:
