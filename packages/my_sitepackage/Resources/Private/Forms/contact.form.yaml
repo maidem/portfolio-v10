@@ -18,7 +18,7 @@ finishers:
       senderName: 'Portfolio Kontaktformular'
       replyToRecipients:
         - '{email}'
-      format: plaintext
+      addHtmlPart: false
     identifier: EmailToReceiver
   -
     options:
