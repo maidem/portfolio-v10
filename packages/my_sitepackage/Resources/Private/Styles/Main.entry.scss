@@ -593,6 +593,8 @@ h4, h5, h6 {
 .cb-news-detail__header,
 .cb-news-detail__content {
   @extend %measure-indent;
+  // Inherited from the .container parent — reset so no bogus mobile line.
+  --measure-indent-mobile: 0;
 }
 .cb-news-detail__measure,
 .cb-news-article-body.js-measure,
@@ -603,6 +605,8 @@ h4, h5, h6 {
 // Hero (imprint/privacy): heading + body text.
 .cb-hero__content {
   @extend %measure-indent;
+  // Inherited from the .container parent — reset so no bogus mobile line.
+  --measure-indent-mobile: 0;
 }
 .cb-hero__measure {
   --measure: on;
