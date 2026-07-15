@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78cce4154334cb20fc4f5baf4b6db46f",
+    "content-hash": "aa429a3c3a0b8952d49ae390187c8242",
     "packages": [
         {
             "name": "b13/container",
@@ -7863,6 +7863,73 @@
             "support": {
                 "chat": "https://typo3.community/meet/slack/",
                 "docs": "https://docs.typo3.org/",
+                "forum": "https://talk.typo3.org/",
+                "issues": "https://forge.typo3.org/issues/",
+                "rss": "https://news.typo3.com/rss/",
+                "security": "https://typo3.org/security/",
+                "source": "https://github.com/TYPO3/typo3/"
+            },
+            "funding": [
+                {
+                    "url": "https://typo3.org/membership",
+                    "type": "membership"
+                }
+            ],
+            "time": "2026-07-14T12:26:05+00:00"
+        },
+        {
+            "name": "typo3/cms-linkvalidator",
+            "version": "v14.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3-CMS/linkvalidator.git",
+                "reference": "c00b0effdd57d4eadce12ea54f12e8b4258a27b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3-CMS/linkvalidator/zipball/c00b0effdd57d4eadce12ea54f12e8b4258a27b3",
+                "reference": "c00b0effdd57d4eadce12ea54f12e8b4258a27b3",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "14.3.5"
+            },
+            "conflict": {
+                "typo3/cms": "*"
+            },
+            "suggest": {
+                "typo3/cms-scheduler": "Regular checks of links"
+            },
+            "type": "typo3-cms-framework",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "linkvalidator"
+                },
+                "branch-alias": {
+                    "dev-main": "14.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\CMS\\Linkvalidator\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "TYPO3 Core Team",
+                    "email": "typo3cms@typo3.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "TYPO3 CMS LinkValidator - Checks for broken links and displays results in the (Info>LinkValidator) backend module.",
+            "homepage": "https://typo3.community/",
+            "support": {
+                "chat": "https://typo3.community/meet/slack/",
+                "docs": "https://docs.typo3.org/c/typo3/cms-linkvalidator/main/en-us/",
                 "forum": "https://talk.typo3.org/",
                 "issues": "https://forge.typo3.org/issues/",
                 "rss": "https://news.typo3.com/rss/",

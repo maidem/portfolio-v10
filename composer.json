@@ -39,6 +39,7 @@
     "typo3/cms-impexp": "^14.0",
     "typo3/cms-info": "^14.0",
     "typo3/cms-install": "^14.0",
+    "typo3/cms-linkvalidator": "^14.0",
     "typo3/cms-reactions": "^14.0",
     "typo3/cms-recycler": "^14.0",
     "typo3/cms-rte-ckeditor": "^14.0",
