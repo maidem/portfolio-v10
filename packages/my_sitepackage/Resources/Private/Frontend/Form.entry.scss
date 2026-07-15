@@ -320,6 +320,21 @@ $color-error: #b91c1c;
     grid-template-columns: 1fr;
   }
 
+  &__aside {
+    order: 2;
+  }
+
+  &__main {
+    order: 1;
+  }
+
+  @media (min-width: 768px) {
+    &__aside,
+    &__main {
+      order: initial;
+    }
+  }
+
   // no frame/header noise from child elements
   .frame > header {
     display: none;
