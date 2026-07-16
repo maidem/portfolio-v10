@@ -570,6 +570,14 @@ h4, h5, h6 {
   --measure: on;
 }
 
+.cb-contact-info__address,
+.cb-contact-info__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-style: normal;
+}
+
 // section-header: only for contact (directly before the ContactSplit frame).
 .cb-section-header:has(+ .frame-type-maidem_contactsplit) {
   @extend %measure-indent;
@@ -768,7 +776,7 @@ h4, h5, h6 {
   font-weight: $fw-bold;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: rgba(17, 17, 17, 0.5);
+  color: rgba(17, 17, 17, 0.7);
   display: inline-block;
   margin-bottom: 0.25rem;
 

@@ -15,6 +15,10 @@
   // banner mm grid) starts flush.
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   transition: all $transition-base;
+  // extend background/blur into the iOS status bar area (position: sticky
+  // only covers from top:0 downward, not the safe-area strip above it)
+  margin-top: calc(env(safe-area-inset-top, 0px) * -1);
+  padding-top: env(safe-area-inset-top, 0px);
 
   a {
     text-decoration: none;

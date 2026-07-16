@@ -69,6 +69,7 @@
       align-items: center;
       gap: 1rem;
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     summary::-webkit-details-marker {
