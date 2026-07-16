@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa429a3c3a0b8952d49ae390187c8242",
+    "content-hash": "a3a23e8d5c655e57a8fdee5b12807092",
     "packages": [
         {
             "name": "b13/container",
@@ -1774,6 +1774,79 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.10.1"
             },
             "time": "2026-06-23T18:43:15+00:00"
+        },
+        {
+            "name": "maxserv/frontend-request",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MaxServ/frontend-request.git",
+                "reference": "527296df01a6370bf3ad40d6514a3538129f1bc6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MaxServ/frontend-request/zipball/527296df01a6370bf3ad40d6514a3538129f1bc6",
+                "reference": "527296df01a6370bf3ad40d6514a3538129f1bc6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.2",
+                "typo3/cms-backend": "^12.4.25 || ^13.4 || ^14.1",
+                "typo3/cms-core": "^12.4.25 || ^13.4 || ^14.1",
+                "typo3/cms-frontend": "^12.4.25 || ^13.4 || ^14.1"
+            },
+            "replace": {
+                "typo3-ter/frontend-request": "self.version"
+            },
+            "require-dev": {
+                "composer/class-map-generator": "^1.3.4",
+                "dg/bypass-finals": "^1.8",
+                "ergebnis/composer-normalize": "^2.43",
+                "friendsofphp/php-cs-fixer": "^3.60.0",
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^1.12 || ^2.1",
+                "phpunit/phpunit": "^10.1 || ^11.2.5",
+                "saschaegerer/phpstan-typo3": "^1.10 || ^2.1 || ^3.0.1",
+                "typo3/coding-standards": "^0.7.1 || ^0.8.0",
+                "typo3/testing-framework": "^7.1.0 || ^8.2.0 || ^9.5.0"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "web-dir": ".Build/public",
+                    "extension-key": "frontend_request"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MaxServ\\FrontendRequest\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Team MaxServ",
+                    "email": "support@maxserv.com",
+                    "homepage": "https://maxserv.com"
+                }
+            ],
+            "description": "Helper extension to make a frontend request from the backend of TYPO3 using javascript.",
+            "homepage": "https://maxserv.com",
+            "keywords": [
+                "MaxServ",
+                "TYPO3 CMS"
+            ],
+            "support": {
+                "docs": "https://docs.typo3.org/p/maxserv/frontend_request/main/en-us/",
+                "issues": "https://github.com/MaxServ/frontend-request/issues",
+                "source": "https://github.com/MaxServ/frontend-request"
+            },
+            "time": "2026-04-30T08:31:29+00:00"
         },
         {
             "name": "mosparo/php-api-client",
@@ -8668,6 +8741,95 @@
                 "source": "https://github.com/webmozarts/assert/tree/2.4.1"
             },
             "time": "2026-06-15T15:31:57+00:00"
+        },
+        {
+            "name": "yoast-seo-for-typo3/yoast_seo",
+            "version": "12.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/Yoast-SEO-for-TYPO3.git",
+                "reference": "1287de1607a20976390a5adaaa6db57f2301a4c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/Yoast-SEO-for-TYPO3/zipball/1287de1607a20976390a5adaaa6db57f2301a4c5",
+                "reference": "1287de1607a20976390a5adaaa6db57f2301a4c5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "maxserv/frontend-request": "^2.0",
+                "php": "^8.2",
+                "typo3/cms-backend": "^12.4.25 || ^13.4 || ^14.3",
+                "typo3/cms-core": "^12.4.25 || ^13.4 || ^14.3",
+                "typo3/cms-extbase": "^12.4.25 || ^13.4 || ^14.3",
+                "typo3/cms-fluid": "^12.4.25 || ^13.4 || ^14.3",
+                "typo3/cms-frontend": "^12.4.25 || ^13.4 || ^14.3",
+                "typo3/cms-install": "^12.4.25 || ^13.4 || ^14.3",
+                "typo3/cms-seo": "^12.4.25 || ^13.4 || ^14.3"
+            },
+            "replace": {
+                "typo3-ter/yoast-seo": "self.version"
+            },
+            "require-dev": {
+                "composer/class-map-generator": "^1.3.4",
+                "dg/bypass-finals": "^1.8",
+                "ergebnis/composer-normalize": "^2.43",
+                "friendsofphp/php-cs-fixer": "^3.60.0",
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^1.12 || ^2.1",
+                "phpunit/phpunit": "^10.1 || ^11.2.5",
+                "saschaegerer/phpstan-typo3": "^1.10 || ^2.1 || ^3.0.1",
+                "typo3/coding-standards": "^0.7.1 || ^0.8.0",
+                "typo3/tailor": "^1.7",
+                "typo3/testing-framework": "^7.1.0 || ^8.2.0 || ^9.5.0"
+            },
+            "suggest": {
+                "typo3/cms-dashboard": "Display Yoast SEO widgets within the Dashboard of TYPO3"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "web-dir": ".Build/public",
+                    "extension-key": "yoast_seo"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YoastSeoForTypo3\\YoastSeo\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com",
+                    "homepage": "https://yoast.com"
+                },
+                {
+                    "name": "Team MaxServ",
+                    "email": "support@maxserv.com",
+                    "homepage": "https://maxserv.com"
+                }
+            ],
+            "description": "Yoast SEO for TYPO3",
+            "homepage": "https://yoast.com",
+            "keywords": [
+                "MaxServ",
+                "TYPO3 CMS",
+                "seo",
+                "yoast"
+            ],
+            "support": {
+                "docs": "https://docs.typo3.org/p/yoast-seo-for-typo3/yoast_seo/main/en-us/",
+                "issues": "https://github.com/Yoast/Yoast-SEO-for-TYPO3/issues",
+                "source": "https://github.com/Yoast/Yoast-SEO-for-TYPO3"
+            },
+            "time": "2026-07-08T13:20:01+00:00"
         }
     ],
     "packages-dev": [],
