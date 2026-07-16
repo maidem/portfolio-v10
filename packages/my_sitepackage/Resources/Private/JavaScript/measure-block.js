@@ -111,26 +111,47 @@ function dimensionAll() {
 function init() {
     if (!document.querySelector(".js-measure")) return;
 
+    // Coalesce resize events into one rAF pass, but only re-measure the
+    // wrappers that actually changed — a FAQ <details> transition resizes its
+    // wrapper every frame, and re-measuring all blocks each frame is what
+    // makes the line lag behind the animation.
     let rafId = null;
-    const scheduleUpdate = () => {
-        if (rafId !== null) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-            rafId = null;
-            dimensionAll();
-        });
+    const pending = new Set();
+    const flush = () => {
+        rafId = null;
+        const targets = pending.has(document.body)
+            ? document.querySelectorAll(".js-measure")
+            : pending;
+        pending.clear();
+        targets.forEach(dimensionMeasure);
+    };
+    const scheduleUpdate = (target) => {
+        pending.add(target || document.body);
+        if (rafId === null) rafId = requestAnimationFrame(flush);
     };
 
     // Observe each wrapper individually too — height changes within a block
     // (e.g. a FAQ <details> expanding) need to trigger re-measurement right
     // away, the body observer alone isn't reliable enough for that.
-    const ro = new ResizeObserver(scheduleUpdate);
+    const ro = new ResizeObserver((entries) => {
+        entries.forEach((e) => scheduleUpdate(e.target));
+    });
     ro.observe(document.body);
     document.querySelectorAll(".js-measure").forEach((m) => ro.observe(m));
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(dimensionAll);
 
     // picks up .js-measure blocks swapped in later (e.g. contact-form.js
-    // replacing .cb-form-wrap after an ajax submit)
-    new MutationObserver(() => {
+    // replacing .cb-form-wrap after an ajax submit). Must ignore the dim nodes
+    // we append ourselves — reacting to them re-triggers the measurement in an
+    // endless rAF loop.
+    const isOwnDim = (n) =>
+        n.nodeType === 1 &&
+        (n.classList.contains("js-measure-dim") || n.closest?.(".js-measure-dim"));
+    new MutationObserver((muts) => {
+        const relevant = muts.some((m) =>
+            [...m.addedNodes, ...m.removedNodes].some((n) => !isOwnDim(n)),
+        );
+        if (!relevant) return;
         document.querySelectorAll(".js-measure").forEach((m) => ro.observe(m));
         scheduleUpdate();
     }).observe(document.body, { childList: true, subtree: true });
