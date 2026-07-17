@@ -20,6 +20,19 @@
   margin-top: calc(env(safe-area-inset-top, 0px) * -1);
   padding-top: env(safe-area-inset-top, 0px);
 
+  // opaque shield for the safe-area strip itself: the nav's own background
+  // is translucent + blurred, so scrolled content can still peek through
+  // behind the iOS status bar
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top, 0px);
+    background-color: #ffffff;
+  }
+
   a {
     text-decoration: none;
     color: $text-muted;
