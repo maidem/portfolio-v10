@@ -11,6 +11,24 @@
             <trans-unit id="contact.element.privacy.properties.labelSuffix">
                 <source xml:space="preserve">.</source>
             </trans-unit>
+            <trans-unit id="contact.validation.error.privacy.1221560910">
+                <source xml:space="preserve">This field is mandatory.</source>
+            </trans-unit>
+            <trans-unit id="contact.validation.error.privacy.1221560718">
+                <source xml:space="preserve">This field is mandatory.</source>
+            </trans-unit>
+            <trans-unit id="validation.error.1427031929">
+                <source xml:space="preserve">Mosparo Captcha Validator - Some fields are not valid</source>
+            </trans-unit>
+            <trans-unit id="validation.error.1427031933">
+                <source xml:space="preserve">Mosparo Captcha Validator - Missing config</source>
+            </trans-unit>
+            <trans-unit id="validation.error.1427031944">
+                <source xml:space="preserve">Mosparo Captcha Validator - Missing validation token form fields</source>
+            </trans-unit>
+            <trans-unit id="validation.error.1428031545">
+                <source xml:space="preserve">Mosparo Captcha Validator - Missing server request object</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
