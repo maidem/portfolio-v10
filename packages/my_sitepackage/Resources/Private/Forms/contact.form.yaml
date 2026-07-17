@@ -103,7 +103,6 @@ renderables:
             options:
               nullMessage: 'Dieses Feld ist erforderlich.'
               emptyMessage: 'Dieses Feld ist erforderlich.'
-              invalidMessage: 'Dieses Feld ist erforderlich.'
       -
         defaultValue: ''
         properties:
