@@ -66,6 +66,11 @@
             wrap.replaceWith(newWrap);
             newWrap.scrollIntoView({ behavior: "instant", block: "start" });
             initMosparo(newWrap);
+            // measure-block.js's own observers re-measure on the next layout
+            // change, which can race with this swap and leave a stale dimension
+            // line on screen — force one explicit pass two frames out, once the
+            // browser has fully reflowed the new content.
+            requestAnimationFrame(() => requestAnimationFrame(() => window.dimensionAllMeasureBlocks?.()));
         }
     }
 

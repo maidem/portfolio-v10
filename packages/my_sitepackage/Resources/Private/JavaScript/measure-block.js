@@ -108,6 +108,12 @@ function dimensionAll() {
     document.querySelectorAll(".js-measure").forEach(dimensionMeasure);
 }
 
+// exposed for callers that swap .js-measure content via innerHTML/replaceWith
+// (e.g. contact-form.js after an ajax submit) — the ResizeObserver/MutationObserver
+// combo below re-measures on its own, but only on the next layout change, which
+// can race with the swap itself and leave a stale line on screen.
+window.dimensionAllMeasureBlocks = dimensionAll;
+
 function init() {
     if (!document.querySelector(".js-measure")) return;
 
