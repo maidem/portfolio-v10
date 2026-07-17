@@ -36,7 +36,7 @@
         toast.setAttribute("role", "status");
         toast.innerHTML =
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' +
-            "Danke für deine Nachricht! Ich melde mich so schnell wie möglich bei dir.";
+            "Danke für deine Nachricht!";
         document.body.appendChild(toast);
         setTimeout(() => {
             toast.classList.add("cb-toast--hide");
@@ -55,39 +55,52 @@
         });
     }
 
+    // Ersetzt den aktuellen Formular-Wrap durch den aus der Server-Antwort und
+    // verdrahtet alles neu (Submit-Hijack, Mosparo, Maßlinien). Wird für BEIDE
+    // Fälle genutzt: Fehler-Fragment (mit Meldungen) und Erfolgs-Seite (frisches
+    // leeres Formular) — form.reset() reicht dort nicht, weil das Fehler-Fragment
+    // die alten Eingaben als value-Attribute trägt und die Fehlermeldungs-Knoten
+    // im DOM stehen bleiben würden.
+    function swapWrap(html) {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        const newWrap = doc.querySelector(".cb-form-wrap");
+        const wrap = document.querySelector(".cb-form-wrap");
+        if (!newWrap || !wrap) return false;
+        // Scroll-Position merken und nach dem Austausch wiederherstellen:
+        // replaceWith kann die Dokumenthöhe kurz ändern und den Viewport
+        // springen lassen — der Nutzer soll an Ort und Stelle bleiben.
+        const scrollY = window.scrollY;
+        wrap.replaceWith(newWrap);
+        window.scrollTo({ top: scrollY, behavior: "instant" });
+        hijackNativeSubmit(newWrap);
+        initMosparo(newWrap);
+        // measure-block.js's own observers re-measure on the next layout
+        // change, which can race with this swap and leave a stale dimension
+        // line on screen — force one explicit pass two frames out, once the
+        // browser has fully reflowed the new content.
+        requestAnimationFrame(() => requestAnimationFrame(() => window.dimensionAllMeasureBlocks?.()));
+        return true;
+    }
+
     async function submitForm(form, submitter) {
         const response = await fetch(form.action, {
             method: form.method || "POST",
             body: new FormData(form, submitter),
         });
+        const html = await response.text();
 
         const sent = new URL(response.url).searchParams.get("contact") === "sent";
         if (sent) {
             history.pushState(null, "", location.pathname + "#" + form.id);
-            form.reset();
+            // Die Redirect-Zielseite enthält das frisch gerenderte, leere
+            // Formular — übernehmen statt form.reset(), damit auch vorherige
+            // Fehlermeldungen und eingebackene value-Attribute verschwinden.
+            if (!swapWrap(html)) form.reset();
             showSuccessToast();
             return;
         }
 
-        const html = await response.text();
-        const doc = new DOMParser().parseFromString(html, "text/html");
-        const newWrap = doc.querySelector(".cb-form-wrap");
-        const wrap = document.querySelector(".cb-form-wrap");
-        if (newWrap && wrap) {
-            // Scroll-Position merken und nach dem Austausch wiederherstellen:
-            // replaceWith kann die Dokumenthöhe kurz ändern und den Viewport
-            // springen lassen — der Nutzer soll an Ort und Stelle bleiben.
-            const scrollY = window.scrollY;
-            wrap.replaceWith(newWrap);
-            window.scrollTo({ top: scrollY, behavior: "instant" });
-            hijackNativeSubmit(newWrap);
-            initMosparo(newWrap);
-            // measure-block.js's own observers re-measure on the next layout
-            // change, which can race with this swap and leave a stale dimension
-            // line on screen — force one explicit pass two frames out, once the
-            // browser has fully reflowed the new content.
-            requestAnimationFrame(() => requestAnimationFrame(() => window.dimensionAllMeasureBlocks?.()));
-        }
+        swapWrap(html);
     }
 
     // Delegation auf document statt auf .cb-form-wrap: der Wrap wird nach
