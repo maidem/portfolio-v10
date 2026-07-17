@@ -14,6 +14,30 @@
                 <source>.</source>
                 <target xml:space="preserve"> gelesen</target>
             </trans-unit>
+            <trans-unit id="contact.validation.error.privacy.1221560910">
+                <source>This field is mandatory.</source>
+                <target xml:space="preserve">Dieses Feld ist erforderlich.</target>
+            </trans-unit>
+            <trans-unit id="contact.validation.error.privacy.1221560718">
+                <source>This field is mandatory.</source>
+                <target xml:space="preserve">Dieses Feld ist erforderlich.</target>
+            </trans-unit>
+            <trans-unit id="validation.error.1427031929">
+                <source>Mosparo Captcha Validator - Some fields are not valid</source>
+                <target xml:space="preserve">Deine Eingaben konnten nicht best&#228;tigt werden. Bitte versuche es erneut.</target>
+            </trans-unit>
+            <trans-unit id="validation.error.1427031933">
+                <source>Mosparo Captcha Validator - Missing config</source>
+                <target xml:space="preserve">Der Spamschutz ist derzeit nicht verf&#252;gbar. Bitte versuche es sp&#228;ter erneut.</target>
+            </trans-unit>
+            <trans-unit id="validation.error.1427031944">
+                <source>Mosparo Captcha Validator - Missing validation token form fields</source>
+                <target xml:space="preserve">Deine Eingaben konnten nicht best&#228;tigt werden. Bitte lade die Seite neu und versuche es erneut.</target>
+            </trans-unit>
+            <trans-unit id="validation.error.1428031545">
+                <source>Mosparo Captcha Validator - Missing server request object</source>
+                <target xml:space="preserve">Der Spamschutz ist derzeit nicht verf&#252;gbar. Bitte versuche es sp&#228;ter erneut.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
