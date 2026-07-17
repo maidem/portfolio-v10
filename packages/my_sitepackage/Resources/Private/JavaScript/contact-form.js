@@ -2,8 +2,7 @@
 // beim Seitenwechsel/Fehler, und beim finalen Erfolg (Redirect zu ?contact=sent)
 // nur die URL wechseln statt neu zu laden.
 (function () {
-    const wrap = document.querySelector(".cb-form-wrap");
-    if (!wrap) return;
+    if (!document.querySelector(".cb-form-wrap")) return;
 
     // Mosparo initialisiert Captcha-Divs nur einmal bei DOMContentLoaded (siehe
     // mosparo-form.js). Nach dem Ajax-Austausch der Formularseite muss das für
@@ -62,9 +61,14 @@
         const html = await response.text();
         const doc = new DOMParser().parseFromString(html, "text/html");
         const newWrap = doc.querySelector(".cb-form-wrap");
-        if (newWrap) {
+        const wrap = document.querySelector(".cb-form-wrap");
+        if (newWrap && wrap) {
+            // Scroll-Position merken und nach dem Austausch wiederherstellen:
+            // replaceWith kann die Dokumenthöhe kurz ändern und den Viewport
+            // springen lassen — der Nutzer soll an Ort und Stelle bleiben.
+            const scrollY = window.scrollY;
             wrap.replaceWith(newWrap);
-            newWrap.scrollIntoView({ behavior: "instant", block: "start" });
+            window.scrollTo({ top: scrollY, behavior: "instant" });
             initMosparo(newWrap);
             // measure-block.js's own observers re-measure on the next layout
             // change, which can race with this swap and leave a stale dimension
@@ -74,7 +78,12 @@
         }
     }
 
-    wrap.addEventListener("submit", (e) => {
+    // Delegation auf document statt auf .cb-form-wrap: der Wrap wird nach
+    // jedem Fehler-Submit per replaceWith ausgetauscht, ein direkt gebundener
+    // Listener wäre danach weg — der zweite Klick würde dann als nativer
+    // Full-Page-Submit durchgehen (Reload + Sprung nach oben).
+    document.addEventListener("submit", (e) => {
+        if (!e.target.closest(".cb-form-wrap")) return;
         e.preventDefault();
         submitForm(e.target, e.submitter);
     });

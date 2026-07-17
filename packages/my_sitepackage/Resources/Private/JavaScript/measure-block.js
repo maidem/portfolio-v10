@@ -41,14 +41,16 @@ function dimensionMeasure(measure) {
     // For text: align to the real ink edge, not the line box — line-height
     // makes the box taller than the glyphs, and text-box-trim only works on
     // direct children, not nested text.
-    // data-measure-v="box": use element boxes instead — needed for forms,
-    // where the visual reference is the field border or checkbox, not the
-    // (floating) label text.
+    // data-measure-v="box": use element boxes for the TOP edge — needed for
+    // forms, where the visual reference is the field border, not the
+    // (floating) label text. The BOTTOM edge still prefers the text ink so
+    // the arrow tip lands exactly on the last line (e.g. a checkbox error
+    // message), falling back to the box when there is no measurable text.
     const useBox = measure.dataset.measureV === "box";
     const topEl = fromEl || measure;
     const bottomEl = untilEl || measure;
     const topInk = useBox ? null : inkBounds(topEl);
-    const bottomInk = useBox ? null : inkBounds(bottomEl);
+    const bottomInk = inkBounds(bottomEl);
     top = (topInk ? topInk.top : topEl.getBoundingClientRect().top) - originTop;
     bottom =
         (bottomInk ? bottomInk.bottom : bottomEl.getBoundingClientRect().bottom) -
@@ -73,17 +75,14 @@ function dimensionMeasure(measure) {
     if (width < 1) return;
 
     // H line normally sits below the measured range. data-measure-hbelow=
-    // "<selector>" moves it below that element's bottom edge instead — e.g.
-    // below the whole checkbox block in a form when its text wraps across
-    // multiple lines.
+    // "<selector-list>" moves it below the lowest matching element instead —
+    // e.g. below the mosparo captcha AND its (conditionally rendered) error
+    // message block in a form.
     let hBase = bottom;
-    const hBelowEl =
-        measure.dataset.measureHbelow && measure.querySelector(measure.dataset.measureHbelow);
-    if (hBelowEl) {
-        hBase = Math.max(
-            hBase,
-            hBelowEl.getBoundingClientRect().bottom - originTop,
-        );
+    if (measure.dataset.measureHbelow) {
+        measure.querySelectorAll(measure.dataset.measureHbelow).forEach((el) => {
+            hBase = Math.max(hBase, el.getBoundingClientRect().bottom - originTop);
+        });
     }
 
     const hDim = makeDim(pxToRem(width).toFixed(2), width, colors);
