@@ -14,11 +14,19 @@
                 <source>.</source>
                 <target xml:space="preserve"> gelesen</target>
             </trans-unit>
-            <trans-unit id="contact.validation.error.privacy.1221560910">
+            <trans-unit id="validation.error.privacy.1221560910">
                 <source>This field is mandatory.</source>
                 <target xml:space="preserve">Dieses Feld ist erforderlich.</target>
             </trans-unit>
-            <trans-unit id="contact.validation.error.privacy.1221560718">
+            <trans-unit id="validation.error.privacy.1221560718">
+                <source>This field is mandatory.</source>
+                <target xml:space="preserve">Dieses Feld ist erforderlich.</target>
+            </trans-unit>
+            <trans-unit id="validation.error.1221560910">
+                <source>This field is mandatory.</source>
+                <target xml:space="preserve">Dieses Feld ist erforderlich.</target>
+            </trans-unit>
+            <trans-unit id="validation.error.1221560718">
                 <source>This field is mandatory.</source>
                 <target xml:space="preserve">Dieses Feld ist erforderlich.</target>
             </trans-unit>
