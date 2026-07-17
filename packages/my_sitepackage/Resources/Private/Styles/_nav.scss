@@ -317,22 +317,23 @@
     align-items: center;
     text-align: right;
     padding: 0.625rem 2rem 0.625rem 1.5rem;
-    color: rgba(0, 0, 0, 0.38);
+    color: #111111;
+    opacity: 0.38;
     font-size: clamp(1.375rem, 5vw, 1.75rem);
     font-weight: $fw-semibold;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     text-decoration: none;
     line-height: 1.2;
-    transition: color $transition-base;
+    transition: opacity $transition-base;
     min-height: 3rem; // touch target
 
     &:hover {
-      color: rgba(0, 0, 0, 0.65);
+      opacity: 0.65;
     }
 
     &--active {
-      color: #111111;
+      opacity: 1;
       font-weight: 800;
       pointer-events: none;
       cursor: default;
