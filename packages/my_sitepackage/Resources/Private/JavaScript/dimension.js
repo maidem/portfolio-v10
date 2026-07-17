@@ -76,7 +76,13 @@ export function inkBounds(container) {
             let lineBottom = r.bottom;
             if (inkCtx && cs) {
                 const m = inkCtx.measureText(node.textContent);
-                const baseline = r.top + m.fontBoundingBoxAscent;
+                // r.top is the LINE box top. With line-height > font size the
+                // font box is centered inside the line box (half-leading), so
+                // the baseline sits half the leading below r.top + ascent —
+                // without this every ink edge lands a few px too high.
+                const fontBoxH = m.fontBoundingBoxAscent + m.fontBoundingBoxDescent;
+                const halfLeading = Math.max(0, (r.height - fontBoxH) / 2);
+                const baseline = r.top + halfLeading + m.fontBoundingBoxAscent;
                 if (Number.isFinite(m.actualBoundingBoxAscent))
                     lineTop = baseline - m.actualBoundingBoxAscent;
                 if (Number.isFinite(m.actualBoundingBoxDescent))
