@@ -44,6 +44,20 @@ $color-error: #b91c1c;
     }
   }
 
+  // Mosparo error message (form-group sibling after the captcha div):
+  // plain text line, no field border, enough bottom margin that the
+  // required hint's -1.1rem pull-up doesn't overlap it.
+  .mosparo-captcha ~ .form-group:not(:empty) {
+    border: none;
+    margin: 0.75rem 0 1.75rem;
+    font-size: 0.875rem;
+
+    &:focus-within {
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+
   // hide invisible form-group wrappers (Mosparo hidden inputs, empty divs)
   .form-group:empty,
   .form-group:not(.form-element-check):not(:has(*)),

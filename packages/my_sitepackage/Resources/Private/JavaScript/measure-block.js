@@ -30,13 +30,25 @@ function dimensionMeasure(measure) {
     // the whole wrapper. data-measure-from/-until="<selector>" restricts it
     // from one element's top edge to another's bottom edge (e.g. form: from
     // the first field to the checkbox, skipping padding-top/captcha/button).
+    // data-measure-until accepts a selector LIST — the lowest visible match
+    // wins, so a conditionally rendered error block extends the line.
     // Origin is the wrapper's border-box top edge since dim children are
     // absolutely positioned (top:0) against it.
     const originTop = measure.getBoundingClientRect().top;
     let top = 0;
     let bottom = measure.clientHeight;
     const fromEl = measure.dataset.measureFrom && measure.querySelector(measure.dataset.measureFrom);
-    const untilEl = measure.dataset.measureUntil && measure.querySelector(measure.dataset.measureUntil);
+    let untilEl = null;
+    if (measure.dataset.measureUntil) {
+        let maxBottom = -Infinity;
+        measure.querySelectorAll(measure.dataset.measureUntil).forEach((el) => {
+            const b = el.getBoundingClientRect().bottom;
+            if (el.offsetParent !== null && b > maxBottom) {
+                maxBottom = b;
+                untilEl = el;
+            }
+        });
+    }
 
     // For text: align to the real ink edge, not the line box — line-height
     // makes the box taller than the glyphs, and text-box-trim only works on
