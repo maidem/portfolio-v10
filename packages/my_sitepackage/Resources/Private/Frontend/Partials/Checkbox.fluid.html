@@ -50,9 +50,11 @@
                                     pageUid="{element.properties.privacyPageUid}" /></f:variable></f:if
                         ><a
                             href="#"
+                            role="button"
+                            aria-haspopup="dialog"
                             class="cb-privacy-link"
                             data-privacy-url="{privacyUrl}"
-                            >{formvh:translateElementProperty(element: element, property: 'privacyLinkText')}</a
+                            >{formvh:translateElementProperty(element: element, property: 'privacyLinkText')} (Übersicht)</a
                         >{formvh:translateElementProperty(element: element, property: 'labelSuffix')}
                         <f:if condition="{element.required}"
                             ><f:render
