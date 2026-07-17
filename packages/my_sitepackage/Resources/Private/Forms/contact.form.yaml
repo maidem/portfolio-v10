@@ -5,13 +5,7 @@ label: contact
 prototypeName: standard
 renderingOptions:
   submitButtonLabel: Absenden
-  # Locale explizit auf Deutsch festnageln: bei einem POST-Submit ohne
-  # Sprach-Präfix in der URL erkennt der Form-TranslationService den Locale
-  # sonst als "en" und zeigt englische Validierungs-Fallbacks statt der
-  # deutschen Übersetzungen aus den translationFiles.
-  language: de
   translation:
-    language: de
     translationFiles:
       - 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
 finishers:
@@ -103,16 +97,41 @@ renderables:
         type: Checkbox
         properties:
           privacyPageUid: ''
+          # validationErrorMessages greift direkt per Fehlercode (siehe
+          # TranslationService::translateFormElementError) und umgeht den
+          # locale-abhängigen XLF-Pfad, der bei POST-Submits ohne Sprach-Präfix
+          # in der URL fälschlich auf englische Defaults zurückfällt.
+          # 1221560718 = leerer Wert, 1221560910 = null (nicht angehakte Checkbox).
+          validationErrorMessages:
+            -
+              code: 1221560718
+              message: 'Dieses Feld ist erforderlich.'
+            -
+              code: 1221560910
+              message: 'Dieses Feld ist erforderlich.'
         validators:
           -
             identifier: NotEmpty
-            options:
-              nullMessage: 'Dieses Feld ist erforderlich.'
-              emptyMessage: 'Dieses Feld ist erforderlich.'
       -
         defaultValue: ''
         properties:
           selectedProject: Default
+          # Mosparo wirft hartkodierte englische Fehlertexte (siehe
+          # MosparoCaptchaValidator) — hier per Code auf neutrale deutsche
+          # Meldungen mappen, damit dem Nutzer nichts Technisches erscheint.
+          validationErrorMessages:
+            -
+              code: 1427031929
+              message: 'Deine Eingaben konnten nicht bestätigt werden. Bitte versuche es erneut.'
+            -
+              code: 1427031933
+              message: 'Der Spamschutz ist derzeit nicht verfügbar. Bitte versuche es später erneut.'
+            -
+              code: 1427031944
+              message: 'Deine Eingaben konnten nicht bestätigt werden. Bitte lade die Seite neu und versuche es erneut.'
+            -
+              code: 1428031545
+              message: 'Der Spamschutz ist derzeit nicht verfügbar. Bitte versuche es später erneut.'
         type: MosparoCaptcha
         identifier: mosparocaptcha-1
         label: 'Mosparo Captcha'
