@@ -44,6 +44,17 @@
         }, 5000);
     }
 
+    // Mosparo ruft nach seiner unsichtbaren Verifizierung form.submit() nativ
+    // auf — das feuert KEIN submit-Event und umgeht die Delegation unten
+    // (Folge: Full-Page-Reload + Sprung nach oben). Die Methode wird deshalb
+    // pro Formular auf den fetch-Weg umgebogen.
+    function hijackNativeSubmit(root) {
+        root.querySelectorAll("form").forEach((form) => {
+            form.submit = () =>
+                submitForm(form, form.querySelector('button[type="submit"], input[type="submit"]'));
+        });
+    }
+
     async function submitForm(form, submitter) {
         const response = await fetch(form.action, {
             method: form.method || "POST",
@@ -69,6 +80,7 @@
             const scrollY = window.scrollY;
             wrap.replaceWith(newWrap);
             window.scrollTo({ top: scrollY, behavior: "instant" });
+            hijackNativeSubmit(newWrap);
             initMosparo(newWrap);
             // measure-block.js's own observers re-measure on the next layout
             // change, which can race with this swap and leave a stale dimension
@@ -87,4 +99,6 @@
         e.preventDefault();
         submitForm(e.target, e.submitter);
     });
+
+    hijackNativeSubmit(document.querySelector(".cb-form-wrap"));
 })();
