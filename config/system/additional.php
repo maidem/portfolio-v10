@@ -62,6 +62,14 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
         $_SERVER['SERVER_PORT'] = 443;
     }
 
+    // Explicit Host Detection: site matching (base: 'https://maidem.de/') needs
+    // the public hostname, not whatever host Traefik connects to the container with.
+    if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+        $forwardedHost = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_HOST'])[0]);
+        $_SERVER['HTTP_HOST'] = $forwardedHost;
+        $_SERVER['SERVER_NAME'] = $forwardedHost;
+    }
+
     // Security: Only send Cookies over HTTPS
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] = 2; // Always secure
     $GLOBALS['TYPO3_CONF_VARS']['BE']['lockSSL'] = true; // Force SSL for backend
