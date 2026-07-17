@@ -665,14 +665,12 @@ h4, h5, h6 {
 .cb-section-hero__container,
 .cb-section-projects__container,
 .cb-section-skills__container,
-.cb-news-list,
-.cb-news-filter-bar {
+.cb-news-list {
   @include container;
 }
 
 // ─── Sections flush with the logo (container edge from 1200px) ─────────────────
 .cb-news-list,
-.cb-news-filter-bar,
 .cb-section-hero__container,
 .cb-section-projects__container,
 .cb-section-skills__container,
@@ -782,57 +780,6 @@ h4, h5, h6 {
 
   &:not(:last-child)::after {
     content: ", ";
-  }
-}
-
-// ─── News: Category filter ────────────────────────────────────────────────────
-.cb-news-filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 0;
-  margin-bottom: 2rem;
-
-  @include below($bp-md) {
-    margin-bottom: 1.5rem;
-  }
-
-  &__btn {
-    display: inline-block;
-    padding: 0.375rem 1rem;
-    font-size: 0.75rem;
-    font-weight: $fw-semibold;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-family: $font-mono;
-    text-decoration: none;
-    border: 1.5px solid rgba(17, 17, 17, 0.18);
-    border-radius: $radius-pill;
-    color: $text-muted;
-    line-height: 1;
-    cursor: pointer;
-    background: none;
-    transition:
-      background-color $transition-fast,
-      color $transition-fast,
-      border-color $transition-fast;
-
-    &:hover {
-      border-color: $text-primary;
-      color: $text-primary;
-    }
-
-    &--active {
-      background-color: rgba(17, 17, 17, 0.85);
-      border-color: rgba(17, 17, 17, 0.85);
-      color: #fff;
-
-      &:hover {
-        background-color: #111111;
-        border-color: #111111;
-        color: #fff;
-      }
-    }
   }
 }
 
