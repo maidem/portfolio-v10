@@ -5,7 +5,13 @@ label: contact
 prototypeName: standard
 renderingOptions:
   submitButtonLabel: Absenden
+  # Locale explizit auf Deutsch festnageln: bei einem POST-Submit ohne
+  # Sprach-Präfix in der URL erkennt der Form-TranslationService den Locale
+  # sonst als "en" und zeigt englische Validierungs-Fallbacks statt der
+  # deutschen Übersetzungen aus den translationFiles.
+  language: de
   translation:
+    language: de
     translationFiles:
       - 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
 finishers:
