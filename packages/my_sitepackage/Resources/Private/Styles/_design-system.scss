@@ -49,9 +49,9 @@ $transition-spring: 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 $z-bg: -1;
 $z-base: 1;
 $z-perspective-grid: 2; // .cb-perspective-grid (fixed background lines)
-$z-nav: 1040;
-$z-backdrop: 1039;
-$z-overlay: 1051;
+$z-nav: 100;
+$z-backdrop: 99;
+$z-overlay: 110;
 $z-noise: 9999;
 
 // ─── Mixins ───────────────────────────────────────────────────────────────────

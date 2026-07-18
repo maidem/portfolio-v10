@@ -17,21 +17,28 @@
   right: 0;
   z-index: $z-nav;
   background-color: #ffffff;
+  // promote the nav to its own compositing layer so iOS Safari always paints
+  // it above scrolling content — plain position: fixed lets content bleed
+  // through during momentum scroll / rubber-banding. no backdrop-filter here,
+  // so this doesn't cause the scroll stutter it did in combination with blur.
+  transform: translateZ(0);
   // box-shadow instead of border: doesn't affect layout, so nav height stays
   // exactly on the 8px grid ($unit * 7 = 56px) and content below (e.g. the
   // banner mm grid) starts flush.
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   transition: all $transition-base;
 
+  // opaque shield for the iOS status-bar strip directly above the nav.
+  // absolute (not fixed) so the nav's transform: translateZ(0) doesn't turn
+  // this into a fixed element relative to the nav itself.
   &::before {
     content: '';
-    position: fixed;
-    top: 0;
+    position: absolute;
+    bottom: 100%;
     left: 0;
     right: 0;
     height: env(safe-area-inset-top, 0px);
     background-color: #ffffff;
-    z-index: 1;
   }
 
   a {
