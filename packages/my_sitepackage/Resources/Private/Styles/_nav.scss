@@ -12,12 +12,6 @@
   right: 0;
   z-index: $z-nav;
   background-color: #ffffff;
-
-  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-    background-color: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(16px) saturate(1.4);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  }
   // box-shadow instead of border: doesn't affect layout, so nav height stays
   // exactly on the 8px grid ($unit * 7 = 56px) and content below (e.g. the
   // banner mm grid) starts flush.
