@@ -6,6 +6,11 @@
   // + a translucent background doesn't reliably repaint during scroll,
   // letting content peek through. fixed + a fully opaque background avoids
   // the bug entirely (confirmed working in the demo-taekwondo-mueller project).
+  //
+  // the status-bar strip is covered by a fixed ::before shield instead of
+  // padding-top: env(safe-area-inset-top) — padding only extends the box,
+  // it doesn't reliably force iOS Safari to paint the background underneath
+  // the status bar during scroll/rubber-banding.
   position: fixed;
   top: 0;
   left: 0;
@@ -17,7 +22,17 @@
   // banner mm grid) starts flush.
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   transition: all $transition-base;
-  padding-top: env(safe-area-inset-top, 0px);
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top, 0px);
+    background-color: #ffffff;
+    z-index: 1;
+  }
 
   a {
     text-decoration: none;
