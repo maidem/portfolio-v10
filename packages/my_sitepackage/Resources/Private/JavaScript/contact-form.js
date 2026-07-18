@@ -109,6 +109,11 @@
     // Full-Page-Submit durchgehen (Reload + Sprung nach oben).
     document.addEventListener("submit", (e) => {
         if (!e.target.closest(".cb-form-wrap")) return;
+        // Mosparo fängt unverifizierte Submits selbst ab (preventDefault am
+        // Formular) und ruft nach der Verifizierung form.submit() auf — das
+        // ist oben auf den fetch-Weg umgebogen. Hier nicht doppelt senden,
+        // sonst geht ein Submit ohne mosparo-Token raus.
+        if (e.defaultPrevented) return;
         e.preventDefault();
         submitForm(e.target, e.submitter);
     });
