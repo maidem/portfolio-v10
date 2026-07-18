@@ -7,12 +7,15 @@
   left: 0;
   right: 0;
   z-index: $z-nav;
-  // opaque fallback background: iOS Safari doesn't reliably recompute
-  // backdrop-filter on a position: sticky element while scrolling, letting
-  // content peek through the translucent layer below
+  // opaque fallback background: iOS Safari doesn't reliably repaint
+  // backdrop-filter on a position: sticky element during scroll/rubber-
+  // banding, letting content peek through the translucent layer below
   background-color: #ffffff;
+  // forces its own compositing layer so the (semi-)transparent background
+  // and blur stay pinned/repainted correctly while sticky-scrolling on iOS
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+  will-change: transform;
 
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     background-color: rgba(255, 255, 255, 0.72);
@@ -29,9 +32,7 @@
   margin-top: calc(env(safe-area-inset-top, 0px) * -1);
   padding-top: env(safe-area-inset-top, 0px);
 
-  // opaque shield for the safe-area strip itself: the nav's own background
-  // is translucent + blurred, so scrolled content can still peek through
-  // behind the iOS status bar
+  // opaque shield for the safe-area strip itself
   &::before {
     content: '';
     position: absolute;
