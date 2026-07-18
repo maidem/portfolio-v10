@@ -2,35 +2,30 @@
 @use "design-system" as *;
 
 .cb-nav {
-  // fixed instead of sticky: on iOS Safari, position: sticky + backdrop-filter
-  // + a translucent background doesn't reliably repaint during scroll,
-  // letting content peek through. fixed + a fully opaque background avoids
-  // the bug entirely (confirmed working in the demo-taekwondo-mueller project).
-  //
-  // the status-bar strip is covered by a fixed ::before shield instead of
-  // padding-top: env(safe-area-inset-top) — padding only extends the box,
-  // it doesn't reliably force iOS Safari to paint the background underneath
-  // the status bar during scroll/rubber-banding.
+  // fixed position; opaque background as fallback, frosted (translucent + blur)
+  // where backdrop-filter is supported. the earlier iOS "content bleeds through"
+  // bug was caused by a fullscreen fixed film-grain overlay above the nav, not
+  // by the blur itself — with that removed the frosted look works fine again.
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: $z-nav;
   background-color: #ffffff;
-  // promote the nav to its own compositing layer so iOS Safari always paints
-  // it above scrolling content — plain position: fixed lets content bleed
-  // through during momentum scroll / rubber-banding. no backdrop-filter here,
-  // so this doesn't cause the scroll stutter it did in combination with blur.
-  transform: translateZ(0);
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  }
   // box-shadow instead of border: doesn't affect layout, so nav height stays
   // exactly on the 8px grid ($unit * 7 = 56px) and content below (e.g. the
   // banner mm grid) starts flush.
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   transition: all $transition-base;
 
-  // opaque shield for the iOS status-bar strip directly above the nav.
-  // absolute (not fixed) so the nav's transform: translateZ(0) doesn't turn
-  // this into a fixed element relative to the nav itself.
+  // opaque shield for the iOS status-bar strip directly above the nav
+  // (covers the env(safe-area-inset-top) zone on notched devices).
   &::before {
     content: '';
     position: absolute;
@@ -345,6 +340,18 @@
       font-weight: 800;
       pointer-events: none;
       cursor: default;
+
+      // red dot to the left of the active link (mirrors the desktop nav's
+      // active indicator)
+      &::before {
+        content: '';
+        flex-shrink: 0;
+        width: 0.45rem;
+        height: 0.45rem;
+        margin-right: 0.625rem;
+        border-radius: 50%;
+        background-color: #ed1c24;
+      }
     }
   }
 }

@@ -213,8 +213,13 @@ const initScrollspy = () => {
     const setActive = (id) => {
         navLinks.forEach((link) => {
             const isActive = link.getAttribute("href") === `#${id}`;
-            link.classList.toggle("cb-nav__link--active", isActive);
-            link.classList.toggle("cb-nav__overlay-link--active", isActive);
+            // only toggle the class matching the link's own type, otherwise an
+            // overlay link would also get the desktop link's ::after dot (and
+            // vice versa), producing a second stray indicator
+            const cls = link.classList.contains("cb-nav__overlay-link")
+                ? "cb-nav__overlay-link--active"
+                : "cb-nav__link--active";
+            link.classList.toggle(cls, isActive);
         });
     };
 
