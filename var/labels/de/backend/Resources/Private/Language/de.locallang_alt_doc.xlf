@@ -43,17 +43,9 @@
         <source>You can select one of your most recently edited records from this list</source>
         <target state="final">Aus dieser Liste können die zuletzt bearbeiteten Datensätze ausgewählt werden</target>
       </trans-unit>
-      <trans-unit id="noDocuments_pagemodule" x-unused-since="14.0" approved="yes">
-        <source>the Web&gt;Page module</source>
-        <target state="final">das Modul Web&gt;Seite</target>
-      </trans-unit>
       <trans-unit id="noDocuments_OR" approved="yes">
         <source>or</source>
         <target state="final">oder</target>
-      </trans-unit>
-      <trans-unit id="noDocuments_listmodule" x-unused-since="14.0" approved="yes">
-        <source>the Web&gt;List module</source>
-        <target state="final">das Modul Web&gt;Liste</target>
       </trans-unit>
       <trans-unit id="noEditForm" approved="yes">
         <source>Edit form could not be loaded</source>

@@ -183,6 +183,22 @@
         <source>You've been redirected to the "%s" module, because you currently can't access the "%s" module. You either don't have the necessary permissions or access is temporarily not possible, e.g. due to workspace restrictions.</source>
         <target state="final">Du wurdest zum Modul "%s" weitergeleitet, da du derzeit nicht auf das Modul "%s" zugreifen kannst. Entweder hast du nicht die erforderlichen Berechtigungen oder der Zugriff ist vorübergehend nicht möglich, z.B. aufgrund von Arbeitsbereichsbeschränkungen.</target>
       </trans-unit>
+      <trans-unit id="noModuleAccess.workspace.title" approved="yes">
+        <source>No workspace access</source>
+        <target state="final">Kein Workspace-Zugriff</target>
+      </trans-unit>
+      <trans-unit id="noModuleAccess.workspace.message" approved="yes">
+        <source>Your user account or user group is not assigned to any workspace and does not have permission to edit the live workspace. Please contact your administrator.</source>
+        <target state="final">Dein Benutzerkonto oder deine Benutzergruppe ist keinem Workspace zugewiesen und hat keine Berechtigung, den Live-Workspace zu bearbeiten. Bitte kontaktiere deinen Administrator.</target>
+      </trans-unit>
+      <trans-unit id="noModuleAccess.permissions.title" approved="yes">
+        <source>No module access</source>
+        <target state="final">Kein Zugriff auf das Modul</target>
+      </trans-unit>
+      <trans-unit id="noModuleAccess.permissions.message" approved="yes">
+        <source>Your user account does not have access to any backend module. Please contact your administrator.</source>
+        <target state="final">Dein Benutzerkonto hat keinen Zugriff auf ein Backend-Modul. Bitte kontaktiere deinen Administrator.</target>
+      </trans-unit>
       <trans-unit id="clearcache.title" approved="yes">
         <source>Page cache</source>
         <target state="final">Seitencache</target>

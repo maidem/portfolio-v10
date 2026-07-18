@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="EXT:yoast_seo/Resources/Private/Language/BackendModuleOverview.xlf" date="2014-05-02T12:00:00Z" product-name="yoastseo-overview" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="mlang_tabs_tab" resname="mlang_tabs_tab" approved="yes">
+        <source>Overview</source>
+        <target state="final">Übersicht</target>
+      </trans-unit>
+      <trans-unit id="mlang_labels_tabdescr" resname="mlang_labels_tabdescr" approved="yes">
+        <source>Overview of pages</source>
+        <target state="final">Seitenübersicht</target>
+      </trans-unit>
+      <trans-unit id="mlang_labels_tablabel" resname="mlang_labels_tablabel" approved="yes">
+        <source>Yoast SEO Overview</source>
+        <target state="final">Yoast SEO Übersicht</target>
+      </trans-unit>
+      <trans-unit id="cornerstoneContent" resname="cornerstoneContent" approved="yes">
+        <source>Cornerstone content</source>
+        <target state="final">Cornerstone content</target>
+      </trans-unit>
+      <trans-unit id="cornerstoneContent.description" resname="cornerstoneContent.description" approved="yes">
+        <source><![CDATA[Mark the most important pages as 'cornerstone content' to improve your site structure. <a href="%s" target="_blank">Learn more about cornerstone content.</a>]]></source>
+        <target state="final"><![CDATA[Markieren Sie die wichtigsten Seiten als 'cornerstone content' um ihre Seitenstruktur zu verbessern. &lt;a href="%s" target="_blank"&gt;Mehr über  cornerstone content erfahren.&lt;/a&gt;]]></target>
+      </trans-unit>
+      <trans-unit id="withoutDescription" resname="withoutDescription" approved="yes">
+        <source>Pages without meta description</source>
+        <target state="final">Seiten ohne Meta Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="withoutDescription.description" resname="withoutDescription.description" approved="yes">
+        <source><![CDATA[Optimizing the meta description is a very important aspect of on-page SEO. Consider adding a meta description to these pages. <a href="%s">Learn more about writing the right meta description.</a>]]></source>
+        <target state="final"><![CDATA[Die Optimierung der Seitenbeschreibung ist sehr wichtig. Prüfe das Hinzufügen von Beschreibungen zu den folgenden Seiten. &lt;a href="%s"&gt;Mehr über die Meta Beschreibung erfahren&lt;/a&gt;.]]></target>
+      </trans-unit>
+      <trans-unit id="no_pages.title" resname="no_pages.title" approved="yes">
+        <source>No pages found</source>
+        <target state="final">Keine Seiten gefunden</target>
+      </trans-unit>
+      <trans-unit id="no_pages.message" resname="no_pages.message" approved="yes">
+        <source>No pages found with the current filter.</source>
+        <target state="final">Keine Seiten gefunden die den aktuellen Filterkriterien entsprechen.</target>
+      </trans-unit>
+      <trans-unit id="edit" resname="edit" approved="yes">
+        <source>Edit page</source>
+        <target state="final">Seite bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="page.title" resname="page.title" approved="yes">
+        <source>Page title</source>
+        <target state="final">Seitentitel</target>
+      </trans-unit>
+      <trans-unit id="page.seo_title" resname="page.seo_title" approved="yes">
+        <source>SEO title</source>
+        <target state="final">SEO Titel</target>
+      </trans-unit>
+      <trans-unit id="page.score_readability" resname="page.score_readability" approved="yes">
+        <source>Readability</source>
+        <target state="final">Lesbarkeit</target>
+      </trans-unit>
+      <trans-unit id="page.score_seo" resname="page.score_seo" approved="yes">
+        <source>SEO</source>
+        <target state="final">SEO</target>
+      </trans-unit>
+      <trans-unit id="score.ok" resname="score.ok" approved="yes">
+        <source>OK</source>
+        <target state="final">OK</target>
+      </trans-unit>
+      <trans-unit id="score.bad" resname="score.bad" approved="yes">
+        <source>Needs improvement</source>
+        <target state="final">Verbesserungsmöglichkeiten</target>
+      </trans-unit>
+      <trans-unit id="score.good" resname="score.good" approved="yes">
+        <source>Good</source>
+        <target state="final">Gut</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

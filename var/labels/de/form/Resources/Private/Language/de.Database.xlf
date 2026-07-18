@@ -1455,14 +1455,6 @@
         <source>Maximum date</source>
         <target state="final">Enddatum</target>
       </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.validators.DateRange.editor.minimum.placeholder" approved="yes">
-        <source>A date in format Y-m-d (e.g 2018-03-17)</source>
-        <target state="final">Ein Datum im Format Y-m-d (z.B. 2018-03-17)</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.validators.DateRange.editor.maximum.placeholder" approved="yes">
-        <source>A date in format Y-m-d (e.g 2018-03-17)</source>
-        <target state="final">Ein Datum im Format Y-m-d (z.B. 2018-03-17)</target>
-      </trans-unit>
       <trans-unit id="formEditor.elements.Password.label" approved="yes">
         <source>Password</source>
         <target state="final">Passwort</target>
@@ -1543,49 +1535,9 @@
         <source>An element for creating a dropdown list for selecting a single option</source>
         <target state="final">Ein Element zur Erstellung einer Dropdown-Liste für die Auswahl einer einzelnen Option</target>
       </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.label" approved="yes">
-        <source>Date picker (jQuery)</source>
-        <target state="final">Datumsauswahl (jQuery)</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.description" approved="yes">
-        <source>A text field for selecting a date via a calendar interface</source>
-        <target state="final">Ein Textfeld zur Auswahl eines Datums über eine Kalenderschnittstelle</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.editor.dateFormat.label" approved="yes">
-        <source>Date format</source>
-        <target state="final">Datumsformat</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.editor.enableDatePicker.label" approved="yes">
-        <source>Enable datepicker (needs jQuery UI)</source>
-        <target state="final">Datumsauswahl aktivieren (erfordert jQuery UI)</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.editor.displayTimeSelector.label" approved="yes">
-        <source>Display time selector</source>
-        <target state="final">Zeitauswahl anzeigen</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.editor.validators.label" approved="yes">
-        <source>Validators</source>
-        <target state="final">Validatoren</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.editor.validators.EmptyValue.label" approved="yes">
-        <source>Add validator</source>
-        <target state="final">Validator hinzufügen</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.editor.validators.DateTime.label" approved="yes">
-        <source>Date/time</source>
-        <target state="final">Datum/Uhrzeit</target>
-      </trans-unit>
       <trans-unit id="formEditor.elements.DatePicker.validators.DateTime.editor.header.label" approved="yes">
         <source>Date/time</source>
         <target state="final">Datum/Uhrzeit</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.validators.DateTime.editor.validationErrorMessage.label" approved="yes">
-        <source>Custom error message</source>
-        <target state="final">Benutzerdefinierte Fehlermeldung</target>
-      </trans-unit>
-      <trans-unit id="formEditor.elements.DatePicker.validators.DateTime.editor.validationErrorMessage.description" approved="yes">
-        <source>Error message which is shown if the validation does not succeed</source>
-        <target state="final">Fehlermeldung die angezeigt wird, wenn die Validierung fehlschlägt.</target>
       </trans-unit>
       <trans-unit id="formEditor.elements.StaticText.label" approved="yes">
         <source>Static text</source>
@@ -1745,14 +1697,6 @@ Die maximale Dateigrösse ist beim Server auf {0} eingestellt. Bitte beachten Si
         <source>Remove</source>
         <target state="final">Entfernen</target>
       </trans-unit>
-      <trans-unit id="formEditor.stage.toolbar.new_element.inside" x-unused-since="14.2" approved="yes">
-        <source>Inside</source>
-        <target state="final">Innen</target>
-      </trans-unit>
-      <trans-unit id="formEditor.stage.toolbar.new_element.after" x-unused-since="14.2" approved="yes">
-        <source>After</source>
-        <target state="final">Nach</target>
-      </trans-unit>
       <trans-unit id="formEditor.inspector.editor.formelement_selector.title" approved="yes">
         <source>Insert formelement identifier</source>
         <target state="final">Formularelement-Kennung einfügen</target>
@@ -1808,14 +1752,6 @@ Die maximale Dateigrösse ist beim Server auf {0} eingestellt. Bitte beachten Si
       <trans-unit id="formManager.storage.database.description" approved="yes">
         <source>Store the form as a record in the database. Recommended for most use cases, because it treats forms as user-generated content and allows integrated versioning.</source>
         <target state="final">Speichere das Formular als Datensatz in der Datenbank. Dies ist für die meisten Anwendungsfälle empfohlen, da es Formulare als benutzergenerierte Inhalte behandelt und integrierte Versionierung ermöglicht.</target>
-      </trans-unit>
-      <trans-unit id="formManager.storage.fileMount.label" approved="yes">
-        <source>File (deprecated)</source>
-        <target state="final">Datei (veraltet)</target>
-      </trans-unit>
-      <trans-unit id="formManager.storage.fileMount.description" approved="yes">
-        <source>Store the form as a YAML file. This option will be removed in a future TYPO3 version. Use "Database" instead. Files can still be provided within extensions.</source>
-        <target state="final">Speichere das Formular als YAML-Datei. Diese Option wird in einer zukünftigen TYPO3-Version entfernt. Verwende stattdessen "Datenbank". Dateien können weiterhin innerhalb von Erweiterungen bereitgestellt werden.</target>
       </trans-unit>
       <trans-unit id="formManager.storage.extension.label" approved="yes">
         <source>Extension</source>

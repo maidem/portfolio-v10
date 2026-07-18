@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="EXT:yoast_seo/Resources/Private/Language/BackendModulePremium.xlf" date="2014-05-02T12:00:00Z" product-name="yoastseo-premium" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="mlang_tabs_tab" resname="mlang_tabs_tab" approved="yes">
+        <source>Premium</source>
+        <target state="final">Premium</target>
+      </trans-unit>
+      <trans-unit id="mlang_labels_tabdescr" resname="mlang_labels_tabdescr" approved="yes">
+        <source>Yoast SEO Premium for TYPO3</source>
+        <target state="final">Yoast SEO Premium für TYPO3</target>
+      </trans-unit>
+      <trans-unit id="mlang_labels_tablabel" resname="mlang_labels_tablabel" approved="yes">
+        <source>Yoast SEO Premium for TYPO3</source>
+        <target state="final">Yoast SEO Premium für TYPO3</target>
+      </trans-unit>
+      <trans-unit id="mod_premium_title" resname="mod_premium_title" approved="yes">
+        <source>Yoast SEO Premium</source>
+        <target state="final">Yoast SEO Premium</target>
+      </trans-unit>
+      <trans-unit id="mod_premium_subtitle" resname="mod_premium_subtitle" approved="yes">
+        <source>, take your optimization to the next level!</source>
+        <target state="final">, optimiere auf dem nächsten Level!</target>
+      </trans-unit>
+      <trans-unit id="mod_premium_redirectmanager" resname="mod_premium_redirectmanager" approved="yes">
+        <source>Redirect manager</source>
+        <target state="final">Weiterleitungsmanager</target>
+      </trans-unit>
+      <trans-unit id="mod_premium_redirectmanager_descr" resname="mod_premium_redirectmanager_descr" approved="yes">
+        <source>create and manage redirects from within your TYPO3 installation</source>
+        <target state="final">Erstelle und verwalte Weiterleitungen direkt in TYPO3</target>
+      </trans-unit>
+      <trans-unit id="mod_premium_multiple_focus_keywords" resname="mod_premium_multiple_focus_keywords" approved="yes">
+        <source>Multiple focus keyphrases</source>
+        <target state="final">Mehrere Fokusschlüsselworte</target>
+      </trans-unit>
+      <trans-unit id="mod_premium_multiple_focus_keywords_descr" resname="mod_premium_multiple_focus_keywords_descr" approved="yes">
+        <source>optimize a single post for up to 5 keyphrases</source>
+        <target state="final">optimiere einzelne Veröffentlichungen für bis zu 5 Schlüsselworte </target>
+      </trans-unit>
+      <trans-unit id="mod_premium_support" resname="mod_premium_support" approved="yes">
+        <source>Premium support</source>
+        <target state="final">Premium Support</target>
+      </trans-unit>
+      <trans-unit id="mod_premium_support_descr" resname="mod_premium_support_descr" approved="yes">
+        <source>gain access to our 24/7 support team</source>
+        <target state="final">Zugriff auf unser 24/7 support Team</target>
+      </trans-unit>
+      <trans-unit id="installed" resname="installed" approved="yes">
+        <source>Yoast SEO Premium for TYPO3 is installed</source>
+        <target state="final">Yoast SEO Premium für TYPO3 ist installiert</target>
+      </trans-unit>
+      <trans-unit id="buy_now" resname="buy_now" approved="yes">
+        <source>BUY YOAST SEO PREMIUM FOR TYPO3</source>
+        <target state="final">Kaufe YOAST SEO PREMIUM FÜR TYPO3</target>
+      </trans-unit>
+      <trans-unit id="more_information" resname="more_information" approved="yes">
+        <source>More information</source>
+        <target state="final">Weitere Informationen</target>
+      </trans-unit>
+      <trans-unit id="guarantee" resname="guarantee" approved="yes">
+        <source>Comes with our 30-day no questions asked money back guarantee</source>
+        <target state="final">30-Tage Geld-zurück-Garantie und das ohne lästige Rückfragen </target>
+      </trans-unit>
+      <trans-unit id="free" resname="free" approved="yes">
+        <source>Yoast SEO free</source>
+        <target state="final">Yoast SEO free</target>
+      </trans-unit>
+      <trans-unit id="table.check" resname="table.check" approved="yes">
+        <source>Check!</source>
+        <target state="final">Prüfen!</target>
+      </trans-unit>
+      <trans-unit id="table.feature" resname="table.feature" approved="yes">
+        <source>Feature</source>
+        <target state="final">Feature</target>
+      </trans-unit>
+      <trans-unit id="table.feature.keywords" resname="table.feature.keywords" approved="yes">
+        <source>Keyword optimization</source>
+        <target state="final">Schlüsselwort-Optimierung </target>
+      </trans-unit>
+      <trans-unit id="table.feature.preview" resname="table.feature.preview" approved="yes">
+        <source>Preview of your page</source>
+        <target state="final">Vorschau ihrer Seite</target>
+      </trans-unit>
+      <trans-unit id="table.feature.readability" resname="table.feature.readability" approved="yes">
+        <source>Readability check</source>
+        <target state="final">Lesbarkeitsprüfung</target>
+      </trans-unit>
+      <trans-unit id="table.feature.content" resname="table.feature.content" approved="yes">
+        <source>No duplicate content</source>
+        <target state="final">Kein doppelter Inhalt</target>
+      </trans-unit>
+      <trans-unit id="table.feature.algorithm" resname="table.feature.algorithm" approved="yes">
+        <source>Always updated for Google’s algorithm</source>
+        <target state="final">Immer aktuell für Google’s Algorithmen</target>
+      </trans-unit>
+      <trans-unit id="table.feature.linking_suggestions" resname="table.feature.linking_suggestions" approved="yes">
+        <source>Internal linking suggestions</source>
+        <target state="final">Interne Link Vorschläge </target>
+      </trans-unit>
+      <trans-unit id="table.feature.insights" resname="table.feature.insights" approved="yes">
+        <source>Content insights</source>
+        <target state="final">Content insights</target>
+      </trans-unit>
+      <trans-unit id="table.feature.redirect" resname="table.feature.redirect" approved="yes">
+        <source>Redirect manager</source>
+        <target state="final">Weiterleitungsmanager</target>
+      </trans-unit>
+      <trans-unit id="table.feature.support" resname="table.feature.support" approved="yes">
+        <source>1 year free access to 24/7 support</source>
+        <target state="final">1 Jahr Zugriff auf kostenfreien 24/7 support</target>
+      </trans-unit>
+      <trans-unit id="table.feature.ad_free" resname="table.feature.ad_free" approved="yes">
+        <source>Ad-free</source>
+        <target state="final">Werbefrei</target>
+      </trans-unit>
+      <trans-unit id="table.premium.keywords" resname="table.premium.keywords" approved="yes">
+        <source>Optimize for keywords, keyphrases, synonyms and related keywords.</source>
+        <target state="final">Optmiere für Schlüsselworte, Wortgruppen, Synonyme und verwandte Schlüsselworte</target>
+      </trans-unit>
+      <trans-unit id="table.premium.preview" resname="table.premium.preview" approved="yes">
+        <source><![CDATA[<b>Google snippet preview:</b> see what your page looks like in Google.]]></source>
+        <target state="final"><![CDATA[&lt;b&gt;Google Vorschau:&lt;/b&gt; so würde die Seite aussehen.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.readability" resname="table.premium.readability" approved="yes">
+        <source><![CDATA[We check the readability of the text your wrote and calculate the <b>Flesch Reading Ease Score</b>.]]></source>
+        <target state="final"><![CDATA[Wir prüfen die Lesbarkeit des Textes und berechnen den &lt;b&gt;Flesch Reading Ease Score&lt;/b&gt;.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.content" resname="table.premium.content" approved="yes">
+        <source><![CDATA[Your rankings can suffer from duplicate content. Yoast SEO sets canonical URLs to avoid confusing Google.]]></source>
+        <target state="final"><![CDATA[Ihr Ranking kann sich bei doppelten Inhalten verschlechtern. Yoast SEO setzt canonical URLs um Google zu unterstützen.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.algorithm" resname="table.premium.algorithm" approved="yes">
+        <source><![CDATA[The extension is updated every month, so you’re sure that your website is optimized for the most recent Google algorithm.]]></source>
+        <target state="final"><![CDATA[Die Erweiterung wird jeden Minat aktualisiert, so gehen wir sicher, dass Ihre Webseite für den aktuellen Google Algorithmus optimiert ist.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.insights" resname="table.premium.insights" approved="yes">
+        <source><![CDATA[See the <b>5 words or phrases</b> you use the most on your page and check if they match what you want to rank for.]]></source>
+        <target state="final"><![CDATA[Wählen sie die &lt;b&gt;5 Worte oder Wortgruppen&lt;/b&gt; die sie am meisten auf Ihrer Seite verwenden und prüfen Sie ob diese das Optimierungsziel sind.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.linking_suggestions" resname="table.premium.linking_suggestions" approved="yes">
+        <source><![CDATA[Get <strong>suggestions for links</strong> to other pages on your website, as you write.]]></source>
+        <target state="final"><![CDATA[Wir schlagen Verknüpfungen auf andere interne Seiten vor, während Sie schreiben.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.ad_free" resname="table.premium.ad_free" approved="yes">
+        <source><![CDATA[In Yoast SEO Premium there are <strong>no ads</strong>.]]></source>
+        <target state="final"><![CDATA[In Yoast SEO Premium gibt es &lt;strong&gt;keine Werbung&lt;/strong&gt;.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.redirect" resname="table.premium.redirect" approved="yes">
+        <source><![CDATA[Get alerts and easily redirect old URLs to new ones. You don’t want your visitors to encounter a <b>404 Not Found</b> page.]]></source>
+        <target state="final"><![CDATA[Erhalten Sie Warnungen und leiten Sie alte URLs einfach auf neue um. Ihre Kunden werden Ihnen danken.]]></target>
+      </trans-unit>
+      <trans-unit id="table.premium.support" resname="table.premium.support" approved="yes">
+        <source><![CDATA[Get email access to our amazing and <b>helpful support team</b>.]]></source>
+        <target state="final"><![CDATA[E-Mail-Kontak zu unserem &lt;strong&gt;Support-Team&lt;/strong&gt;]]></target>
+      </trans-unit>
+      <trans-unit id="table.free.keywords" resname="table.free.keywords" approved="yes">
+        <source>Only 1 keyword or keyphrase</source>
+        <target state="final">Nur ein Schlüsselwort oder eine Wortgruppe</target>
+      </trans-unit>
+      <trans-unit id="table.free.insights" resname="table.free.insights" approved="yes">
+        <source>You have to check this yourself, we’re afraid.</source>
+        <target state="final">Sie müssen das leider selber überprüfen</target>
+      </trans-unit>
+      <trans-unit id="table.free.linking_suggestions" resname="table.free.linking_suggestions" approved="yes">
+        <source>You have to manually look up related pages to create links.</source>
+        <target state="final">Sie können selbst nach verwandten Seiten suchen und diese verlinken.</target>
+      </trans-unit>
+      <trans-unit id="table.free.ad_free" resname="table.free.ad_free" approved="yes">
+        <source>You’ll see ads for our other awesome products and services.</source>
+        <target state="final">Wir präsentieren unsere Produkte und Dienstleistungen.</target>
+      </trans-unit>
+      <trans-unit id="table.free.redirect" resname="table.free.redirect" approved="yes">
+        <source>Don’t forget (to ask your developer) to create a redirect each time you delete a page.</source>
+        <target state="final">Vergiss nicht, deinem Redakteur zu sagen, dass immer eine Weiterleitung angelegt wird, wenn eine Seite gelöscht wird.</target>
+      </trans-unit>
+      <trans-unit id="table.free.support" resname="table.free.support" approved="yes">
+        <source>We offer an extensive FAQ section and knowledge base.</source>
+        <target state="final">Wir bieten einen umfangreichen FAQ in unserer Hilfe.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

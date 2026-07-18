@@ -11,10 +11,6 @@
         <source>Manage outgoing HTTP webhooks to external system</source>
         <target state="final">Ausgehende HTTP-Webhooks zu externem System verwalten</target>
       </trans-unit>
-      <trans-unit id="shortDescription" x-unused-since="14.0" approved="yes">
-        <source>Manage outgoing HTTP webhooks to external system</source>
-        <target state="final">Ausgehende HTTP-Webhooks zu externem System verwalten</target>
-      </trans-unit>
       <trans-unit id="description" approved="yes">
         <source>Configure TYPO3 webhooks to notify external systems when defined system events occur. Supports integrations with platforms such as Slack, Discord, payment providers, CRM systems, and more.</source>
         <target state="final">Konfiguriere TYPO3-Webhooks, um externe Systeme zu benachrichtigen, wenn bestimmte Systemereignisse eintreten. Unterstützt Integrationen mit Plattformen wie Slack, Discord, Zahlungsanbietern, CRM-Systemen und vielen mehr.</target>

@@ -7,10 +7,6 @@
         <source>Integrations</source>
         <target state="final">Integrationen</target>
       </trans-unit>
-      <trans-unit id="shortDescription" x-unused-since="14.0" approved="yes">
-        <source>External system integrations</source>
-        <target state="final">Integration externer Systeme</target>
-      </trans-unit>
       <trans-unit id="short_description" approved="yes">
         <source>External system integrations</source>
         <target state="final">Externe Systemintegrationen</target>

@@ -391,10 +391,6 @@
         <source>This content is also shown on: %s</source>
         <target state="final">Dieser Inhalt wird auch angezeigt auf: %s</target>
       </trans-unit>
-      <trans-unit id="pageIsExternalLinkMessage" x-unused-since="14.0" approved="yes">
-        <source>Page is a link to the following external URL: %s</source>
-        <target state="final">Die Seite ist ein Link zu der folgenden externen URL: %s</target>
-      </trans-unit>
       <trans-unit id="pageIsInternalLinkMessage" approved="yes">
         <source>Page is a link to the following page: %s</source>
         <target state="final">Die Seite ist ein Link zu der folgenden Seite: %s</target>
@@ -415,9 +411,9 @@
         <source>Page is configured to be a link to the parent page but there is actually no such page accessible in the frontend.</source>
         <target state="final">Die Seite ist als Link zur Überseite konfiguriert, aber es gibt im Frontend keine solche erreichbare Seite.</target>
       </trans-unit>
-      <trans-unit id="pageIsMisconfiguredExternalLinkMessage" x-unused-since="14.0" approved="yes">
-        <source>Page is configured to be an external link but there is actually no URL defined.</source>
-        <target state="final">Die Seite ist als externer Link konfiguriert, aber es ist keine URL definiert.</target>
+      <trans-unit id="goToRecordsModule" approved="yes">
+        <source>Go to records module</source>
+        <target state="final">Gehe zum Datensatzmodul</target>
       </trans-unit>
       <trans-unit id="goToListModuleMessage" approved="yes">
         <source>The current page is a folder. Folders usually don't contain content elements but are used for collecting other types of records.</source>

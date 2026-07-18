@@ -15,14 +15,6 @@
         <source>New form name</source>
         <target state="final">Neuer Formularname</target>
       </trans-unit>
-      <trans-unit id="formManager.form_save_path" x-unused-since="14.2" approved="yes">
-        <source>Storage</source>
-        <target state="final">Speicherort</target>
-      </trans-unit>
-      <trans-unit id="formManager.form_save_path_description" x-unused-since="14.2" approved="yes">
-        <source>Select the storage where your form definition will be saved.</source>
-        <target state="final">Wähle den Speicherort aus, an dem deine Formulardefinition gespeichert werden soll.</target>
-      </trans-unit>
       <trans-unit id="formManager.form_storageLocation" approved="yes">
         <source>Location</source>
         <target state="final">Ort</target>
@@ -62,6 +54,10 @@
       <trans-unit id="formManager.remove_form_title" approved="yes">
         <source>Confirm deletion</source>
         <target state="final">Löschen bestätigen</target>
+      </trans-unit>
+      <trans-unit id="formManager.remove_form_message" approved="yes">
+        <source>Delete form "{0}"? Forms saved as files are permanently deleted and cannot be restored from the Recycler.</source>
+        <target state="final">Formular "{0}" löschen? Als Dateien gespeicherte Formulare werden endgültig gelöscht und können nicht aus dem Papierkorb wiederhergestellt werden.</target>
       </trans-unit>
       <trans-unit id="formManager.newFormWizard.step1.title" approved="yes">
         <source>Create new form</source>

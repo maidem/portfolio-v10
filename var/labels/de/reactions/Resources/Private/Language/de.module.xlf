@@ -7,10 +7,6 @@
         <source>Reactions</source>
         <target state="final">Reaktionen</target>
       </trans-unit>
-      <trans-unit id="shortDescription" x-unused-since="14.0" approved="yes">
-        <source>Manage incoming HTTP webhooks to external system</source>
-        <target state="final">Verwaltung eingehender HTTP-Webhooks an externe Systeme</target>
-      </trans-unit>
       <trans-unit id="short_description" approved="yes">
         <source>Manage incoming HTTP webhooks to external system</source>
         <target state="final">Verwaltung eingehender HTTP-Webhooks an externe Systeme</target>

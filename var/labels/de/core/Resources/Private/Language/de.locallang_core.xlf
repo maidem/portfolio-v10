@@ -311,10 +311,6 @@
         <source>Download CSV file</source>
         <target state="final">CSV-Datei herunterladen</target>
       </trans-unit>
-      <trans-unit id="labels.clear_cache" x-unused-since="14.2" approved="yes">
-        <source>Clear cache for this page</source>
-        <target state="final">Cache dieser Seite löschen</target>
-      </trans-unit>
       <trans-unit id="labels.no_title" approved="yes">
         <source>No title</source>
         <target state="final">Kein Titel</target>
@@ -502,18 +498,6 @@
       <trans-unit id="labels.editMultiple" approved="yes">
         <source>Edit multiple</source>
         <target state="final">Mehrere bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="labels.editMultiplePages" x-unused-since="14.2" approved="yes">
-        <source>Edit multiple pages</source>
-        <target state="final">Mehrere Seiten bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="labels.editMultipleRecords" x-unused-since="14.2" approved="yes">
-        <source>Edit multiple "%s" records on page "%s"</source>
-        <target state="final">Mehrere "%s" Datensätze auf Seite "%s " bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="labels.editMultipleRecordsRootLevel" x-unused-since="14.2" approved="yes">
-        <source>Edit multiple "%s" records on root level</source>
-        <target state="final">Mehrere "%s" Datensätze auf Root-Ebene bearbeiten</target>
       </trans-unit>
       <trans-unit id="labels.records" approved="yes">
         <source>{count, plural, one {# record} other {# records}}</source>
@@ -1419,58 +1403,6 @@
         <source>Close</source>
         <target state="final">Schließen</target>
       </trans-unit>
-      <trans-unit id="rm.clearCache_thisPage" x-unused-since="14.2" approved="yes">
-        <source>This page</source>
-        <target state="final">Diese Seite</target>
-      </trans-unit>
-      <trans-unit id="rm.clearCache_all" x-unused-since="14.2" approved="yes">
-        <source>Clear FE cache</source>
-        <target state="final">Alle Caches löschen</target>
-      </trans-unit>
-      <trans-unit id="rm.clearCache_pages" x-unused-since="14.2" approved="yes">
-        <source>Clear Page Cache</source>
-        <target state="final">Seiten-Cache löschen</target>
-      </trans-unit>
-      <trans-unit id="rm.clearCache_allTypo3Conf" x-unused-since="14.2" approved="yes">
-        <source>Clear cache in typo3conf/</source>
-        <target state="final">Konfigurations-Cache löschen</target>
-      </trans-unit>
-      <trans-unit id="rm.clearCacheMenu_all" x-unused-since="14.2" approved="yes">
-        <source>Clear all caches</source>
-        <target state="final">Alle Caches löschen</target>
-      </trans-unit>
-      <trans-unit id="rm.clearCacheMenu_pages" x-unused-since="14.2" approved="yes">
-        <source>Clear page content cache</source>
-        <target state="final">Seiteninhalts-Cache löschen</target>
-      </trans-unit>
-      <trans-unit id="rm.clearCacheMenu_allTypo3Conf" x-unused-since="14.2" approved="yes">
-        <source>Clear configuration cache</source>
-        <target state="final">Konfigurations-Cache löschen</target>
-      </trans-unit>
-      <trans-unit id="flushPageCachesTitle" x-unused-since="14.2" approved="yes">
-        <source>Flush frontend caches</source>
-        <target state="final">Frontend-Caches leeren</target>
-      </trans-unit>
-      <trans-unit id="flushPageCachesDescription" x-unused-since="14.2" approved="yes">
-        <source>Clear frontend and page-related caches.</source>
-        <target state="final">Frontend- und seitenbezogene Caches löschen.</target>
-      </trans-unit>
-      <trans-unit id="flushAllCachesTitle2" x-unused-since="14.2" approved="yes">
-        <source>Flush all caches</source>
-        <target state="final">Alle Caches leeren</target>
-      </trans-unit>
-      <trans-unit id="flushAllCachesDescription2" x-unused-since="14.2" approved="yes">
-        <source>Clear frontend and page-related caches, all system-related caches, including localization, extension configuration, file and opcode caches. Rebuilding these caches may take some time.</source>
-        <target state="final">Alle systembezogenen Caches löschen, inklusive des Lokalisierungs-, Erweiterungs-Konfigurations-, Datei und Opcode-Caches. Diese Caches wieder aufzubauen, kann einige Zeit in Anspruch nehmen.</target>
-      </trans-unit>
-      <trans-unit id="flushCaches.error" x-unused-since="14.2" approved="yes">
-        <source>An error occurred</source>
-        <target state="final">Es ist ein Fehler aufgetreten</target>
-      </trans-unit>
-      <trans-unit id="flushCaches.error.description" x-unused-since="14.2" approved="yes">
-        <source>An error occurred while clearing the cache. Some caches may not have been cleared successfully.</source>
-        <target state="final">Beim Leeren des Caches ist ein Fehler aufgetreten. Einige Caches wurden möglicherweise nicht erfolgreich gelöscht.</target>
-      </trans-unit>
       <trans-unit id="rm.adminFunctions" approved="yes">
         <source>Admin functions</source>
         <target state="final">Admin-Funktionen</target>
@@ -1966,10 +1898,6 @@
       <trans-unit id="error.missingLanguageIsocode" approved="yes">
         <source>Missing ISO code for language "%s" (UID %d), please edit the language record and set it.</source>
         <target state="final">Fehlender ISO-Code für Sprache "%s" (UID %d). Bitte bearbeiten Sie den Sprachdatensatz und setzen Sie den ISO-Code.</target>
-      </trans-unit>
-      <trans-unit id="error.misconfiguredPasswordRules" x-unused-since="14.2" approved="yes">
-        <source>No password could be generated due to misconfigured password rules.</source>
-        <target state="final">Aufgrund falsch konfigurierter Passwortregeln konnte kein Passwort generiert werden.</target>
       </trans-unit>
       <trans-unit id="labels.deleteTitle" approved="yes">
         <source>Revert to default Constant</source>
