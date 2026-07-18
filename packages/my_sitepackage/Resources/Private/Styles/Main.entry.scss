@@ -85,6 +85,8 @@ main > .frame {
 }
 
 main {
+  // .cb-nav is position: fixed and no longer takes up space in flow
+  padding-top: calc(#{$unit * 7} + env(safe-area-inset-top, 0px));
   padding-bottom: $unit * 3;
 
   @include above($bp-md) {

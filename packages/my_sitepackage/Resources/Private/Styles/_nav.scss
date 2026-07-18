@@ -2,21 +2,16 @@
 @use "design-system" as *;
 
 .cb-nav {
-  position: sticky;
+  // fixed instead of sticky: on iOS Safari, position: sticky + backdrop-filter
+  // + a translucent background doesn't reliably repaint during scroll,
+  // letting content peek through. fixed + a fully opaque background avoids
+  // the bug entirely (confirmed working in the demo-taekwondo-mueller project).
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: $z-nav;
-  // opaque fallback background: iOS Safari doesn't reliably repaint
-  // backdrop-filter on a position: sticky element during scroll/rubber-
-  // banding, letting content peek through the translucent layer below
   background-color: #ffffff;
-
-  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-    background-color: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(16px) saturate(1.4);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  }
   // box-shadow instead of border: doesn't affect layout, so nav height stays
   // exactly on the 8px grid ($unit * 7 = 56px) and content below (e.g. the
   // banner mm grid) starts flush.
