@@ -18,6 +18,9 @@
 html {
   background-color: #fefefe;
   scrollbar-gutter: stable;
+  // horizontal clip lives here, not on body: overflow on body creates a
+  // scroll container that breaks position: sticky on iOS Safari
+  overflow-x: clip;
 
   @media (prefers-reduced-motion: no-preference) {
     scroll-behavior: smooth;
@@ -33,7 +36,6 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: clip;
   min-height: 100vh;
   position: relative;
   display: flex;
