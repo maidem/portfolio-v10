@@ -1,4 +1,4 @@
-base: 'https://maidem.de/'
+base: '%env(SITE_BASE_URL)%'
 dependencies:
   - typo3/fluid-styled-content
   - gripsraum/my-sitepackage
@@ -12,7 +12,7 @@ languages:
     enabled: true
     locale: de_DE.utf8
     hreflang: ''
-    base: 'https://maidem.de/'
+    base: '%env(SITE_BASE_URL)%'
     websiteTitle: ''
     navigationTitle: ''
     flag: de
