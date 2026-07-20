@@ -518,6 +518,9 @@ h4, h5, h6 {
 .cb-skills__pdf-action {
   @extend %measure-indent;
   flex: 1 1 100%; // always full width regardless of column count above
+  // Parent .container sets --measure-indent-mobile to its own padding,
+  // which would double up with the container's padding-left on mobile.
+  --measure-indent-mobile: 0;
 }
 .cb-news-list__pdf-action {
   margin-top: -1.875rem;
