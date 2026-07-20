@@ -110,7 +110,11 @@ class PdfExportController extends ActionController implements LoggerAwareInterfa
         $browsershot = Browsershot::html($html)
             ->setChromePath($chromePath)
             ->showBackground()
-            ->format('A4');
+            ->format('A4')
+            // ohne das rendert Chromium mit dem Default-Viewport (deutlich breiter
+            // als A4) und skaliert erst beim PDF-Export herunter — Text wirkt dadurch
+            // kleiner als die CSS-pt-Angaben im Template vermuten lassen.
+            ->windowSize(794, 1123);
 
         if ($noSandbox) {
             $browsershot->noSandbox();

@@ -70,7 +70,7 @@
       }
       .item-body {
         color: #2a2a2a;
-        font-size: 10pt;
+        font-size: 11pt;
       }
       .item-body img {
         max-width: 100%;
@@ -161,26 +161,40 @@
       <div class="name-label">Maik Demuth</div>
     </div>
 
-
     <f:for each="{blocks}" as="block">
       <f:switch expression="{block.type}">
-
         <f:case value="info">
           <div class="section">
-            <f:if condition="{block.showHeading}"><h2 class="section-title">INFORMATIONEN</h2></f:if>
-            <div class="content-block"><f:format.html>{block.data}</f:format.html></div>
+            <f:if condition="{block.showHeading}"
+              ><h2 class="section-title">INFORMATIONEN</h2></f:if
+            >
+            <div class="content-block">
+              <f:format.html>{block.data}</f:format.html>
+            </div>
           </div>
         </f:case>
 
         <f:case value="contact">
           <div class="section">
-            <f:if condition="{block.showHeading}"><h2 class="section-title">KONTAKT</h2></f:if>
+            <f:if condition="{block.showHeading}"
+              ><h2 class="section-title">KONTAKT</h2></f:if
+            >
             <div class="content-block">
-              <f:if condition="{block.data.contact_name}"><span class="item-title">{block.data.contact_name}</span></f:if>
-              <f:if condition="{block.data.address}"><div class="item-description"><f:format.nl2br>{block.data.address}</f:format.nl2br></div></f:if>
+              <f:if condition="{block.data.contact_name}"
+                ><span class="item-title">{block.data.contact_name}</span></f:if
+              >
+              <f:if condition="{block.data.address}"
+                ><div class="item-description">
+                  <f:format.nl2br>{block.data.address}</f:format.nl2br>
+                </div></f:if
+              >
               <div class="item-body">
-                <f:if condition="{block.data.email}"><div>E-Mail: {block.data.email}</div></f:if>
-                <f:if condition="{block.data.phone}"><div>Telefon: {block.data.phone}</div></f:if>
+                <f:if condition="{block.data.email}"
+                  ><div>E-Mail: {block.data.email}</div></f:if
+                >
+                <f:if condition="{block.data.phone}"
+                  ><div>Telefon: {block.data.phone}</div></f:if
+                >
               </div>
             </div>
           </div>
@@ -189,19 +203,33 @@
         <f:case value="story">
           <f:if condition="{block.data.bodytext}">
             <div class="section">
-              <f:if condition="{block.showHeading}"><h2 class="section-title">{f:if(condition: block.data.header, then: block.data.header, else: 'MY STORY')}</h2></f:if>
-              <div class="content-block"><f:format.html>{block.data.bodytext}</f:format.html></div>
+              <f:if condition="{block.showHeading}"
+                ><h2 class="section-title">
+                  {f:if(condition: block.data.header, then: block.data.header,
+                  else: 'MY STORY')}
+                </h2></f:if
+              >
+              <div class="content-block">
+                <f:format.html>{block.data.bodytext}</f:format.html>
+              </div>
             </div>
           </f:if>
         </f:case>
 
         <f:case value="faq">
           <div class="section">
-            <f:if condition="{block.showHeading}"><h2 class="section-title">{f:if(condition: block.data.header, then: block.data.header, else: 'FAQ')}</h2></f:if>
+            <f:if condition="{block.showHeading}"
+              ><h2 class="section-title">
+                {f:if(condition: block.data.header, then: block.data.header,
+                else: 'FAQ')}
+              </h2></f:if
+            >
             <f:for each="{block.data.items}" as="item">
               <div class="content-block">
                 <span class="item-title">{item.question}</span>
-                <div class="item-description"><f:format.html>{item.answer}</f:format.html></div>
+                <div class="item-description">
+                  <f:format.html>{item.answer}</f:format.html>
+                </div>
               </div>
             </f:for>
           </div>
@@ -209,13 +237,19 @@
 
         <f:case value="tech">
           <div class="section">
-            <f:if condition="{block.showHeading}"><h2 class="section-title">SKILLS</h2></f:if>
+            <f:if condition="{block.showHeading}"
+              ><h2 class="section-title">SKILLS</h2></f:if
+            >
             <div class="skills-grid">
               <f:for each="{block.data}" as="names" key="category">
                 <div class="skill-group">
-                  <f:if condition="{category}"><span class="skill-group-title">{category}</span></f:if>
+                  <f:if condition="{category}"
+                    ><span class="skill-group-title">{category}</span></f:if
+                  >
                   <div class="item-description">
-                    <ul class="skill-list"><f:for each="{names}" as="skill"><li>{skill}</li></f:for></ul>
+                    <ul class="skill-list">
+                      <f:for each="{names}" as="skill"><li>{skill}</li></f:for>
+                    </ul>
                   </div>
                 </div>
               </f:for>
@@ -225,28 +259,42 @@
 
         <f:case value="project">
           <div class="section">
-            <f:if condition="{block.showHeading}"><h2 class="section-title">PROJEKTE</h2></f:if>
+            <f:if condition="{block.showHeading}"
+              ><h2 class="section-title">PROJEKTE</h2></f:if
+            >
             <div class="content-block">
               <span class="item-title">{block.data.title}</span>
               <div class="item-description">{block.data.description}</div>
-              <f:if condition="{block.data.bodytext}"><div class="item-body"><f:format.html>{block.data.bodytext}</f:format.html></div></f:if>
+              <f:if condition="{block.data.bodytext}"
+                ><div class="item-body">
+                  <f:format.html>{block.data.bodytext}</f:format.html>
+                </div></f:if
+              >
             </div>
           </div>
         </f:case>
 
         <f:case value="logbook">
           <div class="section">
-            <f:if condition="{block.showHeading}"><h2 class="section-title">NOTES</h2></f:if>
+            <f:if condition="{block.showHeading}"
+              ><h2 class="section-title">NOTES</h2></f:if
+            >
             <div class="content-block">
               <span class="item-title">
-                <f:if condition="{block.data.project_date}"><f:format.date format="d.m.Y">{block.data.project_date}</f:format.date> - </f:if>
+                <f:if condition="{block.data.project_date}"
+                  ><f:format.date format="d.m.Y"
+                    >{block.data.project_date}</f:format.date
+                  >
+                  -
+                </f:if>
                 {block.data.header}
               </span>
-              <div class="item-description"><f:format.html>{block.data.teaser_text}</f:format.html></div>
+              <div class="item-description">
+                <f:format.html>{block.data.teaser_text}</f:format.html>
+              </div>
             </div>
           </div>
         </f:case>
-
       </f:switch>
     </f:for>
   </body>
