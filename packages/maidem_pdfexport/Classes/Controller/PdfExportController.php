@@ -100,8 +100,6 @@ class PdfExportController extends ActionController implements LoggerAwareInterfa
         $html = $view->render();
 
         $chromePath = (string)(getenv('PDF_CHROMIUM_PATH') ?: '/usr/bin/chromium');
-        // Default an: im Container läuft Chromium als root, dort startet es ohne
-        // --no-sandbox nicht. PDF_CHROMIUM_NO_SANDBOX=false schaltet es bewusst ab.
         $env = getenv('PDF_CHROMIUM_NO_SANDBOX');
         $noSandbox = $env === false || $env === ''
             ? true
@@ -111,9 +109,6 @@ class PdfExportController extends ActionController implements LoggerAwareInterfa
             ->setChromePath($chromePath)
             ->showBackground()
             ->format('A4')
-            // ohne das rendert Chromium mit dem Default-Viewport (deutlich breiter
-            // als A4) und skaliert erst beim PDF-Export herunter — Text wirkt dadurch
-            // kleiner als die CSS-pt-Angaben im Template vermuten lassen.
             ->windowSize(794, 1123);
 
         if ($noSandbox) {
@@ -123,7 +118,6 @@ class PdfExportController extends ActionController implements LoggerAwareInterfa
         try {
             $pdf = $browsershot->pdf();
         } catch (\Throwable $e) {
-            // ponytail: ohne das war der fehlende puppeteer-Node-Modul im Container
             // unsichtbar — der Frontend-Request bekam nur ein stummes 500-JSON.
             $this->logger?->error('PDF generation failed: ' . $e->getMessage(), ['exception' => $e]);
 
