@@ -27,30 +27,64 @@
     }
   }
 
+  &__measure {
+    // right padding matches how far the +/x marker circle sticks out past
+    // the card border, so the measure line's width includes it
+    padding-right: 0.875rem;
+  }
+
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem; // 8px spacing between cards
+    gap: 1rem;
   }
 
-  &__item {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(6px) saturate(120%);
-    -webkit-backdrop-filter: blur(6px) saturate(120%);
-    border-radius: 12px;
-    border: none;
-    overflow: hidden;
+  // marker circle geometry, reused to cut its gap out of the card border
+  $marker-size: 1.75rem;
+  $marker-gap: 0.375rem; // extra clearance beyond the circle on each side
+  // vertical center of the marker = summary padding-top + half a text line
+  $marker-center: 1.25rem + 0.875rem * 1.4 * 0.5;
 
-    // smooth expand/collapse via native <details> CSS; browsers without
-    // ::details-content/interpolate-size just toggle instantly, no animation
+  &__item {
+    position: relative;
+    background: #ebebeb;
+    border-radius: 0;
+    border-top: 1px solid #b0b0b0;
+    border-bottom: 1px solid #b0b0b0;
+    border-left: 1px solid #b0b0b0;
+    // right border is drawn as two segments in ::before, leaving a gap for
+    // the marker circle — measured from the top so it stays put when the
+    // card opens
+    border-right: 0;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -1px;
+      bottom: 0;
+      width: 1px;
+      background-image:
+        linear-gradient(#b0b0b0, #b0b0b0),
+        linear-gradient(#b0b0b0, #b0b0b0);
+      background-size:
+        100% calc($marker-center - $marker-size * 0.5 - $marker-gap),
+        100% 100%;
+      background-repeat: no-repeat;
+      background-position:
+        top,
+        left calc($marker-center + $marker-size * 0.5 + $marker-gap);
+    }
+
+    // native <details> height animation — smoother than a JS-driven one,
+    // since it doesn't fight the .js-measure ResizeObserver for layout
+    // every frame (see measure-block.js)
     interpolate-size: allow-keywords;
 
     &::details-content {
       height: 0;
       overflow: clip;
-      transition:
-        height 0.3s ease,
-        content-visibility 0.3s allow-discrete;
+      transition: height 0.3s ease;
     }
 
     &[open]::details-content {
@@ -58,16 +92,17 @@
     }
 
     summary {
+      position: relative;
       list-style: none;
       cursor: pointer;
-      padding: 1rem 1.25rem 1rem 1rem;
+      padding: 1.25rem 3.25rem 1.25rem 1.5rem;
       color: #111;
-      font-size: 0.9375rem;
+      font-family: "JetBrains Mono", "Courier New", monospace;
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       line-height: 1.4;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
@@ -76,40 +111,39 @@
       display: none;
     }
 
-    // plain plus/minus left of the question, no button styling
-    summary::before {
+    // circular outlined +/x marker, sitting fully outside the card on its
+    // right border line — anchored to the first summary line (same offset the
+    // border gap uses), so the two stay aligned however tall the card gets
+    summary::after {
       content: "+";
-      flex-shrink: 0;
+      position: absolute;
+      top: $marker-center;
+      right: -0.875rem;
+      transform: translateY(-50%);
+      width: 1.75rem;
+      height: 1.75rem;
+      background: #ebebeb;
+      border: 1px solid #999;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: #111;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 400;
       line-height: 1;
     }
 
-    &[open] {
-      summary::before {
-        content: "−";
-      }
+    &[open] summary::after {
+      content: "×";
     }
   }
 
   &__answer {
-    padding: 0 1.25rem 1rem;
-    color: #666;
-    font-size: 0.875rem;
-    line-height: 1.65;
-    max-width: 38rem;
-
-    // red dot before the answer, only visible when expanded
-    &::before {
-      content: "";
-      display: block;
-      width: 0.375rem;
-      height: 0.375rem;
-      margin: 0 0 0.75rem;
-      border-radius: 50%;
-      background: #ED1C24;
-    }
+    padding: 0 1.5rem 1.5rem;
+    color: #555;
+    font-size: 0.9375rem;
+    line-height: 1.6;
 
     p:last-child {
       margin-bottom: 0;

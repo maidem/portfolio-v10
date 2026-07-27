@@ -9,7 +9,12 @@
     >
         <div class="container">
             <div class="cb-faq-simple">
-                <div class="js-measure cb-faq-simple__measure" data-measure-h="edges">
+                <div
+                    class="js-measure cb-faq-simple__measure"
+                    data-measure-from=".cb-faq-simple__list"
+                    data-measure-until=".cb-faq-simple__list"
+                    data-measure-v="box-both"
+                >
                     <f:if condition="{data.header}">
                         <h2 class="cb-faq-simple__title">{data.header}</h2>
                     </f:if>

@@ -58,11 +58,17 @@ function dimensionMeasure(measure) {
     // (floating) label text. The BOTTOM edge still prefers the text ink so
     // the arrow tip lands exactly on the last line (e.g. a checkbox error
     // message), falling back to the box when there is no measurable text.
-    const useBox = measure.dataset.measureV === "box";
+    // data-measure-v="box-both": use element boxes for BOTH edges — needed
+    // when the reference elements are cards (border/padding), not text (e.g.
+    // FAQ list), where the ink edge sits inside the box and misses the
+    // border.
+    const measureV = measure.dataset.measureV;
+    const useBoxTop = measureV === "box" || measureV === "box-both";
+    const useBoxBottom = measureV === "box-both";
     const topEl = fromEl || measure;
     const bottomEl = untilEl || measure;
-    const topInk = useBox ? null : inkBounds(topEl);
-    const bottomInk = inkBounds(bottomEl);
+    const topInk = useBoxTop ? null : inkBounds(topEl);
+    const bottomInk = useBoxBottom ? null : inkBounds(bottomEl);
     top = (topInk ? topInk.top : topEl.getBoundingClientRect().top) - originTop;
     bottom =
         (bottomInk ? bottomInk.bottom : bottomEl.getBoundingClientRect().bottom) -
@@ -128,33 +134,27 @@ window.dimensionAllMeasureBlocks = dimensionAll;
 function init() {
     if (!document.querySelector(".js-measure")) return;
 
-    // Coalesce resize events into one rAF pass, but only re-measure the
-    // wrappers that actually changed — a FAQ <details> transition resizes its
-    // wrapper every frame, and re-measuring all blocks each frame is what
-    // makes the line lag behind the animation.
+    // Coalesce resize events into one rAF pass so a FAQ <details> transition,
+    // which resizes things every frame, only triggers one measurement per
+    // frame instead of one per observer callback.
+    //
+    // The observer watches <body>, not the .js-measure wrappers themselves:
+    // each measurement appends/removes its own dim nodes inside the wrapper,
+    // which would retrigger a wrapper-level observer and get the whole loop
+    // muted by the browser after the first pass.
     let rafId = null;
-    const pending = new Set();
     const flush = () => {
         rafId = null;
-        const targets = pending.has(document.body)
-            ? document.querySelectorAll(".js-measure")
-            : pending;
-        pending.clear();
-        targets.forEach(dimensionMeasure);
+        dimensionAll();
     };
-    const scheduleUpdate = (target) => {
-        pending.add(target || document.body);
+    const scheduleUpdate = () => {
         if (rafId === null) rafId = requestAnimationFrame(flush);
     };
 
-    // Observe each wrapper individually too — height changes within a block
-    // (e.g. a FAQ <details> expanding) need to trigger re-measurement right
-    // away, the body observer alone isn't reliable enough for that.
-    const ro = new ResizeObserver((entries) => {
-        entries.forEach((e) => scheduleUpdate(e.target));
-    });
+    const ro = new ResizeObserver(scheduleUpdate);
     ro.observe(document.body);
-    document.querySelectorAll(".js-measure").forEach((m) => ro.observe(m));
+    window.addEventListener("resize", scheduleUpdate);
+
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(dimensionAll);
 
     // picks up .js-measure blocks swapped in later (e.g. contact-form.js
@@ -169,7 +169,6 @@ function init() {
             [...m.addedNodes, ...m.removedNodes].some((n) => !isOwnDim(n)),
         );
         if (!relevant) return;
-        document.querySelectorAll(".js-measure").forEach((m) => ro.observe(m));
         scheduleUpdate();
     }).observe(document.body, { childList: true, subtree: true });
 }
