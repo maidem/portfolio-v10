@@ -14,12 +14,26 @@
 }
 
 .typo3-login .card-login {
+  --dim-gutter: 3.5rem;
+
   border: none;
   border-radius: 0;
   box-shadow: none;
   background-color: transparent;
   position: relative;
-  padding: 0 0 3.5rem 3.5rem;
+  /* Platz links für die vertikale Bemaßung. Die negative Margin gleicht ihn
+     wieder aus, damit das Formular auf der Seite mittig bleibt statt um die
+     halbe Rinne nach rechts zu rutschen. */
+  padding: 0 0 var(--dim-gutter) var(--dim-gutter);
+  margin-left: calc(var(--dim-gutter) * -1);
+}
+
+/* Mobil entfällt die vertikale Bemaßung (siehe backend-login-dim.js),
+   also auch die Rinne — sonst bliebe der Versatz ohne Grund bestehen. */
+@media (max-width: 767.98px) {
+  .typo3-login .card-login {
+    --dim-gutter: 0rem;
+  }
 }
 
 .typo3-login .card-footer {

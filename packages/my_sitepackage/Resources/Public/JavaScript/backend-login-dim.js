@@ -11,6 +11,7 @@
     // vertikal braucht mehr Luft als horizontal, damit die gedrehte Maßzahl
     // nicht an den Endstrichen klebt — entspricht dem Frontend (dimension.js)
     var LBL_GAP_V = 8;
+    var MOBILE_BP = 767.98; // wie im Frontend: darunter keine vertikale Bemaßung
 
     function svgEl(tag, attrs) {
         var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
@@ -152,10 +153,14 @@
         var fieldLeft = r(firstRect.left - origin.left);
         var vX = fieldLeft - GAP;
 
-        var vDim = makeVDim(pxToRem(vHeight), vHeight);
-        vDim.style.left = vX - 10 + "px";
-        vDim.style.top = vTop + "px";
-        cardLogin.appendChild(vDim);
+        // Auf schmalen Viewports fehlt links der Platz für die vertikale
+        // Bemaßung — wie im Frontend (siehe .cb-form-wrap) entfällt sie dort.
+        if (window.innerWidth > MOBILE_BP) {
+            var vDim = makeVDim(pxToRem(vHeight), vHeight);
+            vDim.style.left = vX - 10 + "px";
+            vDim.style.top = vTop + "px";
+            cardLogin.appendChild(vDim);
+        }
 
         var hLeft = fieldLeft;
         var hRight = r(firstRect.right - origin.left);
@@ -187,4 +192,25 @@
     }
     window.addEventListener("resize", scheduleInit);
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(scheduleInit);
+
+    // Der Copyright-Block im Footer klappt auf und verschiebt damit die
+    // Unterkante der Card — die H-Linie muss dann nachrücken. Beobachtet wird
+    // die Card selbst, nicht die eingehängten Marker (sonst Endlosschleife).
+    if (window.ResizeObserver) {
+        var observed = null;
+        var ro = new ResizeObserver(scheduleInit);
+        var attach = function () {
+            var card = document.querySelector(".typo3-login .card-login");
+            if (card && card !== observed) {
+                if (observed) ro.unobserve(observed);
+                ro.observe(card);
+                observed = card;
+            }
+        };
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", attach);
+        } else {
+            attach();
+        }
+    }
 })();
