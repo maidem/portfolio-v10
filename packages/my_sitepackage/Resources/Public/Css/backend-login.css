@@ -1,0 +1,184 @@
+/* Backend login im Bemaßungslinien-Stil (DIN 406) der Portfolio-Frontseite */
+
+.typo3-login {
+  --login-ink: #111111;
+  --login-bg: #f7f7f5;
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  background-color: var(--login-bg);
+  color: var(--login-ink);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(80, 80, 80, 0.05) 0, rgba(80, 80, 80, 0.05) 1px, transparent 1px, transparent 8px),
+    repeating-linear-gradient(180deg, rgba(80, 80, 80, 0.05) 0, rgba(80, 80, 80, 0.05) 1px, transparent 1px, transparent 8px),
+    repeating-linear-gradient(90deg, rgba(80, 80, 80, 0.1) 0, rgba(80, 80, 80, 0.1) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(180deg, rgba(80, 80, 80, 0.1) 0, rgba(80, 80, 80, 0.1) 1px, transparent 1px, transparent 40px);
+}
+
+.typo3-login .card-login {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+  position: relative;
+  padding: 0 0 3.5rem 3.5rem;
+}
+
+.typo3-login .card-footer {
+  border: none;
+}
+
+.typo3-login .card-heading,
+.typo3-login .card-footer,
+.typo3-login .card-footer *,
+.typo3-login a {
+  color: var(--login-ink);
+}
+
+/* TYPO3-Wortmarke im Footer ("Mehr über TYPO3") ebenfalls schwarz statt orange */
+.typo3-login .typo3-login-copyright-link svg .highlight {
+  fill: var(--login-ink) !important;
+}
+
+/* ─── Logo-Formel über dem Formular: [Marke] + [TYPO3] = [Herz] ─────────────── */
+.typo3-login .typo3-login-logo.logo-formula {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Alle drei Bestandteile auf dieselbe optische Höhe (--formula-size).
+   Maßgeblich ist die sichtbare Grafik, nicht die Dateibox. */
+.typo3-login .typo3-login-logo.logo-formula {
+  --formula-size: 2rem;
+}
+
+.typo3-login .logo-formula img {
+  width: auto;
+}
+
+.typo3-login .logo-formula__brand {
+  flex: none;
+  height: var(--formula-size);
+}
+
+/* Die Wortmarke (1200x509 px) ist ringsum transparent gerahmt: sichtbar sind
+   nur 253 px Höhe und die Breite von 10,9 % bis 89,6 %. Die Höhe wird deshalb
+   verdoppelt, und die negative Margin schneidet den seitlichen Rand weg —
+   sonst wären die Abstände zu + und = rund 16 px zu groß. */
+.typo3-login .logo-formula img:not(.logo-formula__brand) {
+  --t3-img-height: calc(var(--formula-size) * 2.01);
+  --t3-img-width: calc(var(--t3-img-height) * 1200 / 509);
+  height: var(--t3-img-height);
+  /* linker Rand 10,9 %, rechter 10,4 % — daher getrennte Werte */
+  margin-left: calc(var(--t3-img-width) * -0.109);
+  margin-right: calc(var(--t3-img-width) * -0.1042);
+}
+
+.typo3-login .logo-formula__op {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--login-ink);
+}
+
+/* viewBox ist auf die Pfadgrenzen zugeschnitten, Höhe wirkt daher 1:1.
+   aspect-ratio statt width:auto — ein inline-SVG ohne width-Attribut
+   berechnet seine Breite sonst zu 0. */
+.typo3-login .logo-formula__heart {
+  height: var(--formula-size);
+  aspect-ratio: 18 / 16.3;
+  flex: none;
+  color: #ed1c24; /* wie der Punkt im Logo (favicon.svg) */
+}
+
+.typo3-login .card-login .card-body {
+  position: relative;
+}
+
+/* ─── Eingabefelder + Button: identischer Kasten-Stil, gleicher Abstand ─────── */
+.typo3-login .form-group:has(.form-control),
+.typo3-login .form-group:has(.btn-login) {
+  margin: 0.75rem 0 0;
+}
+
+.typo3-login .form-group:has(.form-control) {
+  position: relative;
+  border: 1px solid var(--login-ink);
+  background: var(--login-bg);
+  padding-top: 0.5rem;
+  transition: border-color 0.25s ease;
+}
+.typo3-login .form-group:has(.form-control):focus-within {
+  border-color: var(--login-ink);
+}
+
+.typo3-login .form-group label {
+  position: absolute;
+  top: 0;
+  left: 0.5rem;
+  transform: translateY(-50%);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--login-ink);
+  background: var(--login-bg);
+  padding: 0 0.5rem;
+  line-height: 1.2;
+}
+
+.typo3-login .form-control {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--login-ink);
+  padding: 0.4rem 0.75rem 0.75rem;
+  box-shadow: none;
+  outline: none;
+}
+.typo3-login .form-control:focus {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  outline: none;
+}
+
+.typo3-login .btn-login {
+  border-radius: 0;
+  background-color: transparent;
+  border: 1px solid var(--login-ink);
+  color: var(--login-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.typo3-login .btn-login:hover,
+.typo3-login .btn-login:focus {
+  background-color: var(--login-ink);
+  border-color: var(--login-ink);
+  color: #ffffff;
+}
+
+/* ─── DIN-406-Bemaßung: alle Positionen kommen exakt aus backend-login-dim.js ── */
+.typo3-login .dim {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* feste Zeilenhöhe + block: sonst richtet sich die schwarze Box nach der
+   Font-Metrik statt symmetrisch zur Maßlinie zu sitzen */
+.typo3-login .dim-label {
+  display: block;
+  background-color: var(--login-ink);
+  color: #ffffff;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  line-height: 14px;
+  /* letter-spacing hängt hinter dem letzten Zeichen ein Leerzeichen an —
+     rechts entsprechend weniger Padding, damit der Text mittig sitzt */
+  padding: 0 calc(0.5rem - 0.15em) 0 0.5rem;
+  white-space: nowrap;
+  z-index: 1;
+}

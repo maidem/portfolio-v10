@@ -72,6 +72,9 @@
   }
 
   &__logo.cb-nav__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.875rem;
     letter-spacing: 0.04em;
     font-weight: $fw-semibold;
@@ -85,6 +88,13 @@
     &:hover {
       color: #000000;
     }
+  }
+
+  &__logo-mark {
+    // an die Versalhöhe des Schriftzugs angeglichen
+    width: 1.25em;
+    height: 1.25em;
+    flex-shrink: 0;
   }
 
   // ── Desktop nav ─────────────────────────────────────────────────────────────

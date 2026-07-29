@@ -53,7 +53,15 @@
     <header class="cb-nav" role="banner">
         <div class="cb-nav__container">
             <div class="cb-nav__bar">
-                <a href="/" class="cb-nav__logo">Maik Demuth</a>
+                <a href="/" class="cb-nav__logo">
+                    <img
+                        src="{f:uri.resource(path: 'Icons/favicon.svg', extensionName: 'MySitepackage')}"
+                        alt=""
+                        aria-hidden="true"
+                        class="cb-nav__logo-mark"
+                    />
+                    <span>Maik Demuth</span>
+                </a>
 
                 <button
                     class="cb-nav__toggle"
