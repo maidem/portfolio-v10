@@ -1,4 +1,4 @@
-form.contact.recipientEmail: connect@maidem.de
+form.contact.recipientEmail: hi@maidem.de
 form.contact.privacyPageUid: 15
 plugin.tx_mosparoform.settings.projects.default.publicServer: 'https://protect.maidem.de'
 plugin.tx_mosparoform.settings.projects.default.verifyServer: 'https://protect.maidem.de'

@@ -24,7 +24,7 @@ $EM_CONF[$_EXTKEY] = [
     'createDirs' => '',
     'clearCacheOnLoad' => 1,
     'author' => 'Maik Demuth',
-    'author_email' => 'connect@maidem.de',
+    'author_email' => 'hi@maidem.de',
     'author_company' => 'gripsraum',
     'version' => '1.0.0',
 ];

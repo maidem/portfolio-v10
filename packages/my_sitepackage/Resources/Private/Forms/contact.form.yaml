@@ -1,4 +1,3 @@
-
 identifier: contact
 type: Form
 label: contact
@@ -7,53 +6,48 @@ renderingOptions:
   submitButtonLabel: Absenden
   translation:
     translationFiles:
-      - 'EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf'
+      - "EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf"
 finishers:
-  -
-    options:
-      subject: 'Neue Kontaktanfrage von {name}'
+  - options:
+      subject: "Neue Kontaktanfrage von {name}"
       recipients:
-        connect@maidem.de: Maik
-      senderAddress: connect@maidem.de
-      senderName: 'Portfolio Kontaktformular'
+        hi@maidem.de: Maik
+      senderAddress: hi@maidem.de
+      senderName: "Portfolio Kontaktformular"
       replyToRecipients:
-        - '{email}'
+        - "{email}"
       addHtmlPart: false
       templateName: Receiver
       templateRootPaths:
-        20: 'EXT:my_sitepackage/Resources/Private/Email/Templates/'
+        20: "EXT:my_sitepackage/Resources/Private/Email/Templates/"
     identifier: EmailToReceiver
-  -
-    options:
-      subject: 'Bestätigung deiner Kontaktanfrage an Maik Demuth'
+  - options:
+      subject: "Bestätigung deiner Kontaktanfrage an Maik Demuth"
       recipients:
-        '{email}': '{name}'
-      senderAddress: connect@maidem.de
-      senderName: 'Portfolio Kontaktformular'
+        "{email}": "{name}"
+      senderAddress: hi@maidem.de
+      senderName: "Portfolio Kontaktformular"
       templateName: Confirmation
       variables:
         contactName: Maik Demuth
-        contactStreet: 'Gebrüder-Grimm-Str. 5'
-        contactCity: '65520 Bad Camberg'
-        contactEmail: connect@maidem.de
-        contactPhone: '+49 151 64 89 85 15'
+        contactStreet: "Gebrüder-Grimm-Str. 5"
+        contactCity: "65520 Bad Camberg"
+        contactEmail: hi@maidem.de
+        contactPhone: "+49 151 64 89 85 15"
     identifier: EmailToSender
-  -
-    options:
+  - options:
       pageUid: 1
       additionalParameters: contact=sent
     identifier: Redirect
 renderables:
-  -
-    renderingOptions:
+  - renderingOptions:
       previousButtonLabel: Zurück
       nextButtonLabel: Weiter
     identifier: page-1
-    label: 'Sag Hallo!'
+    label: "Sag Hallo!"
     type: Page
     renderables:
-      -
-        defaultValue: ''
+      - defaultValue: ""
         identifier: name
         label: Name
         type: Text
@@ -63,10 +57,8 @@ renderables:
             autocomplete: name
             required: required
         validators:
-          -
-            identifier: NotEmpty
-      -
-        defaultValue: ''
+          - identifier: NotEmpty
+      - defaultValue: ""
         identifier: email
         label: E-Mail
         type: Email
@@ -76,66 +68,52 @@ renderables:
             autocomplete: email
             required: required
         validators:
-          -
-            identifier: NotEmpty
-          -
-            identifier: EmailAddress
-      -
-        defaultValue: ''
+          - identifier: NotEmpty
+          - identifier: EmailAddress
+      - defaultValue: ""
         identifier: message
         label: Nachricht
         type: Textarea
         properties:
           fluidAdditionalAttributes:
-            placeholder: 'Deine Nachricht...'
+            placeholder: "Deine Nachricht..."
             required: required
         validators:
-          -
-            identifier: NotEmpty
-      -
-        identifier: privacy
+          - identifier: NotEmpty
+      - identifier: privacy
         type: Checkbox
         properties:
-          privacyPageUid: ''
+          privacyPageUid: ""
           # validationErrorMessages greift direkt per Fehlercode (siehe
           # TranslationService::translateFormElementError) und umgeht den
           # locale-abhängigen XLF-Pfad, der bei POST-Submits ohne Sprach-Präfix
           # in der URL fälschlich auf englische Defaults zurückfällt.
           # 1221560718 = leerer Wert, 1221560910 = null (nicht angehakte Checkbox).
           validationErrorMessages:
-            -
-              code: 1221560718
-              message: 'Dieses Feld ist erforderlich.'
-            -
-              code: 1221560910
-              message: 'Dieses Feld ist erforderlich.'
+            - code: 1221560718
+              message: "Dieses Feld ist erforderlich."
+            - code: 1221560910
+              message: "Dieses Feld ist erforderlich."
         validators:
-          -
-            identifier: NotEmpty
-      -
-        defaultValue: ''
+          - identifier: NotEmpty
+      - defaultValue: ""
         properties:
           selectedProject: Default
           # Mosparo wirft hartkodierte englische Fehlertexte (siehe
           # MosparoCaptchaValidator) — hier per Code auf neutrale deutsche
           # Meldungen mappen, damit dem Nutzer nichts Technisches erscheint.
           validationErrorMessages:
-            -
-              code: 1427031929
-              message: 'Deine Eingaben konnten nicht bestätigt werden. Bitte versuche es erneut.'
-            -
-              code: 1427031933
-              message: 'Der Spamschutz ist derzeit nicht verfügbar. Bitte versuche es später erneut.'
-            -
-              code: 1427031944
-              message: 'Deine Eingaben konnten nicht bestätigt werden. Bitte lade die Seite neu und versuche es erneut.'
-            -
-              code: 1428031545
-              message: 'Der Spamschutz ist derzeit nicht verfügbar. Bitte versuche es später erneut.'
+            - code: 1427031929
+              message: "Deine Eingaben konnten nicht bestätigt werden. Bitte versuche es erneut."
+            - code: 1427031933
+              message: "Der Spamschutz ist derzeit nicht verfügbar. Bitte versuche es später erneut."
+            - code: 1427031944
+              message: "Deine Eingaben konnten nicht bestätigt werden. Bitte lade die Seite neu und versuche es erneut."
+            - code: 1428031545
+              message: "Der Spamschutz ist derzeit nicht verfügbar. Bitte versuche es später erneut."
         type: MosparoCaptcha
         identifier: mosparocaptcha-1
-        label: 'Mosparo Captcha'
+        label: "Mosparo Captcha"
         validators:
-          -
-            identifier: MosparoCaptchaValidator
-variants: {  }
+          - identifier: MosparoCaptchaValidator
+variants: {}
