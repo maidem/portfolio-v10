@@ -35,7 +35,7 @@ return [
             'loginLogo' => '',
             'loginLogoAlt' => '',
         ],
-        'maidem_mosparo_dashboard' => [
+        'mosparo_dashboard' => [
             'host' => '',
             'privateKey' => '',
             'publicKey' => '',

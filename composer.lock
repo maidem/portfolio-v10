@@ -1634,8 +1634,8 @@
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "./packages/maidem_mosparo_dashboard",
-                "reference": "389b2494b7d4768e8059a2bad5883bed76d1abb1"
+                "url": "./packages/mosparo_dashboard",
+                "reference": "2a277f0c779103d20066637277b7d8c425739f03"
             },
             "require": {
                 "mosparo/php-api-client": "^1.0",
@@ -1646,7 +1646,7 @@
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
-                    "extension-key": "maidem_mosparo_dashboard"
+                    "extension-key": "mosparo_dashboard"
                 }
             },
             "autoload": {

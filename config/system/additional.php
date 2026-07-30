@@ -96,13 +96,13 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
 // MOSPARO_PUBLIC_SERVER, the var name already used by the mosparo-form extension.
 $mosparoHost = getenv('MOSPARO_HOST') ?: getenv('MOSPARO_PUBLIC_SERVER');
 if ($mosparoHost) {
-    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['maidem_mosparo_dashboard']['host'] = $mosparoHost;
+    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mosparo_dashboard']['host'] = $mosparoHost;
 }
 if (getenv('MOSPARO_PUBLIC_KEY')) {
-    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['maidem_mosparo_dashboard']['publicKey'] = getenv('MOSPARO_PUBLIC_KEY');
+    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mosparo_dashboard']['publicKey'] = getenv('MOSPARO_PUBLIC_KEY');
 }
 if (getenv('MOSPARO_PRIVATE_KEY')) {
-    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['maidem_mosparo_dashboard']['privateKey'] = getenv('MOSPARO_PRIVATE_KEY');
+    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['mosparo_dashboard']['privateKey'] = getenv('MOSPARO_PRIVATE_KEY');
 }
 
 // 3. CACHE HASH
