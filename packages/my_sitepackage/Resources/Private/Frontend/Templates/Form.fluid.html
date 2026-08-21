@@ -9,7 +9,7 @@
             entry="EXT:my_sitepackage/Resources/Private/Frontend/Form.entry.scss"
         />
         <div class="cb-form-wrap">
-            <div class="cb-form js-measure cb-form__measure" data-measure-v="box" data-measure-from=".form-element" data-measure-until=".form-element-check, .mosparo-captcha ~ .form-group" data-measure-hbelow=".mosparo-captcha, .mosparo-captcha ~ .form-group">
+            <div class="cb-form js-measure cb-form__measure" data-measure-v="box" data-measure-from=".form-element" data-measure-until=".cb-form-privacy-hint, .mosparo-captcha ~ .form-group" data-measure-hbelow=".cb-form-privacy-hint, .mosparo-captcha, .mosparo-captcha ~ .form-group">
                             <formvh:form
                                 object="{form}"
                                 action="{form.renderingOptions.controllerAction}"
@@ -28,6 +28,18 @@
                                     arguments="{page: form.currentPage}"
                                 />
                                 <p class="cb-form-required-hint">* erforderlich</p>
+                                <p class="cb-form-privacy-hint">
+                                    Mit dem Absenden erkl&auml;rst du dich mit der Verarbeitung
+                                    deiner Angaben gem&auml;&szlig; der
+                                    <a
+                                        href="/datenschutzerklaerung"
+                                        role="button"
+                                        aria-haspopup="dialog"
+                                        class="cb-privacy-link"
+                                        >Datenschutzerkl&auml;rung</a
+                                    >
+                                    einverstanden.
+                                </p>
                                 <div
                                     class="{form.renderingOptions.formNavigation.navigationWrapperClassAttribute}"
                                 >

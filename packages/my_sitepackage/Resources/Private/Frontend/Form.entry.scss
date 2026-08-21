@@ -231,6 +231,12 @@ $color-error: #b91c1c;
     color: $text-muted;
   }
 
+  .cb-form-privacy-hint {
+    margin: 0.5rem 0 0;
+    font-size: 0.75rem;
+    color: $text-muted;
+  }
+
   // ─── Submit Button ──────────────────────────────────────────────────────────
   .actions,
   nav {

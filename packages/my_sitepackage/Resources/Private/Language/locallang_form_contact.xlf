@@ -2,21 +2,6 @@
 <xliff version="1.0">
     <file source-language="en" datatype="plaintext" original="EXT:my_sitepackage/Resources/Private/Language/locallang_form_contact.xlf">
         <body>
-            <trans-unit id="contact.element.privacy.properties.label">
-                <source xml:space="preserve">I've read and accepted the </source>
-            </trans-unit>
-            <trans-unit id="contact.element.privacy.properties.privacyLinkText">
-                <source xml:space="preserve">privacy policy</source>
-            </trans-unit>
-            <trans-unit id="contact.element.privacy.properties.labelSuffix">
-                <source xml:space="preserve">.</source>
-            </trans-unit>
-            <trans-unit id="validation.error.privacy.1221560910">
-                <source xml:space="preserve">This field is mandatory.</source>
-            </trans-unit>
-            <trans-unit id="validation.error.privacy.1221560718">
-                <source xml:space="preserve">This field is mandatory.</source>
-            </trans-unit>
             <trans-unit id="validation.error.1221560910">
                 <source xml:space="preserve">This field is mandatory.</source>
             </trans-unit>
