@@ -618,10 +618,11 @@ h4, h5, h6 {
 }
 
 // Text-CTA: flush with the dimensioned sections (FAQ, contact) rather than
-// the bare .container edge.
+// the bare .container edge. Unlike those, .cb-text-cta *is* the .container,
+// so the inherited --measure-indent-mobile stays — otherwise the mobile
+// padding-left drops to 0 while padding-right keeps the container edge.
 .cb-text-cta {
   @extend %measure-indent;
-  --measure-indent-mobile: 0;
 }
 
 // Hero (imprint/privacy): heading + body text.
