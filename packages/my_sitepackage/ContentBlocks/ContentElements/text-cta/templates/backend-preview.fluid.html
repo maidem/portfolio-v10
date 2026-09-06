@@ -1,0 +1,28 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cb="http://typo3.org/ns/TYPO3/CMS/ContentBlocks/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+    <f:layout name="Preview" />
+
+    <f:section name="Header">
+        <cb:link.editRecord uid="{data.uid}" table="{data.mainType}">
+            <strong>{data.header}</strong>
+        </cb:link.editRecord>
+    </f:section>
+
+    <f:section name="Content">
+        <f:if condition="{data.bodytext}">
+            <div>
+                <f:format.crop maxCharacters="220"
+                    ><f:format.stripTags
+                        >{data.bodytext}</f:format.stripTags
+                    ></f:format.crop
+                >
+            </div>
+        </f:if>
+        <f:if condition="{data.cta_1_label}">
+            <div>[{data.cta_1_label}]<f:if condition="{data.cta_2_label}"> [{data.cta_2_label}]</f:if></div>
+        </f:if>
+    </f:section>
+</html>

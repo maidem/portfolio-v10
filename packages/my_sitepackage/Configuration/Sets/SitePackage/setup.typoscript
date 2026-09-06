@@ -4,3 +4,12 @@
 plugin.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Configuration/Yaml/FormSetup.yaml
 module.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Configuration/Yaml/FormSetup.yaml
 
+
+# Zurück-Link im News-Detail: #notes auf der Notes-Detailseite, sonst #projekte
+lib.newsBackAnchor = TEXT
+lib.newsBackAnchor.value = projekte
+lib.newsBackAnchor.override = notes
+lib.newsBackAnchor.override.if {
+  value.data = page:uid
+  equals = {$news.notesDetailPid}
+}

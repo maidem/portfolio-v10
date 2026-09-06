@@ -43,8 +43,8 @@
     display: inline-flex;
     align-items: center;
     min-height: 2rem;
-    padding: 0.4375rem 1.125rem;
-    font-size: 0.8125rem;
+    padding: 0.45rem 1rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -52,7 +52,7 @@
     text-decoration: none;
     border-radius: 999px;
     background-color: rgba(17, 17, 17, 0.85);
-    color: #fff;
+    color: #fdfdfd;
     border: 1.5px solid #111111;
     transition:
       background-color 0.2s ease,
@@ -60,12 +60,11 @@
 
     &:link,
     &:visited {
-      color: #fff;
+      color: #fdfdfd;
     }
 
     &:hover {
       background-color: #111111;
-      color: #fff;
     }
 
     &--ghost {

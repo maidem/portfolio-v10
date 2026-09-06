@@ -10,6 +10,7 @@
  */
 
 const STORAGE_KEY = "maidem_pdf_cart";
+const PANEL_KEY = "maidem_pdf_panel_open";
 
 // ── Cart state helpers ───────────────────────────────────────────────────────
 // entries: { id: "news_5", label: "Article title" }
@@ -214,6 +215,9 @@ function buildPanel() {
 
     document.body.append(panelEl, fabEl);
     renderPanel();
+    if (sessionStorage.getItem(PANEL_KEY) && getCart().length > 0) {
+        togglePanel(true);
+    }
 }
 
 function renderPanel() {
@@ -280,15 +284,19 @@ function showExportToast(
 
 function togglePanel(open = !panelOpen) {
     panelOpen = open;
+    // survives page navigation — otherwise the panel closes on every click-through
+    sessionStorage.setItem(PANEL_KEY, open ? "1" : "");
     clearTimeout(autoCloseTimer);
     panelEl.classList.toggle("cb-pdf-panel--open", open);
     fabEl.setAttribute("aria-expanded", String(open));
 }
 
-/** open panel briefly as feedback, then auto-close */
+/** open panel as feedback; on mobile it auto-closes again to free the screen */
 function flashPanel() {
     togglePanel(true);
-    autoCloseTimer = setTimeout(() => togglePanel(false), 6000);
+    if (window.matchMedia("(max-width: 767.98px)").matches) {
+        autoCloseTimer = setTimeout(() => togglePanel(false), 6000);
+    }
 }
 
 // ── "Add to PDF" buttons ─────────────────────────────────────────────────────

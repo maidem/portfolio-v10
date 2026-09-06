@@ -102,38 +102,31 @@ export function inkBounds(container) {
 function splitColorAlpha(c) {
     const m = c.match(/^rgba?\(([^)]+)\)$/);
     if (!m) return { color: c, alpha: 1 };
-    const p = m[1].split(",").map((s) => s.trim());
-    if (p.length === 4) {
-        const alpha = parseFloat(p[3]);
+    // akzeptiert beide Schreibweisen: "r, g, b, a" und "r g b / a"
+    const parts = m[1].split(/[\s,/]+/).map((s) => s.trim()).filter(Boolean);
+    if (parts.length === 4) {
+        const alpha = parseFloat(parts[3]);
         return {
-            color: `rgb(${p[0]}, ${p[1]}, ${p[2]})`,
+            color: `rgb(${parts[0]}, ${parts[1]}, ${parts[2]})`,
             alpha: Number.isFinite(alpha) ? alpha : 1,
         };
     }
     return { color: c, alpha: 1 };
 }
 
-export function getDimColors(refEl, labelBgFallback) {
+export function getDimColors() {
+    // ponytail: portfolio-v14-Angleichung — neutrales, halbtransparentes Grau
+    // statt der (kontraststarken) Textfarbe des Elements; Label ohne farbigen
+    // Badge, nur gedämpfte Schrift auf hellem Seitengrund.
     const cs = getComputedStyle(document.documentElement);
-    const refColor = getComputedStyle(refEl).color;
-    const { color: stroke, strokeOpacity } = (() => {
-        const r = splitColorAlpha(
-            refColor ||
-                cs.getPropertyValue("--color-dim-stroke").trim() ||
-                "rgba(90, 90, 90, 0.45)",
-        );
-        return { color: r.color, strokeOpacity: r.alpha };
-    })();
+    const r = splitColorAlpha(
+        cs.getPropertyValue("--color-dim-stroke").trim() || "rgb(120 130 140 / 0.55)",
+    );
     return {
-        stroke,
-        strokeOpacity,
-        labelBg:
-            labelBgFallback ||
-            cs.getPropertyValue("--color-banner-label-bg").trim() ||
-            "#111111",
-        labelColor:
-            cs.getPropertyValue("--color-banner-label-text").trim() ||
-            "#ffffff",
+        stroke: r.color,
+        strokeOpacity: r.alpha,
+        labelBg: "#fefefe",
+        labelColor: "rgb(120 130 140)",
     };
 }
 

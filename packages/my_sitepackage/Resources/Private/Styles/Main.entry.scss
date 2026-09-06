@@ -4,8 +4,10 @@
 // ─── CSS custom properties ─────────────────────────────────────────────────────
 :root {
   --color-banner-label-bg: #{$brand-teal};
-  --color-banner-label-text: #ffffff;
-  --color-dim-label-bg: #{$brand-teal-dim};
+  --color-banner-label-text: #{$paper};
+  // Masslinien (dimension.js): dezentes neutrales Grau statt Elementfarbe,
+  // Label ohne farbigen Badge — Angleichung an portfolio-v14.
+  --color-dim-stroke: rgb(120 130 140 / 0.55);
 }
 
 // ─── Base ─────────────────────────────────────────────────────────────────────
@@ -24,6 +26,12 @@ html {
 
   @media (prefers-reduced-motion: no-preference) {
     scroll-behavior: smooth;
+  }
+
+  // ponytail: beim Laden mit #hash sofort dort stehen statt hinzuscrollen;
+  // die Klasse entfernt inline-JS im <head> nach dem ersten Frame
+  &.is-loading {
+    scroll-behavior: auto;
   }
 }
 
@@ -124,7 +132,7 @@ main > .cb-section-header {
   position: fixed;
   inset: 0;
   z-index: $z-bg;
-  background: #ffffff;
+  background: $paper;
   pointer-events: none;
 }
 
@@ -606,6 +614,13 @@ h4, h5, h6 {
   --measure: on;
 }
 
+// Text-CTA: flush with the dimensioned sections (FAQ, contact) rather than
+// the bare .container edge.
+.cb-text-cta {
+  @extend %measure-indent;
+  --measure-indent-mobile: 0;
+}
+
 // Hero (imprint/privacy): heading + body text.
 .cb-hero__content {
   @extend %measure-indent;
@@ -665,6 +680,14 @@ h4, h5, h6 {
   @include container;
 }
 
+// Projekte-Karten (News-Liste): nur der Weiterlesen-Link ist klickbar, nicht
+// die ganze Karte — das stretched-link-::after würde sonst alle Pointer-/
+// Hover-Events der Karte schlucken (u. a. den Hover-Inspektor).
+.cb-news-item .cb-news-link.cb-stretched-link::after {
+  position: static;
+  inset: auto;
+}
+
 // ─── Sections flush with the logo (container edge from 1200px) ─────────────────
 .cb-news-list,
 .cb-section-hero__container,
@@ -721,16 +744,6 @@ h4, h5, h6 {
   line-height: 1.25;
   color: $text-primary;
   margin: 0 0 1rem; // 16px below the heading
-
-  &::after {
-    content: "";
-    display: inline-block;
-    width: 0.5em;
-    height: 0.5em;
-    margin-inline-start: 0.35em;
-    border-radius: 50%;
-    background: #ED1C24;
-  }
 }
 
 .cb-section-header__intro {
@@ -889,7 +902,7 @@ h4, h5, h6 {
 
 .cb-news-link {
   @include label-text(0.6875rem, 0.15em);
-  text-decoration: underline;
+  text-decoration: none;
   color: $text-primary;
   transition: opacity $transition-base;
 
@@ -1084,7 +1097,7 @@ h4, h5, h6 {
     padding: 0.25rem 0.625rem;
     font-family: inherit;
     font-size: 0.75rem;
-    color: #fff;
+    color: $paper;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
@@ -1158,23 +1171,25 @@ h4, h5, h6 {
     padding: 0.25rem 0.55rem;
     border: none;
     background-color: #111111;
-    color: #fff;
+    color: $paper;
     border-radius: $radius-pill;
     transition: background-color $transition-fast;
 
+    // ponytail: inline data-URI SVG (external-link arrow) — kein externer Request, DSGVO-konform
     &::after {
       content: '';
-      width: 0.45em;
-      height: 0.45em;
+      width: 0.9em;
+      height: 0.9em;
       flex: 0 0 auto;
-      border-radius: 50%;
-      background-color: #ed1c24;
+      background-color: currentColor;
+      mask: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M7 17 17 7"/%3E%3Cpath d="M8 7h9v9"/%3E%3C/svg%3E')
+        center / contain no-repeat;
     }
 
     &:hover {
       opacity: 1;
-      background-color: #000;
-      color: #fff;
+      background-color: $ink;
+      color: $paper;
     }
   }
 }
@@ -1303,4 +1318,37 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
   font-weight: $fw-bold;
   letter-spacing: -0.01em;
   line-height: 1.25;
+}
+
+// ─── Seitenwechsel ────────────────────────────────────────────────────────────
+// Cross-Document View Transitions (Idee aus portfolio-v13). Browser ohne
+// Support machen weiter den harten Reload — kein JS, kein Fallback noetig.
+// Die @view-transition-Regel selbst steht in page.headerData (TypoScript):
+// sie muss beim Parsen im <head> stehen. Im Fluid-Layout landet sie im <body>
+// und wird ignoriert, im per Vite nachgeladenen CSS kommt sie zu spaet.
+
+// Nur ueberblenden, nicht verschieben, und beide Ebenen zusammen genau einen
+// Durchgang lang: die alte Seite bleibt stehen, die neue blendet darueber ein.
+// Kein eigener Snapshot fuer Hintergrund und Linienraster — die liegen per
+// z-index VOR dem Inhalt und wuerden ihn sonst waehrend der Ueberblendung
+// maskieren, statt ihn durchscheinen zu lassen.
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: view-transition-in 0.25s ease-out both;
+}
+
+@keyframes view-transition-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
 }

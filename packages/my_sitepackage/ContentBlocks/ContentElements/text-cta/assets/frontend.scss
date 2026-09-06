@@ -1,0 +1,79 @@
+// Normale Text-Section mit CTA-Buttons. Button-Optik 1:1 vom Banner
+// (cb-portfolio-banner__cta-btn), damit CTAs seitenweit gleich aussehen.
+
+.cb-text-cta {
+  &__heading {
+    font-family: "JetBrains Mono", monospace;
+    font-size: clamp(1.75rem, 2.2vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #111;
+    margin: 0 0 1.5rem; // 24px, 8px-Raster
+  }
+
+  &__text {
+    max-width: 39rem;
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; // sonst streckt stretch den CTA auf die Höhe des PDF-Buttons (margin-top)
+    gap: 0.5rem; // 8px-Raster
+    margin-top: 1.5rem;
+
+    @media (max-width: 575.98px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    white-space: nowrap; // sonst bricht der Label-Text im Flex-Kontext mehrzeilig um
+    min-height: 2rem; // gleiche Höhe wie .cb-pdf-add-btn
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 0.5rem 1rem;
+    border: 1.5px solid transparent; // gleiche Höhe wie --outline
+    background-color: #111111;
+    color: #fdfdfd;
+    border-radius: 999px;
+    text-decoration: none;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+
+
+    &:hover {
+      background-color: #0a0a0a;
+    }
+
+    &--outline {
+      background-color: transparent;
+      color: #111;
+      border-color: rgba(17, 17, 17, 0.35);
+
+
+      &:hover {
+        background-color: transparent;
+        border-color: #111;
+      }
+    }
+  }
+
+  // PDF-Button steht hier in der Button-Reihe, nicht darunter -> kein margin-top
+  &__actions .cb-pdf-add-btn {
+    margin-top: 0;
+  }
+}

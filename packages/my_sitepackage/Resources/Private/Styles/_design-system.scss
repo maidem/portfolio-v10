@@ -12,7 +12,9 @@ $text-secondary: #555555;
 $text-muted: #666666;
 
 $brand-teal: #111111;
-$brand-teal-dim: rgb(233, 233, 233);
+
+$ink: #0a0a0a; // invertierte Flaechen statt reinem Schwarz
+$paper: #fdfdfd; // Karten-/Nav-Flaechen statt reinem Weiss
 
 $bg-deep: #f7f7f5;
 $card-bg-gray: rgba(245, 245, 247, 0.92);

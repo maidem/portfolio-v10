@@ -29,7 +29,7 @@ function dimensionItem(item) {
     const height = ink.bottom - ink.top;
     if (width < 1 || height < 1) return;
 
-    const colors = getDimColors(measure);
+    const colors = getDimColors();
 
     // ── horizontal (width) — line exactly from left to right text edge ───────
     const hDim = makeDim(pxToRem(width).toFixed(2), width, colors);

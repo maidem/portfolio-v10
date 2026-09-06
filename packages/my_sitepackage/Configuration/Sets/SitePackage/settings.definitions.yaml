@@ -3,6 +3,8 @@ categories:
     label: "Kontaktformular"
   nav:
     label: "Navigation"
+  news:
+    label: "News / Notes"
 
 settings:
   nav.homeTitle:
@@ -18,6 +20,13 @@ settings:
     type: string
     default: "Skills"
     category: nav
+
+  news.notesDetailPid:
+    label: "Notes-Detailseite PID"
+    description: "UID der Seite 'Detail-Notes'. Steuert, ob der Zurück-Link auf #notes oder #projekte zeigt."
+    type: int
+    default: 0
+    category: news
 
   footer.storagePid:
     label: "Footer Storage PID"

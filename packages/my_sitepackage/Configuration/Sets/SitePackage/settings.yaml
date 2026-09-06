@@ -4,6 +4,9 @@ styles:
     partialRootPath: "EXT:my_sitepackage/Resources/Private/ContentElements/Partials/"
     templateRootPath: "EXT:my_sitepackage/Resources/Private/ContentElements/Templates/"
 
+news:
+  notesDetailPid: 31
+
 footer:
   storagePid: "14"
 

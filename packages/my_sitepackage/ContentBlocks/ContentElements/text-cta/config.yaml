@@ -1,0 +1,41 @@
+name: gripsraum/text-cta
+title: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/text-cta/language/labels.xlf:title
+group: portfolio
+description: LLL:EXT:my_sitepackage/ContentBlocks/ContentElements/text-cta/language/labels.xlf:description
+prefixFields: true
+prefixType: full
+basics:
+  - TYPO3/Appearance
+fields:
+  - identifier: header
+    useExistingField: true
+    label: "Überschrift"
+  - identifier: section_anchor
+    type: Text
+    useExistingField: true
+    label: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.label
+    description: LLL:EXT:my_sitepackage/Resources/Private/Language/locallang.xlf:anchor_id.description
+  - identifier: bodytext
+    useExistingField: true
+    label: "Text"
+    enableRichtext: true
+  - identifier: cta_1_label
+    type: Text
+    label: "CTA Button 1 – Beschriftung"
+  - identifier: cta_1_link
+    type: Link
+    label: "CTA Button 1 – Link"
+  - identifier: cta_2_label
+    type: Text
+    label: "CTA Button 2 – Beschriftung"
+  - identifier: cta_2_link
+    type: Link
+    label: "CTA Button 2 – Link"
+  - identifier: show_pdf_export_button
+    type: Checkbox
+    renderType: checkboxToggle
+    label: "PDF-Export Button anzeigen"
+    default: false
+assets:
+  css:
+    - assets/frontend.scss

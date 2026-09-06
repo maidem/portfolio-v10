@@ -76,7 +76,7 @@ function dimensionMeasure(measure) {
     const height = bottom - top;
     if (height < 1) return;
 
-    const colors = getDimColors(measure);
+    const colors = getDimColors();
 
     // ── horizontal (width) — line below the block, label centered ────────────
     let left, width;

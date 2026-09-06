@@ -1,3 +1,2 @@
 # PDF Export is now handled by EXT:maidem_pdfexport
 # See packages/maidem_pdfexport/Configuration/Sets/PdfExport/setup.typoscript
-

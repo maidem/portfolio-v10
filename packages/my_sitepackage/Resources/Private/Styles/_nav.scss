@@ -11,10 +11,10 @@
   left: 0;
   right: 0;
   z-index: $z-nav;
-  background-color: #ffffff;
+  background-color: $paper;
 
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-    background-color: rgba(255, 255, 255, 0.72);
+    background-color: rgba(253, 253, 253, 0.72);
     backdrop-filter: blur(16px) saturate(1.4);
     -webkit-backdrop-filter: blur(16px) saturate(1.4);
   }
@@ -33,7 +33,7 @@
     left: 0;
     right: 0;
     height: env(safe-area-inset-top, 0px);
-    background-color: #ffffff;
+    background-color: $paper;
   }
 
   a {
@@ -47,16 +47,10 @@
 
   &__container {
     width: 100%;
-    max-width: 1200px;
-    margin-inline: auto;
     padding-inline: 1.25rem;
 
     @media (min-width: $bp-md) {
       padding-inline: 2rem;
-    }
-
-    @media (min-width: 1200px) {
-      padding-inline: 0;
     }
   }
 
@@ -78,7 +72,7 @@
     font-size: 0.875rem;
     letter-spacing: 0.04em;
     font-weight: $fw-semibold;
-    color: #0a0a0a;
+    color: $text-primary;
     text-decoration: none;
     line-height: 1;
     flex-shrink: 0;
@@ -86,7 +80,7 @@
     transition: color $transition-fast;
 
     &:hover {
-      color: #000000;
+      color: $ink;
     }
   }
 
@@ -148,7 +142,6 @@
 
     &--active,
     &.active {
-      position: relative;
       color: $text-primary;
       pointer-events: none;
       cursor: default;
@@ -157,18 +150,6 @@
       &:visited,
       &:hover {
         color: $text-primary;
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        width: 0.45rem;
-        height: 0.45rem;
-        border-radius: 50%;
-        background-color: #ed1c24;
-        transform: translate(-50%, 50%);
       }
     }
 
@@ -179,8 +160,6 @@
       color: $text-muted;
       padding: 0;
       line-height: 1;
-      position: relative;
-      top: 0.1875rem;
       transition: color $transition-base;
 
       &:hover {
@@ -350,18 +329,6 @@
       font-weight: 800;
       pointer-events: none;
       cursor: default;
-
-      // red dot to the left of the active link (mirrors the desktop nav's
-      // active indicator)
-      &::before {
-        content: '';
-        flex-shrink: 0;
-        width: 0.45rem;
-        height: 0.45rem;
-        margin-right: 0.625rem;
-        border-radius: 50%;
-        background-color: #ed1c24;
-      }
     }
   }
 }

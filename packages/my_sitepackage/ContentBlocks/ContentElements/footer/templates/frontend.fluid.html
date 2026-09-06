@@ -28,7 +28,7 @@
                         <f:if condition="{data.gripsraum_footer_github_link}">
                             <f:link.typolink
                                 parameter="{data.gripsraum_footer_github_link}"
-                                class="cb-footer__link"
+                                class="cb-footer__link cb-footer__link--external"
                                 target="_blank"
                                 additionalAttributes="{rel: 'noopener noreferrer', title: 'GitHub'}"
                                 >GitHub</f:link.typolink
@@ -37,6 +37,19 @@
                     </nav>
                 </div>
             </div>
+            <a href="#top" class="cb-footer__totop" aria-label="Nach oben">
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="m5 15 7-7 7 7" />
+                </svg>
+            </a>
             <p class="cb-footer__made text-center">
                 Made with TYPO3
                 <svg
