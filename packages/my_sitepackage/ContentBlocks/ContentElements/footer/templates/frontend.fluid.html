@@ -25,6 +25,13 @@
                                 </f:link.typolink>
                             </f:for>
                         </f:if>
+                        <f:if condition="{data.gripsraum_footer_nerd_label}">
+                            <button
+                                type="button"
+                                class="cb-footer__link"
+                                onclick="document.getElementById('nerd-{data.uid}').showModal()"
+                            >{data.gripsraum_footer_nerd_label}</button>
+                        </f:if>
                         <f:if condition="{data.gripsraum_footer_github_link}">
                             <f:link.typolink
                                 parameter="{data.gripsraum_footer_github_link}"
@@ -64,5 +71,16 @@
                 </svg>
             </p>
         </div>
+        <f:if condition="{data.gripsraum_footer_nerd_label}">
+            <dialog class="cb-footer__nerd" id="nerd-{data.uid}">
+                <form method="dialog">
+                    <button class="cb-footer__nerd-close" aria-label="Schließen">&times;</button>
+                </form>
+                <h2 class="cb-footer__nerd-title">{data.gripsraum_footer_nerd_label}</h2>
+                <div class="cb-footer__nerd-body">
+                    <f:format.html>{data.gripsraum_footer_nerd_text}</f:format.html>
+                </div>
+            </dialog>
+        </f:if>
     </footer>
 </html>

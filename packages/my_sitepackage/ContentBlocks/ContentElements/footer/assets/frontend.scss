@@ -11,11 +11,18 @@
 
   &__nav {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
     flex-wrap: wrap;
     column-gap: 2rem;
     row-gap: 0.75rem;
+
+    // ponytail: mobil untereinander statt umbrechen
+    @media (max-width: 575.98px) {
+      flex-direction: column;
+      align-items: center;
+      row-gap: 1rem;
+    }
   }
 
   &__link {
@@ -30,7 +37,7 @@
       color 0.4s ease,
       transform 0.4s ease;
     display: inline-flex;
-    align-items: center;
+    align-items: baseline;
     gap: 0.5rem;
 
     &:hover {
@@ -55,4 +62,55 @@
     color: #ed1c24; // wie der Punkt im Logo (favicon.svg)
     vertical-align: -0.1em;
   }
+}
+
+/* Nerdiges-Overlay: natives <dialog>, Backdrop und Escape gratis */
+.cb-footer__nav button.cb-footer__link {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+}
+.cb-footer__nerd {
+    max-width: 26rem;
+    width: calc(100% - 2rem);
+    padding: 2.5rem 2rem 2rem;
+    border: 0;
+    background: #fdfdfd;
+    color: #111;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.25);
+}
+.cb-footer__nerd::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+.cb-footer__nerd-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: none;
+    border: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+.cb-footer__nerd-close:hover {
+    color: #111;
+}
+.cb-footer__nerd-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+}
+.cb-footer__nerd-body {
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+.cb-footer__nerd-body ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+.cb-footer__nerd-body > *:last-child {
+    margin-bottom: 0;
 }

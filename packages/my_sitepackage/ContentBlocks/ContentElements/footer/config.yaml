@@ -8,6 +8,14 @@ fields:
     useExistingField: true
     label: Copyright-Text (z.B. "© 2026 Dein Name")
 
+  - identifier: nerd_label
+    type: Text
+    label: 'Nerdiges – Link-Beschriftung (leer = kein Link)'
+  - identifier: nerd_text
+    type: Textarea
+    enableRichtext: true
+    label: 'Nerdiges – Inhalt des Overlays'
+
   - identifier: github_link
     type: Link
     label: GitHub Profil-Link
