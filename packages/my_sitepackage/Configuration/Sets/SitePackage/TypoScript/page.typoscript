@@ -64,6 +64,18 @@ page {
                 <style>@view-transition { navigation: auto; }</style>
             )
         }
+        # Bottom-Sheet erst zeigen, wenn das echte CSS da ist. Sonst wird es beim
+        # View-Transition-Wechsel ungestylt am Viewport-Rand mitgesnapshottet.
+        20 = TEXT
+        20.value (
+            <style>.cb-nav__overlay:not(.cb-nav__overlay--open),.cb-nav__backdrop:not(.cb-nav__backdrop--open){visibility:hidden}</style>
+        )
+        # Ohne das rendert die Seite bis zum Eintreffen des Vite-CSS mit dem
+        # Browser-Default body{margin:8px} und springt dann (CLS 0.75).
+        30 = TEXT
+        30.value (
+            <style>body{margin:0}html{scrollbar-gutter:stable}</style>
+        )
     }
 
     includeCSSLibs {

@@ -19,6 +19,9 @@
 
 html {
   background-color: #fefefe;
+  // Balken immer sichtbar, nicht nur der reservierte Platz: sonst wechselt die
+  // rechte Kante zwischen kurzen und langen Seiten sichtbar.
+  overflow-y: scroll;
   scrollbar-gutter: stable;
   // horizontal clip lives here, not on body: overflow on body creates a
   // scroll container that breaks position: sticky on iOS Safari

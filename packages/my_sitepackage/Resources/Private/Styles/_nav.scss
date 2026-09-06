@@ -250,6 +250,10 @@
       opacity: 1;
       visibility: visible;
     }
+
+    @media (min-width: $bp-md) {
+      display: none;
+    }
   }
 
   // ── Bottom sheet (mobile menu) ───────────────────────────────────────────────
@@ -272,6 +276,12 @@
     &--open {
       transform: translateY(0);
       visibility: visible;
+    }
+
+    // Auf Desktop ist das Sheet unerreichbar (Hamburger ist dort display:none).
+    // Ohne das blitzt es beim Seitenwechsel kurz auf, bevor das Stylesheet greift.
+    @media (min-width: $bp-md) {
+      display: none;
     }
   }
 
