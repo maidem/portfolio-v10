@@ -79,6 +79,9 @@ import.meta.glob(
 // dimension lines for each news list item (see news-dimension.js)
 import "./news-dimension.js";
 
+// metro / network-plan graphic on project detail pages (see news-metro.js)
+import "./news-metro.js";
+
 // generic dimensioning for .js-measure blocks (contact section: section-header,
 // contact-info, form) — see measure-block.js
 import "./measure-block.js";

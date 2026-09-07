@@ -1,6 +1,7 @@
 <html
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
+    xmlns:my="http://typo3.org/ns/Gripsraum/MySitepackage/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
     <f:layout name="Default" />
@@ -117,25 +118,39 @@
                         </aside>
 
                         <div class="cb-news-detail__content">
-                            <f:if condition="{newsItem.falMedia}">
-                                <figure class="cb-news-detail__media js-measure">
-                                    <f:for
-                                        each="{newsItem.falMedia}"
-                                        as="media"
-                                        iteration="mediaIter"
-                                    >
-                                        <f:if condition="{mediaIter.isFirst}">
-                                            <f:image
-                                                image="{media}"
-                                                width="1600"
-                                                alt="{media.properties.alternative}"
-                                                title="{media.properties.title}"
-                                                class="cb-img-fluid"
-                                                loading="lazy"
-                                            />
-                                        </f:if>
-                                    </f:for>
-                                </figure>
+                            <f:variable name="metroData">{my:metroData(uid: newsItem.uid)}</f:variable>
+                            <f:if condition="{metroData}">
+                                <f:then>
+                                    <!-- ponytail: JS baut das SVG aus data-metro; figure/js-measure bleibt fuer die Bemassung -->
+                                    <figure class="cb-news-detail__media js-measure">
+                                        <div
+                                            class="cb-metro"
+                                            data-metro="{metroData -> f:format.htmlspecialchars()}"
+                                        ></div>
+                                    </figure>
+                                </f:then>
+                                <f:else>
+                                    <f:if condition="{newsItem.falMedia}">
+                                        <figure class="cb-news-detail__media js-measure">
+                                            <f:for
+                                                each="{newsItem.falMedia}"
+                                                as="media"
+                                                iteration="mediaIter"
+                                            >
+                                                <f:if condition="{mediaIter.isFirst}">
+                                                    <f:image
+                                                        image="{media}"
+                                                        width="1600"
+                                                        alt="{media.properties.alternative}"
+                                                        title="{media.properties.title}"
+                                                        class="cb-img-fluid"
+                                                        loading="lazy"
+                                                    />
+                                                </f:if>
+                                            </f:for>
+                                        </figure>
+                                    </f:if>
+                                </f:else>
                             </f:if>
 
                             <div class="cb-news-article-body js-measure" data-measure-h="edges">

@@ -12,6 +12,12 @@
             <trans-unit id="anchor_id.description">
                 <source>Enter a unique ID for this section (e.g., 'projects', 'about') to use in navigation and Scrollspy. Fallback is the element UID.</source>
             </trans-unit>
+            <trans-unit id="metro.label">
+                <source>Metro-Grafik (JSON)</source>
+            </trans-unit>
+            <trans-unit id="metro.description">
+                <source>Optional. JSON mit Linien und Stationen, z.B. {"lines":[{"color":"#1c8a7d","stations":["Idee","Prototyp","Launch"]}]}. Ersetzt das erste Bild in der Detailansicht durch eine animierte Netzplan-Grafik.</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
