@@ -1376,11 +1376,19 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 // Aufbau (stroke-dashoffset), der Puls laeuft per SMIL dauerhaft.
 .cb-metro {
   width: 100%;
+  // feste Anzeigehoehe -> das SVG-Fitting per JS aendert nur die interne
+  // viewBox, nicht die Elementgroesse. Kein Layout-Shift (CLS) nach dem
+  // ersten Paint, kein Ruckeln der Perspektiv-Hintergrundlinien.
+  aspect-ratio: 16 / 7;
+
+  @include above($bp-md) {
+    aspect-ratio: 21 / 6;
+  }
 
   &__svg {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     font-family: $font-mono;
   }
 

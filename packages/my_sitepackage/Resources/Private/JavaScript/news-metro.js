@@ -241,16 +241,25 @@ function build(container) {
     });
 
     if (!reduceMotion) {
+        // Aufbau einmalig beim Sichtbarwerden starten; die SMIL-Pulse laufen
+        // nur, solange die Grafik im Viewport ist – ausserhalb kosten 8 endlose
+        // animateMotion sonst dauerhaft CPU (Ruckeln beim Scrollen).
+        let started = false;
         const io = new IntersectionObserver(
             (entries) => {
-                entries.forEach((e) => {
-                    if (e.isIntersecting) {
-                        container.classList.add("cb-metro--play");
-                        io.disconnect();
-                    }
-                });
+                const visible = entries[0].isIntersecting;
+                if (visible && !started) {
+                    started = true;
+                    container.classList.add("cb-metro--play");
+                }
+                try {
+                    if (visible) svg.unpauseAnimations();
+                    else svg.pauseAnimations();
+                } catch {
+                    /* pauseAnimations nicht überall vorhanden */
+                }
             },
-            { threshold: 0.25 },
+            { threshold: 0.1 },
         );
         io.observe(container);
     }
