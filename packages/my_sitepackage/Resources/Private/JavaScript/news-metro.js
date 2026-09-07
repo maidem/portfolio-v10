@@ -9,15 +9,21 @@
 //   - erst wachsen die Kanten beim Scroll ins Bild (stroke-dashoffset),
 //     dann laeuft dauerhaft ein Puls jede Kante entlang (Richtung = from->to)
 //
+// Spaltenbreiten sind NICHT fix: nach dem ersten Rendern werden die Labels
+// gemessen und die Spalten so weit auseinandergezogen, dass benachbarte
+// Labels sich nicht mehr ueberlappen. Danach werden Kanten/Knoten neu
+// positioniert.
+//
 // ponytail: rechtwinklige Verbindungen (H, dann V, dann H), keine Kurven,
-// keine Label-Kollisionsvermeidung. Reicht das optisch nicht, kommt danach
-// eine Graph-Layout-Lib.
+// Labels immer mittig ueber dem Knoten (Start/Ende seitlich). Reicht das
+// optisch nicht, kommt danach eine Graph-Layout-Lib.
 
 const NS = "http://www.w3.org/2000/svg";
-const COL_W = 230; // px pro Raster-Spalte
-const ROW_H = 84; // px pro Raster-Zeile
-const PAD_X = 120;
-const PAD_Y = 46;
+const ROW_H = 96; // px pro Raster-Zeile
+const MIN_COL_W = 150; // Mindest-Spaltenabstand
+const COL_GAP = 26; // Mindestluecke zwischen zwei Labels benachbarter Spalten
+const PAD_X = 24;
+const PAD_Y = 52;
 const R = 6; // Knoten-Radius
 const LANE = 14; // Versatz paralleler Kanten, damit sie sich nicht decken
 const DEFAULT_COLOR = "#1c8a7d";
@@ -31,17 +37,9 @@ function el(name, attrs, parent) {
     return node;
 }
 
-function pos(node) {
-    return {
-        x: PAD_X + (node.col || 0) * COL_W,
-        y: PAD_Y + (node.row || 0) * ROW_H,
-    };
-}
-
 // rechtwinkliger Pfad von a nach b: halber Weg horizontal, dann vertikal,
-// dann Rest horizontal. Gleiche Zeile => gerade Linie.
-// laneShift verschiebt das vertikale Teilstueck seitlich, damit mehrere
-// Kanten zwischen denselben Spalten nicht exakt uebereinander liegen.
+// dann Rest horizontal. Gleiche Zeile => gerade Linie. laneShift verschiebt
+// das vertikale Teilstueck seitlich, damit parallele Kanten sich nicht decken.
 function orthPath(a, b, laneShift = 0) {
     if (a.y === b.y) return `M ${a.x} ${a.y} L ${b.x} ${b.y}`;
     const midX = a.x + (b.x - a.x) / 2 + laneShift;
@@ -60,20 +58,30 @@ function build(container) {
     const ids = Object.keys(data.nodes);
     if (!ids.length) return;
 
+    const outCount = (id) => data.edges.filter((e) => e.from === id).length;
+    const inCount = (id) => data.edges.filter((e) => e.to === id).length;
+    const isStart = (id) => inCount(id) === 0;
+    const isEnd = (id) => outCount(id) === 0 && inCount(id) > 0;
+
     let maxCol = 0;
     let maxRow = 0;
     for (const id of ids) {
-        const n = data.nodes[id];
-        maxCol = Math.max(maxCol, n.col || 0);
-        maxRow = Math.max(maxRow, n.row || 0);
+        maxCol = Math.max(maxCol, data.nodes[id].col || 0);
+        maxRow = Math.max(maxRow, data.nodes[id].row || 0);
     }
-    const width = PAD_X * 2 + maxCol * COL_W;
-    const height = PAD_Y * 2 + maxRow * ROW_H;
+
+    // Spalten-X: zunaechst gleichmaessig, spaeter anhand Labelbreiten geweitet
+    const colX = [];
+    for (let c = 0; c <= maxCol; c++) colX[c] = PAD_X + c * MIN_COL_W;
+
+    const pos = (n) => ({
+        x: colX[n.col || 0],
+        y: PAD_Y + (n.row || 0) * ROW_H,
+    });
 
     const svg = el(
         "svg",
         {
-            viewBox: `0 0 ${width} ${height}`,
             class: "cb-metro__svg",
             preserveAspectRatio: "xMinYMid meet",
             role: "img",
@@ -91,10 +99,9 @@ function build(container) {
         container,
     );
 
-    // pro Spaltenpaar zaehlen, damit parallele Kanten seitlich gestaffelt werden
+    // ── Kanten (Pfad-d wird nach dem Spalten-Fitting neu gesetzt) ───────────
     const laneSeen = {};
-
-    // ── Kanten ─────────────────────────────────────────────────────────────
+    const edgeEls = [];
     data.edges.forEach((e, i) => {
         const from = data.nodes[e.from];
         const to = data.nodes[e.to];
@@ -102,20 +109,17 @@ function build(container) {
 
         let laneShift = 0;
         if ((from.row || 0) !== (to.row || 0)) {
-            // parallele Kanten zwischen denselben Spalten seitlich staffeln,
-            // symmetrisch um die Mitte: 0, -LANE, +LANE, -2·LANE, +2·LANE …
             const key = `${from.col || 0}-${to.col || 0}`;
-            const n = laneSeen[key] || 0;
-            laneSeen[key] = n + 1;
-            laneShift = Math.ceil(n / 2) * LANE * (n % 2 ? -1 : 1);
+            const k = laneSeen[key] || 0;
+            laneSeen[key] = k + 1;
+            laneShift = Math.ceil(k / 2) * LANE * (k % 2 ? -1 : 1);
         }
-        const d = orthPath(pos(from), pos(to), laneShift);
-        const color = e.color || DEFAULT_COLOR;
 
+        const color = e.color || DEFAULT_COLOR;
         const line = el(
             "path",
             {
-                d,
+                d: orthPath(pos(from), pos(to), laneShift),
                 fill: "none",
                 stroke: color,
                 "stroke-width": 5,
@@ -125,8 +129,88 @@ function build(container) {
             },
             svg,
         );
+        edgeEls.push({ line, from, to, laneShift, color, i });
+    });
 
-        if (!reduceMotion) {
+    // ── Knoten + Labels ────────────────────────────────────────────────────
+    const nodeEls = ids.map((id, i) => {
+        const n = data.nodes[id];
+        const g = el("g", { class: "cb-metro__station", style: `--i:${i}` }, svg);
+        const dot = el("circle", { r: R, class: "cb-metro__dot" }, g);
+
+        // Start => Label links, Ende => rechts, sonst mittig darueber.
+        let anchor;
+        if (isEnd(id)) anchor = "start";
+        else if (isStart(id)) anchor = "end";
+        else anchor = "middle";
+
+        const label = el(
+            "text",
+            { "text-anchor": anchor, class: "cb-metro__label" },
+            g,
+        );
+        label.textContent = n.label || id;
+        return { id, n, g, dot, label, anchor };
+    });
+
+    const place = () => {
+        nodeEls.forEach(({ n, dot, label, anchor }) => {
+            const p = pos(n);
+            dot.setAttribute("cx", p.x);
+            dot.setAttribute("cy", p.y);
+            if (anchor === "start") {
+                label.setAttribute("x", p.x + R + 8);
+                label.setAttribute("y", p.y + 4);
+            } else if (anchor === "end") {
+                label.setAttribute("x", p.x - R - 8);
+                label.setAttribute("y", p.y + 4);
+            } else {
+                label.setAttribute("x", p.x);
+                label.setAttribute("y", p.y - R - 12);
+            }
+        });
+        edgeEls.forEach(({ line, from, to, laneShift }) => {
+            line.setAttribute("d", orthPath(pos(from), pos(to), laneShift));
+        });
+    };
+
+    const fitViewBox = () => {
+        const b = svg.getBBox();
+        const m = 8;
+        svg.setAttribute(
+            "viewBox",
+            `${b.x - m} ${b.y - m} ${b.width + m * 2} ${b.height + m * 2}`,
+        );
+    };
+
+    // Erst nach dem Layout: Labelbreiten messen, Spalten so weit auseinander-
+    // ziehen, dass die mittigen Labels benachbarter Spalten sich nicht decken.
+    requestAnimationFrame(() => {
+        // halbe Labelbreite pro Spalte (nur mittige Labels beanspruchen Platz
+        // links UND rechts ihrer Spalte; Start/Ende ragen nur zur Seite und
+        // werden von der viewBox aufgefangen)
+        const halfW = new Array(maxCol + 1).fill(0);
+        nodeEls.forEach(({ n, label, anchor }) => {
+            if (anchor !== "middle") return;
+            const w = label.getComputedTextLength() / 2;
+            const c = n.col || 0;
+            if (w > halfW[c]) halfW[c] = w;
+        });
+
+        for (let c = 1; c <= maxCol; c++) {
+            const need = halfW[c - 1] + halfW[c] + COL_GAP;
+            const gap = Math.max(MIN_COL_W, need);
+            colX[c] = colX[c - 1] + gap;
+        }
+
+        place();
+        fitViewBox();
+    });
+
+    place();
+
+    if (!reduceMotion) {
+        edgeEls.forEach(({ line, color, i }) => {
             const len = line.getTotalLength();
             line.style.strokeDasharray = len;
             line.style.strokeDashoffset = len;
@@ -142,92 +226,20 @@ function build(container) {
                 {
                     dur: "2.4s",
                     repeatCount: "indefinite",
-                    path: d,
                     begin: `${0.9 + i * 0.12}s`,
                 },
                 pulse,
             );
-        }
-    });
+        });
+        // animateMotion-path erst nach dem finalen place() setzen
+        requestAnimationFrame(() => {
+            const motions = svg.querySelectorAll("animateMotion");
+            edgeEls.forEach(({ line }, idx) => {
+                if (motions[idx])
+                    motions[idx].setAttribute("path", line.getAttribute("d"));
+            });
+        });
 
-    // ── Knoten ─────────────────────────────────────────────────────────────
-    ids.forEach((id, i) => {
-        const n = data.nodes[id];
-        const p = pos(n);
-        const g = el(
-            "g",
-            { class: "cb-metro__station", style: `--i:${i}` },
-            svg,
-        );
-        el("circle", { cx: p.x, cy: p.y, r: R, class: "cb-metro__dot" }, g);
-
-        // Endknoten (keine ausgehende Kante) => Label rechts daneben.
-        // Startknoten (keine eingehende Kante) => Label links daneben, damit
-        // ein langes Tool-Label nicht ueber den SVG-Rand laeuft.
-        // Sonst ober- oder unterhalb: nach unten nur, wenn dort keine weitere
-        // Zeile mit Knoten ist – sonst nach oben. Bleibt beides frei, wird nach
-        // Spaltenparitaet alterniert, damit lange Nachbar-Labels sich nicht decken.
-        const outCount = data.edges.filter((e) => e.from === id).length;
-        const inCount = data.edges.filter((e) => e.to === id).length;
-        const rowBelowUsed = ids.some(
-            (o) => o !== id && (data.nodes[o].row || 0) > (n.row || 0),
-        );
-        const rowAboveUsed = ids.some(
-            (o) => o !== id && (data.nodes[o].row || 0) < (n.row || 0),
-        );
-        let attrs;
-        if (outCount === 0) {
-            attrs = {
-                x: p.x + R + 8,
-                y: p.y + 4,
-                "text-anchor": "start",
-                class: "cb-metro__label",
-            };
-        } else if (inCount === 0) {
-            attrs = {
-                x: p.x - R - 8,
-                y: p.y + 4,
-                "text-anchor": "end",
-                class: "cb-metro__label",
-            };
-        } else if (rowAboveUsed && rowBelowUsed) {
-            // Knoten in einer Mittelzeile: oben und unten belegt => Label rechts,
-            // knapp oberhalb der Kante, damit es keine der Nachbarzeilen trifft.
-            attrs = {
-                x: p.x + R + 8,
-                y: p.y - 6,
-                "text-anchor": "start",
-                class: "cb-metro__label",
-            };
-        } else {
-            const above =
-                rowBelowUsed ||
-                outCount > 1 ||
-                (!rowAboveUsed && (n.col || 0) % 2 === 0);
-            attrs = {
-                x: p.x,
-                y: above ? p.y - R - 10 : p.y + R + 22,
-                "text-anchor": "middle",
-                class: "cb-metro__label",
-            };
-        }
-        const label = el("text", attrs, g);
-        label.textContent = n.label || id;
-    });
-
-    // viewBox an die tatsaechliche Bounding-Box anpassen, damit lange Labels
-    // am Rand (Start-/Endknoten) nicht abgeschnitten werden. getBBox geht nur,
-    // wenn das SVG schon Layout hat – rAF abwarten.
-    requestAnimationFrame(() => {
-        const b = svg.getBBox();
-        const m = 6;
-        svg.setAttribute(
-            "viewBox",
-            `${b.x - m} ${b.y - m} ${b.width + m * 2} ${b.height + m * 2}`,
-        );
-    });
-
-    if (!reduceMotion) {
         const io = new IntersectionObserver(
             (entries) => {
                 entries.forEach((e) => {
