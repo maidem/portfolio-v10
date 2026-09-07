@@ -121,8 +121,8 @@
                             <f:variable name="metroData">{my:metroData(uid: newsItem.uid)}</f:variable>
                             <f:if condition="{metroData}">
                                 <f:then>
-                                    <!-- ponytail: JS baut das SVG aus data-metro; figure/js-measure bleibt fuer die Bemassung -->
-                                    <figure class="cb-news-detail__media js-measure">
+                                    <!-- ponytail: kein js-measure – Bemassungslinien ergeben nur an Textblöcken Sinn, nicht an einer Grafik -->
+                                    <figure class="cb-news-detail__media">
                                         <div
                                             class="cb-metro"
                                             data-metro="{metroData -> f:format.htmlspecialchars()}"

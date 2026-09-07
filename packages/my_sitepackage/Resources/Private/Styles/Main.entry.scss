@@ -1341,6 +1341,14 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 // ─── Metro / Netzplan-Grafik (Projekt-Detailseiten) ──────────────────────────
 // SVG wird von news-metro.js aufgebaut. .cb-metro--play startet den Linien-
 // Aufbau (stroke-dashoffset), der Puls laeuft per SMIL dauerhaft.
+
+// figure ohne .js-measure (keine Bemassungslinien an der Grafik) — nur der
+// Abstand nach unten, den sonst .cb-news-detail__media.js-measure bringt.
+.cb-news-detail__media:not(.js-measure) {
+  margin: 0 0 2.75rem;
+  max-width: 100%;
+}
+
 .cb-metro {
   width: 100%;
   // feste Anzeigehoehe -> das SVG-Fitting per JS aendert nur die interne
