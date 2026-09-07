@@ -869,7 +869,7 @@ h4, h5, h6 {
 // ─── News: Typography ─────────────────────────────────────────────────────────
 .cb-news-date {
   @include label-text(0.6875rem, 0.15em);
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .cb-news-title {
@@ -938,7 +938,7 @@ h4, h5, h6 {
 .cb-news-article-back {
   @include label-text(0.6875rem, 0.15em);
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.6);
   transition: color $transition-base;
 
   &--block {
@@ -953,7 +953,7 @@ h4, h5, h6 {
 
 .cb-news-article-date {
   @include label-text(0.6875rem, 0.15em);
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.6);
 
   &--block {
     display: block;
@@ -1260,14 +1260,14 @@ h4, h5, h6 {
     font-weight: $fw-bold;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #bbbbbb;
+    color: #767676;
     display: block;
   }
 
   &__title {
     font-size: 0.9375rem;
     font-weight: $fw-medium;
-    color: rgba(17, 17, 17, 0.55);
+    color: rgba(17, 17, 17, 0.7);
     line-height: 1.4;
     transition: color $transition-base;
     display: block;
@@ -1283,7 +1283,7 @@ h4, h5, h6 {
 
   &__teaser {
     font-size: 0.75rem;
-    color: rgba(17, 17, 17, 0.4);
+    color: rgba(17, 17, 17, 0.62);
     line-height: 1.5;
     display: block;
     overflow: hidden;
@@ -1309,7 +1309,7 @@ h4, h5, h6 {
     font-weight: $fw-bold;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #bbbbbb;
+    color: #767676;
     text-decoration: none;
     white-space: nowrap;
     transition: color $transition-base;

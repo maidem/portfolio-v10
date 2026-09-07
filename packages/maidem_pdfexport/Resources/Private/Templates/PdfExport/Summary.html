@@ -292,6 +292,11 @@
               <div class="item-description">
                 <f:format.html>{block.data.teaser_text}</f:format.html>
               </div>
+              <f:if condition="{block.data.bodytext}"
+                ><div class="item-body">
+                  <f:format.html>{block.data.bodytext}</f:format.html>
+                </div></f:if
+              >
             </div>
           </div>
         </f:case>

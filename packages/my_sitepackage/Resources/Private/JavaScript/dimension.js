@@ -128,7 +128,7 @@ export function getDimColors() {
         stroke: r.color,
         strokeOpacity: r.alpha,
         labelBg: "#fefefe",
-        labelColor: "rgb(120 130 140)",
+        labelColor: "rgb(96 105 115)", // WCAG AA (>=4.5:1) auf hellem Grund
     };
 }
 
