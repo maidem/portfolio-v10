@@ -19,7 +19,7 @@ const ROW_H = 84; // px pro Raster-Zeile
 const PAD_X = 120;
 const PAD_Y = 46;
 const R = 6; // Knoten-Radius
-const LANE = 7; // Versatz paralleler Kanten, damit sie sich nicht decken
+const LANE = 14; // Versatz paralleler Kanten, damit sie sich nicht decken
 const DEFAULT_COLOR = "#1c8a7d";
 
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -102,10 +102,12 @@ function build(container) {
 
         let laneShift = 0;
         if ((from.row || 0) !== (to.row || 0)) {
+            // parallele Kanten zwischen denselben Spalten seitlich staffeln,
+            // symmetrisch um die Mitte: 0, -LANE, +LANE, -2·LANE, +2·LANE …
             const key = `${from.col || 0}-${to.col || 0}`;
             const n = laneSeen[key] || 0;
             laneSeen[key] = n + 1;
-            laneShift = n * LANE * 2 - LANE; // ...-LANE, +LANE, +3*LANE, ...
+            laneShift = Math.ceil(n / 2) * LANE * (n % 2 ? -1 : 1);
         }
         const d = orthPath(pos(from), pos(to), laneShift);
         const color = e.color || DEFAULT_COLOR;
@@ -186,6 +188,15 @@ function build(container) {
                 x: p.x - R - 8,
                 y: p.y + 4,
                 "text-anchor": "end",
+                class: "cb-metro__label",
+            };
+        } else if (rowAboveUsed && rowBelowUsed) {
+            // Knoten in einer Mittelzeile: oben und unten belegt => Label rechts,
+            // knapp oberhalb der Kante, damit es keine der Nachbarzeilen trifft.
+            attrs = {
+                x: p.x + R + 8,
+                y: p.y - 6,
+                "text-anchor": "start",
                 class: "cb-metro__label",
             };
         } else {
