@@ -159,6 +159,11 @@ main > .cb-section-header {
   pointer-events: none;
   z-index: $z-perspective-grid;
   overflow: hidden;
+  // Eigener Snapshot, damit das fixe Linienraster beim Seitenwechsel NICHT
+  // Teil des root-Snapshots ist (der zurueck auf scroll 0 springt und
+  // aufblitzt). Ohne eigene Animation bleibt es waehrend der Ueberblendung
+  // einfach stehen.
+  view-transition-name: cb-perspective-grid;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, transparent 8%, rgba(0, 0, 0, 0.7) 22%, rgba(0, 0, 0, 0.18) 55%, transparent 100%);
@@ -1356,6 +1361,18 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 
 ::view-transition-new(root) {
   animation: view-transition-in 0.25s ease-out both;
+}
+
+// Linienraster: kein Fade, kein Move — waehrend des Wechsels stehen lassen.
+::view-transition-group(cb-perspective-grid),
+::view-transition-old(cb-perspective-grid),
+::view-transition-new(cb-perspective-grid) {
+  animation: none;
+}
+::view-transition-old(cb-perspective-grid) {
+  // alte und neue Fassung sind identisch — die alte unsichtbar, damit sie
+  // nicht ueber der neuen doppelt liegt
+  opacity: 0;
 }
 
 @keyframes view-transition-in {
