@@ -1,10 +1,22 @@
+@keyframes cbHeroFade {
+  to {
+    opacity: 1;
+  }
+}
+
 .cb-hero-section {
   display: flex;
   align-items: flex-start;
   padding-top: 0;
-  padding-bottom: 4rem;
+  padding-bottom: 1.5rem;
   opacity: 0;
-  animation: cbSoftReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+
+  // Hero gehoert optisch zum Profiltext darunter, nicht zum globalen
+  // Section-Rhythmus (main > * setzt clamp(5rem, 12vh, 9rem)).
+  margin-bottom: 2.5rem;
+  // ponytail: nur Fade, kein translateY. Der Hero ist beim Laden bereits
+  // sichtbar; die 15px-Bewegung aus cbSoftReveal liest sich dort als Ruckeln.
+  animation: cbHeroFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 
   > .container {
     width: 100%;
@@ -85,11 +97,23 @@
   }
 
   &__heading {
-    font-size: clamp(1.375rem, 1.8vw, 1.75rem);
+    font-size: clamp(1.75rem, 4.2vw, 3.25rem);
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: #111;
     margin-bottom: 1.25rem;
+    text-wrap: balance;
+
+    // ponytail: Umbruch nur ab Tablet erzwungen; darunter bricht der
+    // Satz ohnehin, ein harter Umbruch wuerde dort Waisen erzeugen.
+    br {
+      display: none;
+
+      @media (min-width: 48rem) {
+        display: inline;
+      }
+    }
   }
 
   &__text {

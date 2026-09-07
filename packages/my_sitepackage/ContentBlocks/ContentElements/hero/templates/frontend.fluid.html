@@ -15,7 +15,7 @@
                             <div class="js-measure cb-hero__measure" data-measure-h="edges">
                                 <f:if condition="{data.header}">
                                     <h1 class="cb-hero__heading">
-                                        {data.header}
+                                        <f:format.raw>{data.header -> f:format.htmlspecialchars() -> f:replace(search: '|', replace: '<br>')}</f:format.raw>
                                     </h1>
                                 </f:if>
                                 <f:if condition="{data.bodytext}">

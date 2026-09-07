@@ -2,9 +2,9 @@
 // Contact form — profile page style
 // =============================
 $text-primary: #111111;
-$text-muted: #71717a;
+$text-muted: #555555;
 $color-secondary: #111111;
-$color-border: #222222;
+$color-border: #b0b0b0;
 $color-error: #b91c1c;
 
 // hide the default FSC header on the form CE
@@ -183,7 +183,7 @@ $color-error: #b91c1c;
     height: 1rem;
     margin-top: 0.2rem;
     background-color: transparent;
-    border: 1px solid rgba(17, 17, 17, 0.3);
+    border: 1px solid #b0b0b0;
     border-radius: 0;
     cursor: pointer;
     accent-color: $color-secondary;

@@ -4,7 +4,7 @@
 .cb-text-cta {
   &__heading {
     font-family: "JetBrains Mono", monospace;
-    font-size: clamp(1.75rem, 2.2vw, 2.25rem);
+    font-size: clamp(1.375rem, 1.8vw, 1.75rem); // = .cb-section-header__title
     font-weight: 700;
     line-height: 1.25;
     color: #111;

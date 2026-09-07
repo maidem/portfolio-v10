@@ -3,32 +3,12 @@
     <file source-language="en" target-language="de" datatype="plaintext" original="labels.xlf">
         <body>
             <trans-unit id="title">
-                <source>Intro-Bereich</source>
-                <target>Intro-Bereich</target>
+                <source>Hero</source>
+                <target>Hero</target>
             </trans-unit>
             <trans-unit id="description">
-                <source>Two-column content block for introductory sections.</source>
-                <target>Zweispaltiger Inhaltsbereich für Einleitungsabschnitte.</target>
-            </trans-unit>
-            <trans-unit id="display_mode.label">
-                <source>Display Mode</source>
-                <target>Anzeige-Modus</target>
-            </trans-unit>
-            <trans-unit id="display_mode.full">
-                <source>Full Width</source>
-                <target>Volle Breite</target>
-            </trans-unit>
-            <trans-unit id="display_mode.split">
-                <source>Split 50/50</source>
-                <target>Geteilt 50/50</target>
-            </trans-unit>
-            <trans-unit id="background_image.label">
-                <source>Background Image</source>
-                <target>Hintergrundbild</target>
-            </trans-unit>
-            <trans-unit id="split_left_image.label">
-                <source>Split Left Image</source>
-                <target>Bild links (bei Teilung)</target>
+                <source>Seiten-Hero mit H1-Überschrift, Fließtext und bis zu zwei CTA-Buttons.</source>
+                <target>Seiten-Hero mit H1-Überschrift, Fließtext und bis zu zwei CTA-Buttons.</target>
             </trans-unit>
         </body>
     </file>
