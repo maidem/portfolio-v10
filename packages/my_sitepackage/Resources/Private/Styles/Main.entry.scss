@@ -1355,12 +1355,22 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 // Kein eigener Snapshot fuer Hintergrund und Linienraster — die liegen per
 // z-index VOR dem Inhalt und wuerden ihn sonst waehrend der Ueberblendung
 // maskieren, statt ihn durchscheinen zu lassen.
+// Beide Ebenen ueberblenden: die alte gleichzeitig ausblenden, waehrend die
+// neue einblendet. Vorher stand die alte Seite bei voller Deckkraft und
+// verschwand am Ende schlagartig – ihre Masslinien (js-measure) blitzten dabei
+// ueber der neuen Seite auf.
 ::view-transition-old(root) {
-  animation: none;
+  animation: view-transition-out 0.25s ease-out both;
 }
 
 ::view-transition-new(root) {
   animation: view-transition-in 0.25s ease-out both;
+}
+
+@keyframes view-transition-out {
+  to {
+    opacity: 0;
+  }
 }
 
 // Linienraster: kein Fade, kein Move — waehrend des Wechsels stehen lassen.
