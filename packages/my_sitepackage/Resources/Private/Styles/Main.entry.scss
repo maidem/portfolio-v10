@@ -57,9 +57,23 @@ body {
   }
 }
 
-// ─── Section scroll offset (sticky nav height = $unit * 9 = 4.5rem) ────────────
+// ─── Section scroll offset (sticky nav = min-height $unit*7 + padding-block $unit
+//     = $unit * 9) ─────────────────────────────────────────────────────────────
 [id] {
   scroll-margin-top: $unit * 9;
+}
+
+// Sektionen mit eigenem padding-top (Layout-Rhythm) bringen den Abstand schon
+// selbst mit – sonst landet der Scroll-Stopp im Leerraum darueber (Hero bleibt
+// angeschnitten sichtbar). padding-top hier von scroll-margin-top abziehen.
+main > .container[id],
+main > section[id],
+main > .frame[id] {
+  scroll-margin-top: $unit * 6;
+
+  @include above($bp-md) {
+    scroll-margin-top: $unit * 5;
+  }
 }
 
 // ─── Layout rhythm ────────────────────────────────────────────────────────────
