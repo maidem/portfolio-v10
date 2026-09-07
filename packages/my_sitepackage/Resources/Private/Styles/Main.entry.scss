@@ -1376,18 +1376,12 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 // Aufbau (stroke-dashoffset), der Puls laeuft per SMIL dauerhaft.
 .cb-metro {
   width: 100%;
-  overflow-x: auto; // breite Netzplaene scrollen im Container statt die Seite
 
   &__svg {
     display: block;
     width: 100%;
-    min-width: 480px;
     height: auto;
     font-family: $font-mono;
-  }
-
-  &__line {
-    // vor --play: von JS auf voll versteckt gesetzt (dashoffset = Laenge)
   }
 
   &--play &__line {
@@ -1402,7 +1396,9 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 
   &__label {
     fill: $text-primary;
-    font-size: 13px;
+    // groesser als die Rasterabstaende zulassen wuerden, damit es auch nach
+    // dem Herunterskalieren des SVG lesbar bleibt
+    font-size: 17px;
     font-weight: $fw-light;
   }
 

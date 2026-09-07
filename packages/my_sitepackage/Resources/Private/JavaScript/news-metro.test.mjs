@@ -1,49 +1,57 @@
-// Selbsttest fuer die Spalten-/Umstiegs-Logik in news-metro.js.
+// Selbsttest fuer die Geometrie in news-metro.js (orthPath + pos).
 // Lauf: node news-metro.test.mjs
-// ponytail: keine Framework-Abhaengigkeit – layout() ist hier gespiegelt,
-// weil news-metro.js sonst das DOM anfassen wuerde. Konstanten synchron halten.
+// ponytail: Konstanten hier gespiegelt, weil news-metro.js sonst das DOM
+// anfassen wuerde. Bei Aenderung dort hier nachziehen.
 
-const COL_W = 150,
-    ROW_H = 90,
-    PAD_X = 90,
-    PAD_Y = 60;
+const COL_W = 230,
+    ROW_H = 84,
+    PAD_X = 120,
+    PAD_Y = 46;
 
-function layout(lines) {
-    const colOf = new Map();
-    lines.forEach((l) =>
-        l.stations.forEach((s) => {
-            if (!colOf.has(s)) colOf.set(s, colOf.size);
-        }),
-    );
-    const nodes = [];
-    const paths = lines.map((line, li) => {
-        const y = PAD_Y + li * ROW_H;
-        const pts = line.stations.map((s) => {
-            const x = PAD_X + colOf.get(s) * COL_W;
-            nodes.push({ x, y, name: s, li });
-            return [x, y];
-        });
-        return { color: line.color || "#1c8a7d", pts };
-    });
-    const width = PAD_X * 2 + (colOf.size - 1) * COL_W;
-    const height = PAD_Y * 2 + (lines.length - 1) * ROW_H;
-    return { paths, nodes, width, height };
+function pos(node) {
+    return {
+        x: PAD_X + (node.col || 0) * COL_W,
+        y: PAD_Y + (node.row || 0) * ROW_H,
+    };
 }
 
-const r = layout([
-    { color: "#111", stations: ["A", "B", "C"] },
-    { color: "#222", stations: ["B", "D"] },
-]);
+function orthPath(a, b) {
+    if (a.y === b.y) return `M ${a.x} ${a.y} L ${b.x} ${b.y}`;
+    const midX = a.x + (b.x - a.x) / 2;
+    return `M ${a.x} ${a.y} L ${midX} ${a.y} L ${midX} ${b.y} L ${b.x} ${b.y}`;
+}
 
-const bMain = r.nodes.find((n) => n.name === "B" && n.li === 0);
-const bBranch = r.nodes.find((n) => n.name === "B" && n.li === 1);
-
-console.assert(bMain.x === bBranch.x, "shared station keeps its column");
-console.assert(bBranch.y === bMain.y + ROW_H, "branch line sits one row below");
-console.assert(r.width === PAD_X * 2 + 3 * COL_W, "width spans 4 unique columns");
+// gleiche Zeile -> gerade Linie mit genau 2 Punkten
+const straight = orthPath(pos({ col: 0, row: 0 }), pos({ col: 2, row: 0 }));
 console.assert(
-    r.paths[0].pts.length === 3 && r.paths[1].pts.length === 2,
-    "point counts per line",
+    straight === `M ${PAD_X} ${PAD_Y} L ${PAD_X + 2 * COL_W} ${PAD_Y}`,
+    "same row = straight segment",
 );
 
-console.log("metro layout OK");
+// Zeilenwechsel -> Treppe mit 4 Punkten, Knick auf halber Strecke
+const branch = orthPath(pos({ col: 3, row: 0 }), pos({ col: 4, row: 2 }));
+const pts = branch.match(/[ML] [\d.]+ [\d.]+/g);
+console.assert(pts.length === 4, "row change = 4-point orthogonal path");
+const midX = PAD_X + 3 * COL_W + COL_W / 2;
+console.assert(branch.includes(`L ${midX} ${PAD_Y}`), "knee at half distance");
+console.assert(
+    branch.endsWith(`L ${PAD_X + 4 * COL_W} ${PAD_Y + 2 * ROW_H}`),
+    "ends at target node",
+);
+
+// zwei Kanten koennen auf denselben Zielknoten zeigen (Zusammenfuehrung)
+const nodes = {
+    a: { col: 0, row: 0 },
+    b: { col: 0, row: 2 },
+    live: { col: 2, row: 1 },
+};
+const toLiveA = orthPath(pos(nodes.a), pos(nodes.live));
+const toLiveB = orthPath(pos(nodes.b), pos(nodes.live));
+const endA = toLiveA.match(/L ([\d.]+) ([\d.]+)$/);
+const endB = toLiveB.match(/L ([\d.]+) ([\d.]+)$/);
+console.assert(
+    endA[1] === endB[1] && endA[2] === endB[2],
+    "both edges land on the same merge node",
+);
+
+console.log("metro geometry OK");

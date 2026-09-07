@@ -1,21 +1,26 @@
 // Metro / Netzplan-Grafik fuer Projekt-Detailseiten.
 //
-// Liest data-metro (JSON: { lines: [{ color, stations: [name, ...] }] }) und
-// baut ein Inline-SVG: eine Polyline pro Linie, ein Kreis + Label pro Station.
-// Gleichnamige Stationen verschiedener Linien teilen sich eine X-Spalte
-// (= Umstieg). Erst wachsen die Linien beim Scroll ins Bild (stroke-dashoffset),
-// dann laeuft dauerhaft ein Puls entlang jeder Linie.
+// data-metro JSON beschreibt einen gerichteten Graphen:
+//   { nodes: { id: { label, col, row } }, edges: [{ from, to, color }] }
+// col/row sind Rasterkoordinaten (du legst das Layout selbst fest, kein
+// Auto-Layout). Das SVG:
+//   - eine Linie pro Kante (from -> to), Ecken rechtwinklig gefuehrt
+//   - ein Kreis + Label pro Knoten
+//   - erst wachsen die Kanten beim Scroll ins Bild (stroke-dashoffset),
+//     dann laeuft dauerhaft ein Puls jede Kante entlang (Richtung = from->to)
 //
-// ponytail: gerade Segmente, Labels abwechselnd oben/unten, keine Kurven-
-// Glaettung und keine Label-Kollisionsvermeidung. Reicht das optisch nicht,
-// kommt danach eine Layout-Lib.
+// ponytail: rechtwinklige Verbindungen (H, dann V, dann H), keine Kurven,
+// keine Label-Kollisionsvermeidung. Reicht das optisch nicht, kommt danach
+// eine Graph-Layout-Lib.
 
 const NS = "http://www.w3.org/2000/svg";
-const COL_W = 150; // px pro Stations-Spalte
-const ROW_H = 90; // px pro Linie (vertikaler Versatz)
-const PAD_X = 90;
-const PAD_Y = 60;
-const R = 7; // Stations-Radius
+const COL_W = 230; // px pro Raster-Spalte
+const ROW_H = 84; // px pro Raster-Zeile
+const PAD_X = 120;
+const PAD_Y = 46;
+const R = 6; // Knoten-Radius
+const LANE = 7; // Versatz paralleler Kanten, damit sie sich nicht decken
+const DEFAULT_COLOR = "#1c8a7d";
 
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -26,30 +31,21 @@ function el(name, attrs, parent) {
     return node;
 }
 
-function layout(lines) {
-    // gemeinsame Spalten-Belegung: jede eindeutige Station bekommt einen Index
-    // in Reihenfolge ihres ersten Auftretens
-    const colOf = new Map();
-    lines.forEach((line) => {
-        line.stations.forEach((s) => {
-            if (!colOf.has(s)) colOf.set(s, colOf.size);
-        });
-    });
+function pos(node) {
+    return {
+        x: PAD_X + (node.col || 0) * COL_W,
+        y: PAD_Y + (node.row || 0) * ROW_H,
+    };
+}
 
-    const nodes = [];
-    const paths = lines.map((line, li) => {
-        const y = PAD_Y + li * ROW_H;
-        const pts = line.stations.map((s) => {
-            const x = PAD_X + colOf.get(s) * COL_W;
-            nodes.push({ x, y, name: s, li });
-            return [x, y];
-        });
-        return { color: line.color || "#1c8a7d", pts };
-    });
-
-    const width = PAD_X * 2 + (colOf.size - 1) * COL_W;
-    const height = PAD_Y * 2 + (lines.length - 1) * ROW_H;
-    return { paths, nodes, width, height };
+// rechtwinkliger Pfad von a nach b: halber Weg horizontal, dann vertikal,
+// dann Rest horizontal. Gleiche Zeile => gerade Linie.
+// laneShift verschiebt das vertikale Teilstueck seitlich, damit mehrere
+// Kanten zwischen denselben Spalten nicht exakt uebereinander liegen.
+function orthPath(a, b, laneShift = 0) {
+    if (a.y === b.y) return `M ${a.x} ${a.y} L ${b.x} ${b.y}`;
+    const midX = a.x + (b.x - a.x) / 2 + laneShift;
+    return `M ${a.x} ${a.y} L ${midX} ${a.y} L ${midX} ${b.y} L ${b.x} ${b.y}`;
 }
 
 function build(container) {
@@ -59,36 +55,68 @@ function build(container) {
     } catch {
         return;
     }
-    if (!data || !Array.isArray(data.lines) || !data.lines.length) return;
+    if (!data || !data.nodes || !Array.isArray(data.edges)) return;
 
-    const { paths, nodes, width, height } = layout(data.lines);
+    const ids = Object.keys(data.nodes);
+    if (!ids.length) return;
+
+    let maxCol = 0;
+    let maxRow = 0;
+    for (const id of ids) {
+        const n = data.nodes[id];
+        maxCol = Math.max(maxCol, n.col || 0);
+        maxRow = Math.max(maxRow, n.row || 0);
+    }
+    const width = PAD_X * 2 + maxCol * COL_W;
+    const height = PAD_Y * 2 + maxRow * ROW_H;
 
     const svg = el(
         "svg",
         {
             viewBox: `0 0 ${width} ${height}`,
             class: "cb-metro__svg",
+            preserveAspectRatio: "xMinYMid meet",
             role: "img",
             "aria-label":
                 "Netzplan des Projektaufbaus: " +
-                data.lines
-                    .map((l) => l.stations.join(" – "))
+                data.edges
+                    .map(
+                        (e) =>
+                            `${data.nodes[e.from]?.label || e.from} führt zu ${
+                                data.nodes[e.to]?.label || e.to
+                            }`,
+                    )
                     .join("; "),
         },
         container,
     );
 
-    // Linien
-    paths.forEach((p, i) => {
-        const d =
-            "M " + p.pts.map(([x, y]) => `${x} ${y}`).join(" L ");
+    // pro Spaltenpaar zaehlen, damit parallele Kanten seitlich gestaffelt werden
+    const laneSeen = {};
+
+    // ── Kanten ─────────────────────────────────────────────────────────────
+    data.edges.forEach((e, i) => {
+        const from = data.nodes[e.from];
+        const to = data.nodes[e.to];
+        if (!from || !to) return;
+
+        let laneShift = 0;
+        if ((from.row || 0) !== (to.row || 0)) {
+            const key = `${from.col || 0}-${to.col || 0}`;
+            const n = laneSeen[key] || 0;
+            laneSeen[key] = n + 1;
+            laneShift = n * LANE * 2 - LANE; // ...-LANE, +LANE, +3*LANE, ...
+        }
+        const d = orthPath(pos(from), pos(to), laneShift);
+        const color = e.color || DEFAULT_COLOR;
+
         const line = el(
             "path",
             {
                 d,
                 fill: "none",
-                stroke: p.color,
-                "stroke-width": 6,
+                stroke: color,
+                "stroke-width": 5,
                 "stroke-linecap": "round",
                 "stroke-linejoin": "round",
                 class: "cb-metro__line",
@@ -100,64 +128,68 @@ function build(container) {
             const len = line.getTotalLength();
             line.style.strokeDasharray = len;
             line.style.strokeDashoffset = len;
-            line.style.setProperty("--metro-len", len);
-            line.style.animationDelay = `${i * 0.25}s`;
-        }
+            line.style.animationDelay = `${i * 0.12}s`;
 
-        // Dauer-Puls entlang der Linie
-        if (!reduceMotion) {
             const pulse = el(
                 "circle",
-                { r: 5, fill: p.color, class: "cb-metro__pulse" },
+                { r: 4, fill: color, class: "cb-metro__pulse" },
                 svg,
             );
-            const motion = el(
+            el(
                 "animateMotion",
                 {
-                    dur: `${Math.max(3, p.pts.length * 1.1)}s`,
+                    dur: "2.4s",
                     repeatCount: "indefinite",
                     path: d,
-                    // erst nach dem Aufbau starten
-                    begin: `${1.2 + i * 0.25}s`,
+                    begin: `${0.9 + i * 0.12}s`,
                 },
                 pulse,
             );
-            void motion;
         }
     });
 
-    // Stationen + Labels
-    nodes.forEach((n, i) => {
+    // ── Knoten ─────────────────────────────────────────────────────────────
+    ids.forEach((id, i) => {
+        const n = data.nodes[id];
+        const p = pos(n);
         const g = el(
             "g",
             { class: "cb-metro__station", style: `--i:${i}` },
             svg,
         );
-        el(
-            "circle",
-            {
-                cx: n.x,
-                cy: n.y,
-                r: R,
-                class: "cb-metro__dot",
-            },
-            g,
-        );
-        const above = n.li % 2 === 0;
-        const label = el(
-            "text",
-            {
-                x: n.x,
-                y: above ? n.y - R - 10 : n.y + R + 20,
+        el("circle", { cx: p.x, cy: p.y, r: R, class: "cb-metro__dot" }, g);
+
+        // Endknoten (kein ausgehender Edge) => Label rechts daneben.
+        // sonst abwechselnd ober-/unterhalb (nach Spalte), damit lange Labels
+        // benachbarter Knoten sich nicht ueberlappen.
+        const outCount = data.edges.filter((e) => e.from === id).length;
+        let attrs;
+        if (outCount === 0) {
+            attrs = {
+                x: p.x + R + 8,
+                y: p.y + 4,
+                "text-anchor": "start",
+                class: "cb-metro__label",
+            };
+        } else if (outCount > 1 || (n.col || 0) % 2 === 0) {
+            attrs = {
+                x: p.x,
+                y: p.y - R - 10,
                 "text-anchor": "middle",
                 class: "cb-metro__label",
-            },
-            g,
-        );
-        label.textContent = n.name;
+            };
+        } else {
+            attrs = {
+                x: p.x,
+                y: p.y + R + 22,
+                "text-anchor": "middle",
+                class: "cb-metro__label",
+            };
+        }
+        const label = el("text", attrs, g);
+        label.textContent = n.label || id;
     });
 
-    // Aufbau beim Sichtbarwerden ausloesen
     if (!reduceMotion) {
         const io = new IntersectionObserver(
             (entries) => {
