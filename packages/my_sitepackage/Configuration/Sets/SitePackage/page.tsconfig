@@ -24,12 +24,12 @@ RTE {
     TCAdefaults.pages.backend_layout = pagets__news
 [global]
 
-# Inhaltselemente einschränken wenn News-Layout direkt an der Seite gesetzt ist
+# Restrict content elements when the news layout is set directly on the page
 [page["backend_layout"] == 'pagets__news']
     TCEFORM.tt_content.CType.keepItems = gripsraum_newsarticle
 [global]
 
-# Inhaltselemente im Footer-Ordner einschränken (Sysfolder mit doktype 254)
+# Restrict content elements in the footer folder (sysfolder with doktype 254)
 [traverse(page, "doktype") == 254 && traverse(page, "title") == "Footer"]
     TCEFORM.tt_content.CType.keepItems = gripsraum_footer
 [global]

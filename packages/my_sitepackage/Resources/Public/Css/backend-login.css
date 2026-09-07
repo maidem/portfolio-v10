@@ -1,4 +1,4 @@
-/* Backend login im Bemaßungslinien-Stil (DIN 406) der Portfolio-Frontseite */
+/* Backend login in the dimension-line style (DIN 406) of the portfolio front page */
 
 .typo3-login {
   --login-ink: #111111;
@@ -21,15 +21,15 @@
   box-shadow: none;
   background-color: transparent;
   position: relative;
-  /* Platz links für die vertikale Bemaßung. Die negative Margin gleicht ihn
-     wieder aus, damit das Formular auf der Seite mittig bleibt statt um die
-     halbe Rinne nach rechts zu rutschen. */
+  /* Space on the left for the vertical dimensioning. The negative margin cancels
+     it out again, so the form stays centered on the page instead of shifting
+     half a gutter to the right. */
   padding: 0 0 var(--dim-gutter) var(--dim-gutter);
   margin-left: calc(var(--dim-gutter) * -1);
 }
 
-/* Mobil entfällt die vertikale Bemaßung (siehe backend-login-dim.js),
-   also auch die Rinne — sonst bliebe der Versatz ohne Grund bestehen. */
+/* On mobile the vertical dimensioning is dropped (see backend-login-dim.js),
+   so is the gutter — otherwise the offset would remain for no reason. */
 @media (max-width: 767.98px) {
   .typo3-login .card-login {
     --dim-gutter: 0rem;
@@ -47,12 +47,12 @@
   color: var(--login-ink);
 }
 
-/* TYPO3-Wortmarke im Footer ("Mehr über TYPO3") ebenfalls schwarz statt orange */
+/* TYPO3 wordmark in the footer ("Mehr über TYPO3") also black instead of orange */
 .typo3-login .typo3-login-copyright-link svg .highlight {
   fill: var(--login-ink) !important;
 }
 
-/* ─── Logo-Formel über dem Formular: [Marke] + [TYPO3] = [Herz] ─────────────── */
+/* ─── Logo formula above the form: [brand] + [TYPO3] = [heart] ─────────────── */
 .typo3-login .typo3-login-logo.logo-formula {
   display: flex;
   align-items: center;
@@ -60,8 +60,8 @@
   gap: 0.5rem;
 }
 
-/* Alle drei Bestandteile auf dieselbe optische Höhe (--formula-size).
-   Maßgeblich ist die sichtbare Grafik, nicht die Dateibox. */
+/* All three parts at the same optical height (--formula-size).
+   The visible graphic is what counts, not the file box. */
 .typo3-login .typo3-login-logo.logo-formula {
   --formula-size: 2rem;
 }
@@ -75,15 +75,15 @@
   height: var(--formula-size);
 }
 
-/* Die Wortmarke (1200x509 px) ist ringsum transparent gerahmt: sichtbar sind
-   nur 253 px Höhe und die Breite von 10,9 % bis 89,6 %. Die Höhe wird deshalb
-   verdoppelt, und die negative Margin schneidet den seitlichen Rand weg —
-   sonst wären die Abstände zu + und = rund 16 px zu groß. */
+/* The wordmark (1200x509 px) has a transparent frame all around: visible are
+   only 253 px of height and the width from 10.9% to 89.6%. The height is
+   therefore doubled, and the negative margin crops the side border away —
+   otherwise the gaps to + and = would be about 16 px too large. */
 .typo3-login .logo-formula img:not(.logo-formula__brand) {
   --t3-img-height: calc(var(--formula-size) * 2.01);
   --t3-img-width: calc(var(--t3-img-height) * 1200 / 509);
   height: var(--t3-img-height);
-  /* linker Rand 10,9 %, rechter 10,4 % — daher getrennte Werte */
+  /* left border 10.9%, right 10.4% — hence separate values */
   margin-left: calc(var(--t3-img-width) * -0.109);
   margin-right: calc(var(--t3-img-width) * -0.1042);
 }
@@ -95,21 +95,21 @@
   color: var(--login-ink);
 }
 
-/* viewBox ist auf die Pfadgrenzen zugeschnitten, Höhe wirkt daher 1:1.
-   aspect-ratio statt width:auto — ein inline-SVG ohne width-Attribut
-   berechnet seine Breite sonst zu 0. */
+/* viewBox is cropped to the path bounds, so the height reads 1:1.
+   aspect-ratio instead of width:auto — an inline SVG without a width attribute
+   would otherwise compute its width as 0. */
 .typo3-login .logo-formula__heart {
   height: var(--formula-size);
   aspect-ratio: 18 / 16.3;
   flex: none;
-  color: #ed1c24; /* wie der Punkt im Logo (favicon.svg) */
+  color: #ed1c24; /* like the dot in the logo (favicon.svg) */
 }
 
 .typo3-login .card-login .card-body {
   position: relative;
 }
 
-/* ─── Eingabefelder + Button: identischer Kasten-Stil, gleicher Abstand ─────── */
+/* ─── Input fields + button: identical box style, same spacing ─────── */
 .typo3-login .form-group:has(.form-control),
 .typo3-login .form-group:has(.btn-login) {
   margin: 0.75rem 0 0;
@@ -174,14 +174,14 @@
   color: #ffffff;
 }
 
-/* ─── DIN-406-Bemaßung: alle Positionen kommen exakt aus backend-login-dim.js ── */
+/* ─── DIN 406 dimensioning: all positions come exactly from backend-login-dim.js ── */
 .typo3-login .dim {
   position: absolute;
   pointer-events: none;
 }
 
-/* feste Zeilenhöhe + block: sonst richtet sich die schwarze Box nach der
-   Font-Metrik statt symmetrisch zur Maßlinie zu sitzen */
+/* fixed line-height + block: otherwise the black box follows the
+   font metrics instead of sitting symmetrically around the dimension line */
 .typo3-login .dim-label {
   display: block;
   background-color: var(--login-ink);
@@ -190,8 +190,8 @@
   font-weight: 700;
   letter-spacing: 0.15em;
   line-height: 14px;
-  /* letter-spacing hängt hinter dem letzten Zeichen ein Leerzeichen an —
-     rechts entsprechend weniger Padding, damit der Text mittig sitzt */
+  /* letter-spacing appends a space after the last character —
+     less padding on the right accordingly, so the text sits centered */
   padding: 0 calc(0.5rem - 0.15em) 0 0.5rem;
   white-space: nowrap;
   z-index: 1;

@@ -77,8 +77,8 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
     // MAIL: settings.php hardcodes DDEV's mailpit sendmail shim, which doesn't
     // exist in production. Override with real SMTP creds from env vars.
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'smtp';
-    // Port muss mit rein — ohne ihn nimmt Symfony 25, und mit encrypt
-    // wird daraus ssl://host:25, was bei Hetzner ins Timeout läuft (587 = STARTTLS).
+    // Port must be included — without it Symfony assumes 25, and with encrypt
+    // that becomes ssl://host:25, which times out on Hetzner (587 = STARTTLS).
     $smtpServer = getenv('TYPO3_SMTP_SERVER') ?: '';
     if ($smtpServer !== '' && !str_contains($smtpServer, ':')) {
         $smtpServer .= ':' . (getenv('TYPO3_SMTP_PORT') ?: '587');
@@ -86,8 +86,8 @@ if (getenv('TYPO3_CONTEXT') === 'Production') {
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = $smtpServer;
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_username'] = getenv('TYPO3_SMTP_USER') ?: '';
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_password'] = getenv('TYPO3_SMTP_PASSWORD') ?: '';
-    // leer lassen — auf 587 handelt Symfony STARTTLS selbst aus.
-    // 'tls' würde ssl:// erzwingen, das geht nur auf 465 (bei Hetzner geblockt).
+    // leave empty — on 587 Symfony negotiates STARTTLS itself.
+    // 'tls' would force ssl://, which only works on 465 (blocked on Hetzner).
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_encrypt'] = getenv('TYPO3_SMTP_ENCRYPT') ?: '';
 }
 

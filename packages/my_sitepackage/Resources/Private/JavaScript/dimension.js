@@ -117,9 +117,9 @@ function splitColorAlpha(c) {
 }
 
 export function getDimColors() {
-    // portfolio-v14-Angleichung — neutrales, halbtransparentes Grau
-    // statt der (kontraststarken) Textfarbe des Elements; Label ohne farbigen
-    // Badge, nur gedämpfte Schrift auf hellem Seitengrund.
+    // portfolio-v14 alignment — neutral, semi-transparent grey
+    // instead of the element's (high-contrast) text color; label without a
+    // colored badge, just muted type on a light page background.
     const cs = getComputedStyle(document.documentElement);
     const r = splitColorAlpha(
         cs.getPropertyValue("--color-dim-stroke").trim() || "rgb(120 130 140 / 0.55)",

@@ -1,12 +1,12 @@
-// TYPO3 Form Framework per fetch statt normalem Submit — kein Seiten-Reload
-// beim Seitenwechsel/Fehler, und beim finalen Erfolg (Redirect zu ?contact=sent)
-// nur die URL wechseln statt neu zu laden.
+// TYPO3 Form Framework via fetch instead of a normal submit — no page reload
+// on step change/error, and on the final success (redirect to ?contact=sent)
+// only swap the URL instead of reloading.
 (function () {
     if (!document.querySelector(".cb-form-wrap")) return;
 
-    // Mosparo initialisiert Captcha-Divs nur einmal bei DOMContentLoaded (siehe
-    // mosparo-form.js). Nach dem Ajax-Austausch der Formularseite muss das für
-    // neu eingefügte .mosparo-captcha-Divs hier manuell nachgeholt werden.
+    // Mosparo initializes captcha divs only once on DOMContentLoaded (see
+    // mosparo-form.js). After the Ajax swap of the form page this has to be
+    // redone manually here for newly inserted .mosparo-captcha divs.
     function initMosparo(root) {
         root.querySelectorAll("div.mosparo-captcha").forEach((div) => {
             if (div.dataset.initialized === "true" || typeof mosparo === "undefined") return;
@@ -44,10 +44,10 @@
         }, 5000);
     }
 
-    // Mosparo ruft nach seiner unsichtbaren Verifizierung form.submit() nativ
-    // auf — das feuert KEIN submit-Event und umgeht die Delegation unten
-    // (Folge: Full-Page-Reload + Sprung nach oben). Die Methode wird deshalb
-    // pro Formular auf den fetch-Weg umgebogen.
+    // After its invisible verification, Mosparo calls form.submit() natively —
+    // that fires NO submit event and bypasses the delegation below
+    // (result: full-page reload + jump to top). The method is therefore
+    // rerouted to the fetch path per form.
     function hijackNativeSubmit(root) {
         root.querySelectorAll("form").forEach((form) => {
             form.submit = () =>
@@ -55,20 +55,20 @@
         });
     }
 
-    // Ersetzt den aktuellen Formular-Wrap durch den aus der Server-Antwort und
-    // verdrahtet alles neu (Submit-Hijack, Mosparo, Maßlinien). Wird für BEIDE
-    // Fälle genutzt: Fehler-Fragment (mit Meldungen) und Erfolgs-Seite (frisches
-    // leeres Formular) — form.reset() reicht dort nicht, weil das Fehler-Fragment
-    // die alten Eingaben als value-Attribute trägt und die Fehlermeldungs-Knoten
-    // im DOM stehen bleiben würden.
+    // Replaces the current form wrap with the one from the server response and
+    // rewires everything (submit hijack, Mosparo, dimension lines). Used for BOTH
+    // cases: error fragment (with messages) and success page (fresh empty form) —
+    // form.reset() is not enough there, because the error fragment carries the
+    // old inputs as value attributes and the error-message nodes would stay in
+    // the DOM.
     function swapWrap(html) {
         const doc = new DOMParser().parseFromString(html, "text/html");
         const newWrap = doc.querySelector(".cb-form-wrap");
         const wrap = document.querySelector(".cb-form-wrap");
         if (!newWrap || !wrap) return false;
-        // Scroll-Position merken und nach dem Austausch wiederherstellen:
-        // replaceWith kann die Dokumenthöhe kurz ändern und den Viewport
-        // springen lassen — der Nutzer soll an Ort und Stelle bleiben.
+        // Remember the scroll position and restore it after the swap:
+        // replaceWith can briefly change the document height and make the
+        // viewport jump — the user should stay in place.
         const scrollY = window.scrollY;
         wrap.replaceWith(newWrap);
         window.scrollTo({ top: scrollY, behavior: "instant" });
@@ -92,9 +92,9 @@
         const sent = new URL(response.url).searchParams.get("contact") === "sent";
         if (sent) {
             history.pushState(null, "", location.pathname + "#" + form.id);
-            // Die Redirect-Zielseite enthält das frisch gerenderte, leere
-            // Formular — übernehmen statt form.reset(), damit auch vorherige
-            // Fehlermeldungen und eingebackene value-Attribute verschwinden.
+            // The redirect target page contains the freshly rendered, empty
+            // form — take that instead of form.reset(), so previous error
+            // messages and baked-in value attributes disappear too.
             if (!swapWrap(html)) form.reset();
             showSuccessToast();
             return;
@@ -103,16 +103,16 @@
         swapWrap(html);
     }
 
-    // Delegation auf document statt auf .cb-form-wrap: der Wrap wird nach
-    // jedem Fehler-Submit per replaceWith ausgetauscht, ein direkt gebundener
-    // Listener wäre danach weg — der zweite Klick würde dann als nativer
-    // Full-Page-Submit durchgehen (Reload + Sprung nach oben).
+    // Delegation on document instead of .cb-form-wrap: the wrap is swapped via
+    // replaceWith after every error submit, a directly bound listener would be
+    // gone afterwards — the second click would then go through as a native
+    // full-page submit (reload + jump to top).
     document.addEventListener("submit", (e) => {
         if (!e.target.closest(".cb-form-wrap")) return;
-        // Mosparo fängt unverifizierte Submits selbst ab (preventDefault am
-        // Formular) und ruft nach der Verifizierung form.submit() auf — das
-        // ist oben auf den fetch-Weg umgebogen. Hier nicht doppelt senden,
-        // sonst geht ein Submit ohne mosparo-Token raus.
+        // Mosparo intercepts unverified submits itself (preventDefault on the
+        // form) and calls form.submit() after verification — which is rerouted
+        // to the fetch path above. Don't send twice here, otherwise a submit
+        // without a mosparo token goes out.
         if (e.defaultPrevented) return;
         e.preventDefault();
         submitForm(e.target, e.submitter);

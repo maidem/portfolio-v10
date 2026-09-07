@@ -22,8 +22,8 @@
   &__actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: center; // sonst streckt stretch den CTA auf die Höhe des PDF-Buttons (margin-top)
-    gap: 0.5rem; // 8px-Raster
+    align-items: center; // otherwise stretch expands the CTA to the height of the PDF button (margin-top)
+    gap: 0.5rem; // 8px grid
     margin-top: 1.5rem;
 
     @media (max-width: 575.98px) {
@@ -36,15 +36,15 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35em;
-    white-space: nowrap; // sonst bricht der Label-Text im Flex-Kontext mehrzeilig um
-    min-height: 2rem; // gleiche Höhe wie .cb-pdf-add-btn
+    white-space: nowrap; // otherwise the label text wraps onto multiple lines in the flex context
+    min-height: 2rem; // same height as .cb-pdf-add-btn
     font-size: 0.6875rem;
     font-weight: 600;
     line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     padding: 0.5rem 1rem;
-    border: 1.5px solid transparent; // gleiche Höhe wie --outline
+    border: 1.5px solid transparent; // same height as --outline
     background-color: #111111;
     color: #fdfdfd;
     border-radius: 999px;

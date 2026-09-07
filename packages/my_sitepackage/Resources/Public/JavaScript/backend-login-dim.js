@@ -1,17 +1,17 @@
-// DIN-406-Bemaßung für die Login-Box: misst real die Feld-/Button-Kanten und
-// setzt Linie, Pfeilspitzen und Maß-Label exakt auf diese Koordinaten — nach
-// demselben Prinzip wie dimension.js im Frontend (Label mittig auf der Linie,
-// Pfeilspitzen an den Linienenden, kein Positions-Rätselraten mit Offsets).
+// DIN 406 dimensioning for the login box: actually measures the field/button
+// edges and places the line, arrowheads and dimension label exactly on those
+// coordinates — same principle as dimension.js in the frontend (label centered
+// on the line, arrowheads at the line ends, no position guesswork with offsets).
 (function () {
-    var TICK = 7; // Länge der Endstriche (halbe Länge je Seite)
-    var AH = 4; // Pfeilhöhe
-    var AW = 7; // Pfeilbreite
-    var GAP = 32; // Abstand der Maßlinie zur gemessenen Kante (2rem, wie im Frontend)
-    var LBL_GAP = 3; // Abstand der Maßzahl zur Maßlinie (DIN 406)
-    // vertikal braucht mehr Luft als horizontal, damit die gedrehte Maßzahl
-    // nicht an den Endstrichen klebt — entspricht dem Frontend (dimension.js)
+    var TICK = 7; // length of the end ticks (half the length per side)
+    var AH = 4; // arrow height
+    var AW = 7; // arrow width
+    var GAP = 32; // distance of the dimension line from the measured edge (2rem, as in the frontend)
+    var LBL_GAP = 3; // distance of the dimension number from the dimension line (DIN 406)
+    // vertical needs more room than horizontal, so the rotated dimension number
+    // doesn't stick to the end ticks — matches the frontend (dimension.js)
     var LBL_GAP_V = 8;
-    var MOBILE_BP = 767.98; // wie im Frontend: darunter keine vertikale Bemaßung
+    var MOBILE_BP = 767.98; // as in the frontend: below this, no vertical dimensioning
 
     function svgEl(tag, attrs) {
         var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
@@ -27,8 +27,8 @@
         return Math.round(px);
     }
 
-    // horizontale Bemaßung: Linie + Endstriche + Pfeile nach innen + Label
-    // mittig ÜBER der Linie (3px Gap), analog makeDim() im Frontend
+    // horizontal dimensioning: line + end ticks + arrows pointing inward + label
+    // centered ABOVE the line (3px gap), analogous to makeDim() in the frontend
     function makeHDim(rem, widthPx) {
         var cy = 10;
         var wrap = document.createElement("div");
@@ -43,7 +43,7 @@
         svg.appendChild(svgEl("polygon", { points: widthPx + "," + cy + " " + (widthPx - AW) + "," + (cy - AH) + " " + (widthPx - AW) + "," + (cy + AH), fill: "#111111" }));
         wrap.appendChild(svg);
 
-        // DIN 406: Maßzahl steht ÜBER der Maßlinie, nicht auf ihr
+        // DIN 406: the dimension number sits ABOVE the dimension line, not on it
         var lbl = document.createElement("span");
         lbl.className = "dim-label";
         lbl.style.cssText =
@@ -54,8 +54,8 @@
         return wrap;
     }
 
-    // vertikale Bemaßung: Linie + Endstriche + Pfeile nach innen + Label
-    // mittig auf der Linie, um -90° gedreht (liest sich von unten nach oben)
+    // vertical dimensioning: line + end ticks + arrows pointing inward + label
+    // centered on the line, rotated -90° (reads bottom to top)
     function makeVDim(rem, heightPx) {
         var cx = 10;
         var wrap = document.createElement("div");
@@ -70,10 +70,10 @@
         svg.appendChild(svgEl("polygon", { points: cx + "," + heightPx + " " + (cx - AH) + "," + (heightPx - AW) + " " + (cx + AH) + "," + (heightPx - AW), fill: "#111111" }));
         wrap.appendChild(svg);
 
-        // DIN 406: Maßzahl steht LINKS der Maßlinie, nicht auf ihr.
-        // rotate(-90deg) zuerst, dann translateY in der gedrehten Achse —
-        // -50% zentriert längs der Linie, die Verschiebung nach links kommt
-        // aus dem left-Offset des Elements selbst.
+        // DIN 406: the dimension number sits LEFT of the dimension line, not on it.
+        // rotate(-90deg) first, then translateY along the rotated axis —
+        // -50% centers it along the line, the shift to the left comes
+        // from the element's own left offset.
         var lbl = document.createElement("span");
         lbl.className = "dim-label";
         lbl.style.cssText =
@@ -85,8 +85,8 @@
         return wrap;
     }
 
-    // Logo-Zeile über dem Formular zur Formel erweitern:
-    // [Portfolio-Logo] + [TYPO3-Logo] = [Herz]
+    // Extend the logo row above the form into a formula:
+    // [portfolio logo] + [TYPO3 logo] = [heart]
     function buildLogoFormula() {
         var wrap = document.querySelector(".typo3-login .typo3-login-logo");
         var typo3Logo = wrap && wrap.querySelector("img");
@@ -94,8 +94,8 @@
 
         wrap.classList.add("logo-formula");
 
-        // Quelle ist das Favicon der Seite — so bleibt der Asset-Hash im Pfad
-        // korrekt, ohne ihn hier fest zu verdrahten.
+        // Source is the page's favicon — this keeps the asset hash in the path
+        // correct without hardcoding it here.
         var favicon = document.querySelector('link[rel~="icon"]');
         if (!favicon) return;
 
@@ -112,9 +112,9 @@
         equals.className = "logo-formula__op";
         equals.textContent = "=";
 
-        // viewBox exakt auf die Pfad-Bounding-Box: das Herz füllt im
-        // 24er-Raster nur ~16 Einheiten und wirkt sonst kleiner als die
-        // anderen beiden Logos, obwohl die CSS-Höhe gleich ist.
+        // viewBox exactly on the path bounding box: in the 24-unit grid the
+        // heart only fills ~16 units and would otherwise look smaller than the
+        // other two logos, even though the CSS height is the same.
         var heart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         heart.setAttribute("class", "logo-formula__heart");
         heart.setAttribute("viewBox", "3 4 18 16.3");
@@ -153,8 +153,8 @@
         var fieldLeft = r(firstRect.left - origin.left);
         var vX = fieldLeft - GAP;
 
-        // Auf schmalen Viewports fehlt links der Platz für die vertikale
-        // Bemaßung — wie im Frontend (siehe .cb-form-wrap) entfällt sie dort.
+        // On narrow viewports there's no room on the left for the vertical
+        // dimensioning — as in the frontend (see .cb-form-wrap) it's dropped there.
         if (window.innerWidth > MOBILE_BP) {
             var vDim = makeVDim(pxToRem(vHeight), vHeight);
             vDim.style.left = vX - 10 + "px";
@@ -166,8 +166,8 @@
         var hRight = r(firstRect.right - origin.left);
         var hWidth = hRight - hLeft;
 
-        // Die H-Linie muss unter allem liegen, was noch in der Card folgt
-        // (Footer mit "Mehr über TYPO3") — sonst überlappt sie den Text.
+        // The H line has to sit below everything else that follows in the card
+        // (footer with "Mehr über TYPO3") — otherwise it overlaps the text.
         var hY = vBottom + GAP;
         var footer = cardLogin.querySelector(".card-footer");
         if (footer) {
@@ -193,9 +193,9 @@
     window.addEventListener("resize", scheduleInit);
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(scheduleInit);
 
-    // Der Copyright-Block im Footer klappt auf und verschiebt damit die
-    // Unterkante der Card — die H-Linie muss dann nachrücken. Beobachtet wird
-    // die Card selbst, nicht die eingehängten Marker (sonst Endlosschleife).
+    // The copyright block in the footer expands and thereby shifts the card's
+    // bottom edge — the H line then has to follow. What's observed is the card
+    // itself, not the injected markers (otherwise an infinite loop).
     if (window.ResizeObserver) {
         var observed = null;
         var ro = new ResizeObserver(scheduleInit);

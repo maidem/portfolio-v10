@@ -5,7 +5,7 @@ plugin.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Confi
 module.tx_form.settings.yamlConfigurations.1711642100 = EXT:my_sitepackage/Configuration/Yaml/FormSetup.yaml
 
 
-# Zurück-Link im News-Detail: #notes auf der Notes-Detailseite, sonst #projekte
+# Back link in the news detail: #notes on the notes detail page, otherwise #projekte
 lib.newsBackAnchor = TEXT
 lib.newsBackAnchor.value = projekte
 lib.newsBackAnchor.override = notes

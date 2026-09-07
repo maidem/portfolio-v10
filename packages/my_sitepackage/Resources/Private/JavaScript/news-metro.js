@@ -274,7 +274,7 @@ function build(container) {
                     if (visible) svg.unpauseAnimations();
                     else svg.pauseAnimations();
                 } catch {
-                    /* pauseAnimations nicht überall vorhanden */
+                    /* pauseAnimations not available everywhere */
                 }
             },
             { threshold: 0.1 },

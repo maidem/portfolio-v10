@@ -698,9 +698,9 @@ h4, h5, h6 {
   @include container;
 }
 
-// Projekte-Karten (News-Liste): nur der Weiterlesen-Link ist klickbar, nicht
-// die ganze Karte — das stretched-link-::after würde sonst alle Pointer-/
-// Hover-Events der Karte schlucken (u. a. den Hover-Inspektor).
+// Project cards (news list): only the read-more link is clickable, not
+// the whole card — the stretched-link ::after would otherwise swallow all
+// pointer/hover events on the card (including the hover inspector).
 .cb-news-item .cb-news-link.cb-stretched-link::after {
   position: static;
   inset: auto;
@@ -1339,11 +1339,11 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 }
 
 // ─── Metro / Netzplan-Grafik (Projekt-Detailseiten) ──────────────────────────
-// SVG wird von news-metro.js aufgebaut. .cb-metro--play startet den Linien-
-// Aufbau (stroke-dashoffset), der Puls laeuft per SMIL dauerhaft.
+// SVG is built by news-metro.js. .cb-metro--play starts the line
+// build (stroke-dashoffset); the pulse runs continuously via SMIL.
 
-// Metro-figure in der Content-Spalte – fluchtet links mit "Über das Projekt"
-// und dem Fliesstext. Kein js-measure -> nur der Abstand nach unten.
+// Metro figure in the content column – aligns left with "Über das Projekt"
+// and the body text. No js-measure -> only the spacing below.
 .cb-news-detail__content .cb-news-detail__media:not(.js-measure) {
   margin: 0 0 3rem;
   max-width: 100%;

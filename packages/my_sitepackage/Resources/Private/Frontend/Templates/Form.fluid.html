@@ -76,10 +76,10 @@
             </dialog>
 
             <script>
-                // Erfolgs-Toast nach Redirect vom Formular-Submit.
-                // Läuft direkt beim Parsen (Formular steht im DOM darüber), damit
-                // der Sprung zum Formular vor dem ersten Paint passiert — ohne
-                // sichtbare Smooth-Scroll-Fahrt von oben.
+                // Success toast after redirect from the form submit.
+                // Runs right at parse time (the form is above it in the DOM), so
+                // the jump to the form happens before the first paint — without a
+                // visible smooth-scroll ride from the top.
                 (function () {
                     var params = new URLSearchParams(location.search);
                     if (params.get("contact") === "sent") {
