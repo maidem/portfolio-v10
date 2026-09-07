@@ -83,7 +83,7 @@ function build(container) {
         "svg",
         {
             class: "cb-metro__svg",
-            preserveAspectRatio: "xMinYMid meet",
+            preserveAspectRatio: "xMidYMid meet",
             role: "img",
             "aria-label":
                 "Netzplan des Projektaufbaus: " +

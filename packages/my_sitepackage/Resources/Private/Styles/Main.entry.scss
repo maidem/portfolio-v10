@@ -1344,20 +1344,29 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 
 // figure ohne .js-measure (keine Bemassungslinien an der Grafik) — nur der
 // Abstand nach unten, den sonst .cb-news-detail__media.js-measure bringt.
-.cb-news-detail__media:not(.js-measure) {
+.cb-news-detail__content .cb-news-detail__media:not(.js-measure) {
   margin: 0 0 2.75rem;
   max-width: 100%;
+
+  // ab md: aus der 2/3-Content-Spalte nach LINKS ausbrechen und die volle
+  // Breite des __body (Sidebar 1/3 + gap 3rem + Content) nutzen — die Grafik
+  // hat mehr Luft als der Fliesstext, beginnt aber buendig mit der Sidebar.
+  @include above($bp-md) {
+    width: calc(150% + 3rem); // 100% / (2/3) = 150%, plus der column-gap
+    max-width: none;
+    margin-left: calc(-50% - 3rem); // um Sidebar-Breite + gap nach links
+  }
 }
 
 .cb-metro {
   width: 100%;
-  // feste Anzeigehoehe -> das SVG-Fitting per JS aendert nur die interne
-  // viewBox, nicht die Elementgroesse. Kein Layout-Shift (CLS) nach dem
-  // ersten Paint, kein Ruckeln der Perspektiv-Hintergrundlinien.
-  aspect-ratio: 16 / 7;
+  // Feste Anzeige-Box gegen Layout-Shift (JS fittet nur die interne viewBox).
+  // Das SVG skaliert per preserveAspectRatio "meet" hinein: nutzt die volle
+  // Breite, wenn der Graph breit ist, und schwebt sonst zentriert.
+  aspect-ratio: 16 / 6;
 
   @include above($bp-md) {
-    aspect-ratio: 21 / 6;
+    aspect-ratio: 24 / 6;
   }
 
   &__svg {
