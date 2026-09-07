@@ -200,41 +200,10 @@ function build(container) {
 
     place();
 
-    // Puls-Kreise + animateMotion anlegen (Pfad + Dash-Werte kommen unten,
-    // NACH dem Spalten-Fitting, sonst rechnen sie mit der alten Laenge).
-    // Bis der Pfad gesetzt ist, sitzt der Kreis bei (0,0) und wuerde als
-    // grosser Punkt oben links aufblitzen -> erst danach sichtbar machen.
-    const pulseEls = [];
-    const motionEls = [];
-    if (!reduceMotion) {
-        edgeEls.forEach(({ color, i }) => {
-            const pulse = el(
-                "circle",
-                {
-                    r: 5,
-                    fill: color,
-                    class: "cb-metro__pulse",
-                    visibility: "hidden",
-                },
-                svg,
-            );
-            pulseEls.push(pulse);
-            const motion = el(
-                "animateMotion",
-                {
-                    dur: "3.6s",
-                    repeatCount: "indefinite",
-                    begin: `${0.9 + i * 0.12}s`,
-                },
-                pulse,
-            );
-            motionEls.push(motion);
-        });
-    }
-
     // Erst nach dem Layout: Labelbreiten messen, Spalten so weit auseinander-
     // ziehen, dass die mittigen Labels benachbarter Spalten sich nicht decken,
-    // dann alles final positionieren und Animationswerte setzen.
+    // dann alles final positionieren, Kanten-Animation setzen und ERST DANN
+    // die Puls-Kreise erzeugen (mit fertigem Pfad -> kein 0,0-Aufblitzen).
     requestAnimationFrame(() => {
         const halfW = new Array(maxCol + 1).fill(0);
         const lineWidth = (label) => {
@@ -262,15 +231,29 @@ function build(container) {
         fitViewBox();
 
         if (!reduceMotion) {
-            edgeEls.forEach(({ line, i }, idx) => {
+            edgeEls.forEach(({ line, color, i }) => {
                 const len = line.getTotalLength();
                 line.style.strokeDasharray = len;
                 line.style.strokeDashoffset = len;
                 line.style.animationDelay = `${i * 0.12}s`;
-                if (motionEls[idx]) {
-                    motionEls[idx].setAttribute("path", line.getAttribute("d"));
-                    pulseEls[idx].removeAttribute("visibility");
-                }
+
+                // Puls-Kreis + Motion jetzt erst anlegen: der Pfad steht,
+                // der Kreis startet direkt auf der Linie statt bei (0,0).
+                const pulse = el(
+                    "circle",
+                    { r: 5, fill: color, class: "cb-metro__pulse" },
+                    svg,
+                );
+                el(
+                    "animateMotion",
+                    {
+                        dur: "3.6s",
+                        repeatCount: "indefinite",
+                        begin: `${0.9 + i * 0.12}s`,
+                        path: line.getAttribute("d"),
+                    },
+                    pulse,
+                );
             });
         }
     });
