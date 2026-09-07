@@ -37,6 +37,7 @@ export function inkBounds(container) {
     let right = -Infinity;
     let top = Infinity;
     let bottom = -Infinity;
+    let lineBoxBottom = -Infinity; // last line-box bottom (no descender overshoot)
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
         acceptNode: (n) => {
             if (!n.textContent.trim()) return NodeFilter.FILTER_REJECT;
@@ -71,6 +72,7 @@ export function inkBounds(container) {
             if (r.width < 1) continue;
             if (r.left < left) left = r.left;
             if (r.right > right) right = r.right;
+            if (r.bottom > lineBoxBottom) lineBoxBottom = r.bottom;
 
             let lineTop = r.top;
             let lineBottom = r.bottom;
@@ -93,7 +95,7 @@ export function inkBounds(container) {
         }
     }
     if (!Number.isFinite(left) || !Number.isFinite(bottom)) return null;
-    return { left, right, top, bottom };
+    return { left, right, top, bottom, lineBottom: lineBoxBottom };
 }
 
 // Split an rgb(a) color into opaque base + alpha. Painting the SVG with the

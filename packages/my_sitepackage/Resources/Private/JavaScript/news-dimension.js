@@ -42,11 +42,16 @@ function dimensionItem(item) {
     // ── vertical (height) — line to the left of the text block ───────────────
     // content-col reserves padding-left, line sits at its edge (= -padLeft
     // relative to the indented measure). padLeft is 0 on mobile → no vertical line.
+    // Vertical arrow runs to the last text line's line-box bottom, not the glyph
+    // descender (reads as "too short") and not the wrapper box (padding overshoot).
+    // Horizontal line keeps the glyph edge.
     if (padLeft > 0) {
+        const vBottom = ink.lineBottom - box.top;
+        const vHeight = vBottom - top;
         const vDim = makeVerticalDim(
-            pxToRem(height).toFixed(2),
+            pxToRem(vHeight).toFixed(2),
             top,
-            height,
+            vHeight,
             "standard",
             colors,
             "leftOutside",
