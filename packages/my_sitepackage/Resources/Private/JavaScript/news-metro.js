@@ -162,10 +162,17 @@ function build(container) {
         // Endknoten (keine ausgehende Kante) => Label rechts daneben.
         // Startknoten (keine eingehende Kante) => Label links daneben, damit
         // ein langes Tool-Label nicht ueber den SVG-Rand laeuft.
-        // Sonst abwechselnd ober-/unterhalb (nach Spalte), damit lange Labels
-        // benachbarter Knoten sich nicht ueberlappen.
+        // Sonst ober- oder unterhalb: nach unten nur, wenn dort keine weitere
+        // Zeile mit Knoten ist – sonst nach oben. Bleibt beides frei, wird nach
+        // Spaltenparitaet alterniert, damit lange Nachbar-Labels sich nicht decken.
         const outCount = data.edges.filter((e) => e.from === id).length;
         const inCount = data.edges.filter((e) => e.to === id).length;
+        const rowBelowUsed = ids.some(
+            (o) => o !== id && (data.nodes[o].row || 0) > (n.row || 0),
+        );
+        const rowAboveUsed = ids.some(
+            (o) => o !== id && (data.nodes[o].row || 0) < (n.row || 0),
+        );
         let attrs;
         if (outCount === 0) {
             attrs = {
@@ -181,17 +188,14 @@ function build(container) {
                 "text-anchor": "end",
                 class: "cb-metro__label",
             };
-        } else if (outCount > 1 || (n.col || 0) % 2 === 0) {
-            attrs = {
-                x: p.x,
-                y: p.y - R - 10,
-                "text-anchor": "middle",
-                class: "cb-metro__label",
-            };
         } else {
+            const above =
+                rowBelowUsed ||
+                outCount > 1 ||
+                (!rowAboveUsed && (n.col || 0) % 2 === 0);
             attrs = {
                 x: p.x,
-                y: p.y + R + 22,
+                y: above ? p.y - R - 10 : p.y + R + 22,
                 "text-anchor": "middle",
                 class: "cb-metro__label",
             };
