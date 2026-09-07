@@ -159,11 +159,6 @@ main > .cb-section-header {
   pointer-events: none;
   z-index: $z-perspective-grid;
   overflow: hidden;
-  // Eigener Snapshot, damit das fixe Linienraster beim Seitenwechsel NICHT
-  // Teil des root-Snapshots ist (der zurueck auf scroll 0 springt und
-  // aufblitzt). Ohne eigene Animation bleibt es waehrend der Ueberblendung
-  // einfach stehen.
-  view-transition-name: cb-perspective-grid;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, transparent 8%, rgba(0, 0, 0, 0.7) 22%, rgba(0, 0, 0, 0.18) 55%, transparent 100%);
@@ -1341,61 +1336,6 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
   font-weight: $fw-bold;
   letter-spacing: -0.01em;
   line-height: 1.25;
-}
-
-// ─── Seitenwechsel ────────────────────────────────────────────────────────────
-// Cross-Document View Transitions (Idee aus portfolio-v13). Browser ohne
-// Support machen weiter den harten Reload — kein JS, kein Fallback noetig.
-// Die @view-transition-Regel selbst steht in page.headerData (TypoScript):
-// sie muss beim Parsen im <head> stehen. Im Fluid-Layout landet sie im <body>
-// und wird ignoriert, im per Vite nachgeladenen CSS kommt sie zu spaet.
-
-// Nur ueberblenden, nicht verschieben, und beide Ebenen zusammen genau einen
-// Durchgang lang: die alte Seite bleibt stehen, die neue blendet darueber ein.
-// Kein eigener Snapshot fuer Hintergrund und Linienraster — die liegen per
-// z-index VOR dem Inhalt und wuerden ihn sonst waehrend der Ueberblendung
-// maskieren, statt ihn durchscheinen zu lassen.
-// Beide Ebenen ueberblenden: die alte gleichzeitig ausblenden, waehrend die
-// neue einblendet. Vorher stand die alte Seite bei voller Deckkraft und
-// verschwand am Ende schlagartig – ihre Masslinien (js-measure) blitzten dabei
-// ueber der neuen Seite auf.
-::view-transition-old(root) {
-  animation: view-transition-out 0.25s ease-out both;
-}
-
-::view-transition-new(root) {
-  animation: view-transition-in 0.25s ease-out both;
-}
-
-@keyframes view-transition-out {
-  to {
-    opacity: 0;
-  }
-}
-
-// Linienraster: kein Fade, kein Move — waehrend des Wechsels stehen lassen.
-::view-transition-group(cb-perspective-grid),
-::view-transition-old(cb-perspective-grid),
-::view-transition-new(cb-perspective-grid) {
-  animation: none;
-}
-::view-transition-old(cb-perspective-grid) {
-  // alte und neue Fassung sind identisch — die alte unsichtbar, damit sie
-  // nicht ueber der neuen doppelt liegt
-  opacity: 0;
-}
-
-@keyframes view-transition-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-  }
 }
 
 // ─── Metro / Netzplan-Grafik (Projekt-Detailseiten) ──────────────────────────

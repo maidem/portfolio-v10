@@ -54,27 +54,27 @@ page {
         }
     }
 
-    # Cross-Document View Transitions. Muss im <head> stehen und beim Parsen des
-    # neuen Dokuments schon da sein — im Fluid-Layout landet es im <body> und
-    # wird ignoriert, im per Vite geladenen CSS kommt es zu spaet.
     headerData {
-        10 = TEXT
-        10 {
-            value (
-                <style>@view-transition { navigation: auto; }</style>
-            )
-        }
-        # Bottom-Sheet erst zeigen, wenn das echte CSS da ist. Sonst wird es beim
-        # View-Transition-Wechsel ungestylt am Viewport-Rand mitgesnapshottet.
+        # Bottom-Sheet erst zeigen, wenn das echte CSS da ist.
         20 = TEXT
         20.value (
             <style>.cb-nav__overlay:not(.cb-nav__overlay--open),.cb-nav__backdrop:not(.cb-nav__backdrop--open){visibility:hidden}</style>
         )
         # Ohne das rendert die Seite bis zum Eintreffen des Vite-CSS mit dem
         # Browser-Default body{margin:8px} und springt dann (CLS 0.75).
+        # main padding-top haelt den Platz der fixed Nav frei, section-Abstaende
+        # geben schon vor dem Vite-CSS die richtige Hoehe -> kein Sprung in der
+        # Navleiste / im Inhalt beim Seitenwechsel (v.a. im Vite-Dev-Modus, wo
+        # das CSS per JS nachgeladen wird).
         30 = TEXT
         30.value (
-            <style>body{margin:0}html{scrollbar-gutter:stable}</style>
+            <style>body{margin:0}html{scrollbar-gutter:stable}.cb-nav{position:fixed;top:0;left:0;right:0;z-index:100;min-height:3.5rem}main{padding-top:3.5rem}main>*{margin-bottom:clamp(5rem,12vh,9rem)}main>*:last-child{margin-bottom:0}main>.container,main>section,main>.frame{padding-top:1.5rem}@media(min-width:768px){main>.container,main>section,main>.frame{padding-top:2rem}}</style>
+        )
+        # Linienraster sofort korrekt positionieren, sonst blitzt das SVG bis
+        # zum Eintreffen des Vite-CSS ungestylt im Dokumentfluss auf.
+        40 = TEXT
+        40.value (
+            <style>.cb-perspective-grid{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:2}.cb-perspective-grid svg{width:100%;height:100%}@media(max-width:767.98px){.cb-perspective-grid{display:none}}</style>
         )
     }
 

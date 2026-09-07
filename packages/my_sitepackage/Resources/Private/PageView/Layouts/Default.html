@@ -21,10 +21,9 @@
     <div class="cb-bg-fill" aria-hidden="true"></div>
 
     <!-- Perspective grid background — decorative radiating lines.
-         Fluchtpunkt liegt bei y=-520, also OBERHALB des sichtbaren Bereichs:
-         im viewBox laufen die Linien nirgends in einer Spitze zusammen, oben
-         am Rand haben sie schon Abstand. Verhindert das Aufblitzen der Spitze
-         beim Seitenwechsel (View Transition). -->
+         Kritische Positionierung steht inline im <head> (page.typoscript
+         headerData 40), damit das SVG nicht bis zum Vite-CSS ungestylt
+         aufblitzt. -->
     <div class="cb-perspective-grid" aria-hidden="true">
         <svg
             viewBox="0 0 1440 900"
@@ -32,34 +31,34 @@
             xmlns="http://www.w3.org/2000/svg"
         >
             <g stroke="rgb(90, 90, 90)" stroke-width="1" stroke-opacity="0.18" fill="none">
-                <line x1="720" y1="-520" x2="0" y2="900" />
-                <line x1="720" y1="-520" x2="120" y2="900" />
-                <line x1="720" y1="-520" x2="240" y2="900" />
-                <line x1="720" y1="-520" x2="360" y2="900" />
-                <line x1="720" y1="-520" x2="480" y2="900" />
-                <line x1="720" y1="-520" x2="600" y2="900" />
-                <line x1="720" y1="-520" x2="720" y2="900" />
-                <line x1="720" y1="-520" x2="840" y2="900" />
-                <line x1="720" y1="-520" x2="960" y2="900" />
-                <line x1="720" y1="-520" x2="1080" y2="900" />
-                <line x1="720" y1="-520" x2="1200" y2="900" />
-                <line x1="720" y1="-520" x2="1320" y2="900" />
-                <line x1="720" y1="-520" x2="1440" y2="900" />
+                <line x1="720" y1="0" x2="0" y2="900" />
+                <line x1="720" y1="0" x2="120" y2="900" />
+                <line x1="720" y1="0" x2="240" y2="900" />
+                <line x1="720" y1="0" x2="360" y2="900" />
+                <line x1="720" y1="0" x2="480" y2="900" />
+                <line x1="720" y1="0" x2="600" y2="900" />
+                <line x1="720" y1="0" x2="720" y2="900" />
+                <line x1="720" y1="0" x2="840" y2="900" />
+                <line x1="720" y1="0" x2="960" y2="900" />
+                <line x1="720" y1="0" x2="1080" y2="900" />
+                <line x1="720" y1="0" x2="1200" y2="900" />
+                <line x1="720" y1="0" x2="1320" y2="900" />
+                <line x1="720" y1="0" x2="1440" y2="900" />
             </g>
             <g stroke="rgb(90, 90, 90)" stroke-width="1" stroke-opacity="0.1" fill="none">
-                <line x1="720" y1="-520" x2="0" y2="900" />
-                <line x1="720" y1="-520" x2="120" y2="900" />
-                <line x1="720" y1="-520" x2="240" y2="900" />
-                <line x1="720" y1="-520" x2="360" y2="900" />
-                <line x1="720" y1="-520" x2="480" y2="900" />
-                <line x1="720" y1="-520" x2="600" y2="900" />
-                <line x1="720" y1="-520" x2="720" y2="900" />
-                <line x1="720" y1="-520" x2="840" y2="900" />
-                <line x1="720" y1="-520" x2="960" y2="900" />
-                <line x1="720" y1="-520" x2="1080" y2="900" />
-                <line x1="720" y1="-520" x2="1200" y2="900" />
-                <line x1="720" y1="-520" x2="1320" y2="900" />
-                <line x1="720" y1="-520" x2="1440" y2="900" />
+                <line x1="720" y1="0" x2="0" y2="900" />
+                <line x1="720" y1="0" x2="120" y2="900" />
+                <line x1="720" y1="0" x2="240" y2="900" />
+                <line x1="720" y1="0" x2="360" y2="900" />
+                <line x1="720" y1="0" x2="480" y2="900" />
+                <line x1="720" y1="0" x2="600" y2="900" />
+                <line x1="720" y1="0" x2="720" y2="900" />
+                <line x1="720" y1="0" x2="840" y2="900" />
+                <line x1="720" y1="0" x2="960" y2="900" />
+                <line x1="720" y1="0" x2="1080" y2="900" />
+                <line x1="720" y1="0" x2="1200" y2="900" />
+                <line x1="720" y1="0" x2="1320" y2="900" />
+                <line x1="720" y1="0" x2="1440" y2="900" />
             </g>
         </svg>
     </div>
