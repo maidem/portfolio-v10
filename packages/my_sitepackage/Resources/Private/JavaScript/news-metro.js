@@ -159,16 +159,26 @@ function build(container) {
         );
         el("circle", { cx: p.x, cy: p.y, r: R, class: "cb-metro__dot" }, g);
 
-        // Endknoten (kein ausgehender Edge) => Label rechts daneben.
-        // sonst abwechselnd ober-/unterhalb (nach Spalte), damit lange Labels
+        // Endknoten (keine ausgehende Kante) => Label rechts daneben.
+        // Startknoten (keine eingehende Kante) => Label links daneben, damit
+        // ein langes Tool-Label nicht ueber den SVG-Rand laeuft.
+        // Sonst abwechselnd ober-/unterhalb (nach Spalte), damit lange Labels
         // benachbarter Knoten sich nicht ueberlappen.
         const outCount = data.edges.filter((e) => e.from === id).length;
+        const inCount = data.edges.filter((e) => e.to === id).length;
         let attrs;
         if (outCount === 0) {
             attrs = {
                 x: p.x + R + 8,
                 y: p.y + 4,
                 "text-anchor": "start",
+                class: "cb-metro__label",
+            };
+        } else if (inCount === 0) {
+            attrs = {
+                x: p.x - R - 8,
+                y: p.y + 4,
+                "text-anchor": "end",
                 class: "cb-metro__label",
             };
         } else if (outCount > 1 || (n.col || 0) % 2 === 0) {
@@ -188,6 +198,18 @@ function build(container) {
         }
         const label = el("text", attrs, g);
         label.textContent = n.label || id;
+    });
+
+    // viewBox an die tatsaechliche Bounding-Box anpassen, damit lange Labels
+    // am Rand (Start-/Endknoten) nicht abgeschnitten werden. getBBox geht nur,
+    // wenn das SVG schon Layout hat – rAF abwarten.
+    requestAnimationFrame(() => {
+        const b = svg.getBBox();
+        const m = 6;
+        svg.setAttribute(
+            "viewBox",
+            `${b.x - m} ${b.y - m} ${b.width + m * 2} ${b.height + m * 2}`,
+        );
     });
 
     if (!reduceMotion) {
