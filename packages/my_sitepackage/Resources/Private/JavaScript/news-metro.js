@@ -183,12 +183,35 @@ function build(container) {
         );
     };
 
+    place();
+
+    // Puls-Kreise + animateMotion anlegen (Pfad + Dash-Werte kommen unten,
+    // NACH dem Spalten-Fitting, sonst rechnen sie mit der alten Laenge)
+    const motionEls = [];
+    if (!reduceMotion) {
+        edgeEls.forEach(({ color, i }) => {
+            const pulse = el(
+                "circle",
+                { r: 4, fill: color, class: "cb-metro__pulse" },
+                svg,
+            );
+            const motion = el(
+                "animateMotion",
+                {
+                    dur: "2.4s",
+                    repeatCount: "indefinite",
+                    begin: `${0.9 + i * 0.12}s`,
+                },
+                pulse,
+            );
+            motionEls.push(motion);
+        });
+    }
+
     // Erst nach dem Layout: Labelbreiten messen, Spalten so weit auseinander-
-    // ziehen, dass die mittigen Labels benachbarter Spalten sich nicht decken.
+    // ziehen, dass die mittigen Labels benachbarter Spalten sich nicht decken,
+    // dann alles final positionieren und Animationswerte setzen.
     requestAnimationFrame(() => {
-        // halbe Labelbreite pro Spalte (nur mittige Labels beanspruchen Platz
-        // links UND rechts ihrer Spalte; Start/Ende ragen nur zur Seite und
-        // werden von der viewBox aufgefangen)
         const halfW = new Array(maxCol + 1).fill(0);
         nodeEls.forEach(({ n, label, anchor }) => {
             if (anchor !== "middle") return;
@@ -199,47 +222,25 @@ function build(container) {
 
         for (let c = 1; c <= maxCol; c++) {
             const need = halfW[c - 1] + halfW[c] + COL_GAP;
-            const gap = Math.max(MIN_COL_W, need);
-            colX[c] = colX[c - 1] + gap;
+            colX[c] = colX[c - 1] + Math.max(MIN_COL_W, need);
         }
 
         place();
         fitViewBox();
+
+        if (!reduceMotion) {
+            edgeEls.forEach(({ line, i }, idx) => {
+                const len = line.getTotalLength();
+                line.style.strokeDasharray = len;
+                line.style.strokeDashoffset = len;
+                line.style.animationDelay = `${i * 0.12}s`;
+                if (motionEls[idx])
+                    motionEls[idx].setAttribute("path", line.getAttribute("d"));
+            });
+        }
     });
 
-    place();
-
     if (!reduceMotion) {
-        edgeEls.forEach(({ line, color, i }) => {
-            const len = line.getTotalLength();
-            line.style.strokeDasharray = len;
-            line.style.strokeDashoffset = len;
-            line.style.animationDelay = `${i * 0.12}s`;
-
-            const pulse = el(
-                "circle",
-                { r: 4, fill: color, class: "cb-metro__pulse" },
-                svg,
-            );
-            el(
-                "animateMotion",
-                {
-                    dur: "2.4s",
-                    repeatCount: "indefinite",
-                    begin: `${0.9 + i * 0.12}s`,
-                },
-                pulse,
-            );
-        });
-        // animateMotion-path erst nach dem finalen place() setzen
-        requestAnimationFrame(() => {
-            const motions = svg.querySelectorAll("animateMotion");
-            edgeEls.forEach(({ line }, idx) => {
-                if (motions[idx])
-                    motions[idx].setAttribute("path", line.getAttribute("d"));
-            });
-        });
-
         const io = new IntersectionObserver(
             (entries) => {
                 entries.forEach((e) => {
