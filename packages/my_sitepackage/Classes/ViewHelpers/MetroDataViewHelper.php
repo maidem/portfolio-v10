@@ -47,7 +47,7 @@ final class MetroDataViewHelper extends AbstractViewHelper
             return '';
         }
 
-        // ponytail: nur validieren, nicht umbauen – das JS parst denselben String
+        // nur validieren, nicht umbauen – das JS parst denselben String
         return json_decode($json) === null ? '' : $json;
     }
 }

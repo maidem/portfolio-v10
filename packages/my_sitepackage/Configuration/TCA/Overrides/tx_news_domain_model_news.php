@@ -3,7 +3,7 @@ defined('TYPO3') or die();
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-// ponytail: eine Text-Spalte mit JSON reicht – kein IRRE, kein eigenes Model
+// eine Text-Spalte mit JSON reicht – kein IRRE, kein eigenes Model
 $tempColumns = [
     'tx_mysitepackage_metro' => [
         'exclude' => true,

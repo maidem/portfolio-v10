@@ -35,7 +35,7 @@ class MosparoStatisticService
             return null;
         }
 
-        // ponytail: 5min cache, avoids hammering the mosparo API on every dashboard reload
+        // 5min cache, avoids hammering the mosparo API on every dashboard reload
         $this->cache->set($cacheIdentifier, $statistic, [], 300);
 
         return $statistic;

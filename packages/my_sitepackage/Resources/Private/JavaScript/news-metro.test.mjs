@@ -1,10 +1,10 @@
 // Selbsttest fuer die Geometrie in news-metro.js (orthPath + pos).
 // Lauf: node news-metro.test.mjs
-// ponytail: Konstanten hier gespiegelt, weil news-metro.js sonst das DOM
+// Konstanten hier gespiegelt, weil news-metro.js sonst das DOM
 // anfassen wuerde. Bei Aenderung dort hier nachziehen.
 
 const COL_W = 230,
-    ROW_H = 84,
+    ROW_H = 110,
     PAD_X = 120,
     PAD_Y = 46;
 

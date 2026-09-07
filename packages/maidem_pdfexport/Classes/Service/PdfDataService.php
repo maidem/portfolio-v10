@@ -78,7 +78,7 @@ class PdfDataService
             ->select('header', 'bodytext')
             ->from('tt_content')
             ->where(
-                // ponytail: banner + text-cta, beide tragen den Story-/Profiltext
+                // banner + text-cta, beide tragen den Story-/Profiltext
                 $queryBuilder->expr()->in('CType', $queryBuilder->createNamedParameter(['gripsraum_banner', 'gripsraum_textcta'], \Doctrine\DBAL\ArrayParameterType::STRING)),
                 $queryBuilder->expr()->neq('bodytext', $queryBuilder->createNamedParameter('')),
                 $queryBuilder->expr()->isNotNull('bodytext'),

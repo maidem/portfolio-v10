@@ -31,7 +31,7 @@ html {
     scroll-behavior: smooth;
   }
 
-  // ponytail: beim Laden mit #hash sofort dort stehen statt hinzuscrollen;
+  // beim Laden mit #hash sofort dort stehen statt hinzuscrollen;
   // die Klasse entfernt inline-JS im <head> nach dem ersten Frame
   &.is-loading {
     scroll-behavior: auto;
@@ -1193,7 +1193,7 @@ h4, h5, h6 {
     border-radius: $radius-pill;
     transition: background-color $transition-fast;
 
-    // ponytail: inline data-URI SVG (external-link arrow) — kein externer Request, DSGVO-konform
+    // inline data-URI SVG (external-link arrow) — kein externer Request, DSGVO-konform
     &::after {
       content: '';
       width: 0.9em;
@@ -1342,31 +1342,22 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
 // SVG wird von news-metro.js aufgebaut. .cb-metro--play startet den Linien-
 // Aufbau (stroke-dashoffset), der Puls laeuft per SMIL dauerhaft.
 
-// figure ohne .js-measure (keine Bemassungslinien an der Grafik) — nur der
-// Abstand nach unten, den sonst .cb-news-detail__media.js-measure bringt.
+// Metro-figure in der Content-Spalte – fluchtet links mit "Über das Projekt"
+// und dem Fliesstext. Kein js-measure -> nur der Abstand nach unten.
 .cb-news-detail__content .cb-news-detail__media:not(.js-measure) {
-  margin: 0 0 2.75rem;
+  margin: 0 0 3rem;
   max-width: 100%;
-
-  // ab md: aus der 2/3-Content-Spalte nach LINKS ausbrechen und die volle
-  // Breite des __body (Sidebar 1/3 + gap 3rem + Content) nutzen — die Grafik
-  // hat mehr Luft als der Fliesstext, beginnt aber buendig mit der Sidebar.
-  @include above($bp-md) {
-    width: calc(150% + 3rem); // 100% / (2/3) = 150%, plus der column-gap
-    max-width: none;
-    margin-left: calc(-50% - 3rem); // um Sidebar-Breite + gap nach links
-  }
 }
 
 .cb-metro {
   width: 100%;
-  // Feste Anzeige-Box gegen Layout-Shift (JS fittet nur die interne viewBox).
-  // Das SVG skaliert per preserveAspectRatio "meet" hinein: nutzt die volle
-  // Breite, wenn der Graph breit ist, und schwebt sonst zentriert.
-  aspect-ratio: 16 / 6;
+  // Feste Hoehe (kein Layout-Shift). Das SVG skaliert per xMinYMid meet nach
+  // dieser Hoehe und richtet sich links aus: breite Graphen nutzen die
+  // Spaltenbreite, kompakte lassen Weissraum rechts.
+  height: 220px;
 
   @include above($bp-md) {
-    aspect-ratio: 24 / 6;
+    height: 280px;
   }
 
   &__svg {
@@ -1408,7 +1399,10 @@ body:has(.cb-news-detail) [class*="frame-type-news_categorylist"] {
   }
 
   &__pulse {
-    filter: drop-shadow(0 0 4px currentColor);
+    // heller Kern, damit der Punkt auf der gleichfarbigen Linie ablesbar
+    // bleibt – ohne den vorherigen weichen Schein-Schatten.
+    stroke: $paper;
+    stroke-width: 2;
   }
 }
 

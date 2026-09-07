@@ -14,17 +14,17 @@
 // Labels sich nicht mehr ueberlappen. Danach werden Kanten/Knoten neu
 // positioniert.
 //
-// ponytail: rechtwinklige Verbindungen (H, dann V, dann H), keine Kurven,
+// rechtwinklige Verbindungen (H, dann V, dann H), keine Kurven,
 // Labels immer mittig ueber dem Knoten (Start/Ende seitlich). Reicht das
 // optisch nicht, kommt danach eine Graph-Layout-Lib.
 
 const NS = "http://www.w3.org/2000/svg";
-const ROW_H = 96; // px pro Raster-Zeile
-const MIN_COL_W = 150; // Mindest-Spaltenabstand
+const ROW_H = 110; // px pro Raster-Zeile
+const MIN_COL_W = 170; // Mindest-Spaltenabstand
 const COL_GAP = 26; // Mindestluecke zwischen zwei Labels benachbarter Spalten
 const PAD_X = 24;
 const PAD_Y = 52;
-const R = 6; // Knoten-Radius
+const R = 5; // Knoten-Radius
 const LANE = 14; // Versatz paralleler Kanten, damit sie sich nicht decken
 const DEFAULT_COLOR = "#1c8a7d";
 
@@ -60,7 +60,6 @@ function build(container) {
 
     const outCount = (id) => data.edges.filter((e) => e.from === id).length;
     const inCount = (id) => data.edges.filter((e) => e.to === id).length;
-    const isStart = (id) => inCount(id) === 0;
     const isEnd = (id) => outCount(id) === 0 && inCount(id) > 0;
 
     let maxCol = 0;
@@ -83,7 +82,7 @@ function build(container) {
         "svg",
         {
             class: "cb-metro__svg",
-            preserveAspectRatio: "xMidYMid meet",
+            preserveAspectRatio: "xMinYMid meet",
             role: "img",
             "aria-label":
                 "Netzplan des Projektaufbaus: " +
@@ -132,6 +131,9 @@ function build(container) {
         edgeEls.push({ line, from, to, laneShift, color, i });
     });
 
+    const isStart = (id) => inCount(id) === 0;
+    const LINE_H = 20; // Zeilenhoehe fuer mehrzeilige Labels (im viewBox-Mass)
+
     // ── Knoten + Labels ────────────────────────────────────────────────────
     const nodeEls = ids.map((id, i) => {
         const n = data.nodes[id];
@@ -139,34 +141,47 @@ function build(container) {
         const dot = el("circle", { r: R, class: "cb-metro__dot" }, g);
 
         // Start => Label links, Ende => rechts, sonst mittig darueber.
-        let anchor;
-        if (isEnd(id)) anchor = "start";
-        else if (isStart(id)) anchor = "end";
-        else anchor = "middle";
+        const anchor = isEnd(id) ? "start" : isStart(id) ? "end" : "middle";
 
-        const label = el(
-            "text",
-            { "text-anchor": anchor, class: "cb-metro__label" },
-            g,
-        );
-        label.textContent = n.label || id;
-        return { id, n, g, dot, label, anchor };
+        // Label darf mit "\n" mehrzeilig sein (z.B. Tool-Liste am Anfang):
+        // die Namen stehen dann UNTEREINANDER statt in einer langen Zeile.
+        const lines = String(n.label || id).split("\n");
+        const label = el("text", { class: "cb-metro__label" }, g);
+        lines.forEach((ln, li) => {
+            const tspan = el("tspan", {}, label);
+            tspan.textContent = ln;
+            if (li > 0) tspan.setAttribute("dy", LINE_H);
+        });
+        return { id, n, g, dot, label, anchor, lineCount: lines.length };
     });
 
     const place = () => {
-        nodeEls.forEach(({ n, dot, label, anchor }) => {
+        nodeEls.forEach(({ n, dot, label, anchor, lineCount }) => {
             const p = pos(n);
             dot.setAttribute("cx", p.x);
             dot.setAttribute("cy", p.y);
+            // erste tspan-Zeile; bei mehrzeiligem Label so hoch setzen, dass der
+            // Block vertikal um den Knoten zentriert liegt
+            const blockOffset = ((lineCount - 1) * LINE_H) / 2;
+            const setLines = (x, firstY, textAnchor) => {
+                label.setAttribute("text-anchor", textAnchor);
+                label.setAttribute("x", x);
+                label.setAttribute("y", firstY);
+                label.querySelectorAll("tspan").forEach((t, i) => {
+                    if (i > 0) return;
+                    t.removeAttribute("x");
+                });
+                // alle tspans an dieselbe x binden (sonst rutscht Zeile 2+ weg)
+                label
+                    .querySelectorAll("tspan")
+                    .forEach((t) => t.setAttribute("x", x));
+            };
             if (anchor === "start") {
-                label.setAttribute("x", p.x + R + 8);
-                label.setAttribute("y", p.y + 4);
+                setLines(p.x + R + 8, p.y + 4 - blockOffset, "start");
             } else if (anchor === "end") {
-                label.setAttribute("x", p.x - R - 8);
-                label.setAttribute("y", p.y + 4);
+                setLines(p.x - R - 8, p.y + 4 - blockOffset, "end");
             } else {
-                label.setAttribute("x", p.x);
-                label.setAttribute("y", p.y - R - 12);
+                setLines(p.x, p.y - R - 12 - (lineCount - 1) * LINE_H, "middle");
             }
         });
         edgeEls.forEach(({ line, from, to, laneShift }) => {
@@ -186,19 +201,28 @@ function build(container) {
     place();
 
     // Puls-Kreise + animateMotion anlegen (Pfad + Dash-Werte kommen unten,
-    // NACH dem Spalten-Fitting, sonst rechnen sie mit der alten Laenge)
+    // NACH dem Spalten-Fitting, sonst rechnen sie mit der alten Laenge).
+    // Bis der Pfad gesetzt ist, sitzt der Kreis bei (0,0) und wuerde als
+    // grosser Punkt oben links aufblitzen -> erst danach sichtbar machen.
+    const pulseEls = [];
     const motionEls = [];
     if (!reduceMotion) {
         edgeEls.forEach(({ color, i }) => {
             const pulse = el(
                 "circle",
-                { r: 4, fill: color, class: "cb-metro__pulse" },
+                {
+                    r: 5,
+                    fill: color,
+                    class: "cb-metro__pulse",
+                    visibility: "hidden",
+                },
                 svg,
             );
+            pulseEls.push(pulse);
             const motion = el(
                 "animateMotion",
                 {
-                    dur: "2.4s",
+                    dur: "3.6s",
                     repeatCount: "indefinite",
                     begin: `${0.9 + i * 0.12}s`,
                 },
@@ -213,11 +237,20 @@ function build(container) {
     // dann alles final positionieren und Animationswerte setzen.
     requestAnimationFrame(() => {
         const halfW = new Array(maxCol + 1).fill(0);
+        const lineWidth = (label) => {
+            // breiteste tspan-Zeile (getComputedTextLength summiert sonst alle)
+            let max = 0;
+            label.querySelectorAll("tspan").forEach((t) => {
+                const w = t.getComputedTextLength();
+                if (w > max) max = w;
+            });
+            return max;
+        };
         nodeEls.forEach(({ n, label, anchor }) => {
-            if (anchor !== "middle") return;
-            const w = label.getComputedTextLength() / 2;
+            if (anchor === "start") return; // Endknoten ragen nur nach rechts
+            const half = lineWidth(label) / 2;
             const c = n.col || 0;
-            if (w > halfW[c]) halfW[c] = w;
+            if (half > halfW[c]) halfW[c] = half;
         });
 
         for (let c = 1; c <= maxCol; c++) {
@@ -234,8 +267,10 @@ function build(container) {
                 line.style.strokeDasharray = len;
                 line.style.strokeDashoffset = len;
                 line.style.animationDelay = `${i * 0.12}s`;
-                if (motionEls[idx])
+                if (motionEls[idx]) {
                     motionEls[idx].setAttribute("path", line.getAttribute("d"));
+                    pulseEls[idx].removeAttribute("visibility");
+                }
             });
         }
     });

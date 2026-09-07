@@ -115,7 +115,7 @@ function splitColorAlpha(c) {
 }
 
 export function getDimColors() {
-    // ponytail: portfolio-v14-Angleichung — neutrales, halbtransparentes Grau
+    // portfolio-v14-Angleichung — neutrales, halbtransparentes Grau
     // statt der (kontraststarken) Textfarbe des Elements; Label ohne farbigen
     // Badge, nur gedämpfte Schrift auf hellem Seitengrund.
     const cs = getComputedStyle(document.documentElement);

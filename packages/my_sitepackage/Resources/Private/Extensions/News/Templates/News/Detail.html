@@ -35,7 +35,7 @@
             >
                 <div class="cb-news-detail__inner">
                     <header class="cb-news-detail__header">
-                        <!-- ponytail: Detail-Notes (PID 31) => #notes, sonst #projekte -->
+                        <!-- Detail-Notes (PID 31) => #notes, sonst #projekte -->
                         <a
                             href="/#<f:cObject typoscriptObjectPath='lib.newsBackAnchor' />"
                             class="cb-news-article-back cb-news-article-back--block"
@@ -121,7 +121,7 @@
                             <f:variable name="metroData">{my:metroData(uid: newsItem.uid)}</f:variable>
                             <f:if condition="{metroData}">
                                 <f:then>
-                                    <!-- ponytail: kein js-measure – Bemassungslinien ergeben nur an Textblöcken Sinn, nicht an einer Grafik -->
+                                    <!-- kein js-measure – Bemassungslinien ergeben nur an Textblöcken Sinn, nicht an einer Grafik -->
                                     <figure class="cb-news-detail__media">
                                         <div
                                             class="cb-metro"
@@ -169,7 +169,7 @@
                         </div>
                     </div>
 
-                    <!-- ponytail: Projekte liegen im Ordner pid 19, Notes im Logbuch (pid 2) -->
+                    <!-- Projekte liegen im Ordner pid 19, Notes im Logbuch (pid 2) -->
                     <f:variable
                         name="prevLabel"
                         value="{f:if(condition: '{newsItem.pid} == 19', then: '← Vorheriges Projekt', else: '← Vorherige Note')}"
@@ -178,7 +178,7 @@
                         name="nextLabel"
                         value="{f:if(condition: '{newsItem.pid} == 19', then: 'Nächstes Projekt →', else: 'Nächste Note →')}"
                     />
-                    <!-- ponytail: Detailseiten – Projekte=30, Notes=31 -->
+                    <!-- Detailseiten – Projekte=30, Notes=31 -->
                     <f:variable
                         name="detailPid"
                         value="{f:if(condition: '{newsItem.pid} == 19', then: 30, else: 31)}"

@@ -32,7 +32,7 @@
     gap: 0.5rem;
 }
 
-/* ponytail: mobil untereinander statt Umbruch */
+/* mobil untereinander statt Umbruch */
 @media (max-width: 575.98px) {
     .cb-footer__nav {
         flex-direction: column;
@@ -44,7 +44,7 @@
     color: rgba(0, 0, 0, 0.9);
 }
 
-/* ponytail: inline data-URI SVG (external-link arrow) — kein externer Request, DSGVO-konform */
+/* inline data-URI SVG (external-link arrow) — kein externer Request, DSGVO-konform */
 .cb-footer__link--external::after {
     content: '';
     width: 0.85em;
