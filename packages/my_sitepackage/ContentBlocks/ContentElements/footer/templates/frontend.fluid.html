@@ -79,6 +79,17 @@
                 <h2 class="cb-footer__nerd-title">{data.gripsraum_footer_nerd_label}</h2>
                 <div class="cb-footer__nerd-body">
                     <f:format.html>{data.gripsraum_footer_nerd_text}</f:format.html>
+
+                    <f:if condition="{data.gripsraum_footer_nerd_rows}">
+                        <dl class="cb-footer__nerd-specs">
+                            <f:for each="{data.gripsraum_footer_nerd_rows}" as="row">
+                                <div class="cb-footer__nerd-specs-row">
+                                    <dt>{row.row_label}</dt>
+                                    <dd><f:format.nl2br>{row.row_value}</f:format.nl2br></dd>
+                                </div>
+                            </f:for>
+                        </dl>
+                    </f:if>
                 </div>
             </dialog>
         </f:if>

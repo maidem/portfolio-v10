@@ -14,7 +14,24 @@ fields:
   - identifier: nerd_text
     type: Textarea
     enableRichtext: true
-    label: 'Nerdiges – Inhalt des Overlays'
+    label: 'Nerdiges – Einleitungstext über der Tabelle'
+  - identifier: nerd_rows
+    type: Collection
+    label: 'Nerdiges – Tabellenzeilen'
+    labelField: row_label
+    minitems: 0
+    appearance:
+      collapseAll: true
+      levelLinksPosition: bottom
+    fields:
+      - identifier: row_label
+        type: Text
+        label: Bezeichnung (linke Spalte)
+        required: true
+      - identifier: row_value
+        type: Textarea
+        label: Wert (rechte Spalte, Zeilenumbrüche erlaubt)
+        required: true
 
   - identifier: github_link
     type: Link

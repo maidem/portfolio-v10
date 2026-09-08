@@ -24,6 +24,15 @@
       <trans-unit id="link_url.label">
         <source>Link Target</source>
       </trans-unit>
+      <trans-unit id="nerd_rows.label">
+        <source>Nerd Table Rows</source>
+      </trans-unit>
+      <trans-unit id="row_label.label">
+        <source>Label (left column)</source>
+      </trans-unit>
+      <trans-unit id="row_value.label">
+        <source>Value (right column)</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
