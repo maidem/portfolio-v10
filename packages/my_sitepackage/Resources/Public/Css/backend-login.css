@@ -72,7 +72,21 @@
 
 .typo3-login .logo-formula__brand {
   flex: none;
-  height: var(--formula-size);
+  /* Box exakt so hoch wie die sichtbare TYPO3-Wortmarke, Text darin optisch
+     zentriert — sonst schiebt die Ascender/Descender-Reserve der Schrift
+     "Maik" gegenüber Logo und Herz nach unten. */
+  display: flex;
+  align-items: center;
+  height: calc(var(--formula-size) * 2.01);
+  /* Descender-Reserve der Schrift schiebt den optischen Schwerpunkt nach oben */
+  padding-top: 0.12em;
+  /* cap-height ~0.7em, daher ~1.43x für gleiche optische Höhe wie TYPO3 */
+  font-size: calc(var(--formula-size) * 1.43);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--login-ink);
 }
 
 /* The wordmark (1200x509 px) has a transparent frame all around: visible are

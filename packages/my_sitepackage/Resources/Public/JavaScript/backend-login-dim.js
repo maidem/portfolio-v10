@@ -85,8 +85,7 @@
         return wrap;
     }
 
-    // Extend the logo row above the form into a formula:
-    // [portfolio logo] + [TYPO3 logo] = [heart]
+    // Replace the logo row above the form with the wordmark: Maik [heart] TYPO3
     function buildLogoFormula() {
         var wrap = document.querySelector(".typo3-login .typo3-login-logo");
         var typo3Logo = wrap && wrap.querySelector("img");
@@ -94,27 +93,13 @@
 
         wrap.classList.add("logo-formula");
 
-        // Source is the page's favicon — this keeps the asset hash in the path
-        // correct without hardcoding it here.
-        var favicon = document.querySelector('link[rel~="icon"]');
-        if (!favicon) return;
-
-        var brand = document.createElement("img");
+        var brand = document.createElement("span");
         brand.className = "logo-formula__brand";
-        brand.src = favicon.href;
-        brand.alt = "Maik Demuth";
-
-        var plus = document.createElement("span");
-        plus.className = "logo-formula__op";
-        plus.textContent = "+";
-
-        var equals = document.createElement("span");
-        equals.className = "logo-formula__op";
-        equals.textContent = "=";
+        brand.textContent = "Maik";
 
         // viewBox exactly on the path bounding box: in the 24-unit grid the
         // heart only fills ~16 units and would otherwise look smaller than the
-        // other two logos, even though the CSS height is the same.
+        // text next to it, even though the CSS height is the same.
         var heart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         heart.setAttribute("class", "logo-formula__heart");
         heart.setAttribute("viewBox", "3 4 18 16.3");
@@ -126,10 +111,12 @@
             })
         );
 
-        wrap.insertBefore(brand, typo3Logo);
-        wrap.insertBefore(plus, typo3Logo);
-        wrap.appendChild(equals);
-        wrap.appendChild(heart);
+        var t3 = document.createElement("span");
+        t3.className = "logo-formula__brand";
+        t3.textContent = "TYPO3";
+
+        typo3Logo.remove();
+        wrap.append(brand, heart, t3);
     }
 
     function init() {
