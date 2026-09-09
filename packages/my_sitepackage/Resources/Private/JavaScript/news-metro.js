@@ -239,9 +239,12 @@ function build(container) {
 
                 // Puls-Kreis + Motion jetzt erst anlegen: der Pfad steht,
                 // der Kreis startet direkt auf der Linie statt bei (0,0).
+                const begin = `${0.9 + i * 0.12}s`;
                 const pulse = el(
                     "circle",
-                    { r: 5, fill: color, class: "cb-metro__pulse" },
+                    // ponytail: opacity 0 bis Animationsstart, sonst blitzt der
+                    // Kreis vorher als statischer Punkt bei (0,0) auf
+                    { r: 5, fill: color, opacity: 0, class: "cb-metro__pulse" },
                     svg,
                 );
                 el(
@@ -249,8 +252,18 @@ function build(container) {
                     {
                         dur: "3.6s",
                         repeatCount: "indefinite",
-                        begin: `${0.9 + i * 0.12}s`,
+                        begin,
                         path: line.getAttribute("d"),
+                    },
+                    pulse,
+                );
+                el(
+                    "set",
+                    {
+                        attributeName: "opacity",
+                        to: 1,
+                        begin,
+                        fill: "freeze",
                     },
                     pulse,
                 );
